@@ -410,8 +410,8 @@
 			state_s.selectedIndex = 0;
 			opendate_s.selectedDate = null;
 			lastdate_s.selectedDate = null;
-			//opendate_s1.selectedDate = null;
-			//lastdate_s1.selectedDate = null;
+			opendate_s1.selectedDate = null;
+			lastdate_s1.selectedDate = null;
 			memo_s.text = "";
 			
 		}
