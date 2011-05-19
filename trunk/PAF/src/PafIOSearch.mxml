@@ -176,6 +176,7 @@
 			var optionsout:String = "";
 			var resultpafin:ArrayCollection = new ArrayCollection(); 
 			var resultpafout:ArrayCollection = new ArrayCollection(); 
+			resultpafio = new ArrayCollection(); 
 			
 			options+=(isEmpty(account_s.text))?"":" account='"+account_s.text+"' and";
 			options+=(depart_s.selectedIndex==0)?"":" departid='"+depart_s.selectedItem.data+"' and";
