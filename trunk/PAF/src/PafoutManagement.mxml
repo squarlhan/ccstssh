@@ -433,7 +433,7 @@
 		{
 			var selecttxt:String = "select * from staff_table as s, pafout_table as e ";
 			var options:String = "";
-
+			out_total = 0; 
             var dt:Boolean = isEmpty(drawtotal_s.text)||isNumeric(StringUtil.trim(drawtotal_s.text));
 			var dt1:Boolean = isEmpty(drawtotal_s1.text)||isNumeric(StringUtil.trim(drawtotal_s1.text));
 			var bl:Boolean = isEmpty(balance_s.text)||isNumeric(StringUtil.trim(balance_s.text));

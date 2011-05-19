@@ -419,6 +419,7 @@
 		{
 			var selecttxt:String = "select * from staff_table";
 			var options:String = "";
+			staff_total = 0;
 			var ur:Boolean = isEmpty(unitrate_s.text)||isNumeric(StringUtil.trim(unitrate_s.text));
 			var sr:Boolean = isEmpty(staffrate_s.text)||isNumeric(StringUtil.trim(staffrate_s.text));
 			var pb:Boolean = isEmpty(paybase_s.text)||isNumeric(StringUtil.trim(paybase_s.text));

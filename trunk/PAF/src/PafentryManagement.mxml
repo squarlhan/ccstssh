@@ -512,8 +512,8 @@
 	    public function selectstaffBtn():void //搜索信息的按钮响应
 		{
 			var selecttxt:String = "select * from staff_table as s, pafentry_table as e ";
-			var sumtxt:String = "select s.staffname distinct sum(total) as sum from staff_table as s, pafentry_table as e ";
 			var options:String = "";
+			entry_total = 0; 
 			var tt:Boolean = isEmpty(total_s.text)||isNumeric(StringUtil.trim(total_s.text));
 			var tt1:Boolean = isEmpty(total_s1.text)||isNumeric(StringUtil.trim(total_s1.text));
 			var up:Boolean = isEmpty(unitpay_s.text)||isNumeric(StringUtil.trim(unitpay_s.text));
