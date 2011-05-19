@@ -13,6 +13,9 @@
         <mx:Form label="公积金提取管理" id="outpanel" width="100%" height="100%">
             <ns:PafoutManagement id="pafom" width="100%" height="100%"/>
         </mx:Form>
+		<mx:Form label="公积金存取查询" id="iopanel" width="100%" height="100%">
+			<ns:PafIOSearch id="pafio" width="100%" height="100%"/>
+		</mx:Form>
     </mx:ViewStack>
     </mx:VBox>
 </mx:WindowedApplication>

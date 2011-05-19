@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HDividedBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:ns="*" creationComplete="creatpafout()">
+	<mx:Script>
+	 	 <![CDATA[
+		import com.as3xls.xls.Cell;
+		import com.as3xls.xls.ExcelFile;
+		import com.as3xls.xls.Formatter;
+		import com.as3xls.xls.Sheet;
+		import com.as3xls.xls.Type;
+		
+		import flash.data.SQLConnection;
+		import flash.data.SQLStatement;
+		import flash.filesystem.*;
+		import flash.filesystem.File;
+		import flash.filesystem.FileStream;
+		
+		import mx.collections.ArrayCollection;
+		import mx.containers.GridItem;
+		import mx.controls.Alert;
+		import mx.controls.DataGrid;
+		import mx.controls.DateField;
+		import mx.events.*;
+		import mx.utils.StringUtil;
+
+
+		
+		[Bindable]  
+			 public var mystates:ArrayCollection = new ArrayCollection(  
+				 [ {label:"", data:""},
+					 {label:"正常", data:"正常"},   
+					 {label:"封存", data:"封存"},   
+					 {label:"销户", data:"销户"}, 
+					 {label:"转入", data:"转入"}]); 
+        [Bindable]  
+        public var mydepart:ArrayCollection = new ArrayCollection(  
+                [ {label:"", data:""} ]);
+        [Bindable]  
+        public var resultpafio:ArrayCollection = new ArrayCollection(); 
+		[Bindable]
+		public var staffVO:StaffVO = new StaffVO();
+		[Bindable]
+		public var pafIOVO:PafIOVO = new PafIOVO();
+		[Bindable]
+		public var si:int;
+		[Bindable]
+		public var in_total:Number = 0; 
+		[Bindable]
+		public var out_total:Number = 0; 
+		public var formatedate:String = "YYYY-MM-DD";
+		
+		public var file:File = File.applicationDirectory.resolvePath("paf.db");
+        public var con:SQLConnection;
+        public function init():void//读取所有部门
+        {
+            con = new SQLConnection();
+            if(file.exists)
+            {
+                try{
+                        con.open(file);
+                        trace("连接成功！");
+                        var stmt:SQLStatement = new SQLStatement();
+                        stmt.sqlConnection = con;
+                        stmt.text = "select distinct depart,departid from staff_table";
+                        stmt.execute();
+                        var result:SQLResult = stmt.getResult();
+                        var leng:int = result.data.length;
+                        if(leng>=1)
+                        {
+                            for(var i:int = 0;i<=leng-1;i++)
+                            {
+                            	mydepart.addItem({label:result.data[i].depart, data:result.data[i].departid});
+                            }
+                        }
+                        con.close();
+                    }catch(e:Error){
+                        trace(e.message);
+                    }
+            }
+        }
+            
+        public function query(sqltxt:String): ArrayCollection
+        {    
+        	con = new SQLConnection();
+        	var result:ArrayCollection = new ArrayCollection()
+            if(file.exists)
+            {
+                try{
+                        con.open(file);
+                        trace("连接成功！");
+                        var stmt:SQLStatement = new SQLStatement();
+                        stmt.sqlConnection = con;
+                        stmt.text = sqltxt;
+                        stmt.execute();
+                        var dbresult:SQLResult = stmt.getResult();                       
+                        var leng:int = dbresult.data.length;
+                        if(leng>=1)
+                        {
+                            for(var i:int = 0;i<=leng-1;i++)
+                            {
+                                result.addItem(dbresult.data[i]);
+                            }
+                        }                       
+                        con.close();
+                    }catch(e:Error){
+                        trace(e.message);
+                    }
+            }  
+            return result; 
+        }
+
+        public function isEmpty(str:String):Boolean
+        { 
+            if(str == null)return true; 
+            str = StringUtil.trim(str); 
+            if(str == null || str.length<=0)return true; 
+            return false; 
+        } 
+
+		public function isNumeric(src:String):Boolean
+		{ 
+            if (this.isEmpty(src)) return false; 
+            var regx:RegExp = /^[-+]?\d*\.?\d+(?:[eE][-+]?\d+)?$/; 
+            return regx.test(src); 
+        } 
+        
+        public function gettotal(v1:String, v2:String):String
+        {
+        	v1 = Number(v1).toFixed(2);
+        	v2 = Number(v2).toFixed(2);
+        	return (Number(v1)+Number(v2)).toFixed(2);
+        }
+        
+        
+        public function pagechange(e:PageChangeEvent):void
+        {
+            pafoutGrid.dataProvider = e.Filter(resultpafio);
+        }
+		
+		public function creatpafout():void
+		{			
+			init();
+		}
+		
+        //------------------------------
+       
+	  
+
+		
+		//------------------------------搜索   
+		public function resetBtn():void //重置按钮响应
+		{
+			account_s.text = "";0
+			depart_s.selectedIndex = 0;
+			staffno_s.text = "";
+			staffid_s.text = "";
+			staffname_s.text = "";
+			iodate_s.selectedDate = null;
+			iodate_s1.selectedDate = null;
+			omemo_s.text = "";
+			
+		}
+	    public function selectstaffBtn():void //搜索信息的按钮响应
+		{
+			var selecttxtout:String = "select '支出' as iotype, " +
+				"account, departid, depart, s.staffno, staffname, " +
+				"staffid, drawtotal as iototal, drawdate as iodate, " +
+				"omemo as iomemo, memo " +
+				"from staff_table as s, pafout_table as o ";
+			var selecttxtin:String = "select '缴存' as iotype, " +
+				"account, departid, depart, s.staffno, staffname, " +
+				"staffid, total as iototal, savedate as iodate, " +
+				"ememo as iomemo, memo " +
+				"from staff_table as s, pafentry_table as e ";
+			var options:String = "";
+			var optionsin:String = "";
+			var optionsout:String = "";
+			var resultpafin:ArrayCollection = new ArrayCollection(); 
+			var resultpafout:ArrayCollection = new ArrayCollection(); 
+			
+			options+=(isEmpty(account_s.text))?"":" account='"+account_s.text+"' and";
+			options+=(depart_s.selectedIndex==0)?"":" departid='"+depart_s.selectedItem.data+"' and";
+			options+=(isEmpty(staffno_s.text))?"":" s.staffno='"+staffno_s.text+"' and";
+			options+=(isEmpty(staffname_s.text))?"":" staffname='"+staffname_s.text+"' and";
+			options+=(isEmpty(staffid_s.text))?"":" staffid='"+staffid_s.text+"' and";
+			options+=(isEmpty(omemo_s.text))?"":" omemo='"+omemo_s.text+"' and";
+			
+			//处理支存日期范围
+			if(!isEmpty(iodate_s.text)&&isEmpty(iodate_s1.text))
+			{
+				optionsout+=" drawdate='"+(iodate_s.text)+"' and";
+			}else if(!isEmpty(iodate_s1.text)&&isEmpty(iodate_s.text))
+			{
+				optionsout+=" drawdate='"+(iodate_s1.text)+"' and";
+			}else if(!isEmpty(iodate_s.text)&&!isEmpty(iodate_s1.text))
+			{
+				if((iodate_s1.text)>=(iodate_s.text))
+				{
+					optionsout+=" drawdate>='"+(iodate_s.text)+"' and drawdate<='"+(iodate_s1.text)+"' and";
+				}else
+				{
+					optionsout+=" drawdate>='"+(iodate_s1.text)+"' and drawdate<='"+(iodate_s.text)+"' and";
+				}
+			}else
+			{
+				optionsout +=""; 
+			}
+			if(!isEmpty(iodate_s.text)&&isEmpty(iodate_s1.text))
+			{
+				optionsin+=" savedate='"+(iodate_s.text)+"' and";
+			}else if(!isEmpty(iodate_s1.text)&&isEmpty(iodate_s.text))
+			{
+				optionsin+=" savedate='"+(iodate_s1.text)+"' and";
+			}else if(!isEmpty(iodate_s.text)&&!isEmpty(iodate_s1.text))
+			{
+				if((iodate_s1.text)>=(iodate_s.text))
+				{
+					optionsin+=" savedate>='"+(iodate_s.text)+"' and savedate<='"+(iodate_s1.text)+"' and";
+				}else
+				{
+					optionsin+=" savedate>='"+(iodate_s1.text)+"' and savedate<='"+(iodate_s.text)+"' and";
+				}
+			}else
+			{
+				optionsin +=""; 
+			}
+			
+			
+			selecttxtout=StringUtil.trim(selecttxtout+" where "+options+optionsout+" s.staffno = o.staffno; ");
+			trace(selecttxtout);
+			resultpafout = this.query(selecttxtout);
+			selecttxtin=StringUtil.trim(selecttxtin+" where "+options+optionsin+" s.staffno = e.staffno; ");
+			trace(selecttxtin);
+			resultpafin = this.query(selecttxtin);
+			
+			for(var i:int = 0 ; i <= resultpafin.length-1; i++){
+				in_total+=resultpafin.getItemAt(i).iototal;
+			}
+			in_total = Number(in_total.toFixed(2));
+			for(var i:int = 0 ; i <= resultpafout.length-1; i++){
+				out_total+=resultpafout.getItemAt(i).iototal;
+			}
+			out_total = Number(out_total.toFixed(2));
+			if(isEmpty(account_s.text)&&isEmpty(staffno_s.text)&&isEmpty(staffname_s.text)&&isEmpty(staffid_s.text))
+			{
+				resultpafio.addItemAt({iotype:"缴存", 
+					account:"-", 
+					departid:depart_s.selectedItem.data, 
+					depart:depart_s.selectedItem.text, 
+					staffno:"-", 
+					staffname:"ALL", 
+					staffid:"-",
+					iototal:in_total, 
+					iodata:"-", 
+					iomemo:"-"},0);
+			}else{
+				resultpafio.addAll(resultpafin);
+			}
+		    resultpafio.addAll(resultpafout);
+			pagebar1.RecordCount =resultpafio.length;
+            pagebar1.Open();
+		}
+		//-----------------创建EXCEL文件
+		public function createxcel():void
+		{
+			var excelFile:ExcelFile = new ConstomExcelFile();
+            var sheet:Sheet = new Sheet();
+            sheet.resize(resultpafio.length+1, 11);
+			sheet.setCell(0, 0, "类型");
+            sheet.setCell(0, 1, "个人帐号");
+            sheet.setCell(0, 2, "部门编号");
+            sheet.setCell(0, 3, "部门");
+            sheet.setCell(0, 4, "人员编码");
+            sheet.setCell(0, 5, "姓名");
+            sheet.setCell(0, 6, "身份证");
+            sheet.setCell(0, 7, "支存金额");
+            sheet.setCell(0, 8, "支存日期");
+            sheet.setCell(0, 9, "备注");           
+            for(var i:int=1;i<=resultpafio.length;i++)
+            {
+				sheet.setCell(i, 0, resultpafio[i-1].iotype);
+            	sheet.setCell(i, 1, resultpafio[i-1].account+"·");
+            	sheet.setCell(i, 2, resultpafio[i-1].departid+"·");
+            	sheet.setCell(i, 3, resultpafio[i-1].depart);
+            	sheet.setCell(i, 4, resultpafio[i-1].staffno+"·");
+            	sheet.setCell(i, 5, resultpafio[i-1].staffname);
+            	sheet.setCell(i, 6, resultpafio[i-1].staffid+"·");
+            	sheet.setCell(i, 7, resultpafio[i-1].iototal);
+            	sheet.setCell(i, 8, resultpafio[i-1].iodate);
+            	sheet.setCell(i, 9, resultpafio[i-1].iomemo);
+            }
+            excelFile.sheets.addItem(sheet);
+            var mbytes:ByteArray = excelFile.saveToByteArray();
+    
+            var stream:FileStream = new FileStream();                
+            var docsDir:File = File.documentsDirectory.resolvePath("公积金支存报表.xls");  // 定死文件名
+            try
+            {
+                docsDir.browseForSave("Save As");
+                docsDir.addEventListener(Event.SELECT, saveData);
+            }catch (error:Error)
+            {
+                trace("Failed:", error.message)
+            }
+                                
+                                
+            function saveData(event:Event):void 
+            {
+                var newFile:File = event.target as File;  
+                var stream:FileStream = new FileStream();
+                stream.open(newFile, FileMode.WRITE);
+                stream.writeBytes(mbytes);  
+                // 写文件流
+                stream.close();
+            }
+		}
+		
+		]]>
+    </mx:Script>
+    
+	<mx:VBox width="69%" height="100%">
+        <mx:DataGrid width="100%" height="100%" id="pafoutGrid" dataProvider="{resultpafio}">
+		    <mx:columns>
+				<mx:DataGridColumn headerText="类型" dataField="iotype"/>
+			    <mx:DataGridColumn headerText="个人帐号" dataField="account"/>
+			    <mx:DataGridColumn headerText="部门编号" dataField="departid"/>
+			    <mx:DataGridColumn headerText="部门" dataField="depart"/>
+				<mx:DataGridColumn headerText="人员编码" dataField="staffno"/>
+			    <mx:DataGridColumn headerText="姓名" dataField="staffname"/>
+			    <mx:DataGridColumn headerText="身份证" dataField="staffid"/>		    
+			    <mx:DataGridColumn headerText="支存金额" dataField="iototal"/>	
+				<mx:DataGridColumn headerText="支存日期" dataField="iodate"/>
+				<mx:DataGridColumn headerText="备注" dataField="omemo"/>
+				
+				<mx:DataGridColumn headerText="ID" dataField="id" visible="false"/>
+				<mx:DataGridColumn headerText="最后存入日期" dataField="lastdate" visible="false"/>
+				<mx:DataGridColumn headerText="开户日期" dataField="opendate" visible="false"/>
+				<mx:DataGridColumn headerText="MEmo" dataField="memo" visible="false"/>
+			</mx:columns>
+		</mx:DataGrid>
+		<mx:HBox horizontalAlign="left" verticalAlign="middle">
+			<ns:PageBar id="pagebar1" PageChange="pagechange(event)" mPageSize="30"/>
+			<mx:Button label="打开EXCEL"  click="createxcel()" enabled="{resultpafio.length!=0}"/>   
+			<mx:Label text="总缴{in_total}元 总支{out_total}元"/>
+		</mx:HBox>
+		
+	</mx:VBox>
+	<mx:VBox width="31%" height="100%">
+	    <mx:LinkBar dataProvider="operation" width="100%"/>
+		<mx:ViewStack id="operation" width="100%" height="100%">
+		    <mx:Form label="搜索" width="100%" height="100%" id="pafselect">
+			    <mx:HBox width="100%" horizontalAlign="left"><mx:Text text="填写以下条件"/></mx:HBox>
+			    <mx:HRule width="100%" height="1"/>
+			    <mx:FormItem label="个人帐号: ">
+			        <mx:TextInput id="account_s" width="200"/>
+			    </mx:FormItem>
+			    <mx:FormItem label="部门: " >
+			        <mx:ComboBox id="depart_s" dataProvider="{mydepart}" width="200"/>
+				</mx:FormItem>
+				<mx:FormItem label="人员编码: ">
+				    <mx:TextInput id="staffno_s" width="200"/>
+				</mx:FormItem>
+				<mx:FormItem label="姓名: " >
+				    <mx:TextInput id="staffname_s" width="200"/>
+				</mx:FormItem>
+			    <mx:FormItem label="身份证: " >
+				    <mx:TextInput id="staffid_s" width="200"/>
+				</mx:FormItem>
+			    <mx:FormItem label="支存日期: " >
+			        <mx:HBox>
+			        	<mx:DateField id = "iodate_s" yearNavigationEnabled="true"
+				            	monthNames="['一月', '二月', '三月', '四月', '五月', '六月', 
+				            	'七月', '八月', '九月', '十月', '十一月','十二月']"
+				            	dayNames="['日', '一', '二', '三', '四', '五', '六']"
+				            	showToday="false" width="100" formatString="{formatedate}"/>
+				        <mx:Label text="至" textAlign="center"/> 
+				        <mx:DateField id = "iodate_s1" yearNavigationEnabled="true"
+				            	monthNames="['一月', '二月', '三月', '四月', '五月', '六月', 
+				            	'七月', '八月', '九月', '十月', '十一月','十二月']"
+				            	dayNames="['日', '一', '二', '三', '四', '五', '六']"
+				            	showToday="false" width="100" formatString="{formatedate}"/>
+			        </mx:HBox>				    
+				</mx:FormItem>	
+				<mx:FormItem label="备注： " >
+				    <mx:TextArea id="omemo_s" width="200"/>
+				</mx:FormItem>			        
+				<mx:HRule width="100%" height="1"/>
+				<mx:HBox width="100%" horizontalAlign="right">  
+				    <mx:Button label="重置" click="resetBtn()"/> 
+				    <mx:Button label="搜索" click="selectstaffBtn()"/>	            
+				</mx:HBox>
+			</mx:Form>		
+        </mx:ViewStack>
+    </mx:VBox>
+</mx:HDividedBox>
