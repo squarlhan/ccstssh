@@ -1,0 +1,48 @@
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="teacher" extends="struts-default" namespace="/pages/manage/teacher">
+
+		<interceptors>
+			<interceptor name="TeacherAccessInterceptor" class="TeacherAccessInterceptor" />
+			<interceptor-stack name="TeacherAccessInterceptorStack">
+				<interceptor-ref name="TeacherAccessInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="TeacherAccessInterceptorStack" />
+
+		<global-results>
+			<result name="pleaseToLogin">/pages/manage/teacher/login.jsp</result>
+			<result name="invalid.token">/pages/token.jsp</result>
+			<result name="exception">/pages/exception.jsp</result>
+		</global-results>
+		
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception" result="exception"/>
+		</global-exception-mappings>
+
+		<!-- **********************************老师回答家长问题******************************************* -->
+		<action name="ToAnswerGenearchQuestionAction">
+			<result>/pages/manage/teacher/genearchquestion/answergenearchquestion.jsp</result>
+		</action>
+		<action name="AnswerGenearchQuestionAction" class="AnswerGenearchQuestionAction">
+			<result name="success" type="redirect">ListNotAnswerGenearchQuestionAction.action</result>
+			<result name="input">/pages/manage/teacher/genearchquestion/answergenearchquestion.jsp</result>
+			<result name="noID" type="redirect">ListNotAnswerGenearchQuestionAction.action</result>
+			<result name="toAnswer">/pages/manage/teacher/genearchquestion/answergenearchquestion.jsp</result>
+		</action>
+		<action name="ListNotAnswerGenearchQuestionAction" class="ListNotAnswerGenearchQuestionAction">
+			<result name="success">/pages/manage/teacher/genearchquestion/listgenearchquestion.jsp</result>
+			<result name="input">/pages/manage/teacher/genearchquestion/listgenearchquestion.jsp</result>
+		</action>
+		<!-- **********************************老师登陆******************************************* -->
+		<action name="TeacherLoginAction" class="TeacherLoginAction">
+			<result name="success" type="redirect">ListNotAnswerGenearchQuestionAction.action</result>
+			<result name="loginError">/pages/manage/teacher/login.jsp</result>
+			<result name="logout">/pages/manage/teacher/login.jsp</result>
+		</action>
+	</package>
+</struts>

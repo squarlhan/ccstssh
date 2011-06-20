@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/pages/decoratorspage">
+	<excludes>
+	</excludes>
+	<decorator name="manage" page="adminmanagedecorator.jsp">
+		<pattern>/pages/manage/admin/*</pattern>
+	</decorator>
+	<decorator name="juniorhighschool" page="juniorhighschooladmindecorator.jsp">
+		<pattern>/pages/manage/juniorhighschool/*</pattern>
+	</decorator>
+	<decorator name="seniorhighschool" page="seniorhighschooldecorator.jsp">
+		<pattern>/pages/manage/seniorhighschool/*</pattern>
+	</decorator>
+	<decorator name="user" page="usermanagedecorator.jsp">
+		<pattern>/pages/user/*</pattern>
+	</decorator>
+</decorators>

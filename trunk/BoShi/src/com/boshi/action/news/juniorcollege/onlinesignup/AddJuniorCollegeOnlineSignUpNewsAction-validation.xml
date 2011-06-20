@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0//EN" "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+<validators>
+	<field name="content.name">
+		<field-validator type="requiredstring">
+			<message>名字必填</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="expression"><![CDATA[(^[\u4e00-\u9fa5]+$)]]></param>
+			<message>姓名请使用中文</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="minLength">2</param>
+			<param name="maxLength">4</param>
+			<message>2-4个汉字</message>
+		</field-validator>
+	</field>
+	<!--  <field name="content.age">
+	    <field-validator type="required">
+			<message>年龄必填</message>
+		</field-validator> 
+		<field-validator type="regex">
+			<param name="expression"><![CDATA[(^[0-9]+$)]]></param>
+			<message>10-70之间的数字</message>
+		</field-validator>
+		<field-validator type="int">
+			<param name="min">10</param>
+			<param name="max">70</param>
+			<message>年龄在10-70之间</message>
+		</field-validator>
+	</field>-->
+	<field name="content.examid">
+		<field-validator type="requiredstring">
+			<message>考号必填</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="expression"><![CDATA[(^[0-9]{14}$)]]></param>
+			<message>考号是14个数字</message>
+		</field-validator>
+	</field>
+	<field name="content.pid">
+		<field-validator type="requiredstring">
+			<message>身份证必填</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="expression"><![CDATA[(^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$)]]></param>
+			<message>请正确填写身份证号</message>
+		</field-validator>
+	</field>
+	<field name="content.mobile">
+		<field-validator type="requiredstring">
+			<message>手机必填</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="expression"><![CDATA[(^(\+86)?(1[0-9]{10})$)]]></param>
+			<message>手机格式不正确</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="minLength">11</param>
+			<param name="maxLength">14</param>
+			<message>最多14个字符</message>
+		</field-validator>
+	</field>
+	<field name="content.phone">
+		<field-validator type="requiredstring">
+			<message>国定电话必填</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="minLength">7</param>
+			<param name="maxLength">12</param>
+			<message>最多12个字符</message>
+		</field-validator>
+	</field>
+	<!-- <field name="content.profession">
+		<field-validator type="requiredstring">
+			<message>报考专业必填</message>
+		</field-validator>	
+		<field-validator type="regex">
+			<param name="expression"><![CDATA[(^[\u4e00-\u9fa5]+$)]]></param>
+			<message>姓名请使用中文</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="minLength">2</param>
+			<param name="maxLength">12</param>
+			<message>最多12个字符</message>
+		</field-validator>
+	</field> -->
+	<field name="content.content">
+		<field-validator type="stringlength">
+			<param name="minLength">0</param>
+			<param name="maxLength">300</param>
+			<message>最多300个字符</message>
+		</field-validator>
+	</field>
+	<!-- <field name="upphoto">
+		<field-validator type="requiredstring">
+			<message>必须上传照片</message>
+		</field-validator>
+	</field> -->
+</validators>

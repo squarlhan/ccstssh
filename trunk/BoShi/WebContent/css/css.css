@@ -1,0 +1,92 @@
+﻿@charset "utf-8";
+/* CSS Document */
+textarea{
+	height:100px;
+	width:300px;
+	overflow:auto;		
+}
+.huanrao {font-size:9pt; color=#FFFFCC; POSITION: absolute;}
+.backimage {
+	background-image: url(../image/top.jpg);
+	background-repeat: repeat-x;
+}
+input{
+	width:expression((this.type=="text" || this.type=="password")?"200px":"");
+}
+body,td,th {
+	font-family: 宋体;
+	font-size: 14px;
+}
+a:link {
+	text-decoration: none;
+}
+a:visited {
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+a:active {
+	text-decoration: none;
+}
+.whiteWord {color: #FFFFFF}
+.blackWord {color: #000000}
+.STYLE2 {color: #464C40}
+.STYLE4 {font-size: 36px; color:#8A0000; font-weight: bold;}
+.STYLE5 {color:#8A0000; font-weight: bold;}
+.theIframe{
+	border: medium;
+}
+.STYLE7 {
+	font-size: 47px;
+	font-family: "华文行楷";
+	color: #FFFFFF;
+}
+.STYLE12 {
+	font-size: 24px;
+	font-family: "华文行楷";
+	color: #FFFFFF;
+}
+
+.rightleftborder{
+	border-left: #8A0000 1px ridge;
+	border-right: #8A0000 1px ridge;
+	border-top: #8A0000 1px ridge;
+}
+.redborder{
+	border-left: #8A0000 1px ridge;
+	border-right: #8A0000 1px ridge;
+	border-top: #8A0000 1px ridge;
+	border-bottom: #8A0000 1px ridge;
+}
+
+.psychologylisttable{
+	border: #8a0000 1px ridge;
+}
+.qbackc{
+	background-color: #ffffff;
+	color: #8a0000;
+}
+.abackc{
+	background-color: #EDEDED;
+}
+.aborderbottom{
+	border-bottom: #8A0000 1px ridge;
+}
+
+.borderbottom{
+	border-bottom: #8A0000 1px ridge;
+}
+.menu{
+	display: block;
+    color: navy;
+    text-decoration: none;
+    padding: 1px 5px;
+	border-bottom: 1px solid #ccc;
+	font-size: 14px;
+}
+.menutop{
+	font-weight: bold;
+    color: #8A0000;
+	font-size: 14px;
+}

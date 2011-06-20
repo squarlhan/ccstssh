@@ -1,0 +1,3 @@
+var divFrm = '<iframe style="position:absolute;z-index:98;width:expression(this.nextSibling.offsetWidth);height:expression(this.nextSibling.offsetHeight);top:expression(this.nextSibling.offsetTop);left:expression(this.nextSibling.offsetLeft);" frameborder="0"></iframe>';
+divFrm += '<div id="showMyMessage" style="color: #8A0000; position: absolute; width: 120; display: none; z-index: 99;font-size: 13px; background: #ffff00"></div>';
+document.write(divFrm);
