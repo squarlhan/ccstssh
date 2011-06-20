@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0//EN" "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+<validators>
+	
+	<field name="content.examid">
+		<field-validator type="requiredstring">
+			<message>考号必填</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="expression"><![CDATA[(^[0-9]{14}$)]]></param>
+			<message>考号是14个数字</message>
+		</field-validator>
+	</field>
+	<field name="content.pid">
+		<field-validator type="requiredstring">
+			<message>身份证必填</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="expression"><![CDATA[(^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$)]]></param>
+			<message>请正确填写身份证号</message>
+		</field-validator>
+	</field>
+	
+</validators>

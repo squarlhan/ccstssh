@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0//EN" "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+<validators>
+	<field name="user.name">
+		<field-validator type="requiredstring">
+			<message>名字必填</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="minLength">1</param>
+			<param name="maxLength">8</param>
+			<message>1-8个字符</message>
+		</field-validator>
+	</field>
+	<field name="user.password">
+		<field-validator type="required">
+			<message>密码必填</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="minLength">4</param>
+			<param name="maxLength">10</param>
+			<message>4-10个字符</message>
+		</field-validator>
+	</field>
+	<field name="user.chineseName">
+		<field-validator type="requiredstring">
+			<message>姓名必填</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="expression"><![CDATA[(^[\u4e00-\u9fa5]+$)]]></param>
+			<message>姓名请使用中文</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="minLength">2</param>
+			<param name="maxLength">4</param>
+			<message>2-4个汉字</message>
+		</field-validator>
+	</field>
+	<field name="user.grade">
+		<field-validator type="requiredstring">
+			<message>年级必填</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="expression"><![CDATA[(^[\u4e00-\u9fa5]+$)]]></param>
+			<message>年级请使用中文</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="minLength">1</param>
+			<param name="maxLength">16</param>
+			<message>1-16个汉字</message>
+		</field-validator>
+	</field>
+	<field name="user.className">
+		<field-validator type="requiredstring">
+			<message>班级必填</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="expression"><![CDATA[(^[\u4e00-\u9fa5]+$)]]></param>
+			<message>班级请使用中文</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="minLength">1</param>
+			<param name="maxLength">16</param>
+			<message>1-16个汉字</message>
+		</field-validator>
+	</field>
+</validators>

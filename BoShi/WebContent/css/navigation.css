@@ -1,0 +1,70 @@
+﻿@charset "utf-8";
+            .suckertreemenu ul{
+                margin: 0;
+                padding: 0;
+                list-style-type: none;
+            }
+            
+            /*Top level list items*/
+            .suckertreemenu ul li{
+                position: relative;
+                display: inline;
+                float: left;
+            }
+            
+            /*Top level menu link items style*/
+            .suckertreemenu ul li a{
+                display: block;
+                width: 70px; /*主列表宽*/
+                padding: 1px 8px;
+                text-decoration: none;
+                color: #8A0000;
+				text-align: center;
+            }
+            
+            /*1st sub level menu*/
+            .suckertreemenu ul li ul{
+                left: 0;
+                position: absolute;
+                top: 1em; /* no need to change, as true value set by script */
+                display: block;
+                visibility: hidden;
+            }
+            
+            /*Sub level menu list items (undo style from Top level List Items)*/
+            .suckertreemenu ul li ul li{
+                display: list-item;
+                float: none;
+				background-color: #ffffcc;
+            }
+            
+            /*All subsequent sub menu levels offset after 1st level sub menu */
+            .suckertreemenu ul li ul li ul{ 
+                left: 159px; /* no need to change, as true value set by script */
+                top: 0;
+            }
+            
+            /* Sub level menu links style */
+            .suckertreemenu ul li ul li a{
+                display: block;
+                width: 90px; /*下拉列表宽*/
+                color: navy;
+                text-decoration: none;
+                padding: 1px 5px;
+				border-bottom: 1px solid #ccc;
+            }
+            
+            .suckertreemenu ul li a:hover{
+                background-color: white;    /*鼠标放上去时的颜色*/
+                color: #8A0000;                 /*鼠标放上去时字的颜色*/
+            }
+                        
+            * html piepara{ /*For a paragraph (if any) that immediately follows suckertree menu, add 1em top spacing between the two in IE*/
+                padding-top: 1em;
+            }
+            
+            /* Holly Hack for IE \*/
+            * html .suckertreemenu ul li { float: left; height: 1%; }
+            * html .suckertreemenu ul li a { height: 1%; }
+            /* End */
+            

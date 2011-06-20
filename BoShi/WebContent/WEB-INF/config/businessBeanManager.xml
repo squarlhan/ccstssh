@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+       	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+	<!-- **********************************新闻类******************************************* -->
+	<bean id="DataCenterCollegeNews" class="com.boshi.db.datacenter.news.DataCenterCollegeNews" />
+	<bean id="DataCenterJuniorCollegeActivityNotifyNews" class="com.boshi.db.datacenter.news.DataCenterJuniorCollegeActivityNotifyNews" />
+	<bean id="DataCenterJuniorCollegeInviteNews" class="com.boshi.db.datacenter.news.DataCenterJuniorCollegeInviteNews" />
+	<bean id="DataCenterJuniorCollegeOnlineSignUpNews" class="com.boshi.db.datacenter.news.DataCenterJuniorCollegeOnlineSignUpNews" />
+	<bean id="DataCenterJuniorCollegePolicyAfficheNews" class="com.boshi.db.datacenter.news.DataCenterJuniorCollegePolicyAfficheNews" />
+		
+	<bean id="DataCenterCoalReport" class="com.boshi.db.datacenter.news.DataCenterCoalReport" />
+	<bean id="DataCenterPolicyRule" class="com.boshi.db.datacenter.news.DataCenterPolicyRule" />
+	<bean id="DataCenterStudentsWork" class="com.boshi.db.datacenter.news.DataCenterJuniorCStudentsWork" />
+	<bean id="DataCenterEnvirManagement" class="com.boshi.db.datacenter.news.DataCenterEnvirManagement" />
+	<bean id="DataCenterStudentManagement" class="com.boshi.db.datacenter.news.DataCenterStudentManagement" />
+	<bean id="DataCenterFSFellow" class="com.boshi.db.datacenter.news.DataCenterFSFellow" />
+	
+	<bean id="DataCenterJuniorCollegeRecruitStudentsRules" class="com.boshi.db.datacenter.news.DataCenterJuniorCollegeRecruitStudentsRules" />
+	<bean id="DataCenterJuniorCollegeRecruitStudentsNews" class="com.boshi.db.datacenter.news.DataCenterJuniorCollegeRecruitStudentsNews" />
+	<bean id="DataCenterJuniorCollegeScientificResearchNews" class="com.boshi.db.datacenter.news.DataCenterJuniorCollegeScientificResearchNews" />
+	<bean id="DataCenterJuniorCollegeSectionOffice" class="com.boshi.db.datacenter.news.DataCenterJuniorCollegeSectionOffice" />
+	<bean id="DataCenterJuniorCollegeTeachingActivityNews" class="com.boshi.db.datacenter.news.DataCenterJuniorCollegeTeachingActivityNews" />
+	<bean id="DataCenterJuniorCollegeTeachingManageNews" class="com.boshi.db.datacenter.news.DataCenterJuniorCollegeTeachingManageNews" />
+	<bean id="DataCenterJuniorHighSchoolNews" class="com.boshi.db.datacenter.news.DataCenterJuniorHighSchoolNews" />
+	<bean id="DataCenterJuniorNotices" class="com.boshi.db.datacenter.news.DataCenterJuniorNotices" />
+	<bean id="DataCenterJuniorHighSchoolRecruitStudentsNews" class="com.boshi.db.datacenter.news.DataCenterJuniorHighSchoolRecruitStudentsNews" />
+	<bean id="DataCenterLearningResourceShare" class="com.boshi.db.datacenter.news.DataCenterLearningResourceShare" />
+	<bean id="DataCenterSeniorHighSchoolNews" class="com.boshi.db.datacenter.news.DataCenterSeniorHighSchoolNews" />
+	<bean id="DataCenterSeniorNotices" class="com.boshi.db.datacenter.news.DataCenterSeniorNotices" />
+	<bean id="DataCenterSeniorHighSchoolRecruitStudentsNews" class="com.boshi.db.datacenter.news.DataCenterSeniorHighSchoolRecruitStudentsNews" />
+
+	<!-- **********************************用户类******************************************* -->
+	<bean id="DataCenterGenearchUser" class="com.boshi.db.datacenter.user.DataCenterGenearchUser" />
+	<bean id="DataCenterJuniorHighSchoolAdminUser" class="com.boshi.db.datacenter.user.DataCenterJuniorHighSchoolAdminUser" />
+	<bean id="DataCenterPsychoanalysUser" class="com.boshi.db.datacenter.user.DataCenterPsychoanalysUser" />
+	<bean id="DataCenterSchoolfellowUser" class="com.boshi.db.datacenter.user.DataCenterSchoolfellowUser" />
+	<bean id="DataCenterSeniorHighSchoolAdminUser" class="com.boshi.db.datacenter.user.DataCenterSeniorHighSchoolAdminUser" />
+	<bean id="DataCenterStudentUser" class="com.boshi.db.datacenter.user.DataCenterStudentUser" />
+	<bean id="DataCenterTeancherUser" class="com.boshi.db.datacenter.user.DataCenterTeancherUser" />	
+
+	<!-- **********************************心理咨询类******************************************* -->
+	<bean id="DataCenterPsychologyStudent" class="com.boshi.db.datacenter.psychologyconsultation.DataCenterPsychologyStudent" />
+	<bean id="DataCenterPsychologyTeacher" class="com.boshi.db.datacenter.psychologyconsultation.DataCenterPsychologyTeacher" />
+
+	<!-- **********************************家长问题类******************************************* -->
+	<bean id="DataCenterGenearchQuestionGenearch" class="com.boshi.db.datacenter.genearchquestion.DataCenterGenearchQuestionGenearch" />
+	<bean id="DataCenterGenearchQuestionTeacher" class="com.boshi.db.datacenter.genearchquestion.DataCenterGenearchQuestionTeacher" />
+	<bean id="DataCenterTheClass" class="com.boshi.db.datacenter.genearchquestion.DataCenterTheClass" />
+
+	<!-- **********************************权限控制拦截器类******************************************* -->
+	<bean id="AdminAccessInterceptor" class="com.boshi.interceptor.accesscontrol.AdminAccessInterceptor" />
+	<bean id="JuniorHighSchoolAdminAccessInterceptor" class="com.boshi.interceptor.accesscontrol.JuniorHighSchoolAdminAccessInterceptor" />
+	<bean id="PsychoolgyAccessInterceptor" class="com.boshi.interceptor.accesscontrol.PsychoolgyAccessInterceptor" />
+	<bean id="SeniorHighSchoolAdminAccessInterceptor" class="com.boshi.interceptor.accesscontrol.SeniorHighSchoolAdminAccessInterceptor" />
+	<bean id="TeacherAccessInterceptor" class="com.boshi.interceptor.accesscontrol.TeacherAccessInterceptor" />
+	
+	<!-- **********************************其他内容******************************************* -->
+	<bean id="DataCenterAnotherContent" class="com.boshi.db.datacenter.anothercontent.DataCenterAnotherContent" />
+	
+	<!-- **********************************校友录******************************************* -->
+	<bean id="DataCenterSchoolfellowRecord" class="com.boshi.db.datacenter.schoolfellowrecord.DataCenterSchoolfellowRecord" />
+	
+</beans>

@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+       	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<!-- **********************************管理员登陆******************************************* -->
+	<bean id="AdminLoginAction" class="com.boshi.action.admin.AdminLoginAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterGenearchQuestionTeacher" />
+	</bean>
+	<!-- ********************************************************************* -->
+	
+	<!-- **********************************初中管理员登陆******************************************* -->
+	<bean id="JuniorHighSchoolLoginAction" class="com.boshi.action.juniorhighschooladmin.JuniorHighSchoolLoginAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterGenearchQuestionTeacher" />
+	</bean>
+	<!-- ********************************************************************* -->
+	
+	<!-- **********************************高中管理员登陆******************************************* -->
+	<bean id="SeniorHighSchoolLoginAction" class="com.boshi.action.seniorhighschooladmin.SeniorHighSchoolLoginAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterGenearchQuestionTeacher" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- ***************************学院新闻************************************ -->
+	<bean id="AddCollegeNewsAction" class="com.boshi.action.news.collegenews.AddCollegeNewsAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterCollegeNews" />
+	</bean>
+	<bean id="ShowCollegeNewsAction" class="com.boshi.action.news.collegenews.ShowCollegeNewsAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterCollegeNews" />
+	</bean>
+	<bean id="ListCollegeNewsAction" class="com.boshi.action.news.collegenews.ListCollegeNewsAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterCollegeNews" />
+		<property name="howManyOnePage" value="10" />
+		<aop:scoped-proxy/>
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- ***************************大专活动通知************************************ -->
+	<bean id="AddJuniorCollegeActivityNotifyAction" class="com.boshi.action.news.juniorcollege.activitynotify.AddJuniorCollegeActivityNotifyAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegeActivityNotifyNews" />
+	</bean>
+	<bean id="ShowJuniorCollegeActivityNotifyAction" class="com.boshi.action.news.juniorcollege.activitynotify.ShowJuniorCollegeActivityNotifyAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegeActivityNotifyNews" />
+	</bean>
+	<bean id="ListJuniorCollegeActivityNotifyAction" class="com.boshi.action.news.juniorcollege.activitynotify.ListJuniorCollegeActivityNotifyAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegeActivityNotifyNews" />
+		<property name="howManyOnePage" value="10" />
+		<aop:scoped-proxy/>
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- ***************************大专招聘新闻************************************ -->
+	<bean id="AddJuniorCollegeInviteNewsAction" class="com.boshi.action.news.juniorcollege.invitenews.AddJuniorCollegeInviteNewsAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegeInviteNews" />
+	</bean>
+	<bean id="ShowJuniorCollegeInviteNewsAction" class="com.boshi.action.news.juniorcollege.invitenews.ShowJuniorCollegeInviteNewsAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegeInviteNews" />
+	</bean>
+	<bean id="ListJuniorCollegeInviteNewsAction" class="com.boshi.action.news.juniorcollege.invitenews.ListJuniorCollegeInviteNewsAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegeInviteNews" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- ***************************大专在线报名************************************ -->
+	<bean id="AddJuniorCollegeOnlineSignUpNewsAction" class="com.boshi.action.news.juniorcollege.onlinesignup.AddJuniorCollegeOnlineSignUpNewsAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegeOnlineSignUpNews" />
+	</bean>
+	<bean id="ShowJuniorCollegeOnlineSignUpNewsAction" class="com.boshi.action.news.juniorcollege.onlinesignup.ShowJuniorCollegeOnlineSignUpNewsAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegeOnlineSignUpNews" />
+	</bean>
+	<bean id="ListJuniorCollegeOnlineSignUpNewsAction" class="com.boshi.action.news.juniorcollege.onlinesignup.ListJuniorCollegeOnlineSignUpNewsAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegeOnlineSignUpNews" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+	<!-- ***************************大专录取查询************************************ -->
+	<bean id="QueryJuniorCollegeOnlineSignUpNewsAction" class="com.boshi.action.news.juniorcollege.acceptquery.QueryJuniorCollegeOnlineSignUpNewsAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegeOnlineSignUpNews" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- ***************************大专政策公布************************************ -->
+	<bean id="AddJuniorCollegePolicyAfficheNewsAction" class="com.boshi.action.news.juniorcollege.policyaffiche.AddJuniorCollegePolicyAfficheNewsAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegePolicyAfficheNews" />
+	</bean>
+	<bean id="ShowJuniorCollegePolicyAfficheNewsAction" class="com.boshi.action.news.juniorcollege.policyaffiche.ShowJuniorCollegePolicyAfficheNewsAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegePolicyAfficheNews" />
+	</bean>
+	<bean id="ListJuniorCollegePolicyAfficheNewsAction" class="com.boshi.action.news.juniorcollege.policyaffiche.ListJuniorCollegePolicyAfficheNewsAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegePolicyAfficheNews" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+	
+	<!-- ***************************媒体报道公布************************************ -->
+	<bean id="AddCoalReportAction" class="com.boshi.action.news.juniorcollege.coalreport.AddCoalReportAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterCoalReport" />
+	</bean>
+	<bean id="ShowCoalReportAction" class="com.boshi.action.news.juniorcollege.coalreport.ShowCoalReportAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterCoalReport" />
+	</bean>
+	<bean id="ListCoalReportAction" class="com.boshi.action.news.juniorcollege.coalreport.ListCoalReportAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterCoalReport" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+	
+	<!-- ***************************知名校友公布************************************ -->
+	<bean id="AddFSFellowAction" class="com.boshi.action.news.juniorcollege.fsfellow.AddFSFellowAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterFSFellow" />
+	</bean>
+	<bean id="ShowFSFellowAction" class="com.boshi.action.news.juniorcollege.fsfellow.ShowFSFellowAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterFSFellow" />
+	</bean>
+	<bean id="ListFSFellowAction" class="com.boshi.action.news.juniorcollege.fsfellow.ListFSFellowAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterFSFellow" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+	
+	<!-- ***************************政策法规公布************************************ -->
+	<bean id="AddPolicyRuleAction" class="com.boshi.action.news.juniorcollege.policyrule.AddPolicyRuleAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterPolicyRule" />
+	</bean>
+	<bean id="ShowPolicyRuleAction" class="com.boshi.action.news.juniorcollege.policyrule.ShowPolicyRuleAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterPolicyRule" />
+	</bean>
+	<bean id="ListPolicyRuleAction" class="com.boshi.action.news.juniorcollege.policyrule.ListPolicyRuleAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterPolicyRule" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+	
+	<!-- ***************************学生会工作************************************ -->
+	<bean id="AddStudentsWorkAction" class="com.boshi.action.news.juniorcollege.studentswork.AddStudentsWorkAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterStudentsWork" />
+	</bean>
+	<bean id="ShowStudentsWorkAction" class="com.boshi.action.news.juniorcollege.studentswork.ShowStudentsWorkAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterStudentsWork" />
+	</bean>
+	<bean id="ListStudentsWorkAction" class="com.boshi.action.news.juniorcollege.studentswork.ListStudentsWorkAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterStudentsWork" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+	
+	<!-- ***************************学生管理************************************ -->
+	<bean id="AddStudentManagement" class="com.boshi.action.news.juniorcollege.studentmanagement.AddStudentManagement" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterStudentManagement" />
+	</bean>
+	<bean id="ShowStudentManagement" class="com.boshi.action.news.juniorcollege.studentmanagement.ShowStudentManagement" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterStudentManagement" />
+	</bean>
+	<bean id="ListStudentManagement" class="com.boshi.action.news.juniorcollege.studentmanagement.ListStudentManagement" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterStudentManagement" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+	
+	<!-- ***************************环境管理************************************ -->
+	<bean id="AddEnvirManagementAction" class="com.boshi.action.news.juniorcollege.envirmanagement.AddEnvirManagementAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterEnvirManagement" />
+	</bean>
+	<bean id="ShowEnvirManagementAction" class="com.boshi.action.news.juniorcollege.envirmanagement.ShowEnvirManagementAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterEnvirManagement" />
+	</bean>
+	<bean id="ListEnvirManagementAction" class="com.boshi.action.news.juniorcollege.envirmanagement.ListEnvirManagementAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterEnvirManagement" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- ***************************大专招生新闻************************************ -->
+	<bean id="AddJuniorCollegeRecruitStudentsNewsAction" class="com.boshi.action.news.juniorcollege.recruitstudentsnews.AddJuniorCollegeRecruitStudentsNewsAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegeRecruitStudentsNews" />
+	</bean>
+	<bean id="ShowJuniorCollegeRecruitStudentsNewsAction" class="com.boshi.action.news.juniorcollege.recruitstudentsnews.ShowJuniorCollegeRecruitStudentsNewsAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegeRecruitStudentsNews" />
+	</bean>
+	<bean id="ListJuniorCollegeRecruitStudentsNewsAction" class="com.boshi.action.news.juniorcollege.recruitstudentsnews.ListJuniorCollegeRecruitStudentsNewsAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegeRecruitStudentsNews" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+	
+	<!-- ***************************大专招生简章************************************ -->
+	<bean id="AddJuniorCollegeRecruitStudentsRulesAction" class="com.boshi.action.news.juniorcollege.recruitstudentsrules.AddJuniorCollegeRecruitStudentsRulesAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegeRecruitStudentsRules" />
+	</bean>
+	<bean id="ShowJuniorCollegeRecruitStudentsRulesAction" class="com.boshi.action.news.juniorcollege.recruitstudentsrules.ShowJuniorCollegeRecruitStudentsRulesAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegeRecruitStudentsRules" />
+	</bean>
+	<bean id="ListJuniorCollegeRecruitStudentsRulesAction" class="com.boshi.action.news.juniorcollege.recruitstudentsrules.ListJuniorCollegeRecruitStudentsRulesAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegeRecruitStudentsRules" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- ***************************大专科研成果************************************ -->
+	<bean id="AddJuniorCollegeScientificResearchNewsAction" class="com.boshi.action.news.juniorcollege.scientificresearch.AddJuniorCollegeScientificResearchNewsAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegeScientificResearchNews" />
+	</bean>
+	<bean id="ShowJuniorCollegeScientificResearchNewsAction" class="com.boshi.action.news.juniorcollege.scientificresearch.ShowJuniorCollegeScientificResearchNewsAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegeScientificResearchNews" />
+	</bean>
+	<bean id="ListJuniorCollegeScientificResearchNewsAction" class="com.boshi.action.news.juniorcollege.scientificresearch.ListJuniorCollegeScientificResearchNewsAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegeScientificResearchNews" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- ***************************大专科室************************************ -->
+	<bean id="AddJuniorCollegeSectionOfficeAction" class="com.boshi.action.news.juniorcollege.sectionoffice.AddJuniorCollegeSectionOfficeAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegeSectionOffice" />
+	</bean>
+	<bean id="ShowJuniorCollegeSectionOfficeAction" class="com.boshi.action.news.juniorcollege.sectionoffice.ShowJuniorCollegeSectionOfficeAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegeSectionOffice" />
+	</bean>
+	<bean id="ListJuniorCollegeSectionOfficeAction" class="com.boshi.action.news.juniorcollege.sectionoffice.ListJuniorCollegeSectionOfficeAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegeSectionOffice" />
+		<property name="howManyOnePage" value="100" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- ***************************大专教学活动************************************ -->
+	<bean id="AddJuniorCollegeTeachingActivityNewsAction" class="com.boshi.action.news.juniorcollege.teachingactivity.AddJuniorCollegeTeachingActivityNewsAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegeTeachingActivityNews" />
+	</bean>
+	<bean id="ShowJuniorCollegeTeachingActivityNewsAction" class="com.boshi.action.news.juniorcollege.teachingactivity.ShowJuniorCollegeTeachingActivityNewsAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegeTeachingActivityNews" />
+	</bean>
+	<bean id="ListJuniorCollegeTeachingActivityNewsAction" class="com.boshi.action.news.juniorcollege.teachingactivity.ListJuniorCollegeTeachingActivityNewsAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegeTeachingActivityNews" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- ***************************大专教学管理************************************ -->
+	<bean id="AddJuniorCollegeTeachingManageNewsAction" class="com.boshi.action.news.juniorcollege.teachingmanage.AddJuniorCollegeTeachingManageNewsAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegeTeachingManageNews" />
+	</bean>
+	<bean id="ShowJuniorCollegeTeachingManageNewsAction" class="com.boshi.action.news.juniorcollege.teachingmanage.ShowJuniorCollegeTeachingManageNewsAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegeTeachingManageNews" />
+	</bean>
+	<bean id="ListJuniorCollegeTeachingManageNewsAction" class="com.boshi.action.news.juniorcollege.teachingmanage.ListJuniorCollegeTeachingManageNewsAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterJuniorCollegeTeachingManageNews" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- ***************************初中新闻************************************ -->
+	<bean id="AddJuniorHighSchoolNewsAction" class="com.boshi.action.news.juniorhighschool.news.AddJuniorHighSchoolNewsAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterJuniorHighSchoolNews" />
+	</bean>
+	<bean id="ShowJuniorHighSchoolNewsAction" class="com.boshi.action.news.juniorhighschool.news.ShowJuniorHighSchoolNewsAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterJuniorHighSchoolNews" />
+	</bean>
+	<bean id="ListJuniorHighSchoolNewsAction" class="com.boshi.action.news.juniorhighschool.news.ListJuniorHighSchoolNewsAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterJuniorHighSchoolNews" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+	
+	<!-- ***************************初中公告************************************ -->
+	<bean id="AddJuniorNoticesAction" class="com.boshi.action.news.juniorhighschool.notices.AddJuniorNoticesAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterJuniorNotices" />
+	</bean>
+	<bean id="ShowJuniorNoticesAction" class="com.boshi.action.news.juniorhighschool.notices.ShowJuniorNoticesAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterJuniorNotices" />
+	</bean>
+	<bean id="ListJuniorNoticesAction" class="com.boshi.action.news.juniorhighschool.notices.ListJuniorNoticesAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterJuniorNotices" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- ***************************初中招生新闻************************************ -->
+	<bean id="AddJuniorHighSchoolRecruitStudentsNewsAction" class="com.boshi.action.news.juniorhighschool.recruitstudentsnews.AddJuniorHighSchoolRecruitStudentsNewsAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterJuniorHighSchoolRecruitStudentsNews" />
+	</bean>
+	<bean id="ShowJuniorHighSchoolRecruitStudentsNewsAction" class="com.boshi.action.news.juniorhighschool.recruitstudentsnews.ShowJuniorHighSchoolRecruitStudentsNewsAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterJuniorHighSchoolRecruitStudentsNews" />
+	</bean>
+	<bean id="ListJuniorHighSchoolRecruitStudentsNewsAction" class="com.boshi.action.news.juniorhighschool.recruitstudentsnews.ListJuniorHighSchoolRecruitStudentsNewsAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterJuniorHighSchoolRecruitStudentsNews" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- ***************************学习资源共享************************************ -->
+	<bean id="AddLearningResourceShareAction" class="com.boshi.action.news.learningresourceshare.AddLearningResourceShareAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterLearningResourceShare" />
+	</bean>
+	<bean id="ShowLearningResourceShareAction" class="com.boshi.action.news.learningresourceshare.ShowLearningResourceShareAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterLearningResourceShare" />
+	</bean>
+	<bean id="ListLearningResourceShareAction" class="com.boshi.action.news.learningresourceshare.ListLearningResourceShareAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterLearningResourceShare" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- ***************************高中新闻************************************ -->
+	<bean id="AddSeniorHighSchoolNewsAction" class="com.boshi.action.news.seniorhighschool.news.AddSeniorHighSchoolNewsAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterSeniorHighSchoolNews" />
+	</bean>
+	<bean id="ShowSeniorHighSchoolNewsAction" class="com.boshi.action.news.seniorhighschool.news.ShowSeniorHighSchoolNewsAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterSeniorHighSchoolNews" />
+	</bean>
+	<bean id="ListSeniorHighSchoolNewsAction" class="com.boshi.action.news.seniorhighschool.news.ListSeniorHighSchoolNewsAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterSeniorHighSchoolNews" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+	
+	<!-- ***************************高中公告************************************ -->
+	<bean id="AddSeniorNoticesAction" class="com.boshi.action.news.seniorhighschool.notices.AddSeniorNoticesAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterSeniorNotices" />
+	</bean>
+	<bean id="ShowSeniorNoticesAction" class="com.boshi.action.news.seniorhighschool.notices.ShowSeniorNoticesAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterSeniorNotices" />
+	</bean>
+	<bean id="ListSeniorNoticesAction" class="com.boshi.action.news.seniorhighschool.notices.ListSeniorNoticesAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterSeniorNotices" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- ***************************高中招生新闻************************************ -->
+	<bean id="AddSeniorHighSchoolRecruitStudentsNewsAction" class="com.boshi.action.news.seniorhighschool.recruitstudentsnews.AddSeniorHighSchoolRecruitStudentsNewsAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterSeniorHighSchoolRecruitStudentsNews" />
+	</bean>
+	<bean id="ShowSeniorHighSchoolRecruitStudentsNewsAction" class="com.boshi.action.news.seniorhighschool.recruitstudentsnews.ShowSeniorHighSchoolRecruitStudentsNewsAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterSeniorHighSchoolRecruitStudentsNews" />
+	</bean>
+	<bean id="ListSeniorHighSchoolRecruitStudentsNewsAction" class="com.boshi.action.news.seniorhighschool.recruitstudentsnews.ListSeniorHighSchoolRecruitStudentsNewsAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterSeniorHighSchoolRecruitStudentsNews" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- ***************************首页新闻************************************ -->
+	<bean id="ListWelcomePageNewsAction" class="com.boshi.action.news.welcomepage.ListWelcomePageNewsAction">
+		<property name="activityNotify" ref="ListJuniorCollegeActivityNotifyAction" />
+		<property name="collegeNews" ref="ListCollegeNewsAction" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- **********************************家长用户******************************************* -->
+	<bean id="ListGenearchUserAction" class="com.boshi.action.user.genearch.ListGenearchUserAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterGenearchUser" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- **********************************初中管理员用户******************************************* -->
+	<bean id="AddJuniorHighSchoolAdminUserAction" class="com.boshi.action.user.juniorhighschooladmin.AddJuniorHighSchoolAdminUserAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterJuniorHighSchoolAdminUser" />
+	</bean>
+	<bean id="ListJuniorHighSchoolAdminUserAction" class="com.boshi.action.user.juniorhighschooladmin.ListJuniorHighSchoolAdminUserAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterJuniorHighSchoolAdminUser" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- **********************************心理咨询员用户******************************************* -->
+	<bean id="AddPsychoanalystUserAction" class="com.boshi.action.user.psychoanalyst.AddPsychoanalystUserAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterPsychoanalysUser" />
+	</bean>
+	<bean id="ListPsychoanalystUserAction" class="com.boshi.action.user.psychoanalyst.ListPsychoanalystUserAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterPsychoanalysUser" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- **********************************校友录用户******************************************* -->
+	<bean id="ListSchoolfellowUserAction" class="com.boshi.action.user.schoolfellow.ListSchoolfellowUserAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterSchoolfellowUser" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- **********************************高中管理员用户******************************************* -->
+	<bean id="AddSeniorHighSchoolAdminUserAction" class="com.boshi.action.user.seniorhighschooladmin.AddSeniorHighSchoolAdminUserAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterSeniorHighSchoolAdminUser" />
+	</bean>
+	<bean id="ListSeniorHighSchoolAdminUserAction" class="com.boshi.action.user.seniorhighschooladmin.ListSeniorHighSchoolAdminUserAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterSeniorHighSchoolAdminUser" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- **********************************学生用户******************************************* -->
+	<bean id="ListStudentUserAction" class="com.boshi.action.user.student.ListStudentUserAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterStudentUser" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- **********************************老师用户******************************************* -->
+	<bean id="AddTeacherUserAction" class="com.boshi.action.user.teacher.AddTeacherUserAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterTeancherUser" />
+	</bean>
+	<bean id="ListTeacherUserAction" class="com.boshi.action.user.teacher.ListTeacherUserAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterTeancherUser" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- **********************************删除班级******************************************* -->
+	<bean id="ListTheClass" class="com.boshi.action.user.theclass.ListTheClass" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterTheClass" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- **********************************学生注册和登陆******************************************* -->
+	<bean id="StudentLoginAndRegisterAction" class="com.boshi.action.psychologyconsultation.student.StudentLoginAndRegisterAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterPsychologyStudent" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- **********************************心理咨询_学生******************************************* -->
+	<bean id="AddPsychologyQuestionAction" class="com.boshi.action.psychologyconsultation.student.AddPsychologyQuestionAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterPsychologyStudent" />
+	</bean>
+	<bean id="ListPsychologyQuestionAndAnswerAction" class="com.boshi.action.psychologyconsultation.student.ListPsychologyQuestionAndAnswerAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterPsychologyStudent" />
+		<property name="howManyOnePage" value="5" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- **********************************心理咨询员登陆******************************************* -->
+	<bean id="PsychologyLoginAction" class="com.boshi.action.psychologyconsultation.teacher.PsychologyLoginAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterPsychologyTeacher" />
+	</bean>
+	<bean id="PsychologyBase" class="com.boshi.action.psychologyconsultation.teacher.PsychologyBase" />
+	<!-- ********************************************************************* -->
+
+	<!-- **********************************心理咨询_老师******************************************* -->
+	<bean id="AnswerPsychologyQuestionAction" class="com.boshi.action.psychologyconsultation.teacher.AnswerPsychologyQuestionAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterPsychologyTeacher" />
+	</bean>
+	<bean id="ListNotAnswerPsychologyQuestionAction" class="com.boshi.action.psychologyconsultation.teacher.ListNotAnswerPsychologyQuestionAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterPsychologyTeacher" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- **********************************家长注册和登陆******************************************* -->
+	<bean id="GenearchLoginAndRegisterAction" class="com.boshi.action.genearchquestion.genearch.GenearchLoginAndRegisterAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterGenearchQuestionGenearch" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- **********************************家长问题******************************************* -->
+	<bean id="AddGenearchQuestionAction" class="com.boshi.action.genearchquestion.genearch.AddGenearchQuestionAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterGenearchQuestionGenearch" />
+	</bean>
+	<bean id="ListGenearchQuestionAndAnswerAction" class="com.boshi.action.genearchquestion.genearch.ListGenearchQuestionAndAnswerAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterGenearchQuestionGenearch" />
+		<property name="howManyOnePage" value="5" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- **********************************老师登陆******************************************* -->
+	<bean id="TeacherLoginAction" class="com.boshi.action.genearchquestion.teacher.TeacherLoginAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterGenearchQuestionTeacher" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- **********************************老师回答家长问题******************************************* -->
+	<bean id="AnswerGenearchQuestionAction" class="com.boshi.action.genearchquestion.teacher.AnswerGenearchQuestionAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterGenearchQuestionTeacher" />
+	</bean>
+	<bean id="ListNotAnswerGenearchQuestionAction" class="com.boshi.action.genearchquestion.teacher.ListNotAnswerGenearchQuestionAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterGenearchQuestionTeacher" />
+		<property name="howManyOnePage" value="10" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- **********************************校友登陆与注册******************************************* -->
+	<bean id="SchoolfellowLoginAndRegisterAction" class="com.boshi.action.schoolfellowrecord.SchoolfellowLoginAndRegisterAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterSchoolfellowRecord" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- ***************************校友录************************************ -->
+	<bean id="AddSchoolfellowRecordAction" class="com.boshi.action.schoolfellowrecord.AddSchoolfellowRecordAction" scope="request">
+		<property name="dataCenterInterface" ref="DataCenterSchoolfellowRecord" />
+	</bean>
+	<bean id="ListSchoolfellowRecordAction" class="com.boshi.action.schoolfellowrecord.ListSchoolfellowRecordAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterSchoolfellowRecord" />
+		<property name="howManyOnePage" value="5" />
+	</bean>
+	<!-- ********************************************************************* -->
+
+	<!-- **********************************其他内容Admin******************************************* -->
+	<bean id="ShowJuniorCollegeCircumstanceAction" class="com.boshi.action.anothercontent.ShowJuniorCollegeCircumstanceAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowJuniorCollegeCollegeSetAction" class="com.boshi.action.anothercontent.ShowJuniorCollegeCollegeSetAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowJuniorCollegeCultureAction" class="com.boshi.action.anothercontent.ShowJuniorCollegeCultureAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowJuniorCollegeEntironmentManageAction" class="com.boshi.action.anothercontent.ShowJuniorCollegeEntironmentManageAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowJuniorCollegeExternalCommunionAction" class="com.boshi.action.anothercontent.ShowJuniorCollegeExternalCommunionAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowJuniorCollegeIncumbentLeaderAction" class="com.boshi.action.anothercontent.ShowJuniorCollegeIncumbentLeaderAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowJuniorCollegeIntroduceSchoolBadgeAction" class="com.boshi.action.anothercontent.ShowJuniorCollegeIntroduceSchoolBadgeAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowJuniorCollegeLiveServiceManualAction" class="com.boshi.action.anothercontent.ShowJuniorCollegeLiveServiceManualAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowJuniorCollegeOccupationCircumstanceAction" class="com.boshi.action.anothercontent.ShowJuniorCollegeOccupationCircumstanceAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowJuniorCollegePersonAbilityTrainAction" class="com.boshi.action.anothercontent.ShowJuniorCollegePersonAbilityTrainAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowJuniorCollegePolicyRuleAction" class="com.boshi.action.anothercontent.ShowJuniorCollegePolicyRuleAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowJuniorCollegeSpecializedSetAction" class="com.boshi.action.anothercontent.ShowJuniorCollegeSpecializedSetAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowJuniorCollegeStudentUnionWorkAction" class="com.boshi.action.anothercontent.ShowJuniorCollegeStudentUnionWorkAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowJuniorHighSchoolCircumstanceAction" class="com.boshi.action.anothercontent.ShowJuniorHighSchoolCircumstanceAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowJuniorHighSchoolCollegeSetAction" class="com.boshi.action.anothercontent.ShowJuniorHighSchoolCollegeSetAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowJuniorHighSchoolExcellenceTeacherAction" class="com.boshi.action.anothercontent.ShowJuniorHighSchoolExcellenceTeacherAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowSeniorHighSchoolCircumstanceAction" class="com.boshi.action.anothercontent.ShowSeniorHighSchoolCircumstanceAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowSeniorHighSchoolCollegeSetAction" class="com.boshi.action.anothercontent.ShowSeniorHighSchoolCollegeSetAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowSeniorHighSchoolExcellenceTeacherAction" class="com.boshi.action.anothercontent.ShowSeniorHighSchoolExcellenceTeacherAction" scope="session">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<!-- ********************************************************************* -->
+	
+	<!-- **********************************其他内容User******************************************* -->
+	<bean id="ShowUserJuniorCollegeCircumstanceAction" class="com.boshi.action.anothercontent.ShowJuniorCollegeCircumstanceAction">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowUserJuniorCollegeCollegeSetAction" class="com.boshi.action.anothercontent.ShowJuniorCollegeCollegeSetAction">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowUserJuniorCollegeCultureAction" class="com.boshi.action.anothercontent.ShowJuniorCollegeCultureAction">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowUserJuniorCollegeEntironmentManageAction" class="com.boshi.action.anothercontent.ShowJuniorCollegeEntironmentManageAction">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowUserJuniorCollegeExternalCommunionAction" class="com.boshi.action.anothercontent.ShowJuniorCollegeExternalCommunionAction">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowUserJuniorCollegeIncumbentLeaderAction" class="com.boshi.action.anothercontent.ShowJuniorCollegeIncumbentLeaderAction">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowUserJuniorCollegeIntroduceSchoolBadgeAction" class="com.boshi.action.anothercontent.ShowJuniorCollegeIntroduceSchoolBadgeAction">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowUserJuniorCollegeLiveServiceManualAction" class="com.boshi.action.anothercontent.ShowJuniorCollegeLiveServiceManualAction">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowUserJuniorCollegeOccupationCircumstanceAction" class="com.boshi.action.anothercontent.ShowJuniorCollegeOccupationCircumstanceAction">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowUserJuniorCollegePersonAbilityTrainAction" class="com.boshi.action.anothercontent.ShowJuniorCollegePersonAbilityTrainAction">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowUserJuniorCollegePolicyRuleAction" class="com.boshi.action.anothercontent.ShowJuniorCollegePolicyRuleAction">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowUserJuniorCollegeSpecializedSetAction" class="com.boshi.action.anothercontent.ShowJuniorCollegeSpecializedSetAction">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowUserJuniorCollegeStudentUnionWorkAction" class="com.boshi.action.anothercontent.ShowJuniorCollegeStudentUnionWorkAction">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowUserJuniorHighSchoolCircumstanceAction" class="com.boshi.action.anothercontent.ShowJuniorHighSchoolCircumstanceAction">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowUserJuniorHighSchoolCollegeSetAction" class="com.boshi.action.anothercontent.ShowJuniorHighSchoolCollegeSetAction">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowUserJuniorHighSchoolExcellenceTeacherAction" class="com.boshi.action.anothercontent.ShowJuniorHighSchoolExcellenceTeacherAction">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowUserSeniorHighSchoolCircumstanceAction" class="com.boshi.action.anothercontent.ShowSeniorHighSchoolCircumstanceAction">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowUserSeniorHighSchoolCollegeSetAction" class="com.boshi.action.anothercontent.ShowSeniorHighSchoolCollegeSetAction">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+	<bean id="ShowUserSeniorHighSchoolExcellenceTeacherAction" class="com.boshi.action.anothercontent.ShowSeniorHighSchoolExcellenceTeacherAction">
+		<property name="dataCenterInterface" ref="DataCenterAnotherContent" />
+	</bean>
+</beans>

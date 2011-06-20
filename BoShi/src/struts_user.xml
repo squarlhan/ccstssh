@@ -1,0 +1,435 @@
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="user" extends="struts-default" namespace="/pages/user">
+		<global-results>
+			<result name="exception">/pages/exception.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception" result="exception"/>
+		</global-exception-mappings>
+		<!-- ***************************学院新闻************************************ -->
+		<action name="ListCollegeNewsAction" class="ListCollegeNewsAction">
+			<result name="success">/pages/user/collegenews/listcollegenews.jsp</result>
+			<result name="del" type="redirect">ListCollegeNewsAction.action</result>
+		</action>
+		<action name="ShowCollegeNewsAction" class="ShowCollegeNewsAction">
+			<result name="success">/pages/user/collegenews/showcollegenews.jsp</result>
+			<result name="error" type="redirect">ListCollegeNewsAction.action</result>
+		</action>
+		<!-- ***************************媒体报道************************************ -->
+		<action name="ListCoalReportAction" class="ListCoalReportAction">
+			<result name="success">/pages/user/coalreport/listcoalreport.jsp</result>
+			<result name="del" type="redirect">ListCoalReportAction.action</result>
+		</action>
+		<action name="ShowCoalReportAction" class="ShowCoalReportAction">
+			<result name="success">/pages/user/coalreport/showcoalreport.jsp</result>
+			<result name="error" type="redirect">ListCoalReportAction.action</result>
+		</action>
+		
+		<!-- ***************************知名校友************************************ -->
+		<action name="ListFSFellowAction" class="ListFSFellowAction">
+			<result name="success">/pages/user/fsfellow/listfsfellow.jsp</result>
+			<result name="del" type="redirect">ListFSFellowAction.action</result>
+		</action>
+		<action name="ListSchoolFellowsAction" class="ListFSFellowAction">
+			<result name="success">/pages/user/fsfellow/schoolfellows.jsp</result>
+			<result name="del" type="redirect">ListSchoolFellowsAction.action</result>
+		</action>
+		
+		<!-- ***************************政策法规************************************ -->
+		<action name="ListPolicyRuleAction" class="ListPolicyRuleAction">
+			<result name="success">/pages/user/policyrule/listpolicyrule.jsp</result>
+			<result name="del" type="redirect">ListPolicyRuleAction.action</result>
+		</action>
+		<action name="ShowPolicyRuleAction" class="ShowPolicyRuleAction">
+			<result name="success">/pages/user/policyrule/showpolicyrule.jsp</result>
+			<result name="error" type="redirect">ListPolicyRuleAction.action</result>
+		</action>
+		<!-- ***************************学生会工作************************************ -->
+		<action name="ListStudentsWorkAction" class="ListStudentsWorkAction">
+			<result name="success">/pages/user/studentswork/liststudentswork.jsp</result>
+			<result name="del" type="redirect">ListStudentsWorkAction.action</result>
+		</action>
+		<action name="ShowStudentsWorkAction" class="ShowStudentsWorkAction">
+			<result name="success">/pages/user/studentswork/showstudentswork.jsp</result>
+			<result name="error" type="redirect">ListStudentsWorkAction.action</result>
+		</action>
+		<!-- ***************************学生管理************************************ -->
+		<action name="ListStudentManagement" class="ListStudentManagement">
+			<result name="success">/pages/user/studentmanagement/liststudentmanagement.jsp</result>
+			<result name="del" type="redirect">ListStudentManagement.action</result>
+		</action>
+		<action name="ShowStudentManagement" class="ShowStudentManagement">
+			<result name="success">/pages/user/studentmanagement/showstudentmanagement.jsp</result>
+			<result name="error" type="redirect">ListStudentManagement.action</result>
+		</action>
+		<!-- ***************************环境管理************************************ -->
+		<action name="ListEnvirManagementAction" class="ListEnvirManagementAction">
+			<result name="success">/pages/user/envirmanagement/listenvirmanagement.jsp</result>
+			<result name="del" type="redirect">ListEnvirManagementAction.action</result>
+		</action>
+		<action name="ShowEnvirManagementAction" class="ShowEnvirManagementAction">
+			<result name="success">/pages/user/envirmanagement/showenvirmanagement.jsp</result>
+			<result name="error" type="redirect">ListEnvirManagementAction.action</result>
+		</action>
+		<!-- ***************************大专活动通知************************************ -->
+		<action name="ListJuniorCollegeActivityNotifyAction" class="ListJuniorCollegeActivityNotifyAction">
+			<result name="success">/pages/user/juniorcollege/activitynotify/listjuniorcollegeactivitynotifynews.jsp</result>
+			<result name="del" type="redirect">ListJuniorCollegeActivityNotifyAction.action</result>
+		</action>
+		<action name="ShowJuniorCollegeActivityNotifyAction" class="ShowJuniorCollegeActivityNotifyAction">
+			<result name="success">/pages/user/juniorcollege/activitynotify/showjuniorcollegeactivitynotifynews.jsp</result>
+			<result name="error" type="redirect">ListJuniorCollegeActivityNotifyAction.action</result>
+		</action>
+		<!-- ***************************大专招聘新闻************************************ -->
+		<action name="ListJuniorCollegeInviteNewsAction" class="ListJuniorCollegeInviteNewsAction">
+			<result name="success">/pages/user/juniorcollege/invitenews/listjuniorcollegeinvitenews.jsp</result>
+			<result name="del" type="redirect">ListJuniorCollegeInviteNewsAction.action</result>
+		</action>
+		<action name="ShowJuniorCollegeInviteNewsAction" class="ShowJuniorCollegeInviteNewsAction">
+			<result name="success">/pages/user/juniorcollege/invitenews/showjuniorcollegeinvitenews.jsp</result>
+			<result name="error" type="redirect">ListJuniorCollegeInviteNewsAction.action</result>
+		</action>
+		<!-- ***************************大专在线报名************************************ -->
+		<action name="ToAddJuniorCollegeOnlineSignUpNewsAction">
+			<result>/pages/user/juniorcollege/onlinesignup/addjuniorcollegeonlinesignupnews.jsp</result>
+		</action>
+		<action name="AddJuniorCollegeOnlineSignUpNewsAction" class="AddJuniorCollegeOnlineSignUpNewsAction">
+			<interceptor-ref name="fileUpload">
+				<param name="allowedTypes">image/bmp,image/x-png,image/gif,image/pjpeg</param>
+				<param name="maximumSize">24000</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack" />
+			<result name="success">
+				/pages/user/juniorcollege/onlinesignup/successjuniorcollegeonlinesignupnews.jsp
+			</result>
+			<result name="error">
+				/pages/user/juniorcollege/onlinesignup/errorjuniorcollegeonlinesignupnews.jsp
+			</result>
+			<result name="error1">
+				/pages/user/juniorcollege/onlinesignup/error1juniorcollegeonlinesignupnews.jsp
+			</result>
+			<result name="error2">
+				/pages/user/juniorcollege/onlinesignup/error2juniorcollegeonlinesignupnews.jsp
+			</result>
+			<result name="input">
+				/pages/user/juniorcollege/onlinesignup/addjuniorcollegeonlinesignupnews.jsp
+			</result>
+		</action>
+		<!-- ***************************大专录取查询************************************ -->
+		<action name="ToQueryJuniorCollegeOnlineSignUpNewsAction">
+			<result>/pages/user/juniorcollege/acceptquery/queryjuniorcollegeonlinesignupnews.jsp</result>
+		</action>
+		<action name="QueryJuniorCollegeOnlineSignUpNewsAction" class="QueryJuniorCollegeOnlineSignUpNewsAction">
+			<interceptor-ref name="defaultStack" />
+			<result name="success">
+				/pages/user/juniorcollege/acceptquery/resultjuniorcollegeonlinesignupnews.jsp
+			</result>
+			<result name="error">
+				/pages/user/juniorcollege/acceptquery/errorjuniorcollegeonlinesignupnews.jsp
+			</result>
+			<result name="input">
+				/pages/user/juniorcollege/acceptquery/queryjuniorcollegeonlinesignupnews.jsp
+			</result>
+		</action>
+		<!-- ***************************大专政策公布************************************ -->
+		<action name="ListJuniorCollegePolicyAfficheNewsAction" class="ListJuniorCollegePolicyAfficheNewsAction">
+			<result name="success">/pages/user/juniorcollege/policyaffiche/listjuniorcollegepolicyaffichenews.jsp</result>
+			<result name="del" type="redirect">ListJuniorCollegePolicyAfficheNewsAction.action</result>
+		</action>
+		<action name="ShowJuniorCollegePolicyAfficheNewsAction" class="ShowJuniorCollegePolicyAfficheNewsAction">
+			<result name="success">/pages/user/juniorcollege/policyaffiche/showjuniorcollegepolicyaffichenews.jsp</result>
+			<result name="error" type="redirect">ListJuniorCollegePolicyAfficheNewsAction.action</result>
+		</action>
+		<!-- ***************************大专招生新闻************************************ -->
+		<action name="ListJuniorCollegeRecruitStudentsNewsAction" class="ListJuniorCollegeRecruitStudentsNewsAction">
+			<result name="success">/pages/user/juniorcollege/recruitstudentsnews/listjuniorcollegerecruitstudentsnews.jsp</result>
+			<result name="del" type="redirect">ListJuniorCollegeRecruitStudentsNewsAction.action</result>
+		</action>
+		<action name="ShowJuniorCollegeRecruitStudentsNewsAction" class="ShowJuniorCollegeRecruitStudentsNewsAction">
+			<result name="success">/pages/user/juniorcollege/recruitstudentsnews/showjuniorcollegerecruitstudentsnews.jsp</result>
+			<result name="error" type="redirect">ListJuniorCollegeRecruitStudentsNewsAction.action</result>
+		</action>
+		<!-- ***************************大专招生简章************************************ -->
+		<action name="ListJuniorCollegeRecruitStudentsRulesAction" class="ListJuniorCollegeRecruitStudentsRulesAction">
+			<result name="success">/pages/user/juniorcollege/recruitstudentsnews/listjuniorcollegerecruitstudentsrules.jsp</result>
+			<result name="del" type="redirect">ListJuniorCollegeRecruitStudentsRulesAction.action</result>
+		</action>
+		<action name="ShowJuniorCollegeRecruitStudentsRulesAction" class="ShowJuniorCollegeRecruitStudentsRulesAction">
+			<result name="success">/pages/user/juniorcollege/recruitstudentsnews/showjuniorcollegerecruitstudentsrules.jsp</result>
+			<result name="error" type="redirect">ListJuniorCollegeRecruitStudentsRulesAction.action</result>
+		</action>
+		<!-- ***************************大专科研成果************************************ -->
+		<action name="ListJuniorCollegeScientificResearchNewsAction" class="ListJuniorCollegeScientificResearchNewsAction">
+			<result name="success">/pages/user/juniorcollege/scientificresearch/listjuniorcollegescientificresearchnews.jsp</result>
+			<result name="del" type="redirect">ListJuniorCollegeScientificResearchNewsAction.action</result>
+		</action>
+		<action name="ShowJuniorCollegeScientificResearchNewsAction" class="ShowJuniorCollegeScientificResearchNewsAction">
+			<result name="success">/pages/user/juniorcollege/scientificresearch/showjuniorcollegescientificresearchnews.jsp</result>
+			<result name="error" type="redirect">ListJuniorCollegeScientificResearchNewsAction.action</result>
+		</action>
+		<!-- ***************************大专科室************************************ -->
+		<action name="ListJuniorCollegeSectionOfficeAction" class="ListJuniorCollegeSectionOfficeAction">
+			<result name="success">/pages/user/juniorcollege/sectionoffice/listjuniorcollegesectionoffice.jsp</result>
+			<result name="del" type="redirect">ListJuniorCollegeSectionOfficeAction.action</result>
+		</action>
+		<action name="ShowJuniorCollegeSectionOfficeAction" class="ShowJuniorCollegeSectionOfficeAction">
+			<result name="success">/pages/user/juniorcollege/sectionoffice/showjuniorcollegesectionoffice.jsp</result>
+			<result name="error" type="redirect">ListJuniorCollegeSectionOfficeAction.action</result>
+		</action>
+		<!-- ***************************大专教学活动************************************ -->
+		<action name="ListJuniorCollegeTeachingActivityNewsAction" class="ListJuniorCollegeTeachingActivityNewsAction">
+			<result name="success">/pages/user/juniorcollege/teachingactivity/listjuniorcollegeteachingactivity.jsp</result>
+			<result name="del" type="redirect">ListJuniorCollegeTeachingActivityNewsAction.action</result>
+		</action>
+		<action name="ShowJuniorCollegeTeachingActivityNewsAction" class="ShowJuniorCollegeTeachingActivityNewsAction">
+			<result name="success">/pages/user/juniorcollege/teachingactivity/showjuniorcollegeteachingactivity.jsp</result>
+			<result name="error" type="redirect">ListJuniorCollegeTeachingActivityNewsAction.action</result>
+		</action>
+		<!-- ***************************大专教学管理************************************ -->
+		<action name="ListJuniorCollegeTeachingManageNewsAction" class="ListJuniorCollegeTeachingManageNewsAction">
+			<result name="success">/pages/user/juniorcollege/teachingmanage/listjuniorcollegeteachingmanage.jsp</result>
+			<result name="del" type="redirect">ListJuniorCollegeTeachingManageNewsAction.action</result>
+		</action>
+		<action name="ShowJuniorCollegeTeachingManageNewsAction" class="ShowJuniorCollegeTeachingManageNewsAction">
+			<result name="success">/pages/user/juniorcollege/teachingmanage/showjuniorcollegeteachingmanage.jsp</result>
+			<result name="error" type="redirect">ListJuniorCollegeTeachingManageNewsAction.action</result>
+		</action>
+		<!-- ***************************初中新闻************************************ -->
+		<action name="ListJuniorHighSchoolNewsAction" class="ListJuniorHighSchoolNewsAction">
+			<result name="success">/pages/user/juniorhighschool/news/listjuniorhighschoolnews.jsp</result>
+			<result name="del" type="redirect">ListJuniorHighSchoolNewsAction.action</result>
+		</action>
+		<action name="ShowJuniorHighSchoolNewsAction" class="ShowJuniorHighSchoolNewsAction">
+			<result name="success">/pages/user/juniorhighschool/news/showjuniorhighschoolnews.jsp</result>
+			<result name="error" type="redirect">ListJuniorHighSchoolNewsAction.action</result>
+		</action>
+		<!-- ***************************初中公告************************************ -->
+		<action name="ListJuniorNoticesAction" class="ListJuniorNoticesAction">
+			<result name="success">/pages/user/juniorhighschool/notices/listjuniornotices.jsp</result>
+			<result name="del" type="redirect">ListJuniorNoticesAction.action</result>
+		</action>
+		<action name="ShowJuniorNoticesAction" class="ShowJuniorNoticesAction">
+			<result name="success">/pages/user/juniorhighschool/notices/showjuniornotices.jsp</result>
+			<result name="error" type="redirect">ListJuniorNoticesAction.action</result>
+		</action>
+		<!-- ***************************初中招生新闻************************************ -->
+		<action name="ListJuniorHighSchoolRecruitStudentsNewsAction" class="ListJuniorHighSchoolRecruitStudentsNewsAction">
+			<result name="success">/pages/user/juniorhighschool/recruitstudentsnews/listjuniorhighschoolrecruitstudentsnews.jsp</result>
+			<result name="del" type="redirect">ListJuniorHighSchoolRecruitStudentsNewsAction.action</result>
+		</action>
+		<action name="ShowJuniorHighSchoolRecruitStudentsNewsAction" class="ShowJuniorHighSchoolRecruitStudentsNewsAction">
+			<result name="success">/pages/user/juniorhighschool/recruitstudentsnews/showjuniorhighschoolrecruitstudentsnews.jsp</result>
+			<result name="error" type="redirect">ListJuniorHighSchoolRecruitStudentsNewsAction.action</result>
+		</action>
+		<!-- ***************************学习资源共享************************************ -->
+		<action name="ListLearningResourceShareAction" class="ListLearningResourceShareAction">
+			<result name="success">/pages/user/learningresourceshare/listlearningresourceshare.jsp</result>
+			<result name="del" type="redirect">ListLearningResourceShareAction.action</result>
+		</action>
+		<action name="ShowLearningResourceShareAction" class="ShowLearningResourceShareAction">
+			<result name="success">/pages/user/learningresourceshare/showlearningresourceshare.jsp</result>
+			<result name="error" type="redirect">ListLearningResourceShareAction.action</result>
+		</action>
+		<!-- ***************************高中新闻************************************ -->
+		<action name="ListSeniorHighSchoolNewsAction" class="ListSeniorHighSchoolNewsAction">
+			<result name="success">/pages/user/seniorhighschool/news/listseniorhighschoolnews.jsp</result>
+			<result name="del" type="redirect">ListSeniorHighSchoolNewsAction.action</result>
+		</action>
+		<action name="ShowSeniorHighSchoolNewsAction" class="ShowSeniorHighSchoolNewsAction">
+			<result name="success">/pages/user/seniorhighschool/news/showseniorhighschoolnews.jsp</result>
+			<result name="error" type="redirect">ListSeniorHighSchoolNewsAction.action</result>
+		</action>
+		<!-- ***************************高中公告************************************ -->
+		<action name="ListSeniorNoticesAction" class="ListSeniorNoticesAction">
+			<result name="success">/pages/user/seniorhighschool/notices/listseniornotices.jsp</result>
+			<result name="del" type="redirect">ListSeniorNoticesAction.action</result>
+		</action>
+		<action name="ShowSeniorNoticesAction" class="ShowSeniorNoticesAction">
+			<result name="success">/pages/user/seniorhighschool/notices/showseniornotices.jsp</result>
+			<result name="error" type="redirect">ListSeniorNoticesAction.action</result>
+		</action>
+		<!-- ***************************高中招生新闻************************************ -->
+		<action name="ListSeniorHighSchoolRecruitStudentsNewsAction" class="ListSeniorHighSchoolRecruitStudentsNewsAction">
+			<result name="success">/pages/user/seniorhighschool/recruitstudentsnews/listseniorhighschoolrecruitstudentsnews.jsp</result>
+			<result name="del" type="redirect">ListSeniorHighSchoolRecruitStudentsNewsAction.action</result>
+		</action>
+		<action name="ShowSeniorHighSchoolRecruitStudentsNewsAction" class="ShowSeniorHighSchoolRecruitStudentsNewsAction">
+			<result name="success">/pages/user/seniorhighschool/recruitstudentsnews/showseniorhighschoolrecruitstudentsnews.jsp</result>
+			<result name="error" type="redirect">ListSeniorHighSchoolRecruitStudentsNewsAction.action</result>
+		</action>
+		<!-- ***************************首页新闻************************************ -->
+		<action name="ListWelcomePageNewsAction" class="ListWelcomePageNewsAction">
+			<result name="success">/pages/user/welcome.jsp</result>
+		</action>
+		<!-- **********************************学生注册和登陆******************************************* -->
+		<action name="ToStudentLoginAndRegisterAction_register">
+			<result>/pages/user/loginandregister/studentregister.jsp</result>
+		</action>
+		<action name="ToStudentLoginAndRegisterAction_login">
+			<result>/pages/user/loginandregister/studentlogin.jsp</result>
+		</action>
+		<action name="StudentLoginAndRegisterAction" class="StudentLoginAndRegisterAction">
+			<result name="input">/pages/user/loginandregister/studentregister.jsp</result>
+			<result name="success" type="redirect">ListPsychologyQuestionAndAnswerAction.action</result>
+			<result name="loginError">/pages/user/loginandregister/studentlogin.jsp</result>
+			<result name="registerSuccess">/pages/user/loginandregister/studentlogin.jsp</result>
+			<result name="registerError">/pages/user/loginandregister/studentregister.jsp</result>
+			<result name="logout">/pages/user/loginandregister/studentlogin.jsp</result>
+			<interceptor-ref name="defaultStack">
+				<param name="validation.excludeMethods">*</param>
+				<param name="validation.includeMethods">register</param>
+			</interceptor-ref>
+		</action>
+		<!-- **********************************心理咨询_学生******************************************* -->
+		<action name="AddPsychologyQuestionAction" class="AddPsychologyQuestionAction">
+			<result name="success" type="redirect">ListPsychologyQuestionAndAnswerAction.action</result>
+			<result name="input" type="redirect">ListPsychologyQuestionAndAnswerAction.action</result>
+			<result name="toLogin">/pages/user/loginandregister/studentlogin.jsp</result>
+		</action>
+		<action name="ListPsychologyQuestionAndAnswerAction" class="ListPsychologyQuestionAndAnswerAction">
+			<result name="success">/pages/user/psychologyconsultation/listpsychologyquestionandanswer.jsp</result>
+			<result name="toLogin">/pages/user/loginandregister/studentlogin.jsp</result>
+		</action>
+		<action name="PsychologyBase" class="PsychologyBase">
+			<result name="success">/pages/exception.jsp</result>
+		</action>
+		<!-- **********************************家长注册和登陆******************************************* -->
+		<action name="ToGenearchLoginAndRegisterAction_register">
+			<result name="success" type="redirect">GenearchLoginAndRegisterAction!prepareRegister.action</result>
+		</action>
+		<action name="ToGenearchLoginAndRegisterAction_login">
+			<result>/pages/user/loginandregister/genearchlogin.jsp</result>
+		</action>
+		<action name="GenearchLoginAndRegisterAction" class="GenearchLoginAndRegisterAction">
+			<result name="input">/pages/user/loginandregister/genearchregister.jsp</result>
+			<result name="success" type="redirect">ListGenearchQuestionAndAnswerAction.action</result>
+			<result name="loginError">/pages/user/loginandregister/genearchlogin.jsp</result>
+			<result name="toRegister">/pages/user/loginandregister/genearchregister.jsp</result>
+			<result name="registerSuccess">/pages/user/loginandregister/genearchlogin.jsp</result>
+			<result name="registerError">/pages/user/loginandregister/genearchregister.jsp</result>
+			<result name="logout">/pages/user/loginandregister/genearchlogin.jsp</result>
+			<interceptor-ref name="defaultStack">
+				<param name="validation.excludeMethods">*</param>
+				<param name="validation.includeMethods">register</param>
+			</interceptor-ref>
+		</action>
+		<!-- **********************************家长问题******************************************* -->
+		<action name="AddGenearchQuestionAction" class="AddGenearchQuestionAction">
+			<result name="success" type="redirect">ListGenearchQuestionAndAnswerAction.action</result>
+			<result name="input" type="redirect">ListGenearchQuestionAndAnswerAction.action</result>
+			<result name="toLogin">/pages/user/loginandregister/genearchlogin.jsp</result>
+		</action>
+		<action name="ListGenearchQuestionAndAnswerAction" class="ListGenearchQuestionAndAnswerAction">
+			<result name="success">/pages/user/genearchquestion/listgenearchquestionandanswer.jsp</result>
+			<result name="toLogin">/pages/user/loginandregister/genearchlogin.jsp</result>
+		</action>
+		<!-- **********************************校友注册和登陆******************************************* -->
+		<action name="ToSchoolfellowLoginAndRegisterAction_register">
+			<result>/pages/user/loginandregister/schoolfellowregister.jsp</result>
+		</action>
+		<action name="ToSchoolfellowLoginAndRegisterAction_login">
+			<result>/pages/user/loginandregister/schoolfellowlogin.jsp</result>
+		</action>
+		<action name="SchoolfellowLoginAndRegisterAction" class="SchoolfellowLoginAndRegisterAction">
+			<result name="input">/pages/user/loginandregister/schoolfellowregister.jsp</result>
+			<result name="success" type="redirect">ListSchoolfellowRecordAction.action</result>
+			<result name="loginError">/pages/user/loginandregister/schoolfellowlogin.jsp</result>
+			<result name="registerSuccess">/pages/user/loginandregister/schoolfellowlogin.jsp</result>
+			<result name="registerError">/pages/user/loginandregister/schoolfellowregister.jsp</result>
+			<result name="logout">/pages/user/loginandregister/schoolfellowlogin.jsp</result>
+			<interceptor-ref name="defaultStack">
+				<param name="validation.excludeMethods">*</param>
+				<param name="validation.includeMethods">register</param>
+			</interceptor-ref>
+		</action>
+		<!-- **********************************校友录******************************************* -->
+		<action name="AddSchoolfellowRecordAction" class="AddSchoolfellowRecordAction">
+			<result name="success" type="redirect">ListSchoolfellowRecordAction.action</result>
+			<result name="input" type="redirect">ListSchoolfellowRecordAction.action</result>
+		</action>
+		<action name="ListSchoolfellowRecordAction" class="ListSchoolfellowRecordAction">
+			<result name="success">/pages/user/schoolfellowrecord/listschoolfellowrecord.jsp</result>
+		</action>
+		<!-- **********************************其他内容User******************************************* -->
+		<action name="ShowUserJuniorCollegeCircumstanceAction" class="ShowUserJuniorCollegeCircumstanceAction">
+			<result name="success">/pages/user/anothercontent/showanothercontent.jsp</result>
+			<result name="error">/pages/Welcome.jsp</result>
+		</action>
+		<action name="ShowUserJuniorCollegeCollegeSetAction" class="ShowUserJuniorCollegeCollegeSetAction">
+			<result name="success">/pages/user/anothercontent/showanothercontent.jsp</result>
+			<result name="error">/pages/Welcome.jsp</result>
+		</action>
+		<action name="ShowUserJuniorCollegeCultureAction" class="ShowUserJuniorCollegeCultureAction">
+			<result name="success">/pages/user/anothercontent/showanothercontent.jsp</result>
+			<result name="error">/pages/Welcome.jsp</result>
+		</action>
+		<action name="ShowUserJuniorCollegeEntironmentManageAction" class="ShowUserJuniorCollegeEntironmentManageAction">
+			<result name="success">/pages/user/anothercontent/showanothercontent.jsp</result>
+			<result name="error">/pages/Welcome.jsp</result>
+		</action>
+		<action name="ShowUserJuniorCollegeExternalCommunionAction" class="ShowUserJuniorCollegeExternalCommunionAction">
+			<result name="success">/pages/user/anothercontent/showanothercontent.jsp</result>
+			<result name="error">/pages/Welcome.jsp</result>
+		</action>
+		<action name="ShowUserJuniorCollegeIncumbentLeaderAction" class="ShowUserJuniorCollegeIncumbentLeaderAction">
+			<result name="success">/pages/user/anothercontent/showanothercontent.jsp</result>
+			<result name="error">/pages/Welcome.jsp</result>
+		</action>
+		<action name="ShowUserJuniorCollegeIntroduceSchoolBadgeAction" class="ShowUserJuniorCollegeIntroduceSchoolBadgeAction">
+			<result name="success">/pages/user/anothercontent/showanothercontent.jsp</result>
+			<result name="error">/pages/Welcome.jsp</result>
+		</action>
+		<action name="ShowUserJuniorCollegeLiveServiceManualAction" class="ShowUserJuniorCollegeLiveServiceManualAction">
+			<result name="success">/pages/user/anothercontent/showanothercontent.jsp</result>
+			<result name="error">/pages/Welcome.jsp</result>
+		</action>
+		<action name="ShowUserJuniorCollegeOccupationCircumstanceAction" class="ShowUserJuniorCollegeOccupationCircumstanceAction">
+			<result name="success">/pages/user/anothercontent/showanothercontent.jsp</result>
+			<result name="error">/pages/Welcome.jsp</result>
+		</action>
+		<action name="ShowUserJuniorCollegePersonAbilityTrainAction" class="ShowUserJuniorCollegePersonAbilityTrainAction">
+			<result name="success">/pages/user/anothercontent/showanothercontent.jsp</result>
+			<result name="error">/pages/Welcome.jsp</result>
+		</action>
+		<action name="ShowUserJuniorCollegePolicyRuleAction" class="ShowUserJuniorCollegePolicyRuleAction">
+			<result name="success">/pages/user/anothercontent/showanothercontent.jsp</result>
+			<result name="error">/pages/Welcome.jsp</result>
+		</action>
+		<action name="ShowUserJuniorCollegeSpecializedSetAction" class="ShowUserJuniorCollegeSpecializedSetAction">
+			<result name="success">/pages/user/anothercontent/showanothercontent.jsp</result>
+			<result name="error">/pages/Welcome.jsp</result>
+		</action>
+		<action name="ShowUserJuniorCollegeStudentUnionWorkAction" class="ShowUserJuniorCollegeStudentUnionWorkAction">
+			<result name="success">/pages/user/anothercontent/showanothercontent.jsp</result>
+			<result name="error">/pages/Welcome.jsp</result>
+		</action>
+		<action name="ShowUserJuniorHighSchoolCircumstanceAction" class="ShowUserJuniorHighSchoolCircumstanceAction">
+			<result name="success">/pages/user/anothercontent/showanothercontent.jsp</result>
+			<result name="error">/pages/Welcome.jsp</result>
+		</action>
+		<action name="ShowUserJuniorHighSchoolCollegeSetAction" class="ShowUserJuniorHighSchoolCollegeSetAction">
+			<result name="success">/pages/user/anothercontent/showanothercontent.jsp</result>
+			<result name="error">/pages/Welcome.jsp</result>
+		</action>
+		<action name="ShowUserJuniorHighSchoolExcellenceTeacherAction" class="ShowUserJuniorHighSchoolExcellenceTeacherAction">
+			<result name="success">/pages/user/anothercontent/showanothercontent.jsp</result>
+			<result name="error">/pages/Welcome.jsp</result>
+		</action>
+		<action name="ShowUserSeniorHighSchoolCircumstanceAction" class="ShowUserSeniorHighSchoolCircumstanceAction">
+			<result name="success">/pages/user/anothercontent/showanothercontent.jsp</result>
+			<result name="error">/pages/Welcome.jsp</result>
+		</action>
+		<action name="ShowUserSeniorHighSchoolCollegeSetAction" class="ShowUserSeniorHighSchoolCollegeSetAction">
+			<result name="success">/pages/user/anothercontent/showanothercontent.jsp</result>
+			<result name="error">/pages/Welcome.jsp</result>
+		</action>
+		<action name="ShowUserSeniorHighSchoolExcellenceTeacherAction" class="ShowUserSeniorHighSchoolExcellenceTeacherAction">
+			<result name="success">/pages/user/anothercontent/showanothercontent.jsp</result>
+			<result name="error">/pages/Welcome.jsp</result>
+		</action>
+	</package>
+</struts>

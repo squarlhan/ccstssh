@@ -1,0 +1,114 @@
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="seniorhighschool" extends="struts-default" namespace="/pages/manage/seniorhighschool">
+
+		<interceptors>
+			<interceptor name="SeniorHighSchoolAdminAccessInterceptor" class="SeniorHighSchoolAdminAccessInterceptor" />
+			<interceptor-stack name="SeniorHighSchoolAdminAccessInterceptorStack">
+				<interceptor-ref name="SeniorHighSchoolAdminAccessInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="SeniorHighSchoolAdminAccessInterceptorStack" />
+
+		<global-results>
+			<result name="pleaseToLogin">/pages/manage/seniorhighschool/login.jsp</result>
+			<result name="invalid.token">/pages/token.jsp</result>
+			<result name="exception">/pages/exception.jsp</result>
+		</global-results>
+		
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception" result="exception"/>
+		</global-exception-mappings>
+
+		<!-- ***************************高中新闻************************************ -->
+		<action name="ToAddSeniorHighSchoolNewsAction">
+			<result>/pages/manage/seniorhighschool/news/addseniorhighschoolnews.jsp</result>
+		</action>
+		<action name="AddSeniorHighSchoolNewsAction" class="AddSeniorHighSchoolNewsAction">
+			<result name="success" type="redirect">ListSeniorHighSchoolNewsAction.action</result>
+			<result name="input">/pages/manage/seniorhighschool/news/addseniorhighschoolnews.jsp</result>
+		</action>
+		<action name="ListSeniorHighSchoolNewsAction" class="ListSeniorHighSchoolNewsAction">
+			<result name="success">/pages/manage/seniorhighschool/news/listseniorhighschoolnews.jsp</result>
+			<result name="del" type="redirect">ListSeniorHighSchoolNewsAction.action</result>
+		</action>
+		<action name="ShowSeniorHighSchoolNewsAction" class="ShowSeniorHighSchoolNewsAction">
+			<result name="success">/pages/manage/seniorhighschool/news/showseniorhighschoolnews.jsp</result>
+			<result name="error" type="redirect">ListSeniorHighSchoolNewsAction.action</result>
+			<result name="toChange">/pages/manage/seniorhighschool/news/changeseniorhighschoolnews.jsp</result>
+			<result name="changeSuccess" type="redirect">ListSeniorHighSchoolNewsAction.action</result>
+			<result name="changeError">/pages/manage/seniorhighschool/news/changeseniorhighschoolnews.jsp</result>
+		</action>
+		<!-- ***************************高中公告************************************ -->
+		<action name="ToAddSeniorNoticesAction">
+			<result>/pages/manage/seniorhighschool/notices/addseniornotices.jsp</result>
+		</action>
+		<action name="AddSeniorNoticesAction" class="AddSeniorNoticesAction">
+			<result name="success" type="redirect">ListSeniorNoticesAction.action</result>
+			<result name="input">/pages/manage/seniorhighschool/notices/addseniornotices.jsp</result>
+		</action>
+		<action name="ListSeniorNoticesAction" class="ListSeniorNoticesAction">
+			<result name="success">/pages/manage/seniorhighschool/notices/listseniornotices.jsp</result>
+			<result name="del" type="redirect">ListSeniorNoticesAction.action</result>
+		</action>
+		<action name="ShowSeniorNoticesAction" class="ShowSeniorNoticesAction">
+			<result name="success">/pages/manage/seniorhighschool/notices/showseniornotices.jsp</result>
+			<result name="error" type="redirect">ListSeniorNoticesAction.action</result>
+			<result name="toChange">/pages/manage/seniorhighschool/notices/changeseniornotices.jsp</result>
+			<result name="changeSuccess" type="redirect">ListSeniorNoticesAction.action</result>
+			<result name="changeError">/pages/manage/seniorhighschool/notices/changeseniornotices.jsp</result>
+		</action>
+		<!-- ***************************高中招生新闻************************************ -->
+		<action name="ToAddSeniorHighSchoolRecruitStudentsNewsAction">
+			<result>/pages/manage/seniorhighschool/recruitstudentsnews/addseniorhighschoolrecruitstudentsnews.jsp</result>
+		</action>
+		<action name="AddSeniorHighSchoolRecruitStudentsNewsAction" class="AddSeniorHighSchoolRecruitStudentsNewsAction">
+			<result name="success" type="redirect">ListSeniorHighSchoolRecruitStudentsNewsAction.action</result>
+			<result name="input">/pages/manage/seniorhighschool/recruitstudentsnews/addseniorhighschoolrecruitstudentsnews.jsp</result>
+		</action>
+		<action name="ListSeniorHighSchoolRecruitStudentsNewsAction" class="ListSeniorHighSchoolRecruitStudentsNewsAction">
+			<result name="success">/pages/manage/seniorhighschool/recruitstudentsnews/listseniorhighschoolrecruitstudentsnews.jsp</result>
+			<result name="del" type="redirect">ListSeniorHighSchoolRecruitStudentsNewsAction.action</result>
+		</action>
+		<action name="ShowSeniorHighSchoolRecruitStudentsNewsAction" class="ShowSeniorHighSchoolRecruitStudentsNewsAction">
+			<result name="success">/pages/manage/seniorhighschool/recruitstudentsnews/showseniorhighschoolrecruitstudentsnews.jsp</result>
+			<result name="error" type="redirect">ListSeniorHighSchoolRecruitStudentsNewsAction.action</result>
+			<result name="toChange">/pages/manage/seniorhighschool/recruitstudentsnews/changeseniorhighschoolrecruitstudentsnews.jsp</result>
+			<result name="changeSuccess" type="redirect">ListSeniorHighSchoolRecruitStudentsNewsAction.action</result>
+			<result name="changeError">/pages/manage/seniorhighschool/recruitstudentsnews/changeseniorhighschoolrecruitstudentsnews.jsp</result>
+		</action>
+		<!-- **********************************高中管理员登陆******************************************* -->
+		<action name="SeniorHighSchoolLoginAction" class="SeniorHighSchoolLoginAction">
+			<result name="success">/pages/manage/seniorhighschool/seniorhighschoolfirstpage.jsp</result>
+			<result name="loginError">/pages/manage/seniorhighschool/login.jsp</result>
+			<result name="logout">/pages/manage/seniorhighschool/login.jsp</result>
+		</action>
+		<!-- **********************************其他内容SeniorHighSchoolAdmin******************************************* -->
+		<action name="ShowSeniorHighSchoolCircumstanceAction" class="ShowSeniorHighSchoolCircumstanceAction">
+			<result name="success">/pages/manage/seniorhighschool/anothercontent/changeseniorhighschoolcircumstance.jsp</result>
+			<result name="error">/pages/manage/seniorhighschool/adminfirstpage.jsp</result>
+			<result name="toChange">/pages/manage/seniorhighschool/anothercontent/changeseniorhighschoolcircumstance.jsp</result>
+			<result name="changeSuccess">/pages/manage/seniorhighschool/anothercontent/changeseniorhighschoolcircumstance.jsp</result>
+			<result name="changeError">/pages/manage/seniorhighschool/anothercontent/changeseniorhighschoolcircumstance.jsp</result>
+		</action>
+		<action name="ShowSeniorHighSchoolCollegeSetAction" class="ShowSeniorHighSchoolCollegeSetAction">
+			<result name="success">/pages/manage/seniorhighschool/anothercontent/changeseniorhighschoolcollegeset.jsp</result>
+			<result name="error">/pages/manage/seniorhighschool/adminfirstpage.jsp</result>
+			<result name="toChange">/pages/manage/seniorhighschool/anothercontent/changeseniorhighschoolcollegeset.jsp</result>
+			<result name="changeSuccess">/pages/manage/seniorhighschool/anothercontent/changeseniorhighschoolcollegeset.jsp</result>
+			<result name="changeError">/pages/manage/seniorhighschool/anothercontent/changeseniorhighschoolcollegeset.jsp</result>
+		</action>
+		<action name="ShowSeniorHighSchoolExcellenceTeacherAction" class="ShowSeniorHighSchoolExcellenceTeacherAction">
+			<result name="success">/pages/manage/seniorhighschool/anothercontent/changeseniorhighschoolexcellenceteacher.jsp</result>
+			<result name="error">/pages/manage/seniorhighschool/adminfirstpage.jsp</result>
+			<result name="toChange">/pages/manage/seniorhighschool/anothercontent/changeseniorhighschoolexcellenceteacher.jsp</result>
+			<result name="changeSuccess">/pages/manage/seniorhighschool/anothercontent/changeseniorhighschoolexcellenceteacher.jsp</result>
+			<result name="changeError">/pages/manage/seniorhighschool/anothercontent/changeseniorhighschoolexcellenceteacher.jsp</result>
+		</action>
+
+	</package>
+</struts>
