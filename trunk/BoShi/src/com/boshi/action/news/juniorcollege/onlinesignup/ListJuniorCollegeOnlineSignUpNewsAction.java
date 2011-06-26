@@ -387,11 +387,11 @@ public class ListJuniorCollegeOnlineSignUpNewsAction extends
 			// 1.添加Label对象
 			Label label0 = new Label(0, 0, "姓名");
 			Label label1 = new Label(1, 0, "性别");
-			Label label2 = new Label(2, 0, "考号");
-			Label label3 = new Label(3, 0, "身份证");
+			Label label2 = new Label(2, 0, "考试号");
+			Label label3 = new Label(3, 0, "身份证号");
 			Label label4 = new Label(4, 0, "报考专业");
 			Label label5 = new Label(5, 0, "录取信息");
-			Label label6 = new Label(6, 0, "手机");
+			Label label6 = new Label(6, 0, "手机电话");
 			Label label7 = new Label(7, 0, "固定电话");
 			Label label8 = new Label(8, 0, "报名时间");
 			Label label9 = new Label(9, 0, "其它");
@@ -557,7 +557,7 @@ public class ListJuniorCollegeOnlineSignUpNewsAction extends
 			if(newdata[0][i].equals("性别")){
 				sexno=i;
 			}
-			if(newdata[0][i].equals("考号")){
+			if(newdata[0][i].equals("考试号")){
 				examidno=i;
 			}
 			if(newdata[0][i].equals("报考专业")){
@@ -566,7 +566,7 @@ public class ListJuniorCollegeOnlineSignUpNewsAction extends
 			if(newdata[0][i].equals("录取信息")){
 				isno=i;
 			}
-			if(newdata[0][i].equals("手机")){
+			if(newdata[0][i].equals("手机电话")){
 				mobileno=i;
 			}
 			if(newdata[0][i].equals("固定电话")){
@@ -575,7 +575,7 @@ public class ListJuniorCollegeOnlineSignUpNewsAction extends
 			if(newdata[0][i].equals("报名时间")){
 				dateno=i;
 			}
-			if(newdata[0][i].equals("身份证")){
+			if(newdata[0][i].equals("身份证号")){
 				pidno=i;
 			}
 			if(newdata[0][i].equals("其它")){
