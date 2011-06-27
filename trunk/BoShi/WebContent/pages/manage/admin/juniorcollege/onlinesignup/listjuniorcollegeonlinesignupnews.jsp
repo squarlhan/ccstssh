@@ -6,6 +6,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>网上报名</title>
+
+<script language = "javascript" >
+function mycheck(){
+    var upurl = document.getElementById('upexl').value;
+    if(upurl==null)
+        document.getElementById('upbtn').disabled=true;
+    else
+        document.getElementById('upbtn').disabled=false;
+}
+</script>
+
 <s:head />
 </head>
 <body>
@@ -29,8 +40,8 @@
 	    <td align="left">
 	    <s:form theme = "simple" action="ListJuniorCollegeOnlineSignUpNewsAction!upexl" method = "POST" validate="true" enctype="multipart/form-data">
 	    <s:label value = "上传录取信息: "/>
-	    <s:file name ="upexl" label ="上传录取信息"/> 
-	    <s:submit value = "上传"/>
+	    <s:file name ="upexl" id="upexl" label ="上传录取信息" onchange="mycheck();"/> 
+	    <s:submit id = "upbtn" value = "上传" disabled="true"/>
 	    </s:form>
 	    </td>
 	    <tr align="left">
