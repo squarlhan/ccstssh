@@ -39,6 +39,7 @@ import jxl.write.WritableWorkbook;
 import org.apache.struts2.ServletActionContext;
 
 import com.boshi.action.news.SuperListNewsAction;
+import com.boshi.db.datacenter.DataCenterInterface;
 import com.boshi.db.datamodel.news.JuniorCollegeOnlineSignUpNews;
 
 public class ListJuniorCollegeOnlineSignUpNewsAction extends
@@ -582,9 +583,10 @@ public class ListJuniorCollegeOnlineSignUpNewsAction extends
 				memono=i;
 			}
 		}
-		JuniorCollegeOnlineSignUpNews newobj = new JuniorCollegeOnlineSignUpNews();
+		JuniorCollegeOnlineSignUpNews newobj =null;
+		DataCenterInterface	dataCenterInterface	= this.getDataCenterInterface();
 		for(int a = 1; a<=rows-1; a++){
-			
+			newobj = new JuniorCollegeOnlineSignUpNews();
 			newobj.setContent(newdata[a][memono]);
 			newobj.setExamid(newdata[a][examidno]);
 			newobj.setIsaccept(newdata[a][isno]);
@@ -595,12 +597,12 @@ public class ListJuniorCollegeOnlineSignUpNewsAction extends
 			newobj.setPid(newdata[a][pidno]);
 			newobj.setSex(newdata[a][sexno]);
 //			newobj.setDate(new Calendar(newdata[a][dateno]));
-			List<?> rs =this.getDataCenterInterface().find(JuniorCollegeOnlineSignUpNews.class, newobj);
+			List<?> rs =dataCenterInterface.find(JuniorCollegeOnlineSignUpNews.class, newobj);
 			if(rs.size()<1)
-				this.getDataCenterInterface().createObject(newobj);
+				dataCenterInterface.createObject(newobj);
 			else {
 				newobj.setId(((JuniorCollegeOnlineSignUpNews)rs.get(0)).getId());
-				this.getDataCenterInterface().changeContent(JuniorCollegeOnlineSignUpNews.class, newobj);
+				dataCenterInterface.changeContent(JuniorCollegeOnlineSignUpNews.class, newobj);
 			}
 		}
 		
