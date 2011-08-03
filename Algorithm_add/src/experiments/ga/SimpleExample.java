@@ -96,7 +96,7 @@ public class SimpleExample {
 				}
 				long endTime = System.currentTimeMillis();
 				System.out.println("运行时间 " + (endTime - startTime) + "ms");
-				System.out.println("sum counts:  "+ MaxFunction.counts);
+				System.out.println("sum counts:  "+ SimpleMaxFunction.counts);
 			
 	}
 }
