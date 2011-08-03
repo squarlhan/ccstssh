@@ -23,7 +23,7 @@ import experiments.Matrix;
  * @author Klaus Meffert
  * @since 2.0
  */
-public class MaxFunction 
+public class SimpleMaxFunction 
     extends FitnessFunction implements  GAFunction{
   /** String containing the CVS revision. Read out via reflection!*/
   private final static String CVS_REVISION = "$Revision: 1.6 $";
@@ -53,14 +53,28 @@ public class MaxFunction
    * @since 2.0
    */
   public double evaluate(IChromosome a_subject) {
-  
-    return -1;
+    double total = 0;
+    int time_delay = 100;
+    try {
+		Thread.sleep(time_delay);
+	} catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+    //double[] decs = Bin2Dec.binstr2decstr(a_subject, 20, 5.12, -5.12);
+    for (int i = 0; i < 2; i++) {
+      
+        total += Math.pow(((DoubleGene)a_subject.getGene(i)).doubleValue(), 2.0);
+      
+    }
+    counts ++;
+    return 2*Math.pow(5.12, 2.0)-total;
   }
 
 @Override
 public Double[] excute(Matrix data, int nIterateCount) {
-	// TODO Auto-generated method stub
 	int time_delay = 100;
+	// TODO Auto-generated method stub
 	if(data == null)return null;
 	int m = data.getM();
 	int n = data.getN();

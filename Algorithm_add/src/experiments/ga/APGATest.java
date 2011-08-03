@@ -111,7 +111,7 @@ public class APGATest {
 			if (percentEvolution > 0 && i % percentEvolution == 0) {
 				progress++;
 				IChromosome fittest = genotype.getFittestChromosome();
-				double best_fitness = fittest.getFitnessValue();
+				double best_fitness = fittest.getFitnessValueDirectly();
 				System.out.println("Currently fittest Chromosome has fitness "+ best_fitness);
 				// if (fitness >= maxFitness) {
 				// break;
@@ -121,16 +121,17 @@ public class APGATest {
 		// Print summary.
 		// --------------
 		IChromosome fittest = genotype.getFittestChromosome();
-		System.out.println("Fittest Chromosome has fitness "+ fittest.getFitnessValue());
+		System.out.println("Fittest Chromosome has fitness "+ fittest.getFitnessValueDirectly());
 		DecimalFormat myformat = new DecimalFormat("#0.00");
 		for (int i = 0; i < chromeSize; i++) {
 			System.out.print(myformat.format(fittest.getGene(i).getAllele())+"	");
 		}
 		System.out.println();
+		System.out.println("sum counts: " + MaxFunction.counts);
 		
 		//处理返回结果
 		for(int i = 0; i<=popSize-1; i++){
-        	pBest.data[0][i] = genotype.getPopulation().getChromosome(i).getFitnessValue();
+        	pBest.data[0][i] = genotype.getPopulation().getChromosome(i).getFitnessValueDirectly();
 		}
 		pBest_ga = pop2matrix(genotype.getPopulation());
 		return new Object[] { pBest_ga, pBest, consValue };
@@ -191,7 +192,7 @@ public class APGATest {
 			if (percentEvolution > 0 && i % percentEvolution == 0) {
 				progress++;
 				IChromosome fittest = genotype.getFittestChromosome();
-				double fitness = fittest.getFitnessValue();
+				double fitness = fittest.getFitnessValueDirectly();
 				System.out.println("Currently fittest Chromosome has fitness "
 						+ fitness);
 
@@ -205,7 +206,7 @@ public class APGATest {
 		// --------------
 		IChromosome fittest = genotype.getFittestChromosome();
 		System.out.println("Fittest Chromosome has fitness "
-				+ (maxFitness-fittest.getFitnessValue()));
+				+ (maxFitness-fittest.getFitnessValueDirectly()));
 		DecimalFormat myformat = new DecimalFormat("#0.00");
 		for (int i = 0; i < 2; i++) {
 

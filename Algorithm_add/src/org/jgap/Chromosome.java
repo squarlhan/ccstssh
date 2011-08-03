@@ -467,6 +467,7 @@ public void setIscenter(boolean iscenter) {
         }
       }
     }
+    ((Chromosome)copy).setIscenter(iscenter);
     return copy;
   }
 
