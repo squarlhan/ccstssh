@@ -64,7 +64,7 @@ public class SimpleExample {
 					 IChromosome sampleChromosome = new Chromosome(gaConf, sampleGenes);
 					 gaConf.setSampleChromosome(sampleChromosome);
 					gaConf.setPopulationSize(40);
-					gaConf.setFitnessFunction(new MaxFunction());
+					gaConf.setFitnessFunction(new SimpleMaxFunction());
 					genotype = Genotype.randomInitialGenotype(gaConf);
 				} catch (InvalidConfigurationException e) {
 					e.printStackTrace();
@@ -96,7 +96,7 @@ public class SimpleExample {
 				}
 				long endTime = System.currentTimeMillis();
 				System.out.println("运行时间 " + (endTime - startTime) + "ms");
-			
+				System.out.println("sum counts:  "+ MaxFunction.counts);
 			
 	}
 }

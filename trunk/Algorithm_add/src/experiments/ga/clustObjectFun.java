@@ -142,30 +142,46 @@ public class clustObjectFun {
 		List<IChromosome> center_chroms = new ArrayList();
 		while (iter.hasNext()) {
 			int a = (Integer) iter.next();
-			if(((Chromosome)pop.getChromosome(a)).isIscenter()&&pop.getChromosome(a).getFitnessValue()>0){
-				centerObjects.put(a, pop.getChromosome(a).getFitnessValue());
+			if(((Chromosome)pop.getChromosome(a)).isIscenter()&&pop.getChromosome(a).getFitnessValueDirectly()>0){
+				centerObjects.put(a, pop.getChromosome(a).getFitnessValueDirectly());
 			}else{
 			    center_chroms.add(pop.getChromosome(a));
 			    clac_centers.add(a);
 			}
 		}
-		Double[] fits = fitness.excute(chromlst2matrix(center_chroms),obj.getnIterateCount());
-		obj.setnIterateCount(obj.getnIterateCount() + center_chroms.size());
-		for (int i = 0; i <= clac_centers.size() - 1; i++) {
-			centerObjects.put(clac_centers.get(i), fits[i]);
-			((Chromosome)pop.getChromosome(clac_centers.get(i))).setIscenter(true);
+		Double[] fits;
+		if(center_chroms.size()>0){
+			fits = fitness.excute(chromlst2matrix(center_chroms),obj.getnIterateCount());
+			obj.setnIterateCount(obj.getnIterateCount() + center_chroms.size());
+			for (int i = 0; i <= clac_centers.size() - 1; i++) {
+				centerObjects.put(clac_centers.get(i), fits[i]);
+				((Chromosome) pop.getChromosome(clac_centers.get(i))).setIscenter(true);
+			}
 		}
 
+		double dis_max = datamatrix[0][0];
+		double dis_min = datamatrix[0][0];
+		for(int i=0; i <= datamatrix.length-1; i++){
+			for(int j=0; j <= datamatrix.length-1; j++){
+				if(datamatrix[i][j]>dis_max)dis_max = datamatrix[i][j];
+				if(datamatrix[i][j]<dis_min)dis_min = datamatrix[i][j];
+			}
+		}
+		for(int i=0; i <= datamatrix.length-1; i++){
+			for(int j=0; j <= datamatrix.length-1; j++){
+				datamatrix[i][j] = 1-(datamatrix[i][j]-dis_min)/(dis_max-dis_min);
+			}
+		}
 		for(int i=0; i <= datamatrix.length-1; i++){
 			double object;
 			if(i==results.get(i)){
 				object = centerObjects.get(i);
 			}else{
-				double s = 1/(1-datamatrix[i][results.get(i)]);
+				double s = 1/(1+datamatrix[i][results.get(i)]);
 				object = ((1-lamda)*s+lamda)*centerObjects.get(results.get(i));
 			}
 			objects.add(object);
-			if(pop.getChromosome(i).getFitnessValue()<0||!((Chromosome)pop.getChromosome(i)).isIscenter())
+			if(pop.getChromosome(i).getFitnessValueDirectly()<0||!((Chromosome)pop.getChromosome(i)).isIscenter())
 			pop.getChromosome(i).setFitnessValue(object);
 		}
 		/*for(double a : objects){

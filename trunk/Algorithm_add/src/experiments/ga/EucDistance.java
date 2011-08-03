@@ -89,7 +89,7 @@ public class EucDistance {
 		double[] allresult = new double[len*len];
 		for(int i = 0; i<= len-1; i++){
 			for(int j = 0; j<= len-1; j++){
-				Double dis = getDistance(mydata[i],mydata[j]) == 0?0.9:getDistance(mydata[i],mydata[j]);
+				Double dis = getDistance(mydata[i],mydata[j]) == 0?-0.0:getDistance(mydata[i],mydata[j]);
 				result[i][j] = -1*dis;
 				allresult[i*len+j] = -1*dis;
 			}

@@ -75,12 +75,12 @@ public class GABreeder
       if (a_conf.isPreserveFittestIndividual()) {
         /**@todo utilize jobs. In pop do also utilize jobs, especially for fitness
          * computation*/
-    	  int aa = 0;
-    	  int size = pop.size(); 
-    	  for(int a = 0;a<=size-1;a++){
-    		  fittest = aa<=pop.getChromosome(a).getFitnessValue()?pop.getChromosome(a):fittest;
-    	  }
-    		//  fittest = pop.determineFittestChromosome(0, pop.size() - 1);
+//    	  int aa = 0;
+//    	  int size = pop.size(); 
+//    	  for(int a = 0;a<=size-1;a++){asdf
+//    		  fittest = aa<=pop.getChromosome(a).getFitnessValue()?pop.getChromosome(a):fittest;
+//    	  }
+    	fittest = pop.determineFittestChromosome(0, pop.size() - 1);
     	 
         
       }
@@ -246,8 +246,8 @@ public class GABreeder
     a_conf.getEventManager().fireGeneticEvent(
         new GeneticEvent(GeneticEvent.GENOTYPE_EVOLVED_EVENT, this));
   //每次得到的都是真实的适应度
-    Chromosome myfit = (Chromosome)pop.determineFittestChromosome();
-   /* if(!myfit.isIscenter()){
+    /*  Chromosome myfit = (Chromosome)pop.determineFittestChromosome();
+    if(!myfit.isIscenter()){
 //    	System.out.println("size: "+ pop.size()+" fit: "+myfit.isIscenter()+" best fitness: "+pop.determineFittestChromosome().getFitnessValue());
     	myfit.setIscenter(true);
     	double fitvalue = clustObjectFun.calconeFittnessValue(pop.determineFittestChromosome(), obj,  fitness);
@@ -551,6 +551,12 @@ public class GABreeder
 
 			alg.setParemeters();
 			List<Integer> results = alg.run();
+			if(results==null||results.size()==0){
+				for(int i = 0; i<= a_pop.size()-1; i++){
+					results.add(i);
+				}
+				System.err.println("Cluster Error, 0 result!");	
+			}
 			List<Double> objests = cof.calcFittnessValue(a_pop, obj, fitness, results, dis, fit_lamda);
 			// for (int i = 0; i < currentPopSize; i++) {
 			// IChromosome chrom = a_pop.getChromosome(i);
