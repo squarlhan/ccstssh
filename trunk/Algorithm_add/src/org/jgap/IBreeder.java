@@ -12,8 +12,8 @@ package org.jgap;
 import java.io.*;
 import org.jgap.util.ICloneable;
 
-import experiments.ga.APGATest;
-import experiments.ga.GAFunction;
+import experiments.apga.APGAFunction;
+import experiments.apga.APGA;
 
 /**
  * Interface for GA breeders. A breeder evolves a population by performing
@@ -40,5 +40,7 @@ public interface IBreeder
    * @since 3.2
    */
   Population evolve(Population a_pop, Configuration a_conf);
-  Population evolve(Population a_pop, Configuration a_conf, APGATest obj,  GAFunction fitness, int ap_num, double ap_lamda, double fit_lamda);
+  Population evolve(Population a_pop, Configuration a_conf, APGA obj,  
+		  APGAFunction fitness, int ap_num, double ap_lamda, 
+		  double fit_lamda, double cutoff, double extra);
 }

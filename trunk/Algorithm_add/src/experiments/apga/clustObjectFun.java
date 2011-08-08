@@ -1,4 +1,4 @@
-package experiments.ga;
+package experiments.apga;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,6 +16,8 @@ import org.jgap.InvalidConfigurationException;
 import org.jgap.Population;
 
 import experiments.Matrix;
+import experiments.apga.APGAFunction;
+import experiments.ga.MaxFunction;
 
 import affinitymain.CommandLineParser;
 import affinitymain.InteractionData;
@@ -26,6 +28,7 @@ public class clustObjectFun {
 	
 	private static List<Integer> results;
 	private static List<Double> objects;
+	public static int mycount = 0;
 	
 	 /**
      * @param args the command line arguments
@@ -95,8 +98,90 @@ public class clustObjectFun {
 
 		return objects;
 	}
+    /**
+     * 维护一个前40fitness的种群
+     * @param chroms 新产生的染色体
+     * @param bestPop 最好的种群
+     */
+    private static Population maintainbestchrom(List<IChromosome> chroms, APGA obj){
+    	Population bestPop = obj.getBestPop();
+    	int maxsize = bestPop.getConfiguration().getPopulationSize();
+    	Population all = (Population) bestPop.clone();
+//    	all.clear();
+//    	if(bestPop!=null&&bestPop.size()>0){
+//    		for(int i = 0; i<= bestPop.size()-1; i++){
+//    			if(bestPop.getChromosome(i).getFitnessValueDirectly()>0){
+//    				all.addChromosome(bestPop.getChromosome(i));
+//    			}else{
+//    				;
+//    			}
+//    		}
+//    }
+    	if(chroms!=null&&chroms.size()>0){
+    		for(IChromosome chrom:chroms){
+    			all.addChromosome(chrom);
+    		}
+    	}
+    	
+    	
+    	
+    	int nowsize = all.size();
+    	if(nowsize<=maxsize){
+    		bestPop.clear();
+    		bestPop = (Population) all.clone();
+    	}else{
+    		all.sortByFitness();
+    		bestPop.clear();
+    		for(int i=0;i<=maxsize-1;i++){
+    			bestPop.addChromosome((IChromosome) all.getChromosome(i).clone());
+    		}
+    	}
+    	obj.setBestPop(bestPop);
+    	return bestPop;
+    }
+    /**
+     * 判断一个新的染色体是否接近好的染色体
+     * @param chrom 新的染色体
+     * @param bestPop 好的染色体集合
+     * @param cutoff 有多少gene匹配上，认为这个染色体符合这个模式
+     * @return
+     */
+    private static boolean EstimateFitness(IChromosome chrom, Population bestPop, Double cutoff){
+    	boolean result = false;
+    	
+    	int m = bestPop.size();
+    	int n = chrom.size();
+    	Matrix mydata = pop2matrix(bestPop);
+    	Double[] avgset = new Double[n];//平均值
+    	for(int j = 0; j<=n-1; j++){
+    		Double tempsum = 0.0;
+    		for(int i = 0; i<=m-1;i++){
+    			tempsum+=mydata.data[i][j];
+    		}
+    		avgset[j] = tempsum/m;
+    	}
+    	Double[] stddev = new Double[n];//标准差
+    	for(int j = 0; j<=n-1; j++){
+    		Double tempsum = 0.0;
+    		for(int i = 0; i<=m-1;i++){
+    			tempsum+=((mydata.data[i][j]-avgset[j])*(mydata.data[i][j]-avgset[j]));
+    		}
+    		stddev[j] = Math.sqrt(tempsum/m);
+    	}
+    	int count = 0;
+    	for(int j = 0; j<=n-1; j++){
+    		Double genevalue = (Double) chrom.getGene(j).getAllele();
+    		if(Math.abs(genevalue-avgset[j])<=stddev[j])count++;
+    	}
+    	if(count>=cutoff*n){
+    		mycount++;
+    		return true;
+    	}
+    	
+    	return result;
+    }
     
-    public static  Double calconeFittnessValue(IChromosome chrom, APGATest obj,  GAFunction fitness){
+    public static  Double calconeFittnessValue(IChromosome chrom, APGA obj,  APGAFunction fitness){
     	List<IChromosome> chroms =new ArrayList();
     	chroms.add(chrom);
     	Double[] results = fitness.excute(chromlst2matrix(chroms), obj.getnIterateCount());
@@ -104,7 +189,7 @@ public class clustObjectFun {
     	return results[0];
     }
     
-    public static  List<Double> calcFittnessValueDrictely(Population pop, APGATest obj,  GAFunction fitness){
+    public static  List<Double> calcFittnessValueDrictely(Population pop, APGA obj,  APGAFunction fitness){
    
     	List<Double> objects = new ArrayList();
     	List<Integer> nullfitset = new  ArrayList();
@@ -125,12 +210,15 @@ public class clustObjectFun {
 			int j = nullfitset.get(i);
 			pop.getChromosome(j).setFitnessValue(fits[i]);
 			((Chromosome)pop.getChromosome(j)).setIscenter(true);
+			null_chroms.get(i).setFitnessValue(fits[i]);
+			((Chromosome)null_chroms.get(i)).setIscenter(true);
 		}
+		maintainbestchrom(null_chroms, obj);
         obj.setnIterateCount(obj.getnIterateCount()+null_chroms.size());
     	return objects;
     }
     
-    public static  List<Double> calcFittnessValue(Population pop, APGATest obj,  GAFunction fitness, List<Integer> results, double[][] datamatrix, double lamda){
+    public static  List<Double> calcFittnessValue(Population pop, APGA obj,  APGAFunction fitness, List<Integer> results, double[][] datamatrix, double lamda, double cutoff, double extra){
 
 		List<IChromosome> chrs = pop.getChromosomes();
 		List<Double> objects = new ArrayList();
@@ -156,8 +244,12 @@ public class clustObjectFun {
 			for (int i = 0; i <= clac_centers.size() - 1; i++) {
 				centerObjects.put(clac_centers.get(i), fits[i]);
 				((Chromosome) pop.getChromosome(clac_centers.get(i))).setIscenter(true);
+				center_chroms.get(i).setFitnessValue(fits[i]);
+				((Chromosome)center_chroms.get(i)).setIscenter(true);
 			}
 		}
+		
+		maintainbestchrom(center_chroms, obj);
 
 		double dis_max = datamatrix[0][0];
 		double dis_min = datamatrix[0][0];
@@ -179,10 +271,15 @@ public class clustObjectFun {
 			}else{
 				double s = 1/(1+datamatrix[i][results.get(i)]);
 				object = ((1-lamda)*s+lamda)*centerObjects.get(results.get(i));
+				Population bestPop = obj.getBestPop();
+				if(bestPop.size()>=bestPop.getConfiguration().getPopulationSize()/2&&EstimateFitness(chrs.get(i), bestPop, cutoff)){
+					object *= (1+extra);
+				}
 			}
 			objects.add(object);
 			if(pop.getChromosome(i).getFitnessValueDirectly()<0||!((Chromosome)pop.getChromosome(i)).isIscenter())
 			pop.getChromosome(i).setFitnessValue(object);
+			((Chromosome)pop.getChromosome(i)).setIscenter(false);
 		}
 		/*for(double a : objects){
         	System.out.println(a);
@@ -205,6 +302,21 @@ public class clustObjectFun {
   	  }
   	  return result;
     }
+    
+    private static Matrix pop2matrix(Population pop){
+    	  if(pop==null){
+    		  return null;
+    	  }
+    	  int m = pop.size();
+    	  int n = pop.getChromosome(0).size();
+    	  Matrix result = new Matrix(m,n);
+    	  for(int i = 0; i<=m-1;i++){
+    		  for(int j = 0; j<=n-1;j++){
+    			  result.data[i][j] = (Double)pop.getChromosome(i).getGene(j).getAllele();
+    		  }
+    	  }
+    	  return result;
+      }
     
 	public static AffinityConnectingMethod getConnMode(Map<String, String> map) {
         String modeStr = map.get("conn");

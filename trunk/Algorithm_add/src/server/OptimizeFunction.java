@@ -19,6 +19,7 @@ import SimulateManage.TreadPool.TaskRunInfo;
 import Tolerance.ResponseValue;
 import experiments.Matrix;
 import experiments.PSOFunction;
+import experiments.apga.APGAFunction;
 import experiments.es.ESFunction;
 import experiments.ga.GAFunction;
 /**
@@ -27,7 +28,7 @@ import experiments.ga.GAFunction;
  * @version 1.0      
  */
 // 此处要添加OtherFunction接口即implements PSOFunction,GAFunction,ESFunction,OtherFunction  添加完了就可以了，不需要其它修改了
-public class OptimizeFunction implements PSOFunction,GAFunction,ESFunction,OtherFunction
+public class OptimizeFunction implements PSOFunction,GAFunction,ESFunction,APGAFunction
 {
 	/**
 	 *  不确定参数顺序

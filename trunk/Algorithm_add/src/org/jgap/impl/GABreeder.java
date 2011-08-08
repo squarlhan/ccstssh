@@ -10,9 +10,9 @@
 package org.jgap.impl;
 
 import experiments.Matrix;
-import experiments.ga.APGATest;
-import experiments.ga.GAFunction;
-import experiments.ga.clustObjectFun;
+import experiments.apga.APGAFunction;
+import experiments.apga.APGA;
+import experiments.apga.clustObjectFun;
 
 import java.util.Collection;
 import java.util.List;
@@ -53,7 +53,9 @@ public class GABreeder
    * @author Klaus Meffert
    * @since 3.2
    */
-  public Population evolve(Population a_pop, Configuration a_conf, APGATest obj,   GAFunction fitness, int ap_num, double ap_lamda, double fit_lamda) {
+  public Population evolve(Population a_pop, Configuration a_conf, APGA obj,  
+		  APGAFunction fitness, int ap_num, double ap_lamda, 
+		  double fit_lamda, double cutoff, double extra) {
     Population pop = a_pop;
     int originalPopSize = a_conf.getPopulationSize();
     boolean monitorActive = a_conf.getMonitor() != null;
@@ -179,7 +181,7 @@ public class GABreeder
           IEvolutionMonitor.MONITOR_EVENT_BEFORE_UPDATE_CHROMOSOMES2,
           a_conf.getGenerationNr(), new Object[]{pop});
     }
-    updateChromosomes(pop, a_conf, obj, fitness, ap_num, ap_lamda, fit_lamda);
+    updateChromosomes(pop, a_conf, obj, fitness, ap_num, ap_lamda, fit_lamda, cutoff, extra);
     if (monitorActive) {
       // Monitor that fitness value of chromosomes is being updated.
       // -----------------------------------------------------------
@@ -519,12 +521,12 @@ public class GABreeder
 	    }
 	  }
   
-  protected void updateChromosomes(Population a_pop, Configuration a_conf, APGATest obj,  GAFunction fitness) {
+  protected void updateChromosomes(Population a_pop, Configuration a_conf, APGA obj,  APGAFunction fitness) {
 	  clustObjectFun cof = new clustObjectFun();
 	  cof.calcFittnessValueDrictely(a_pop, obj, fitness);
   }
   
-  protected void updateChromosomes(Population a_pop, Configuration a_conf, APGATest obj,  GAFunction fitness, int ap_num, double ap_lamda, double fit_lamda) {
+  protected void updateChromosomes(Population a_pop, Configuration a_conf, APGA obj, APGAFunction fitness, int ap_num, double ap_lamda, double fit_lamda, double cutoff, double extra) {
 		
 			double[][] chromatrix = pop2matrix(a_pop).data;
 			double[][] dis = EucDistance.calcEucMatrix(chromatrix);
@@ -557,7 +559,7 @@ public class GABreeder
 				}
 				System.err.println("Cluster Error, 0 result!");	
 			}
-			List<Double> objests = cof.calcFittnessValue(a_pop, obj, fitness, results, dis, fit_lamda);
+			List<Double> objests = cof.calcFittnessValue(a_pop, obj, fitness, results, dis, fit_lamda, cutoff, extra);
 			// for (int i = 0; i < currentPopSize; i++) {
 			// IChromosome chrom = a_pop.getChromosome(i);
 			// System.out.print(chrom.getFitnessValue()+";");

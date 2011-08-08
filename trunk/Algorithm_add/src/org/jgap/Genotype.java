@@ -17,8 +17,8 @@ import org.jgap.audit.*;
 import org.jgap.distr.*;
 import org.jgap.impl.job.*;
 
-import experiments.ga.APGATest;
-import experiments.ga.GAFunction;
+import experiments.apga.APGA;
+import experiments.apga.APGAFunction;
 
 /**
  * Genotypes are fixed-length populations of chromosomes. As an instance of
@@ -231,9 +231,9 @@ public class Genotype
     setPopulation(newPop);
   }
   
-  public synchronized void evolve(APGATest obj,  GAFunction fitness, int ap_num, double ap_lamda, double fit_lamda) {
+  public synchronized void evolve(APGA obj,  APGAFunction fitness, int ap_num, double ap_lamda, double fit_lamda, double cutoff, double extra) {
 	    IBreeder breeder = getConfiguration().getBreeder();
-	    Population newPop = breeder.evolve(getPopulation(), getConfiguration(), obj, fitness, ap_num, ap_lamda, fit_lamda);
+	    Population newPop = breeder.evolve(getPopulation(), getConfiguration(), obj, fitness, ap_num, ap_lamda, fit_lamda, cutoff, extra);
 	    setPopulation(newPop);
 	  }
  

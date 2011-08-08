@@ -14,7 +14,7 @@ import SimulateManage.TreadPool.ITreadTask;
 import SimulateManage.TreadPool.TaskRunInfo;
 import Tolerance.ResponseValue;
 import experiments.Matrix;
-import experiments.es.ES;
+import experiments.apga.APGA;
 
 
 /**
@@ -22,7 +22,7 @@ import experiments.es.ES;
  * @author 
  *
  */
-public class OtherOptimize
+public class APGAOptimize
 {
 	/**
 	 * 线程池管理
@@ -58,14 +58,9 @@ public class OtherOptimize
 	 * 目标函数值矩阵
 	 */
 	private Matrix pBest = null;
-	
-	/**
-	 * 最大参数范围组
-	 */
-	private Matrix largest = null;
 
 	/**
-	 * 进化策略算法优化
+	 * 聚类遗传算法优化
 	 * @param taskManage 线程池管理
 	 * @param methodInfo 方法信息
 	 * @param tri 任务运行信息
@@ -76,7 +71,7 @@ public class OtherOptimize
 	 * @param tasklog 任务日志信息
 	 * @param globals 目标函数值
 	 */
-	public OtherOptimize(ITreadTask taskManage,MethodInfo methodInfo, TaskRunInfo tri,
+	public APGAOptimize(ITreadTask taskManage,MethodInfo methodInfo, TaskRunInfo tri,
 			Vector<ArrayList<SimulatedUnParameter>> arrParam,
 			Vector<ResponseValue> arrResponse, String rangeFile,
 			Semaphore taskPopedom, TaskLogInfo tasklog, Double[] globals)
@@ -105,23 +100,21 @@ public class OtherOptimize
 		// Matrix lastV = null;
 		
 		//此处的ES算法改为新建的Other算法类
-	     Other es = new Other();
+	     APGA apga = new APGA();
 		
-		Object[] result = es.Calculate(fun,consValue, lastPos, pBest,
+		Object[] result = apga.Calcuate(fun,consValue, lastPos, pBest,
 				esParamesInfo.getNgInt(),esParamesInfo.getChSigma(),esParamesInfo.getOneFifth_gen());
 
 		this.lastPos = (Matrix) result[0];
 		this.pBest = (Matrix) result[1];
 		this.consValue = (Matrix) result[2];
-		this.largest = (Matrix) result[3];
 	}
 
 	/**
-	 * 进化策略算法优化
+	 * 聚类遗传算法优化
 	 * @param lastPos    不确定参数组矩阵
 	 * @param pBest      目标函数值矩阵
 	 * @param consValue  参数范围矩阵
-	 * @param largest    最大参数范围组
 	 * @param taskManage 线程池管理
 	 * @param methodInfo 方法信息
 	 * @param tri 任务完成信息
@@ -131,7 +124,7 @@ public class OtherOptimize
 	 * @param taskPopedom 任务通道信号量
 	 * @param tasklog 任务日志信息
 	 */
-	public OtherOptimize(Matrix lastPos, Matrix pBest, Matrix consValue,Matrix largest,
+	public APGAOptimize(Matrix lastPos, Matrix pBest, Matrix consValue,
 			ITreadTask taskManage,MethodInfo methodInfo,TaskRunInfo tri,
 			ArrayList<SimulatedUnParameter> orderParam,
 			Vector<ResponseValue> arrResponse, String rangeFile,
@@ -144,15 +137,14 @@ public class OtherOptimize
 		this.lastPos = lastPos;
 		this.pBest = pBest;
 		this.consValue = consValue;
-		this.largest = largest;
 		ESParamsInfo esParamesInfo = (ESParamsInfo)methodInfo.getParamStruct();
 		
 		OptimizeFunction fun = new OptimizeFunction(orderParam, taskManage,
 				tri, arrResponse, tasklog);
 		fun.SetTaskPopedom(taskPopedom);
-		 ES es = new ES();
+		 APGA apga = new APGA();
 			
-			Object[] result = es.Calculate(fun, largest,consValue, lastPos, pBest,
+			Object[] result = apga.Calculate(fun, consValue, lastPos, pBest,
 				esParamesInfo.getNgInt(), esParamesInfo.getChSigma(),
 				esParamesInfo.getOneFifth_gen());
 		// GATest ga = new GATest();
@@ -161,8 +153,7 @@ public class OtherOptimize
 		// gaParamesInfo.getK(),
 //				gaParamesInfo.getPt(), consValue, lastPos, pBest,gaParamesInfo.getNG());
 
-		nIterateCount = es.GetIterateCount();
-		this.largest = (Matrix)result[3];
+		nIterateCount = apga.getnIterateCount();
 		this.consValue = (Matrix) result[2];
 		this.lastPos = (Matrix) result[0];
 		this.pBest = (Matrix) result[1];
@@ -337,14 +328,6 @@ public class OtherOptimize
 		return new Matrix[] { value, pInit };
 	}
 
-	/**
-	 *  取各不确定参数范围最大值矩阵
-	 * @return 各不确定参数范围最大值矩阵
-	 */
-	public Matrix GetLargest()
-	{
-		return largest;
-	}
 	
 	/**
 	 * 获取不确定参数组矩阵

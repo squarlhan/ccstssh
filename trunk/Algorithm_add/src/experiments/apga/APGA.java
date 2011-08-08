@@ -1,4 +1,4 @@
-package experiments.ga;
+package experiments.apga;
 
 import java.text.DecimalFormat;
 
@@ -13,12 +13,22 @@ import org.jgap.impl.DefaultConfiguration;
 import org.jgap.impl.DoubleGene;
 
 import experiments.Matrix;
+import experiments.ga.GAFunction;
+import experiments.ga.MaxFunction;
 
-public class APGATest {
+public class APGA {
+private int nIterateCount=0;
+private Population bestPop = null;
 	
-	private int nIterateCount=0;
 	
-	
+	public Population getBestPop() {
+	return bestPop;
+}
+
+public void setBestPop(Population bestPop) {
+	this.bestPop = bestPop;
+}
+
 	public int getnIterateCount() {
 		return nIterateCount;
 	}
@@ -30,18 +40,18 @@ public class APGATest {
 	/**
 	 * 基因算法优化
 	 * @param fitness 目标函数
-	 * @param Pc      交叉概率
-	 * @param pc1    交叉概率1
+	 * @param Pc      交叉概率 用来指定模式发现的概率，0到1之间
+	 * @param pc1    交叉概率1 用来指定模式发现的增幅，0到1之间
 	 * @param Pm      变异概率 用来指定ap算法迭代次数
-	 * @param T       ap算法的lamda，决定收敛速度，越大越慢
-	 * @param Pt      ap算法后，估算适应度的lamda
+	 * @param T       ap算法的lamda，决定收敛速度，越大越慢 0.5到0.95之间
+	 * @param Pt      ap算法后，估算适应度的lamda 0到1之间
 	 * @param consValue 不确定参数取值范围矩阵 2行N列
 	 * @param lastPos   初始种群 M行N列
 	 * @param pBest     适应度 1行M列
 	 * @param NG        基因算法内部优化迭代次数
 	 * @return Object[] 新种群，更新后的适应度，不确定参数取值范围矩阵
 	 */
-	public Object[] Calculate(GAFunction fitness, double Pc, double pc1,
+	public Object[] Calculate(APGAFunction fitness, double Pc, double pc1,
 			double Pm, double T, double Pt, Matrix consValue, Matrix lastPos,
 			Matrix pBest, int NG) {
 		//确认所有矩阵的大小正确
@@ -59,6 +69,24 @@ public class APGATest {
 			    return null;
 		    }
 		}
+		if(Pc>=1||Pc<=0){
+			System.out.println("Pc Should be between 0 and 1");
+		    return null;
+		}
+		if(pc1>=1||pc1<0){
+			System.out.println("pc1 Should be between 0 and 1");
+		    return null;
+		}
+		if(Pt>=1||Pt<=0){
+			System.out.println("Pt Should be between 0 and 1");
+		    return null;
+		}
+		if(T>=0.95||T<=0.5){
+			System.out.println("T Should be between 0.5 and 0.95");
+		    return null;
+		}
+		
+		
 		int popSize = lastPos.getM();
 		int chromeSize = lastPos.getN();
 		Matrix pBest_ga = new Matrix(lastPos.data);
@@ -68,6 +96,8 @@ public class APGATest {
 		gaConf.setPreservFittestIndividual(true);
 		gaConf.setKeepPopulationSizeConstant(false);
 		Genotype genotype = null;
+		
+		
 		
 		try {
 			//构建基因(Gene)
@@ -82,6 +112,9 @@ public class APGATest {
 			gaConf.setPopulationSize(popSize);	
 			gaConf.setFitnessFunction(new MaxFunction());
 			genotype = Genotype.randomInitialGenotype(gaConf);
+			
+			bestPop = new Population(gaConf);
+			
 			if(lastPos!=null){		
                 for(int i = 0; i<=popSize-1; i++){
                 	//DoubleGene[] tempGenes = new DoubleGene[chromeSize];
@@ -105,12 +138,17 @@ public class APGATest {
 		int percentEvolution = numEvolutions / 10;
 		for (int i = 0; i < numEvolutions; i++) {
         	//Start GA
-			genotype.evolve(this, fitness, (int)Pm, T, Pt);
+			genotype.evolve(this, fitness, (int)Pm, T, Pt, Pc, pc1);
 			// Print progress.
 			// ---------------
 			if (percentEvolution > 0 && i % percentEvolution == 0) {
 				progress++;
-				IChromosome fittest = genotype.getFittestChromosome();
+				IChromosome fittest = null;
+				if(bestPop.size()>popSize/2){
+					fittest = bestPop.determineFittestChromosome();
+				}else{
+					fittest = genotype.getFittestChromosome();
+				}			
 				double best_fitness = fittest.getFitnessValueDirectly();
 				System.out.println("Currently fittest Chromosome has fitness "+ best_fitness);
 				// if (fitness >= maxFitness) {
@@ -120,7 +158,12 @@ public class APGATest {
 		}
 		// Print summary.
 		// --------------
-		IChromosome fittest = genotype.getFittestChromosome();
+		IChromosome fittest = null;
+		if(bestPop.size()>0){
+			fittest = bestPop.determineFittestChromosome();
+		}else{
+			fittest = genotype.getFittestChromosome();
+		}			
 		System.out.println("Fittest Chromosome has fitness "+ fittest.getFitnessValueDirectly());
 		DecimalFormat myformat = new DecimalFormat("#0.00");
 		for (int i = 0; i < chromeSize; i++) {
@@ -130,10 +173,10 @@ public class APGATest {
 		System.out.println("sum counts: " + MaxFunction.counts);
 		
 		//处理返回结果
-		for(int i = 0; i<=popSize-1; i++){
-        	pBest.data[0][i] = genotype.getPopulation().getChromosome(i).getFitnessValueDirectly();
+		for(int i = 0; i<=bestPop.size()-1; i++){
+        	pBest.data[0][i] = bestPop.getChromosome(i).getFitnessValueDirectly();
 		}
-		pBest_ga = pop2matrix(genotype.getPopulation());
+		pBest_ga = pop2matrix(bestPop);
 		return new Object[] { pBest_ga, pBest, consValue };
 
 	}// end of this math
@@ -151,68 +194,5 @@ public class APGATest {
 			  }
 		  }
 		  return result;
-	  }
-	
-	public  void runapgaexample() {
-		long startTime=System.currentTimeMillis();
-		int numEvolutions = 200;
-		Configuration gaConf = new DefaultConfiguration();
-		gaConf.setPreservFittestIndividual(true);
-		gaConf.setKeepPopulationSizeConstant(false);
-		Genotype genotype = null;
-		int chromeSize = 2;
-		double maxFitness = 2 * Math.pow(5.12, 2.0);
-		try {
-			//构建基因(Gene)
-			Gene[] sampleGenes = new DoubleGene[chromeSize];//基因长度
-			 for (int i = 0; i < sampleGenes.length; i++) {					    
-					sampleGenes[i] = new DoubleGene(gaConf, -5.12, 5.12);
-			 }
-			// 构建染色体(Chromosome)
-			 IChromosome sampleChromosome = new Chromosome(gaConf, sampleGenes);
-			gaConf.setSampleChromosome(sampleChromosome);
-
-			gaConf.setPopulationSize(40);	
-			gaConf.setFitnessFunction(new MaxFunction());
-			genotype = Genotype.randomInitialGenotype(gaConf);
-			//genotype.getConfiguration().setFitnessFunction(new APFunction(genotype));
-		} catch (InvalidConfigurationException e) {
-			e.printStackTrace();
-			System.exit(-2);
-		}
-		int progress = 0;
-		int percentEvolution = numEvolutions / 10;
-		for (int i = 0; i < numEvolutions; i++) {
-			
-			
-			//Start GA
-			genotype.evolve(this,  new MaxFunction(), 100, 0.7, 0.7);
-			// Print progress.
-			// ---------------
-			if (percentEvolution > 0 && i % percentEvolution == 0) {
-				progress++;
-				IChromosome fittest = genotype.getFittestChromosome();
-				double fitness = fittest.getFitnessValueDirectly();
-				System.out.println("Currently fittest Chromosome has fitness "
-						+ fitness);
-
-				System.out.println("counts:  "+ nIterateCount);
-				// if (fitness >= maxFitness) {
-				// break;
-				// }
-			}
-		}
-		// Print summary.
-		// --------------
-		IChromosome fittest = genotype.getFittestChromosome();
-		System.out.println("Fittest Chromosome has fitness "
-				+ (maxFitness-fittest.getFitnessValueDirectly()));
-		DecimalFormat myformat = new DecimalFormat("#0.00");
-		for (int i = 0; i < 2; i++) {
-
-			System.out.println(myformat.format(fittest.getGene(i).getAllele()));
-		}
-		long endTime=System.currentTimeMillis();
-	    System.out.println("运行时间： "+(endTime-startTime)+"ms");
 	}
 }
