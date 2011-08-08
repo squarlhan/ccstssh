@@ -15,6 +15,7 @@ import org.jgap.*;
 import org.jgap.impl.*;
 
 import experiments.Matrix;
+import experiments.apga.APGAFunction;
 
 /**
  * Fitness function for our example. See evaluate(...) method for details.
@@ -24,7 +25,7 @@ import experiments.Matrix;
  * @since 2.0
  */
 public class MaxFunction 
-    extends FitnessFunction implements  GAFunction{
+    extends FitnessFunction implements  APGAFunction{
   /** String containing the CVS revision. Read out via reflection!*/
   private final static String CVS_REVISION = "$Revision: 1.6 $";
   
@@ -60,7 +61,7 @@ public class MaxFunction
 @Override
 public Double[] excute(Matrix data, int nIterateCount) {
 	// TODO Auto-generated method stub
-	int time_delay = 100;
+	int time_delay = 0;
 	if(data == null)return null;
 	int m = data.getM();
 	int n = data.getN();
@@ -74,9 +75,12 @@ public Double[] excute(Matrix data, int nIterateCount) {
 	for(int i = 0; i<=m-1; i++){
 		double total = 0;
 		for(int j = 0; j<=n-1; j++){
+//			total +=  (data.data[i][j]*data.data[i][j]-10*Math.cos(2*data.data[i][j]*Math.PI)+10);
 			total+=Math.pow(data.data[i][j], 2.0);
 		}
-		results[i] = 2*Math.pow(5.12, 2.0)-total;
+//		results[i] = n*111-total;
+		
+		results[i] = n*Math.pow(10, 2.0)-total;
 	}
 	counts += m;
 	return results;

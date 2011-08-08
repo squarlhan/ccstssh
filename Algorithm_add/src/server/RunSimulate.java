@@ -28,6 +28,7 @@ import Tolerance.ReadReParamXML;
 import Tolerance.ResponseValue;
 import experiments.Matrix;
 import experiments.bayes.bayes_lhs_uniform;
+import experiments.apga.APGA;
 
 /**
  * 任务调度。调用算法生成不确定参数，添加任务�?
@@ -449,51 +450,49 @@ public class RunSimulate
 				}
 			}
 			
-			//在这个地方加入新的优化算法判断
-			if (//根据算法的名称判读，参照上面的ES算法)
-			{
-				//此处不用改
-				if (i > 0)
-				{
-					// 注册算法与任务日志编号关联
-					SimulateManage.getTaskWatch().addTaskId(taskInfo.ti.sUserName,
-							methodInfo.getMethodID(), newTaskLog.getId());
-					
-					//此处改为对应的新添加的算法管理类，此处添加一个类为OtherOptimize
-					OtherOptimize es = null;
+			// 快速遗传算法
+						if (methodInfo.getMethodName().equals("快速遗传算法") || methodInfo.getMethodName().equals("APGA"))
+						{
+							if (i > 0)
+							{
+								// 注册算法与任务日志编号关�?
+								SimulateManage.getTaskWatch().addTaskId(taskInfo.ti.sUserName,
+										methodInfo.getMethodID(), newTaskLog.getId());
+								System.out.println("调用快速遗传算法");
+								APGAOptimize apga = null;
 
-					// 算法内部迭代，需要将添加任务接口传入
-					if (lastPos == null)
-					{
-						// 初次优化
-						es = new OtherOptimize(threadPool, methodInfo, taskInfo,
-								parameterFile, arrResponse,
-								taskInfo.sUncertainParam, taskPopedom,
-								newTaskLog, globals);
-						System.out.println("初次优化");
-					}
-					else
-					{
-						System.out.println("迭代优化");
-						// 迭代优化
-						es = new OtherOptimize(lastPos, pBest, consValue,largest,
-								threadPool, methodInfo, taskInfo, orderParam,
-								arrResponse, taskInfo.sUncertainParam,
-								taskPopedom, newTaskLog);
-					}
-					taskInfo.nStartIndex += es.GetIteratCount();
-					largest = es.GetLargest();
-					lastPos = es.GetLastPos();
-					pBest = es.GetPartBest();
-					consValue = es.GetConsValue();
-					orderParam = es.GetParamOrder();
+								// 算法内部迭代，需要将添加任务接口传入
+								if (lastPos == null)
+								{
+									// 初次优化
+									apga = new APGAOptimize(threadPool, methodInfo, taskInfo,
+											parameterFile, arrResponse,
+											taskInfo.sUncertainParam, taskPopedom,
+											newTaskLog, globals);
+									System.out.println("初次优化");
+								}
+								else
+								{
+									System.out.println("迭代优化");
+									// 迭代优化
+									apga = new APGAOptimize(lastPos, pBest, consValue,
+											threadPool, methodInfo, taskInfo, orderParam,
+											arrResponse, taskInfo.sUncertainParam,
+											taskPopedom, newTaskLog);
+								}
+								taskInfo.nStartIndex += apga.GetIteratCount();
+								lastPos = apga.GetLastPos();
+								pBest = apga.GetPartBest();
+								consValue = apga.GetConsValue();
+								orderParam = apga.GetParamOrder();
 
-				}
-				else
-				{
+							}
+							else
+							{
 
-				}
-			}
+							}
+
+						}
 			
 			if (methodInfo.getMethodName().equals("粒子�?) || methodInfo.getMethodName().equals("PSO"))
 			{

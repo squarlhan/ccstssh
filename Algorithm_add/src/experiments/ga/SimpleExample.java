@@ -46,19 +46,21 @@ public class SimpleExample {
 			
 
 				long startTime = System.currentTimeMillis();
-				int numEvolutions = 200;
+				int numEvolutions = 80;
 				Configuration gaConf = new DefaultConfiguration();
 
 				gaConf.setPreservFittestIndividual(true);
 				gaConf.setKeepPopulationSizeConstant(false);
-				Genotype genotype = null;
-				int chromeSize = 40;
-				double maxFitness = 2 * Math.pow(5.12, 2.0);
+				Genotype genotype = null;			
+				
+				int chromeSize = 30;
+//				double maxFitness =chromeSize * 111;
+				double maxFitness = chromeSize * Math.pow(10, 2.0);
 				try {
 					//构建基因(Gene)
-					Gene[] sampleGenes = new Gene[2];//基因长度2
+					Gene[] sampleGenes = new Gene[chromeSize];//基因长度2
 					 for (int i = 0; i < sampleGenes.length; i++) {					    
-							sampleGenes[i] = new DoubleGene(gaConf, -5.12, 5.12);
+							sampleGenes[i] = new DoubleGene(gaConf, -10, 10);
 					 }
 					// 构建染色体(Chromosome)
 					 IChromosome sampleChromosome = new Chromosome(gaConf, sampleGenes);
@@ -87,16 +89,19 @@ public class SimpleExample {
 				// --------------
 				IChromosome fittest = genotype.getFittestChromosome();
 				System.out.println("Fittest Chromosome has fitness "
-						+ (maxFitness-fittest.getFitnessValue()));
+						+ (fittest.getFitnessValue()));
 				DecimalFormat myformat = new DecimalFormat("#0.00");
-				for (int i = 0; i < 2; i++) {
+				for (int i = 0; i < chromeSize; i++) {
 
 					//System.out.println(myformat.format(((DoubleGene)fittest.getGene(i)).doubleValue()));
-					System.out.println(myformat.format(fittest.getGene(i).getAllele()));
+					System.out.print(myformat.format(fittest.getGene(i).getAllele())+"	");
 				}
+				System.out.println();
 				long endTime = System.currentTimeMillis();
 				System.out.println("运行时间 " + (endTime - startTime) + "ms");
 				System.out.println("sum counts:  "+ SimpleMaxFunction.counts);
+				
+				
 			
 	}
 }

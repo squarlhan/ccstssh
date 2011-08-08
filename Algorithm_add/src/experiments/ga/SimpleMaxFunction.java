@@ -54,21 +54,24 @@ public class SimpleMaxFunction
    */
   public double evaluate(IChromosome a_subject) {
     double total = 0;
-    int time_delay = 100;
+    int time_delay = 0;
     try {
 		Thread.sleep(time_delay);
 	} catch (InterruptedException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-    //double[] decs = Bin2Dec.binstr2decstr(a_subject, 20, 5.12, -5.12);
-    for (int i = 0; i < 2; i++) {
+    int n = a_subject.size();
+    for (int i = 0; i < n; i++) {
       
-        total += Math.pow(((DoubleGene)a_subject.getGene(i)).doubleValue(), 2.0);
+//    	total +=  (((DoubleGene)a_subject.getGene(i)).doubleValue()*((DoubleGene)a_subject.getGene(i)).doubleValue()
+//    			-10*Math.cos(2*((DoubleGene)a_subject.getGene(i)).doubleValue()*Math.PI)+10);
+    	total += Math.pow(((DoubleGene)a_subject.getGene(i)).doubleValue(), 2.0);
       
     }
     counts ++;
-    return 2*Math.pow(5.12, 2.0)-total;
+//    return n*111-total;
+    return n*Math.pow(10, 2.0)-total; 
   }
 
 @Override
