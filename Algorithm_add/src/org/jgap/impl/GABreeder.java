@@ -108,7 +108,7 @@ public class GABreeder
           IEvolutionMonitor.MONITOR_EVENT_BEFORE_UPDATE_CHROMOSOMES1,
           a_conf.getGenerationNr(), new Object[]{pop});
     }
-    updateChromosomes(pop, a_conf, obj, fitness);
+    updateChromosomes(pop, a_conf, obj, fitness, cutoff);
     if (monitorActive) {
       // Monitor that fitness value of chromosomes is being updated.
       // -----------------------------------------------------------
@@ -521,9 +521,9 @@ public class GABreeder
 	    }
 	  }
   
-  protected void updateChromosomes(Population a_pop, Configuration a_conf, APGA obj,  APGAFunction fitness) {
+  protected void updateChromosomes(Population a_pop, Configuration a_conf, APGA obj,  APGAFunction fitness, double cutoff) {
 	  clustObjectFun cof = new clustObjectFun();
-	  cof.calcFittnessValueDrictely(a_pop, obj, fitness);
+	  cof.calcFittnessValueDrictely(a_pop, obj, fitness, cutoff);
   }
   
   protected void updateChromosomes(Population a_pop, Configuration a_conf, APGA obj, APGAFunction fitness, int ap_num, double ap_lamda, double fit_lamda, double cutoff, double extra) {

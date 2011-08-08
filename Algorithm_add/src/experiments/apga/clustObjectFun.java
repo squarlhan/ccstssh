@@ -2,6 +2,8 @@ package experiments.apga;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -99,11 +101,16 @@ public class clustObjectFun {
 		return objects;
 	}
     /**
+     * 返回一个模式
      * 维护一个前40fitness的种群
      * @param chroms 新产生的染色体
-     * @param bestPop 最好的种群
+     * @param obj 算法对象，里面包含最好的种群
+     * @param cutoff 有多少gene匹配上，认为这个染色体符合这个模式
      */
-    private static Population maintainbestchrom(List<IChromosome> chroms, APGA obj){
+    private static Map<Integer, Double> maintainbestchrom(List<IChromosome> chroms, APGA obj, Double cutoff){
+    	
+    	Map<Integer, Double> newpattern = new HashMap();
+    	
     	Population bestPop = obj.getBestPop();
     	int maxsize = bestPop.getConfiguration().getPopulationSize();
     	Population all = (Population) bestPop.clone();
@@ -137,7 +144,49 @@ public class clustObjectFun {
     		}
     	}
     	obj.setBestPop(bestPop);
-    	return bestPop;
+    	//根据新的最佳群体得到一个模式
+    	int m = bestPop.size();
+    	int n = bestPop.getConfiguration().getChromosomeSize();
+    	Matrix mydata = pop2matrix(bestPop);
+    	Double[] avgset = new Double[n];//平均值
+    	for(int j = 0; j<=n-1; j++){
+    		Double tempsum = 0.0;
+    		for(int i = 0; i<=m-1;i++){
+    			tempsum+=mydata.data[i][j];
+    		}
+    		avgset[j] = tempsum/m;
+    	}
+    	
+    	Map<Integer, Double> stddev = new HashMap();//标准差
+    	for(int j = 0; j<=n-1; j++){
+    		Double tempsum = 0.0;
+    		for(int i = 0; i<=m-1;i++){
+    			tempsum+=((mydata.data[i][j]-avgset[j])*(mydata.data[i][j]-avgset[j]));
+    		}
+    		stddev.put(j, Math.sqrt(tempsum/m));
+    	}
+
+		if (m >= maxsize / 2) {
+			List<Map.Entry<Integer, Double>> mappingList = null;
+			// 通过ArrayList构造函数把map.entrySet()转换成list
+			mappingList = new ArrayList<Map.Entry<Integer, Double>>(
+					stddev.entrySet());
+			// 通过比较器实现比较排序
+			Collections.sort(mappingList,
+					new Comparator<Map.Entry<Integer, Double>>() {
+						public int compare(Map.Entry<Integer, Double> mapping1,
+								Map.Entry<Integer, Double> mapping2) {
+							return mapping1.getValue().compareTo(
+									mapping2.getValue());
+						}
+					});
+
+			for (int i = 0; i <= mappingList.size() * cutoff - 1; i++) {
+				newpattern.put(mappingList.get(i).getKey(), mappingList.get(i)
+						.getValue());
+			}
+		}
+    	return newpattern;
     }
     /**
      * 判断一个新的染色体是否接近好的染色体
@@ -146,8 +195,8 @@ public class clustObjectFun {
      * @param cutoff 有多少gene匹配上，认为这个染色体符合这个模式
      * @return
      */
-    private static boolean EstimateFitness(IChromosome chrom, Population bestPop, Double cutoff){
-    	boolean result = false;
+    private static boolean EstimateFitness(IChromosome chrom, Population bestPop, Map<Integer, Double> newpattern){
+    	boolean result = true;
     	
     	int m = bestPop.size();
     	int n = chrom.size();
@@ -160,22 +209,12 @@ public class clustObjectFun {
     		}
     		avgset[j] = tempsum/m;
     	}
-    	Double[] stddev = new Double[n];//标准差
-    	for(int j = 0; j<=n-1; j++){
-    		Double tempsum = 0.0;
-    		for(int i = 0; i<=m-1;i++){
-    			tempsum+=((mydata.data[i][j]-avgset[j])*(mydata.data[i][j]-avgset[j]));
-    		}
-    		stddev[j] = Math.sqrt(tempsum/m);
-    	}
-    	int count = 0;
-    	for(int j = 0; j<=n-1; j++){
-    		Double genevalue = (Double) chrom.getGene(j).getAllele();
-    		if(Math.abs(genevalue-avgset[j])<=stddev[j])count++;
-    	}
-    	if(count>=cutoff*n){
-    		mycount++;
-    		return true;
+    	List<Map.Entry<Integer, Double>> mappingList =  new ArrayList<Map.Entry<Integer, Double>>(newpattern.entrySet());
+    	for(Map.Entry<Integer, Double> item:mappingList){
+    		int index = item.getKey();
+    		double p_value = item.getValue();
+    		double g_value = (Double) chrom.getGene(index).getAllele();
+    		if(Math.abs(g_value-avgset[index])>p_value)return false;
     	}
     	
     	return result;
@@ -189,7 +228,7 @@ public class clustObjectFun {
     	return results[0];
     }
     
-    public static  List<Double> calcFittnessValueDrictely(Population pop, APGA obj,  APGAFunction fitness){
+    public static  List<Double> calcFittnessValueDrictely(Population pop, APGA obj,  APGAFunction fitness, double cutoff){
    
     	List<Double> objects = new ArrayList();
     	List<Integer> nullfitset = new  ArrayList();
@@ -213,7 +252,7 @@ public class clustObjectFun {
 			null_chroms.get(i).setFitnessValue(fits[i]);
 			((Chromosome)null_chroms.get(i)).setIscenter(true);
 		}
-		maintainbestchrom(null_chroms, obj);
+		Map<Integer, Double> newpattern = maintainbestchrom(null_chroms, obj, cutoff);
         obj.setnIterateCount(obj.getnIterateCount()+null_chroms.size());
     	return objects;
     }
@@ -249,7 +288,7 @@ public class clustObjectFun {
 			}
 		}
 		
-		maintainbestchrom(center_chroms, obj);
+		Map<Integer, Double> newpattern = maintainbestchrom(center_chroms, obj, cutoff);
 
 		double dis_max = datamatrix[0][0];
 		double dis_min = datamatrix[0][0];
@@ -272,7 +311,7 @@ public class clustObjectFun {
 				double s = 1/(1+datamatrix[i][results.get(i)]);
 				object = ((1-lamda)*s+lamda)*centerObjects.get(results.get(i));
 				Population bestPop = obj.getBestPop();
-				if(bestPop.size()>=bestPop.getConfiguration().getPopulationSize()/2&&EstimateFitness(chrs.get(i), bestPop, cutoff)){
+				if(bestPop.size()>=bestPop.getConfiguration().getPopulationSize()/2&&EstimateFitness(chrs.get(i), bestPop, newpattern)){
 					object *= (1+extra);
 				}
 			}
