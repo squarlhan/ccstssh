@@ -1,6 +1,12 @@
 package experiments.apga;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.jgap.Chromosome;
 import org.jgap.Configuration;
@@ -19,8 +25,18 @@ import experiments.ga.MaxFunction;
 public class APGA {
 private int nIterateCount=0;
 private Population bestPop = null;
+private List<String> patterns = new ArrayList();
+
 	
 	
+	public List<String> getPatterns() {
+	return patterns;
+}
+
+public void setPatterns(List<String> patterns) {
+	this.patterns = patterns;
+}
+
 	public Population getBestPop() {
 	return bestPop;
 }
@@ -177,10 +193,43 @@ public void setBestPop(Population bestPop) {
         	pBest.data[0][i] = bestPop.getChromosome(i).getFitnessValueDirectly();
 		}
 		pBest_ga = pop2matrix(bestPop);
+		printsth();
 		return new Object[] { pBest_ga, pBest, consValue };
 
 	}// end of this math
 
+	private void printsth(){
+		try {
+			File result = new File("patterns.txt");
+			if (result.exists()) {
+				result.delete();
+				if (result.createNewFile()) {
+					System.out.println("result file create success!");
+				} else {
+					System.out.println("result file create failed!");
+				}
+			} else {
+				if (result.createNewFile()) {
+					System.out.println("result file create success!");
+				} else {
+					System.out.println("result file create failed!");
+				}
+
+			}
+
+			BufferedWriter output = new BufferedWriter(new FileWriter(result));
+			
+			for(String pattern : patterns){
+				output.write(pattern+"\n");
+			}
+			
+			output.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	private Matrix pop2matrix(Population pop){
 		  if(pop==null){
 			  return null;
