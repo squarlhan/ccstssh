@@ -185,6 +185,16 @@ public class clustObjectFun {
 				newpattern.put(mappingList.get(i).getKey(), mappingList.get(i)
 						.getValue());
 			}
+			
+			String pattern = "";
+			for(int i = 0; i<=n-1; i++){
+				if(newpattern.get(i)==null){
+					pattern+="*\t";
+				}else{
+					pattern = pattern + Math.floor(newpattern.get(i)) + "\t";
+				}
+			}
+			obj.getPatterns().add(pattern);
 		}
     	return newpattern;
     }
