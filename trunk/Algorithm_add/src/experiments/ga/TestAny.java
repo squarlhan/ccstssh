@@ -45,7 +45,7 @@ public class TestAny {
 //			pBest.data[0][i] = n*111-total;
 			pBest.data[0][i] = n*Math.pow(10, 2.0)-total;
 		}
-		a1.Calculate(new MaxFunction(), 0.4, 0.03, 100.0, 0.8, 0.7, consValue, lastPos, pBest, 200);
+		a1.Calculate(new MaxFunction(), 0.1, 0.0, 100.0, 0.8, 0.7, consValue, lastPos, pBest, 200);
 		//a1.runapgaexample();
 
 		long endTime = System.currentTimeMillis();

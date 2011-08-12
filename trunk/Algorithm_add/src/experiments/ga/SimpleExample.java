@@ -46,7 +46,7 @@ public class SimpleExample {
 			
 
 				long startTime = System.currentTimeMillis();
-				int numEvolutions = 80;
+				int numEvolutions = 200;
 				Configuration gaConf = new DefaultConfiguration();
 
 				gaConf.setPreservFittestIndividual(true);
