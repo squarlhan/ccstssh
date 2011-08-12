@@ -100,8 +100,84 @@ public class clustObjectFun {
 
 		return objects;
 	}
+ /**
+  *    通过计算历史最佳染色体的标准差，小于cutoff认为是一个模式
+  * @param chroms 新产生的染色体
+  * @param obj 算法对象
+  * @param cutoff 阈值
+  * @return 返回一个模式
+  */
+private static Map<Integer, Double> maintainbestchromlesscutoff(List<IChromosome> chroms, APGA obj, Double cutoff){
+    	
+    	Map<Integer, Double> newpattern = new HashMap();
+    	
+    	Population bestPop = obj.getBestPop();
+    	int maxsize = bestPop.getConfiguration().getPopulationSize();
+    	Population all = (Population) bestPop.clone();
+    	if(chroms!=null&&chroms.size()>0){
+    		for(IChromosome chrom:chroms){
+    			all.addChromosome(chrom);
+    		}
+    	}
+    	
+    	
+    	
+    	int nowsize = all.size();
+    	if(nowsize<=maxsize){
+    		bestPop.clear();
+    		bestPop = (Population) all.clone();
+    	}else{
+    		all.sortByFitness();
+    		bestPop.clear();
+    		for(int i=0;i<=maxsize-1;i++){
+    			bestPop.addChromosome((IChromosome) all.getChromosome(i).clone());
+    		}
+    	}
+    	obj.setBestPop(bestPop);
+    	//根据新的最佳群体得到一个模式
+    	
+    	
+    	int m = bestPop.size();
+    	int n = bestPop.getConfiguration().getChromosomeSize();
+    	
+    	if(m>=maxsize){
+			Matrix mydata = pop2matrix(bestPop);
+			Double[] avgset = new Double[n / 2];// 平均值
+			for (int j = 0; j <= n / 2 - 1; j++) {
+				Double tempsum = 0.0;
+				for (int i = 0; i <= m - 1; i++) {
+					tempsum += mydata.data[i][j];
+				}
+				avgset[j] = tempsum / m;
+			}
+
+			// 标准差
+			for (int j = 0; j <= n / 2 - 1; j++) {
+				Double tempsum = 0.0;
+				for (int i = 0; i <= m - 1; i++) {
+					tempsum += ((mydata.data[i][j] - avgset[j]) * (mydata.data[i][j] - avgset[j]));
+				}
+				double stddev = Math.sqrt(tempsum / m);
+				if (stddev <= cutoff) {
+					newpattern.put(j, stddev);
+				}
+			}
+
+			String pattern = "";
+			for (int i = 0; i <= n - 1; i++) {
+				if (newpattern.get(i) == null) {
+					pattern += "*\t";
+				} else {
+					pattern = pattern + avgset[i] + "\t";
+				}
+			}
+			obj.getPatterns().add(pattern);
+		}
+    	return newpattern;
+    }
+    
     /**
-     * 返回一个模式
+     * 返回一个模式 通过计算历史最优的N个染色体各位上的标准差，取标准差最小的前size*cutoff个，作为模式
      * 维护一个前40fitness的种群
      * @param chroms 新产生的染色体
      * @param obj 算法对象，里面包含最好的种群
@@ -198,6 +274,42 @@ public class clustObjectFun {
 		}
     	return newpattern;
     }
+    
+    
+    /**
+     * 判断一个新的染色体能匹配上模式多少
+     * @param chrom 新的染色体
+     * @param bestPop 好的染色体集合
+     * @param newpattern 模式
+     * @return
+     */
+    private static int EstimateFitnessHowmuch(IChromosome chrom, Population bestPop, Map<Integer, Double> newpattern){
+    	int result = 0;
+    	
+    	int m = bestPop.size();
+    	int n = chrom.size();
+    	Matrix mydata = pop2matrix(bestPop);
+    	Double[] avgset = new Double[n];//平均值
+    	for(int j = 0; j<=n-1; j++){
+    		Double tempsum = 0.0;
+    		for(int i = 0; i<=m-1;i++){
+    			tempsum+=mydata.data[i][j];
+    		}
+    		avgset[j] = tempsum/m;
+    	}
+    	List<Map.Entry<Integer, Double>> mappingList =  new ArrayList<Map.Entry<Integer, Double>>(newpattern.entrySet());
+    	for(Map.Entry<Integer, Double> item:mappingList){
+    		int index = item.getKey();
+    		double p_value = item.getValue();
+    		double g_value = (Double) chrom.getGene(index).getAllele();
+    		if(Math.abs(g_value-avgset[index])<p_value){
+    			result++;
+    		}
+    	}
+    	
+    	return result;
+    }
+    
     /**
      * 判断一个新的染色体是否接近好的染色体
      * @param chrom 新的染色体
@@ -224,7 +336,9 @@ public class clustObjectFun {
     		int index = item.getKey();
     		double p_value = item.getValue();
     		double g_value = (Double) chrom.getGene(index).getAllele();
-    		if(Math.abs(g_value-avgset[index])>p_value)return false;
+    		if(Math.abs(g_value-avgset[index])>p_value){
+    			return false;
+    		}
     	}
     	
     	return result;
@@ -262,7 +376,7 @@ public class clustObjectFun {
 			null_chroms.get(i).setFitnessValue(fits[i]);
 			((Chromosome)null_chroms.get(i)).setIscenter(true);
 		}
-		Map<Integer, Double> newpattern = maintainbestchrom(null_chroms, obj, cutoff);
+		Map<Integer, Double> newpattern = maintainbestchromlesscutoff(null_chroms, obj, cutoff);
         obj.setnIterateCount(obj.getnIterateCount()+null_chroms.size());
     	return objects;
     }
@@ -298,7 +412,7 @@ public class clustObjectFun {
 			}
 		}
 		
-		Map<Integer, Double> newpattern = maintainbestchrom(center_chroms, obj, cutoff);
+		Map<Integer, Double> newpattern = maintainbestchromlesscutoff(center_chroms, obj, cutoff);
 
 		double dis_max = datamatrix[0][0];
 		double dis_min = datamatrix[0][0];
@@ -323,8 +437,9 @@ public class clustObjectFun {
 				double s = 1/(1+datamatrix[i][results.get(i)]);
 				tempfit = ((1-lamda)*s+lamda)*centerObjects.get(results.get(i));
 				Population bestPop = obj.getBestPop();
-				if(bestPop.size()>=bestPop.getConfiguration().getPopulationSize()/2&&EstimateFitness(chrs.get(i), bestPop, newpattern)){
-					tempfit = tempfit+tempfit*extra;
+				int e_much = EstimateFitnessHowmuch(chrs.get(i), bestPop, newpattern);
+				if(bestPop.size()>=bestPop.getConfiguration().getPopulationSize()&&e_much>0){
+					tempfit = tempfit+e_much*tempfit*extra/newpattern.size();
 					mycount++;
 				}
 			}
