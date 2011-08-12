@@ -142,22 +142,22 @@ private static Map<Integer, Double> maintainbestchromlesscutoff(List<IChromosome
     	
     	if(m>=maxsize){
 			Matrix mydata = pop2matrix(bestPop);
-			Double[] avgset = new Double[n / 2];// 平均值
-			for (int j = 0; j <= n / 2 - 1; j++) {
+			Double[] avgset = new Double[n];// 平均值
+			for (int j = 0; j <= n - 1; j++) {
 				Double tempsum = 0.0;
-				for (int i = 0; i <= m - 1; i++) {
+				for (int i = 0; i <= m/2 - 1; i++) {
 					tempsum += mydata.data[i][j];
 				}
-				avgset[j] = tempsum / m;
+				avgset[j] = 2*tempsum / m;
 			}
 
 			// 标准差
-			for (int j = 0; j <= n / 2 - 1; j++) {
+			for (int j = 0; j <= n - 1; j++) {
 				Double tempsum = 0.0;
-				for (int i = 0; i <= m - 1; i++) {
+				for (int i = 0; i <= m / 2 - 1; i++) {
 					tempsum += ((mydata.data[i][j] - avgset[j]) * (mydata.data[i][j] - avgset[j]));
 				}
-				double stddev = Math.sqrt(tempsum / m);
+				double stddev = Math.sqrt(2*tempsum / m);
 				if (stddev <= cutoff) {
 					newpattern.put(j, stddev);
 				}
