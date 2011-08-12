@@ -26,9 +26,18 @@ public class APGA {
 private int nIterateCount=0;
 private Population bestPop = null;
 private List<String> patterns = new ArrayList();
+private List<String> fitnessvalues = new ArrayList();
 
 	
 	
+	public List<String> getFitnessvalues() {
+	return fitnessvalues;
+}
+
+public void setFitnessvalues(List<String> fitnessvalues) {
+	this.fitnessvalues = fitnessvalues;
+}
+
 	public List<String> getPatterns() {
 	return patterns;
 }
@@ -156,6 +165,15 @@ public void setBestPop(Population bestPop) {
         	//Start GA
 			genotype.evolve(this, fitness, (int)Pm, T, Pt, Pc, pc1);
 			// Print progress.
+			
+			Population temppop = genotype.getPopulation();
+			for(IChromosome tempc : temppop.getChromosomes()){
+				if(!((Chromosome)tempc).isIscenter()){
+					System.out.println("no center!");
+					break;
+				}
+			}
+			
 			// ---------------
 			if (percentEvolution > 0 && i % percentEvolution == 0) {
 				progress++;
@@ -193,14 +211,15 @@ public void setBestPop(Population bestPop) {
         	pBest.data[0][i] = bestPop.getChromosome(i).getFitnessValueDirectly();
 		}
 		pBest_ga = pop2matrix(bestPop);
-		printsth();
+		printsth("patterns.txt", patterns);
+		printsth("values.txt", fitnessvalues);
 		return new Object[] { pBest_ga, pBest, consValue };
 
 	}// end of this math
 
-	private void printsth(){
+	private void printsth(String filename, List<String> contents){
 		try {
-			File result = new File("patterns.txt");
+			File result = new File(filename);
 			if (result.exists()) {
 				result.delete();
 				if (result.createNewFile()) {
@@ -219,7 +238,7 @@ public void setBestPop(Population bestPop) {
 
 			BufferedWriter output = new BufferedWriter(new FileWriter(result));
 			
-			for(String pattern : patterns){
+			for(String pattern : contents){
 				output.write(pattern+"\n");
 			}
 			
