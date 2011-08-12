@@ -317,24 +317,26 @@ public class clustObjectFun {
 		String evalone = "";
 		for(int i=0; i <= datamatrix.length-1; i++){
 			double tempfit  = 0.0;
-			double finalfit  = 0.0;
 			if(i==results.get(i)){
-				tempfit = centerObjects.get(i);
+				tempfit = centerObjects.get(i).doubleValue();
 			}else{
 				double s = 1/(1+datamatrix[i][results.get(i)]);
 				tempfit = ((1-lamda)*s+lamda)*centerObjects.get(results.get(i));
 				Population bestPop = obj.getBestPop();
 				if(bestPop.size()>=bestPop.getConfiguration().getPopulationSize()/2&&EstimateFitness(chrs.get(i), bestPop, newpattern)){
-					finalfit = tempfit+tempfit*extra;
+					tempfit = tempfit+tempfit*extra;
 					mycount++;
 				}
 			}
+		
 			realone = realone +  calconeFittnessValue(pop.getChromosome(i), obj,  fitness).intValue() +"\t";
-			evalone = evalone + (int)finalfit +"\t";
-			objects.add(finalfit);
-			if(pop.getChromosome(i).getFitnessValueDirectly()<0||!((Chromosome)pop.getChromosome(i)).isIscenter())
-			pop.getChromosome(i).setFitnessValue(finalfit);
+			evalone = evalone + (int)tempfit +"\t";
 			
+			objects.add(tempfit);
+			if(pop.getChromosome(i).getFitnessValueDirectly()<0||!((Chromosome)pop.getChromosome(i)).isIscenter()){
+			    pop.getChromosome(i).setFitnessValue(tempfit);
+			    ((Chromosome)pop.getChromosome(i)).setIscenter(false);
+			}
 		}
 		obj.getFitnessvalues().add(realone);
 		obj.getFitnessvalues().add(evalone);
