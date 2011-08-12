@@ -76,7 +76,7 @@ public class SimpleMaxFunction
 
 @Override
 public Double[] excute(Matrix data, int nIterateCount) {
-	int time_delay = 100;
+	int time_delay = 0;
 	// TODO Auto-generated method stub
 	if(data == null)return null;
 	int m = data.getM();
