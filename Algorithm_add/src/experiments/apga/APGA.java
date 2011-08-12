@@ -167,12 +167,6 @@ public void setBestPop(Population bestPop) {
 			// Print progress.
 			
 			Population temppop = genotype.getPopulation();
-			for(IChromosome tempc : temppop.getChromosomes()){
-				if(!((Chromosome)tempc).isIscenter()){
-					System.out.println("no center!");
-					break;
-				}
-			}
 			
 			// ---------------
 			if (percentEvolution > 0 && i % percentEvolution == 0) {
