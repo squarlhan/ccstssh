@@ -78,7 +78,7 @@ public void setBestPop(Population bestPop) {
 	 */
 	public Object[] Calculate(APGAFunction fitness, double Pc, double pc1,
 			double Pm, double T, double Pt, Matrix consValue, Matrix lastPos,
-			Matrix pBest, int NG) {
+			Matrix pBest, int NG, BufferedWriter output) {
 		//确认所有矩阵的大小正确
 		if(consValue==null||consValue.getM()!=2||consValue.getN()<1){
 			System.out.println("consValue   M:" + consValue.getM() + " N:"+ consValue.getN());
@@ -193,20 +193,31 @@ public void setBestPop(Population bestPop) {
 			fittest = genotype.getFittestChromosome();
 		}			
 		System.out.println("Fittest Chromosome has fitness "+ fittest.getFitnessValueDirectly());
-		DecimalFormat myformat = new DecimalFormat("#0.00");
-		for (int i = 0; i < chromeSize; i++) {
-			System.out.print(myformat.format(fittest.getGene(i).getAllele())+"	");
+		try {
+			output.write(fittest.getFitnessValueDirectly() + "\n");
+
+			DecimalFormat myformat = new DecimalFormat("#0.00");
+			for (int i = 0; i < chromeSize; i++) {
+				System.out.print(myformat
+						.format(fittest.getGene(i).getAllele()) + "	");
+				output.write(myformat.format(fittest.getGene(i).getAllele())
+						+ "	");
+			}
+			System.out.println();
+			output.write("\n");
+			System.out.println("sum counts: " + MaxFunction.counts);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		System.out.println();
-		System.out.println("sum counts: " + MaxFunction.counts);
 		
 		//处理返回结果
 		for(int i = 0; i<=bestPop.size()-1; i++){
         	pBest.data[0][i] = bestPop.getChromosome(i).getFitnessValueDirectly();
 		}
 		pBest_ga = pop2matrix(bestPop);
-		printsth("patterns.txt", patterns);
-		printsth("values.txt", fitnessvalues);
+		//printsth("patterns.txt", patterns);
+		//printsth("values.txt", fitnessvalues);
 		return new Object[] { pBest_ga, pBest, consValue };
 
 	}// end of this math

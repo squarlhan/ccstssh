@@ -1,5 +1,9 @@
 package experiments.ga;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -45,7 +49,57 @@ public class TestAny {
 //			pBest.data[0][i] = n*111-total;
 			pBest.data[0][i] = n*Math.pow(10, 2.0)-total;
 		}
-		a1.Calculate(new MaxFunction(), 0.1, 0.0, 100.0, 0.8, 0.7, consValue, lastPos, pBest, 200);
+		
+		try {
+			File result = new File("results.txt");
+			if (result.exists()) {
+				result.delete();
+				if (result.createNewFile()) {
+					System.out.println("result file create success!");
+				} else {
+					System.out.println("result file create failed!");
+				}
+			} else {
+				if (result.createNewFile()) {
+					System.out.println("result file create success!");
+				} else {
+					System.out.println("result file create failed!");
+				}
+
+			}
+			File result2 = new File("results2.txt");
+			if (result2.exists()) {
+				result2.delete();
+				if (result2.createNewFile()) {
+					System.out.println("result2 file create success!");
+				} else {
+					System.out.println("result2 file create failed!");
+				}
+			} else {
+				if (result2.createNewFile()) {
+					System.out.println("result2 file create success!");
+				} else {
+					System.out.println("result2 file create failed!");
+				}
+
+			}
+
+			BufferedWriter output = new BufferedWriter(new FileWriter(result));
+			BufferedWriter output2 = new BufferedWriter(new FileWriter(result2));
+			
+			for(int a=0; a<=49;a++){
+				a1.Calculate(new MaxFunction(), 0.1, 0.1, 100.0, 0.8, 0.7, consValue, lastPos, pBest, 200, output);
+				a1.Calculate(new CosMaxFunction(), 0.1, 0.1, 100.0, 0.8, 0.7, consValue, lastPos, pBest, 200, output2);
+			}
+			
+			output.close();
+			output2.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		//a1.runapgaexample();
 
 		long endTime = System.currentTimeMillis();
