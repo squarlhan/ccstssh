@@ -272,6 +272,16 @@ private static Map<Integer, Double> maintainbestchromlesscutoff(List<IChromosome
 			}
 			obj.getPatterns().add(pattern);
 		}
+		
+		String pat_str = "";
+		for(int i=0; i<= n-1; n++){
+			if(newpattern.get(i)==null){
+				pat_str+="*\t";
+			}else{
+				pat_str = pat_str + (newpattern.get(i).intValue())+"\t";
+			}
+		}
+		obj.getPatterns().add(pat_str);
     	return newpattern;
     }
     

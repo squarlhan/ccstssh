@@ -118,6 +118,7 @@ public void setBestPop(Population bestPop) {
 		
 		int numEvolutions = NG;
 		Configuration gaConf = new DefaultConfiguration();
+		gaConf.reset();
 		gaConf.setPreservFittestIndividual(true);
 		gaConf.setKeepPopulationSizeConstant(false);
 		Genotype genotype = null;
