@@ -780,6 +780,26 @@ public class MethodSelectDlg extends Dialog {
 							System.out.println(ps.getMethodName().toString());
 							ga.open();
 						}
+						else if(ps.getMethodName().equals(Messages.getString("MethodSelectDlg.apga"))) //$NON-NLS-1$
+						{
+							System.out.println("进入聚类遗传算法"); //$NON-NLS-1$
+							APGASettingsDialog apga = new APGASettingsDialog(shell);
+						//	System.out.println(pps.toString());
+							System.out.println(ps.getParamStruct().toString());
+							
+							APGAParamsInfo apgas = (APGAParamsInfo) ps.getParamStruct();
+							System.out.println("继续向前"); //$NON-NLS-1$
+							apga.setKInt(apgas.getK());
+							System.out.println("K :" + apgas.getK()); //$NON-NLS-1$
+							apga.setNgInt(apgas.getNG());
+							apga.setPc1Int(apgas.getPc1());
+							apga.setPc2Int(apgas.getPc2());
+							apga.setPmInt(apgas.getPm());
+							apga.setPtInt(apgas.getPt());
+							apga.setFlag(true);
+							System.out.println(ps.getMethodName().toString());
+							apga.open();
+						}
 						else if(ps.getMethodName().equals(Messages.getString("MethodSelectDlg.31"))) //$NON-NLS-1$
 						{
 							System.out.println("进入进化算法"); //$NON-NLS-1$
@@ -1028,7 +1048,7 @@ public class MethodSelectDlg extends Dialog {
 		 */
 		combo
 				.setItems(new String[] {
-						Messages.getString("MethodSelectDlg.27"), "Box-Behnken", Messages.getString("MethodSelectDlg.29"), Messages.getString("MethodSelectDlg.30"), Messages.getString("MethodSelectDlg.31"), Messages.getString("MethodSelectDlg.es"), //就在此处添加新加的算法名称 "addOtherAlgorithmName"}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+						Messages.getString("MethodSelectDlg.27"), "Box-Behnken", Messages.getString("MethodSelectDlg.29"), Messages.getString("MethodSelectDlg.30"), Messages.getString("MethodSelectDlg.31"), Messages.getString("MethodSelectDlg.es"), Messages.getString("MethodSelectDlg.apga")}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
 		combo.setBounds(139, 22, 174, 20);
 		// combo.select(0);
 
@@ -1186,7 +1206,7 @@ public class MethodSelectDlg extends Dialog {
 							|| combo.getText().equals(combo.getItem(4))
 							|| combo.getText().equals(combo.getItem(5))
 							//加入新算法的判断代码
-							|| combo.getTest().equals(combo.getItem(6)) {
+							|| combo.getTest().equals(combo.getItem(6))){
 
 						return;
 					}
@@ -1827,43 +1847,44 @@ public class MethodSelectDlg extends Dialog {
 					
 					//加入新算法的信息获取和设置代码，模仿上面的代码做适当的修改
 					
-					if (combo.getText().equals(combo.getItem(6))/*这里就是要是6了*/) {
-						//这里就是我们的新的算法的设置类，负责携带参数信息，这里我们负责携带的这个类为
-						//OtherAlgorithmSettion.java
-						OtherAlgorithmSettion es = new OtherAlgorithmSettion();
-						es.setProperty();
-						/*然后下面都是一些参数的获取信息，根据算法定义的参数来获取，代码都是差不多的，主要是
-						获取新算法也就OtherAlgorithmDialog.java对话框上面的算法本身的参数*/
+					// 如果是聚类遗传算法，弹出设置属性的对话框
+					if (combo.getText().equals(combo.getItem(6))) {
+						APGASettings apgas = new APGASettings();
+						apgas.setProperty();
 						if (text.getText() == "")return; //$NON-NLS-1$ //$NON-NLS-2$
 						if (Integer.parseInt(text.getText()) == 0) {
 							MessageBox msg = new MessageBox(shell.getShell(),
 									SWT.ICON_ERROR | SWT.OK);
-							
+							// MethodSelectDlg.37=错误
 							msg.setText(Messages
 									.getString("MethodSelectDlg.37")); //$NON-NLS-1$
-							
+							// MethodSelectDlg.38=迭代次数不能为0！
 							msg.setMessage(Messages
 									.getString("MethodSelectDlg.38")); //$NON-NLS-1$
 							msg.open();
 							return;
 						}
-						int ngInt = es.getngInt();
-						double chSigma = es.getchSigma();
-						int OneFifth_gen = es.getOneFifth_gen();// 
-						ESParamsInfo esInfo = new ESParamsInfo(ngInt, chSigma,
-								OneFifth_gen);
-						System.out.println("ngInt = " + ngInt + "chSigma = " //$NON-NLS-1$ //$NON-NLS-2$
-								+ chSigma + "OneFifth_gen = " + OneFifth_gen); //$NON-NLS-1$
-						if (es.getResult() == 0) {
+						double Pc1 = apgas.getPc1();// 交叉概率1
+						double Pc2 = apgas.getPc2();// 交叉概率2
+						double Pm = apgas.getPm();// 变异概率
+						double K = apgas.getK();// 温度系数
+						double Pt = apgas.getPt();// 降温系数
+						int NG = apgas.getNG();// 内部迭代次数
+						APGAParamsInfo apgapInfo = new APGAParamsInfo(Pc1, Pc2, Pm,
+								K, Pt, NG);
+						System.out
+								.println("Pc1 = " + Pc1 + "Pc2 = " + Pc2 + "Pm = " + Pm + "K = " + K + "Pt = " + Pt + "NG = " + NG); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+						if (apgas.getResult() == 0) {
 							return;
 						}
 						if (table_1.getItemCount() <= 1
 								|| table_1.getSelectionCount() == 0) {
-						
+							// MethodSelectDlg.39=串行
 							String sRunStyle = Messages
 									.getString("MethodSelectDlg.39"); //$NON-NLS-1$
 							if (button.getSelection()) {
-							
+								// MethodSelectDlg.40=并行
+								sRunStyle = Messages
 										.getString("MethodSelectDlg.40"); //$NON-NLS-1$
 							}
 							int num = Integer.parseInt(text_3.getText());
@@ -1881,8 +1902,8 @@ public class MethodSelectDlg extends Dialog {
 								method.setNum(1);
 								method.setParallelNum(1);
 								method.setRunStyle(sRunStyle);
-								method.setParamStruct(esInfo);
-								
+								method.setParamStruct(apgapInfo);
+								// MethodSelectDlg.41=并行
 								if (sRunStyle == Messages
 										.getString("MethodSelectDlg.41")) //$NON-NLS-1$
 									method.setParallelNum(num);
@@ -1894,6 +1915,7 @@ public class MethodSelectDlg extends Dialog {
 							text.setEnabled(false);
 							settingsButton.setEnabled(false);
 						}
+						// 在方法列表中显示迭代次数个优化算法
 						else {
 							tableItem = table_1.getSelection();
 							TableItem selectedItem = tableItem[0];
@@ -1932,7 +1954,7 @@ public class MethodSelectDlg extends Dialog {
 								method.setParallelNum(1);
 								method.setRunStyle(Messages
 										.getString("MethodSelectDlg.39")); //$NON-NLS-1$
-								method.setParamStruct(esInfo);
+								method.setParamStruct(apgapInfo);
 								sMethod.add(method);
 							}
 							for (int k = 0; k < num; k++) {
@@ -1945,7 +1967,7 @@ public class MethodSelectDlg extends Dialog {
 								tempMethod[k].setParallelNum(1);
 								tempMethod[k].setRunStyle(Messages
 										.getString("MethodSelectDlg.39")); //$NON-NLS-1$
-								tempMethod[k].setParamStruct(esInfo);
+								tempMethod[k].setParamStruct(apgapInfo);
 								sMethod.add(tempMethod[k]);
 							}
 							selectedMethod = new MethodInfo[table_1
@@ -2197,7 +2219,7 @@ public class MethodSelectDlg extends Dialog {
 						|| methodInfo.getMethodName().equals(Messages.getString("MethodSelectDlg.31")) //$NON-NLS-1$
 						|| methodInfo.getMethodName().equals(Messages.getString("MethodSelectDlg.es"))
 						//这个地方也加一个新加算法的判断
-						|| methodInfo.getMethodName().equals(/* 新算法的名称*/)
+						|| methodInfo.getMethodName().equals(Messages.getString("MethodSelectDlg.apga"))
 				) { //$NON-NLS-1$
 					TableItem item = new TableItem(table_1, SWT.NONE);
 					item.setText(new String[] { methodInfo.getMethodName(),
@@ -2249,6 +2271,7 @@ public class MethodSelectDlg extends Dialog {
 		tempOptimizeList.add(Messages.getString("MethodSelectDlg.30")); //$NON-NLS-1$
 		tempOptimizeList.add(Messages.getString("MethodSelectDlg.31")); //$NON-NLS-1$
 		tempOptimizeList.add(Messages.getString("MethodSelectDlg.es")); //$NON-NLS-1$
+		tempOptimizeList.add(Messages.getString("MethodSelectDlg.apga")); //$NON-NLS-1$
 		for (Iterator iterator = sMethod.iterator(); iterator.hasNext();) {
 			MethodInfo methodInfo = (MethodInfo) iterator.next();
 			String methodName = methodInfo.getMethodName();
@@ -2422,7 +2445,9 @@ public class MethodSelectDlg extends Dialog {
 					methodInfo.getMethodName().equalsIgnoreCase(
 							Messages.getString("MethodSelectDlg.58")) || //$NON-NLS-1$
 					methodInfo.getMethodName().equalsIgnoreCase(
-							Messages.getString("MethodSelectDlg.59")) //$NON-NLS-1$
+							Messages.getString("MethodSelectDlg.59")) ||//$NON-NLS-1$
+					methodInfo.getMethodName().equalsIgnoreCase(
+							Messages.getString("MethodSelectDlg.apga")) //$NON-NLS-1$
 					|| methodInfo.getMethodName().equalsIgnoreCase(
 							Messages.getString("MethodSelectDlg.es"))) { //$NON-NLS-1$
 				mis.add(methodInfo);
