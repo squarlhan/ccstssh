@@ -51,7 +51,7 @@ public class TestAny {
 		}
 		
 		try {
-			File result = new File("results.txt");
+			File result = new File("apga_x_200.txt");
 			if (result.exists()) {
 				result.delete();
 				if (result.createNewFile()) {
@@ -67,7 +67,7 @@ public class TestAny {
 				}
 
 			}
-			File result2 = new File("results2.txt");
+			File result2 = new File("apga_cos_200.txt");
 			if (result2.exists()) {
 				result2.delete();
 				if (result2.createNewFile()) {

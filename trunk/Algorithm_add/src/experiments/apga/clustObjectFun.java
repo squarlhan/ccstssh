@@ -100,6 +100,101 @@ public class clustObjectFun {
 
 		return objects;
 	}
+    
+    /**
+     *    通过计算最近两组最佳染色体的标准差，小于cutoff认为是一个模式
+     * @param chroms 新产生的染色体
+     * @param obj 算法对象
+     * @param cutoff 阈值
+     * @return 返回一个模式
+     */
+   private static Map<Integer, Double> maintainbestchromlesscutoffbytime(List<IChromosome> chroms, APGA obj, Double cutoff){
+       	
+       	Map<Integer, Double> newpattern = new HashMap();
+       	
+       	Population bestPop = obj.getBestPop();
+       	int maxsize = bestPop.getConfiguration().getPopulationSize();
+       	Population all = (Population) bestPop.clone();
+       	//新的染色体排序
+		if (chroms != null && chroms.size() > 0) {
+
+			Collections.sort(chroms, new Comparator<IChromosome>() {
+				public int compare(IChromosome chrom1, IChromosome chrom2) {
+					return ((Double) chrom2.getFitnessValueDirectly())
+							.compareTo(chrom1.getFitnessValueDirectly());
+				}
+			});
+
+		}
+       	int newsize = chroms.size();
+       	int nowsize = all.size();
+       	if(nowsize+newsize<=maxsize){
+       		for(IChromosome chrom:chroms){
+       			all.addChromosome(chrom);
+       		}
+       		bestPop.clear();
+       		bestPop = (Population) all.clone();
+       	}else{
+       		bestPop.clear();
+       	    if(newsize<=10){
+       	    	for(IChromosome chrom:chroms){
+           			all.addChromosome(chrom);
+           		}
+       	    	for(int i=nowsize+newsize-maxsize;i<=nowsize+newsize-1;i++){
+           			bestPop.addChromosome((IChromosome) all.getChromosome(i).clone());
+           		}
+       	    }else{
+       	    	for(int i=0;i<=9;i++){
+           			all.addChromosome(chroms.get(i));
+           		}
+       	    	for(int i=nowsize+10-maxsize;i<=nowsize+9;i++){
+           			bestPop.addChromosome((IChromosome) all.getChromosome(i).clone());
+           		}
+       	    }
+       	}
+       	obj.setBestPop(bestPop);
+       	//根据新的最佳群体得到一个模式
+       	
+       	
+       	int m = bestPop.size();
+       	int n = bestPop.getConfiguration().getChromosomeSize();
+       	
+       	if(m>=maxsize){
+   			Matrix mydata = pop2matrix(bestPop);
+   			Double[] avgset = new Double[n];// 平均值
+   			for (int j = 0; j <= n - 1; j++) {
+   				Double tempsum = 0.0;
+   				for (int i = 0; i <= m - 1; i++) {
+   					tempsum += mydata.data[i][j];
+   				}
+   				avgset[j] = tempsum / m;
+   			}
+
+   			// 标准差
+   			for (int j = 0; j <= n - 1; j++) {
+   				Double tempsum = 0.0;
+   				for (int i = 0; i <= m - 1; i++) {
+   					tempsum += ((mydata.data[i][j] - avgset[j]) * (mydata.data[i][j] - avgset[j]));
+   				}
+   				double stddev = Math.sqrt(tempsum / m);
+   				if (stddev <= cutoff) {
+   					newpattern.put(j, stddev);
+   				}
+   			}
+
+   			String pattern = "";
+   			for (int i = 0; i <= n - 1; i++) {
+   				if (newpattern.get(i) == null) {
+   					pattern += "*\t";
+   				} else {
+   					pattern = pattern + avgset[i] + "\t";
+   				}
+   			}
+   			obj.getPatterns().add(pattern);
+   		}
+       	return newpattern;
+       }
+    
  /**
   *    通过计算历史最佳染色体的标准差，小于cutoff认为是一个模式
   * @param chroms 新产生的染色体
@@ -386,7 +481,7 @@ private static Map<Integer, Double> maintainbestchromlesscutoff(List<IChromosome
 			null_chroms.get(i).setFitnessValue(fits[i]);
 			((Chromosome)null_chroms.get(i)).setIscenter(true);
 		}
-		Map<Integer, Double> newpattern = maintainbestchromlesscutoff(null_chroms, obj, cutoff);
+		Map<Integer, Double> newpattern = maintainbestchromlesscutoffbytime(null_chroms, obj, cutoff);
         obj.setnIterateCount(obj.getnIterateCount()+null_chroms.size());
     	return objects;
     }
@@ -422,7 +517,7 @@ private static Map<Integer, Double> maintainbestchromlesscutoff(List<IChromosome
 			}
 		}
 		
-		Map<Integer, Double> newpattern = maintainbestchromlesscutoff(center_chroms, obj, cutoff);
+		Map<Integer, Double> newpattern = maintainbestchromlesscutoffbytime(center_chroms, obj, cutoff);
 
 		double dis_max = datamatrix[0][0];
 		double dis_min = datamatrix[0][0];

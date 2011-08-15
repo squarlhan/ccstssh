@@ -112,7 +112,7 @@ public class SimpleExample {
 		SimpleExample se = new SimpleExample();	
 		
 		try {
-			File result = new File("results3.txt");
+			File result = new File("results5.txt");
 			if (result.exists()) {
 				result.delete();
 				if (result.createNewFile()) {
@@ -128,7 +128,7 @@ public class SimpleExample {
 				}
 
 			}
-			File result2 = new File("results4.txt");
+			File result2 = new File("results6.txt");
 			if (result2.exists()) {
 				result2.delete();
 				if (result2.createNewFile()) {
@@ -149,8 +149,8 @@ public class SimpleExample {
 			BufferedWriter output2 = new BufferedWriter(new FileWriter(result2));
 			
 			for(int a=0; a<=49;a++){
-				se.runga(200, 30, 40, new SimpleMaxFunction(), output);
-				se.runga(200, 30, 40, new CosSimpleMaxFunction(), output2);
+				se.runga(80, 30, 40, new SimpleMaxFunction(), output);
+				se.runga(80, 30, 40, new CosSimpleMaxFunction(), output2);
 			}
 			
 			output.close();

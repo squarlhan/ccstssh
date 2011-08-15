@@ -173,27 +173,26 @@ public void setBestPop(Population bestPop) {
 			if (percentEvolution > 0 && i % percentEvolution == 0) {
 				progress++;
 				IChromosome fittest = null;
-				if(bestPop.size()>popSize/2){
-					fittest = bestPop.determineFittestChromosome();
-				}else{
-					fittest = genotype.getFittestChromosome();
-				}			
+			    fittest = genotype.getFittestChromosome();
 				double best_fitness = fittest.getFitnessValueDirectly();
 				System.out.println("Currently fittest Chromosome has fitness "+ best_fitness);
-				// if (fitness >= maxFitness) {
-				// break;
-				// }
 			}
 		}
 		// Print summary.
 		// --------------
 		IChromosome fittest = null;
-		if(bestPop.size()>0){
+		boolean flag = true; 
+		if(bestPop.determineFittestChromosome().getFitnessValueDirectly()>
+		genotype.getFittestChromosome().getFitnessValueDirectly()){
 			fittest = bestPop.determineFittestChromosome();
 		}else{
 			fittest = genotype.getFittestChromosome();
-		}			
-		System.out.println("Fittest Chromosome has fitness "+ fittest.getFitnessValueDirectly());
+		}
+		if(flag){
+		    System.out.println("Fittest Chromosome in bestpop has fitness "+ fittest.getFitnessValueDirectly());
+		}else{
+			System.out.println("Fittest Chromosome in genotype has fitness "+ fittest.getFitnessValueDirectly());
+		}
 		try {
 			output.write(fittest.getFitnessValueDirectly() + "\n");
 
@@ -213,10 +212,19 @@ public void setBestPop(Population bestPop) {
 		}
 		
 		//处理返回结果
-		for(int i = 0; i<=bestPop.size()-1; i++){
-        	pBest.data[0][i] = bestPop.getChromosome(i).getFitnessValueDirectly();
+		if (flag) {
+			for (int i = 0; i <= bestPop.size() - 1; i++) {
+				pBest.data[0][i] = bestPop.getChromosome(i)
+						.getFitnessValueDirectly();
+			}
+			pBest_ga = pop2matrix(bestPop);
+		}else{
+			for (int i = 0; i <= genotype.getPopulation().size() - 1; i++) {
+				pBest.data[0][i] = genotype.getPopulation().getChromosome(i)
+						.getFitnessValueDirectly();
+			}
+			pBest_ga = pop2matrix(genotype.getPopulation());
 		}
-		pBest_ga = pop2matrix(bestPop);
 		//printsth("patterns.txt", patterns);
 		//printsth("values.txt", fitnessvalues);
 		return new Object[] { pBest_ga, pBest, consValue };
