@@ -111,10 +111,33 @@ public class clustObjectFun {
    private static Map<Integer, Double> maintainbestchromlesscutoffbytime(List<IChromosome> chroms, APGA obj, Double cutoff){
        	
        	Map<Integer, Double> newpattern = new HashMap();
-       	
+      //维护一个历史最优群体
        	Population bestPop = obj.getBestPop();
-       	int maxsize = bestPop.getConfiguration().getPopulationSize();
-       	Population all = (Population) bestPop.clone();
+    	int bestmaxsize = bestPop.getConfiguration().getPopulationSize();
+    	Population bestall = (Population) bestPop.clone();
+    	if(chroms!=null&&chroms.size()>0){
+    		for(IChromosome chrom:chroms){
+    			bestall.addChromosome(chrom);
+    		}
+    	}    	
+    	int bestnowsize = bestall.size();
+    	if(bestnowsize<=bestmaxsize){
+    		bestPop.clear();
+    		bestPop = (Population) bestall.clone();
+    	}else{
+    		bestall.sortByFitness();
+    		bestPop.clear();
+    		for(int i=0;i<=bestmaxsize-1;i++){
+    			bestPop.addChromosome((IChromosome) bestall.getChromosome(i).clone());
+    		}
+    	}
+    	obj.setBestPop(bestPop);
+    	
+    	
+    	//维护一个局部最优群体
+       	Population localPop = obj.getLocalPop();
+       	int maxsize = localPop.getConfiguration().getPopulationSize();
+       	Population all = (Population) localPop.clone();
        	//新的染色体排序
 		if (chroms != null && chroms.size() > 0) {
 
@@ -132,35 +155,35 @@ public class clustObjectFun {
        		for(IChromosome chrom:chroms){
        			all.addChromosome(chrom);
        		}
-       		bestPop.clear();
-       		bestPop = (Population) all.clone();
+       		localPop.clear();
+       		localPop = (Population) all.clone();
        	}else{
-       		bestPop.clear();
+       		localPop.clear();
        	    if(newsize<=10){
        	    	for(IChromosome chrom:chroms){
            			all.addChromosome(chrom);
            		}
        	    	for(int i=nowsize+newsize-maxsize;i<=nowsize+newsize-1;i++){
-           			bestPop.addChromosome((IChromosome) all.getChromosome(i).clone());
+       	    		localPop.addChromosome((IChromosome) all.getChromosome(i).clone());
            		}
        	    }else{
        	    	for(int i=0;i<=9;i++){
            			all.addChromosome(chroms.get(i));
            		}
        	    	for(int i=nowsize+10-maxsize;i<=nowsize+9;i++){
-           			bestPop.addChromosome((IChromosome) all.getChromosome(i).clone());
+       	    		localPop.addChromosome((IChromosome) all.getChromosome(i).clone());
            		}
        	    }
        	}
-       	obj.setBestPop(bestPop);
+       	obj.setLocalPop(localPop);
        	//根据新的最佳群体得到一个模式
        	
        	
-       	int m = bestPop.size();
-       	int n = bestPop.getConfiguration().getChromosomeSize();
+       	int m = localPop.size();
+       	int n = localPop.getConfiguration().getChromosomeSize();
        	
        	if(m>=maxsize){
-   			Matrix mydata = pop2matrix(bestPop);
+   			Matrix mydata = pop2matrix(localPop);
    			Double[] avgset = new Double[n];// 平均值
    			for (int j = 0; j <= n - 1; j++) {
    				Double tempsum = 0.0;

@@ -51,7 +51,7 @@ public class TestAny {
 		}
 		
 		try {
-			File result = new File("apga_x_200.txt");
+			File result = new File("newpga_x_1.txt");
 			if (result.exists()) {
 				result.delete();
 				if (result.createNewFile()) {
@@ -67,7 +67,7 @@ public class TestAny {
 				}
 
 			}
-			File result2 = new File("apga_cos_200.txt");
+			File result2 = new File("newpga_cos_1.txt");
 			if (result2.exists()) {
 				result2.delete();
 				if (result2.createNewFile()) {
@@ -87,7 +87,8 @@ public class TestAny {
 			BufferedWriter output = new BufferedWriter(new FileWriter(result));
 			BufferedWriter output2 = new BufferedWriter(new FileWriter(result2));
 			
-			for(int a=0; a<=49;a++){
+			for(int a=0; a<=0;a++){
+				a1.Calculate(new CosMaxFunction(), 0.1, 0.1, 100.0, 0.8, 0.7, consValue, lastPos, pBest, 200, output2);
 				a1.Calculate(new MaxFunction(), 0.1, 0.1, 100.0, 0.8, 0.7, consValue, lastPos, pBest, 200, output);
 				a1.Calculate(new CosMaxFunction(), 0.1, 0.1, 100.0, 0.8, 0.7, consValue, lastPos, pBest, 200, output2);
 			}
