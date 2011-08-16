@@ -570,7 +570,9 @@ private static Map<Integer, Double> maintainbestchromlesscutoff(List<IChromosome
 				int e_much = EstimateFitnessHowmuch(chrs.get(i), localPop, newpattern);
 				if(bestPop.size()>=bestPop.getConfiguration().getPopulationSize()&&e_much>0){
 					tempfit = tempfit+e_much*tempfit*extra/newpattern.size();
-					if(tempfit>bestPop.determineFittestChromosome().getFitnessValueDirectly())
+					if(tempfit>bestPop.determineFittestChromosome().getFitnessValueDirectly()){
+						tempfit=bestPop.determineFittestChromosome().getFitnessValueDirectly();
+					}
 					mycount++;
 				}
 			}
