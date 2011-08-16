@@ -565,9 +565,12 @@ private static Map<Integer, Double> maintainbestchromlesscutoff(List<IChromosome
 				double s = 1/(1+datamatrix[i][results.get(i)]);
 				tempfit = ((1-lamda)*s+lamda)*centerObjects.get(results.get(i));
 				Population bestPop = obj.getBestPop();
-				int e_much = EstimateFitnessHowmuch(chrs.get(i), bestPop, newpattern);
+				Population localPop = obj.getLocalPop();
+				// 对于局部模式估计 这里用localPop
+				int e_much = EstimateFitnessHowmuch(chrs.get(i), localPop, newpattern);
 				if(bestPop.size()>=bestPop.getConfiguration().getPopulationSize()&&e_much>0){
 					tempfit = tempfit+e_much*tempfit*extra/newpattern.size();
+					if(tempfit>bestPop.determineFittestChromosome().getFitnessValueDirectly())
 					mycount++;
 				}
 			}
