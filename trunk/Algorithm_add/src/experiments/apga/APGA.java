@@ -25,6 +25,7 @@ import experiments.ga.MaxFunction;
 public class APGA {
 private int nIterateCount=0;
 private Population bestPop = null;
+private Population localPop = null;
 private List<String> patterns = new ArrayList();
 private List<String> fitnessvalues = new ArrayList();
 
@@ -52,6 +53,14 @@ public void setPatterns(List<String> patterns) {
 
 public void setBestPop(Population bestPop) {
 	this.bestPop = bestPop;
+}
+
+	public Population getLocalPop() {
+	return localPop;
+}
+
+public void setLocalPop(Population localPop) {
+	this.localPop = localPop;
 }
 
 	public int getnIterateCount() {
@@ -140,6 +149,7 @@ public void setBestPop(Population bestPop) {
 			genotype = Genotype.randomInitialGenotype(gaConf);
 			
 			bestPop = new Population(gaConf);
+			localPop = new Population(gaConf);
 			
 			if(lastPos!=null){		
                 for(int i = 0; i<=popSize-1; i++){
@@ -172,26 +182,39 @@ public void setBestPop(Population bestPop) {
 			// ---------------
 			if (percentEvolution > 0 && i % percentEvolution == 0) {
 				progress++;
-				IChromosome fittest = null;
-			    fittest = genotype.getFittestChromosome();
+				IChromosome fittest  = genotype.getFittestChromosome();
 				double best_fitness = fittest.getFitnessValueDirectly();
 				System.out.println("Currently fittest Chromosome has fitness "+ best_fitness);
 			}
 		}
 		// Print summary.
 		// --------------
-		IChromosome fittest = null;
-		boolean flag = true; 
-		if(bestPop.determineFittestChromosome().getFitnessValueDirectly()>
-		genotype.getFittestChromosome().getFitnessValueDirectly()){
-			fittest = bestPop.determineFittestChromosome();
-		}else{
-			fittest = genotype.getFittestChromosome();
+		IChromosome fittest1 = bestPop.determineFittestChromosome();
+		IChromosome fittest2 = localPop.determineFittestChromosome();
+		System.out.println("Fittest Chromosome in bestPop has fitness "+ fittest1.getFitnessValueDirectly());
+		System.out.println("Fittest Chromosome in localPop has fitness "+ fittest2.getFitnessValueDirectly());
+		IChromosome fittest3 = null;
+		genotype.getPopulation().sortByFitness();
+		for(IChromosome fittest:genotype.getPopulation().getChromosomes()){
+			if(((Chromosome)fittest).isIscenter()){
+				fittest3 = fittest;
+				break;
+			}
 		}
-		if(flag){
-		    System.out.println("Fittest Chromosome in bestpop has fitness "+ fittest.getFitnessValueDirectly());
+		if(fittest3!=null){
+			System.out.println("Fittest Chromosome in genotype has fitness "+ fittest3.getFitnessValueDirectly());
+		}
+		IChromosome fittest = null;
+		if(fittest1.getFitnessValueDirectly()>fittest2.getFitnessValueDirectly()){
+			fittest = fittest1;
+			if(fittest3.getFitnessValueDirectly()>fittest.getFitnessValueDirectly()){
+				fittest = fittest3;
+			}
 		}else{
-			System.out.println("Fittest Chromosome in genotype has fitness "+ fittest.getFitnessValueDirectly());
+			fittest = fittest2;
+			if(fittest3.getFitnessValueDirectly()>fittest.getFitnessValueDirectly()){
+				fittest = fittest3;
+			}
 		}
 		try {
 			output.write(fittest.getFitnessValueDirectly() + "\n");
@@ -212,7 +235,7 @@ public void setBestPop(Population bestPop) {
 		}
 		
 		//处理返回结果
-		if (flag) {
+		if (bestPop.size()>0) {
 			for (int i = 0; i <= bestPop.size() - 1; i++) {
 				pBest.data[0][i] = bestPop.getChromosome(i)
 						.getFitnessValueDirectly();
