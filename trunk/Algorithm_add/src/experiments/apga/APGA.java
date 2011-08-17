@@ -143,7 +143,6 @@ public void setLocalPop(Population localPop) {
 			// 构建染色体(Chromosome)
 			 IChromosome sampleChromosome = new Chromosome(gaConf, sampleGenes);
 			gaConf.setSampleChromosome(sampleChromosome);
-			
 			gaConf.setPopulationSize(popSize);	
 			gaConf.setFitnessFunction(new MaxFunction());
 			genotype = Genotype.randomInitialGenotype(gaConf);
@@ -207,12 +206,12 @@ public void setLocalPop(Population localPop) {
 		IChromosome fittest = null;
 		if(fittest1.getFitnessValueDirectly()>fittest2.getFitnessValueDirectly()){
 			fittest = fittest1;
-			if(fittest3.getFitnessValueDirectly()>fittest.getFitnessValueDirectly()){
+			if(fittest3!=null&&fittest3.getFitnessValueDirectly()>fittest.getFitnessValueDirectly()){
 				fittest = fittest3;
 			}
 		}else{
 			fittest = fittest2;
-			if(fittest3.getFitnessValueDirectly()>fittest.getFitnessValueDirectly()){
+			if(fittest3!=null&&fittest3.getFitnessValueDirectly()>fittest.getFitnessValueDirectly()){
 				fittest = fittest3;
 			}
 		}

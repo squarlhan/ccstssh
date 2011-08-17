@@ -15,7 +15,9 @@ import experiments.apga.APGA;
 import experiments.apga.clustObjectFun;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.jgap.*;
 import org.jgap.audit.*;
@@ -182,6 +184,16 @@ public class GABreeder
           a_conf.getGenerationNr(), new Object[]{pop});
     }
     updateChromosomes(pop, a_conf, obj, fitness, ap_num, ap_lamda, fit_lamda, cutoff, extra);
+    //去掉重复的个体
+    /*pop.sortByFitness();
+    Population tempop = (Population) pop.clone();
+    Set<IChromosome> tempopset= new HashSet();
+    tempopset.addAll(tempop.getChromosomes());
+    tempop.clear();
+    for(Object tempchrom:tempopset.toArray()){
+    	tempop.addChromosome((IChromosome) tempchrom);
+    }
+    pop = tempop;*/
     if (monitorActive) {
       // Monitor that fitness value of chromosomes is being updated.
       // -----------------------------------------------------------

@@ -15,6 +15,7 @@ import SimulateManage.TreadPool.TaskRunInfo;
 import Tolerance.ResponseValue;
 import experiments.Matrix;
 import experiments.apga.APGA;
+import experiments.apga.APGAFunction;
 
 
 /**
@@ -81,7 +82,7 @@ public class APGAOptimize
 		this.orderParam.clear();
 		
 		//注意：此处需要改为记录新方法的类的数据载体
-		ESParamsInfo esParamesInfo = (ESParamsInfo)methodInfo.getParamStruct();
+		APGAParamsInfo apgaParamesInfo = (APGAParamsInfo)methodInfo.getParamStruct();
 		
 		
 		// 解析待优化数据文件
@@ -102,8 +103,10 @@ public class APGAOptimize
 		//此处的ES算法改为新建的Other算法类
 	     APGA apga = new APGA();
 		
-		Object[] result = apga.Calcuate(fun,consValue, lastPos, pBest,
-				esParamesInfo.getNgInt(),esParamesInfo.getChSigma(),esParamesInfo.getOneFifth_gen());
+		Object[] result = apga.Calculate(fun, apgaParamesInfo.getPc1(),
+				apgaParamesInfo.getPc2(),apgaParamesInfo.getPm(),
+				apgaParamesInfo.getK(), apgaParamesInfo.getPt(),
+				consValue, lastPos, pBest, apgaParamesInfo.getNG());
 
 		this.lastPos = (Matrix) result[0];
 		this.pBest = (Matrix) result[1];
@@ -137,16 +140,17 @@ public class APGAOptimize
 		this.lastPos = lastPos;
 		this.pBest = pBest;
 		this.consValue = consValue;
-		ESParamsInfo esParamesInfo = (ESParamsInfo)methodInfo.getParamStruct();
+		APGAParamsInfo apgaParamesInfo = (APGAParamsInfo)methodInfo.getParamStruct();
 		
 		OptimizeFunction fun = new OptimizeFunction(orderParam, taskManage,
 				tri, arrResponse, tasklog);
 		fun.SetTaskPopedom(taskPopedom);
 		 APGA apga = new APGA();
 			
-			Object[] result = apga.Calculate(fun, consValue, lastPos, pBest,
-				esParamesInfo.getNgInt(), esParamesInfo.getChSigma(),
-				esParamesInfo.getOneFifth_gen());
+			Object[] result = apga.Calculate(fun, apgaParamesInfo.getPc1(),
+					apgaParamesInfo.getPc2(),apgaParamesInfo.getPm(),
+					apgaParamesInfo.getK(), apgaParamesInfo.getPt(),
+					consValue, lastPos, pBest, apgaParamesInfo.getNG());
 		// GATest ga = new GATest();
 		// Object[] result = ga.Calculate(fun, gaParamesInfo.getPc1(),
 		// gaParamesInfo.getPc2(), gaParamesInfo.getPm(), /**0.1, 0.01,*/
