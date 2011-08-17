@@ -562,8 +562,14 @@ private static Map<Integer, Double> maintainbestchromlesscutoff(List<IChromosome
 			if(i==results.get(i)){
 				tempfit = centerObjects.get(i).doubleValue();
 			}else{
+				
 				double s = 1/(1+datamatrix[i][results.get(i)]);
 				tempfit = ((1-lamda)*s+lamda)*centerObjects.get(results.get(i));
+				if(datamatrix[i][results.get(i)]>0.8){
+					if(Math.random()<0.3){
+						tempfit = tempfit + tempfit*0.01;
+					}					
+				}
 				Population bestPop = obj.getBestPop();
 				Population localPop = obj.getLocalPop();
 				// 对于局部模式估计 这里用localPop
