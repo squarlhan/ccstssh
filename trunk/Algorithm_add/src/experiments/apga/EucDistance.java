@@ -96,7 +96,7 @@ public class EucDistance {
 		}
 		Arrays.sort(allresult);
 		for(int i = 0; i<= mydata.length-1; i++){
-			result[i][i] = allresult[(len*len-len)/2];
+			result[i][i] = allresult[(len*len-len)*100/101];
 		}
 		return result;
 	}

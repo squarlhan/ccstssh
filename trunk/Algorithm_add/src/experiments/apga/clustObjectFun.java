@@ -151,9 +151,9 @@ public class clustObjectFun {
 		}
        	int newsize = chroms.size();
        	int nowsize = all.size();
-       	if(nowsize+newsize<=maxsize){
-       		for(IChromosome chrom:chroms){
-       			all.addChromosome(chrom);
+       	if(nowsize+10<=maxsize){
+       		for(int i=0;i<=9;i++){
+       			all.addChromosome(chroms.get(i));
        		}
        		localPop.clear();
        		localPop = (Population) all.clone();
@@ -565,11 +565,11 @@ private static Map<Integer, Double> maintainbestchromlesscutoff(List<IChromosome
 				
 				double s = 1/(1+datamatrix[i][results.get(i)]);
 				tempfit = ((1-lamda)*s+lamda)*centerObjects.get(results.get(i));
-				if(datamatrix[i][results.get(i)]>0.8){
-					if(Math.random()<0.3){
-						tempfit = tempfit + tempfit*0.01;
-					}					
-				}
+//				if(datamatrix[i][results.get(i)]>0.8){
+//					if(Math.random()<0.3){
+//						tempfit = tempfit + tempfit*0.01;
+//					}					
+//				}
 				Population bestPop = obj.getBestPop();
 				Population localPop = obj.getLocalPop();
 				// 对于局部模式估计 这里用localPop
@@ -583,8 +583,8 @@ private static Map<Integer, Double> maintainbestchromlesscutoff(List<IChromosome
 				}
 			}
 		
-			realone = realone +  calconeFittnessValue(pop.getChromosome(i), obj,  fitness).intValue() +"\t";
-			evalone = evalone + (int)tempfit +"\t";
+			//realone = realone +  calconeFittnessValue(pop.getChromosome(i), obj,  fitness).intValue() +"\t";
+			//evalone = evalone + (int)tempfit +"\t";
 			
 			objects.add(tempfit);
 			if(pop.getChromosome(i).getFitnessValueDirectly()<0||!((Chromosome)pop.getChromosome(i)).isIscenter()){
@@ -592,8 +592,8 @@ private static Map<Integer, Double> maintainbestchromlesscutoff(List<IChromosome
 			    ((Chromosome)pop.getChromosome(i)).setIscenter(false);
 			}
 		}
-		obj.getFitnessvalues().add(realone);
-		obj.getFitnessvalues().add(evalone);
+		//obj.getFitnessvalues().add(realone);
+		//obj.getFitnessvalues().add(evalone);
 		/*for(double a : objects){
         	System.out.println(a);
         }*/
