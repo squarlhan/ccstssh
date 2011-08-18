@@ -19,7 +19,7 @@ import experiments.apga.clustObjectFun;
 public class TestAny {
 
 	
-	public static List<Integer> doube2binary(double min, double max, double p, double num){
+	public static List<Integer> doube2binary(double min, double max, int p, double num){
 		List<Integer> result = new ArrayList();
 		int rank = (int) ((Math.pow(2, p)-1)*(num-min)/(max-min));
 		String temp = Integer.toBinaryString(rank);
@@ -41,11 +41,7 @@ public class TestAny {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		int aa = -10;
-		int b = 10;
-//		double num = 20*Math.random()-10;
-		double num = 0;
-		List<Integer> binstr = doube2binary(aa, b, 10, num);
+		
 		
 		long startTime = System.currentTimeMillis();
 		APGA a1 = new APGA();
@@ -112,8 +108,8 @@ public class TestAny {
 			BufferedWriter output2 = new BufferedWriter(new FileWriter(result2));
 			
 			for(int a=0; a<=0;a++){
-				a1.Calculate(new MaxFunction(), 0.1, 0.05, 100.0, 0.8, 0.7, consValue, lastPos, pBest, 200, output);
-				a1.Calculate(new CosMaxFunction(), 0.1, 0.05, 100.0, 0.8, 0.7, consValue, lastPos, pBest, 200, output2);
+				a1.Calculate(new MaxFunction(), 0.95, 0.01, 100.0, 0.8, 0.7, consValue, lastPos, pBest, 200, output);
+				a1.Calculate(new CosMaxFunction(), 0.95, 0.01, 100.0, 0.8, 0.7, consValue, lastPos, pBest, 200, output2);
 			}
 			
 			output.close();

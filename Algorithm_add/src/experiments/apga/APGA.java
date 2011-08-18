@@ -28,9 +28,18 @@ private Population bestPop = null;
 private Population localPop = null;
 private List<String> patterns = new ArrayList();
 private List<String> fitnessvalues = new ArrayList();
+private Matrix consValue = null;
 
 	
 	
+	public Matrix getConsValue() {
+	return consValue;
+}
+
+public void setConsValue(Matrix consValue) {
+	this.consValue = consValue;
+}
+
 	public List<String> getFitnessvalues() {
 	return fitnessvalues;
 }
@@ -119,7 +128,7 @@ public void setLocalPop(Population localPop) {
 			System.out.println("T Should be between 0.5 and 0.95");
 		    return null;
 		}
-		
+		this.setConsValue(consValue);
 		
 		int popSize = lastPos.getM();
 		int chromeSize = lastPos.getN();
