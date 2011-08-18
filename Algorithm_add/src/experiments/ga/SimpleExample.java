@@ -112,7 +112,7 @@ public class SimpleExample {
 		SimpleExample se = new SimpleExample();	
 		
 		try {
-			File result = new File("results5.txt");
+			File result = new File("ga_x_80.txt");
 			if (result.exists()) {
 				result.delete();
 				if (result.createNewFile()) {
@@ -128,7 +128,7 @@ public class SimpleExample {
 				}
 
 			}
-			File result2 = new File("results6.txt");
+			File result2 = new File("ga_cos_80.txt");
 			if (result2.exists()) {
 				result2.delete();
 				if (result2.createNewFile()) {
@@ -148,9 +148,9 @@ public class SimpleExample {
 			BufferedWriter output = new BufferedWriter(new FileWriter(result));
 			BufferedWriter output2 = new BufferedWriter(new FileWriter(result2));
 			
-			for(int a=0; a<=49;a++){
-				se.runga(80, 30, 40, new SimpleMaxFunction(), output);
-				se.runga(80, 30, 40, new CosSimpleMaxFunction(), output2);
+			for(int a=0; a<=0;a++){
+				se.runga(120, 30, 40, new SimpleMaxFunction(), output);
+				se.runga(120, 30, 40, new CosSimpleMaxFunction(), output2);
 			}
 			
 			output.close();

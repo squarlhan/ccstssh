@@ -26,7 +26,7 @@ import org.jgap.event.*;
 import affinitymain.InteractionData;
 import affinitymain.RunAlgorithm;
 import algorithm.abs.AffinityPropagationAlgorithm.AffinityConnectingMethod;
-import experiments.ga.EucDistance;
+import experiments.apga.EucDistance;
 
 public class GABreeder
     extends BreederBase {
