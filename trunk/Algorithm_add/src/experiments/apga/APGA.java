@@ -197,6 +197,9 @@ public void setLocalPop(Population localPop) {
 		}
 		// Print summary.
 		// --------------
+		if(localPop.size()==0){
+			localPop = bestPop;
+		}
 		IChromosome fittest1 = bestPop.determineFittestChromosome();
 		IChromosome fittest2 = localPop.determineFittestChromosome();
 		System.out.println("Fittest Chromosome in bestPop has fitness "+ fittest1.getFitnessValueDirectly());

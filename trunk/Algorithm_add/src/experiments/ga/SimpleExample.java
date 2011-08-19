@@ -149,8 +149,8 @@ public class SimpleExample {
 			BufferedWriter output2 = new BufferedWriter(new FileWriter(result2));
 			
 			for(int a=0; a<=0;a++){
-				se.runga(120, 30, 40, new SimpleMaxFunction(), output);
-				se.runga(120, 30, 40, new CosSimpleMaxFunction(), output2);
+				se.runga(200, 30, 40, new SimpleMaxFunction(), output);
+				se.runga(200, 30, 40, new CosSimpleMaxFunction(), output2);
 			}
 			
 			output.close();

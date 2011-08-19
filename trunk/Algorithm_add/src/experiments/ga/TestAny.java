@@ -35,13 +35,46 @@ public class TestAny {
 		}
 		return result;
 	}
+	//二进制分三部分，第一位是符号位，接下来几位表示整数部分，最后一些是小数部分
+	public static List<Integer> doube2binary2(double min, double max, int p, double num){
+		List<Integer> result = new ArrayList();
+		//首先确定符号，1表示+，0表示-
+		int sign = num<0?0:1;
+		result.add(sign);
+		//确定整数部分
+		int num_int = (int) Math.abs(num);
+		int int_lenth = (int) Math.ceil(Math.log10(Math.max(Math.abs(min), Math.abs(max)))/Math.log10(2));
+		String int_str = Integer.toBinaryString(num_int);
+		while(int_str.length()<int_lenth){
+			int_str = "0"+int_str;
+		}
+		for(int i = 0;i<=int_lenth-1;i++){
+			result.add(Integer.parseInt(int_str.substring(i, i+1)));
+		}
+		//确定小数部分，这个和精度有关系， 比如小数点后面3位，精度为10， 4位精度为14位， 5位为17, 6位为20位
+		double pp = Math.pow(2, p);
+		int pp_curser = 10;
+		while(pp/pp_curser>10){
+			pp_curser*=10;
+		}
+		//根据精度截取小数部分
+		double num_float = num-(int)num;
+		int num_float_int = (int) Math.abs(num_float*pp_curser);
+		int float_lenth = (int) Math.ceil(Math.log10(pp_curser)/Math.log10(2));
+		String float_str = Integer.toBinaryString(num_float_int);
+		while(float_str.length()<float_lenth){
+			float_str = "0"+float_str;
+		}
+		for(int i = 0;i<=float_lenth-1;i++){
+			result.add(Integer.parseInt(float_str.substring(i, i+1)));
+		}
+		return result;
+	}
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
-		
 		
 		long startTime = System.currentTimeMillis();
 		APGA a1 = new APGA();
@@ -108,8 +141,8 @@ public class TestAny {
 			BufferedWriter output2 = new BufferedWriter(new FileWriter(result2));
 			
 			for(int a=0; a<=0;a++){
-				a1.Calculate(new MaxFunction(), 0.95, 0.01, 100.0, 0.8, 0.7, consValue, lastPos, pBest, 200, output);
-				a1.Calculate(new CosMaxFunction(), 0.95, 0.01, 100.0, 0.8, 0.7, consValue, lastPos, pBest, 200, output2);
+				a1.Calculate(new MaxFunction(), 0.1, 0.05, 100.0, 0.8, 0.7, consValue, lastPos, pBest, 200, output);
+				a1.Calculate(new CosMaxFunction(), 0.1, 0.05, 100.0, 0.8, 0.7, consValue, lastPos, pBest, 200, output2);
 			}
 			
 			output.close();
