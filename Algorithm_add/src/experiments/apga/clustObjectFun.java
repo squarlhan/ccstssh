@@ -472,7 +472,7 @@ private static Map<Integer, Double> maintainbestchromlesscutoff(List<IChromosome
     	for(int i = 0; i<=pop.size()-1; i++){
     		List<Integer> chrombin = new ArrayList();
     		for(int j = 0; j<=pop.getConfiguration().getChromosomeSize()-1;j++){
-    			chrombin.addAll(doube2binary(obj.getConsValue().getData()[0][j],
+    			chrombin.addAll(doube2binary2(obj.getConsValue().getData()[0][j],
     					obj.getConsValue().getData()[1][j],
     					10,
     					(Double) pop.getChromosome(i).getGene(j).getAllele()));
@@ -578,7 +578,7 @@ private static Map<Integer, Double> maintainbestchromlesscutoff(List<IChromosome
     	int n = chrom.size();
     	List<Integer> chrombin = new ArrayList();
 		for(int j = 0; j<=n-1;j++){
-			chrombin.addAll(doube2binary(obj.getConsValue().getData()[0][j],
+			chrombin.addAll(doube2binary2(obj.getConsValue().getData()[0][j],
 					obj.getConsValue().getData()[1][j],
 					10,
 					(Double)chrom.getGene(j).getAllele()));
@@ -627,7 +627,9 @@ private static Map<Integer, Double> maintainbestchromlesscutoff(List<IChromosome
 			null_chroms.get(i).setFitnessValue(fits[i]);
 			((Chromosome)null_chroms.get(i)).setIscenter(true);
 		}
-		List<Integer> newpattern = maintainbestchromlesscutoffbybin(null_chroms, obj, cutoff);
+//		List<Integer> newpattern = maintainbestchromlesscutoffbybin(null_chroms, obj, cutoff);
+		Map<Integer, Double> newpattern = maintainbestchromlesscutoffbytime(null_chroms, obj, cutoff);
+//		Map<Integer, Double> newpattern = maintainbestchromlesscutoff(null_chroms, obj, cutoff);
         obj.setnIterateCount(obj.getnIterateCount()+null_chroms.size());
     	return objects;
     }
@@ -663,7 +665,9 @@ private static Map<Integer, Double> maintainbestchromlesscutoff(List<IChromosome
 			}
 		}
 		
-		List<Integer> newpattern = maintainbestchromlesscutoffbybin(center_chroms, obj, cutoff);
+//		List<Integer> newpattern = maintainbestchromlesscutoffbybin(center_chroms, obj, cutoff);
+		Map<Integer, Double> newpattern = maintainbestchromlesscutoffbytime(center_chroms, obj, cutoff);
+//		Map<Integer, Double> newpattern = maintainbestchromlesscutoff(center_chroms, obj, cutoff);
 
 		double dis_max = datamatrix[0][0];
 		double dis_min = datamatrix[0][0];
@@ -688,6 +692,7 @@ private static Map<Integer, Double> maintainbestchromlesscutoff(List<IChromosome
 				
 				double s = 1/(1+datamatrix[i][results.get(i)]);
 				tempfit = ((1-lamda)*s+lamda)*centerObjects.get(results.get(i));
+				tempfit = centerObjects.get(results.get(i));
 //				if(datamatrix[i][results.get(i)]>0.8){
 //					if(Math.random()<0.3){
 //						tempfit = tempfit + tempfit*0.01;
@@ -696,9 +701,14 @@ private static Map<Integer, Double> maintainbestchromlesscutoff(List<IChromosome
 				Population bestPop = obj.getBestPop();
 				Population localPop = obj.getLocalPop();
 				// 对于局部模式估计 这里用localPop
-				boolean flag = EstimateFitnessBybin(chrs.get(i), obj, newpattern);
-				if(localPop.size()>=bestPop.getConfiguration().getPopulationSize()&&flag){
-					tempfit = tempfit+tempfit*extra;
+//				boolean flag = EstimateFitnessBybin(chrs.get(i), obj, newpattern);
+				int e_much = EstimateFitnessHowmuch(chrs.get(i), localPop, newpattern);
+//				boolean flag = EstimateFitness(chrs.get(i), bestPop, newpattern);
+//				boolean flag = EstimateFitness(chrs.get(i), localPop, newpattern);
+//				if(localPop.size()>=bestPop.getConfiguration().getPopulationSize()&&flag){
+				if(localPop.size()>=bestPop.getConfiguration().getPopulationSize()&&e_much>0){
+//					tempfit = tempfit+tempfit*extra;
+					tempfit = tempfit+tempfit*extra*e_much/newpattern.size();
 					if(tempfit>bestPop.determineFittestChromosome().getFitnessValueDirectly()){
 						tempfit=bestPop.determineFittestChromosome().getFitnessValueDirectly();
 					}
@@ -753,7 +763,41 @@ private static Map<Integer, Double> maintainbestchromlesscutoff(List<IChromosome
     	  }
     	  return result;
       }
-    
+  //二进制分三部分，第一位是符号位，接下来几位表示整数部分，最后一些是小数部分
+  	private static List<Integer> doube2binary2(double min, double max, int p, double num){
+  		List<Integer> result = new ArrayList();
+  		//首先确定符号，1表示+，0表示-
+  		int sign = num<0?0:1;
+  		result.add(sign);
+  		//确定整数部分
+  		int num_int = (int) Math.abs(num);
+  		int int_lenth = (int) Math.ceil(Math.log10(Math.max(Math.abs(min), Math.abs(max)))/Math.log10(2));
+  		String int_str = Integer.toBinaryString(num_int);
+  		while(int_str.length()<int_lenth){
+  			int_str = "0"+int_str;
+  		}
+  		for(int i = 0;i<=int_lenth-1;i++){
+  			result.add(Integer.parseInt(int_str.substring(i, i+1)));
+  		}
+  		//确定小数部分，这个和精度有关系， 比如小数点后面3位，精度为10， 4位精度为14位， 5位为17, 6位为20位
+  		double pp = Math.pow(2, p);
+  		int pp_curser = 10;
+  		while(pp/pp_curser>10){
+  			pp_curser*=10;
+  		}
+  		//根据精度截取小数部分
+  		double num_float = num-(int)num;
+  		int num_float_int = (int) Math.abs(num_float*pp_curser);
+  		int float_lenth = (int) Math.ceil(Math.log10(pp_curser)/Math.log10(2));
+  		String float_str = Integer.toBinaryString(num_float_int);
+  		while(float_str.length()<float_lenth){
+  			float_str = "0"+float_str;
+  		}
+  		for(int i = 0;i<=float_lenth-1;i++){
+  			result.add(Integer.parseInt(float_str.substring(i, i+1)));
+  		}
+  		return result;
+  	}
     private static List<Integer> doube2binary(double min, double max, int p, double num){
 		List<Integer> result = new ArrayList();
 		int rank = (int) ((Math.pow(2, p)-1)*(num-min)/(max-min));
