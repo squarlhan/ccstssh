@@ -26,6 +26,7 @@ public class APGA {
 private int nIterateCount=0;
 private Population bestPop = null;
 private Population localPop = null;
+private Population localWorst = null;
 private List<String> patterns = new ArrayList();
 private List<String> fitnessvalues = new ArrayList();
 private Matrix consValue = null;
@@ -112,19 +113,19 @@ public void setLocalPop(Population localPop) {
 			    return null;
 		    }
 		}
-		if(Pc>=1||Pc<=0){
+		if(Pc>1||Pc<0){
 			System.out.println("Pc Should be between 0 and 1");
 		    return null;
 		}
-		if(pc1>=1||pc1<0){
+		if(pc1>1||pc1<0){
 			System.out.println("pc1 Should be between 0 and 1");
 		    return null;
 		}
-		if(Pt>=1||Pt<=0){
+		if(Pt>1||Pt<0){
 			System.out.println("Pt Should be between 0 and 1");
 		    return null;
 		}
-		if(T>=0.95||T<=0.5){
+		if(T>0.95||T<0.5){
 			System.out.println("T Should be between 0.5 and 0.95");
 		    return null;
 		}
@@ -158,6 +159,7 @@ public void setLocalPop(Population localPop) {
 			
 			bestPop = new Population(gaConf);
 			localPop = new Population(gaConf);
+			localWorst = new Population(gaConf);
 			
 			if(lastPos!=null){		
                 for(int i = 0; i<=popSize-1; i++){
@@ -259,11 +261,19 @@ public void setLocalPop(Population localPop) {
 			}
 			pBest_ga = pop2matrix(genotype.getPopulation());
 		}
-		printsth("patterns.txt", patterns);
-		//printsth("values.txt", fitnessvalues);
+		//printsth("patterns.txt", patterns);
+		printsth("values.txt", fitnessvalues);
 		return new Object[] { pBest_ga, pBest, consValue };
 
 	}// end of this math
+
+	public Population getLocalWorst() {
+		return localWorst;
+	}
+
+	public void setLocalWorst(Population localWorst) {
+		this.localWorst = localWorst;
+	}
 
 	private void printsth(String filename, List<String> contents){
 		try {

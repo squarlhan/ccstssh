@@ -68,292 +68,8 @@ public class clustObjectFun {
         results = alg.run();
         //calcObjectValue(results, datamatrix, 0.9);
     }
+  
 
-    /**
-     *    通过计算最近两组最佳染色体的标准差，小于cutoff认为是一个模式
-     * @param chroms 新产生的染色体
-     * @param obj 算法对象
-     * @param cutoff 阈值
-     * @return 返回一个模式
-     */
-   private static List<Integer> maintainbestchromlesscutoffbybin(List<IChromosome> chroms, APGA obj, Double cutoff){
-       	
-       	List<Integer> newpattern = new ArrayList();
-      //维护一个历史最优群体
-       	Population bestPop = obj.getBestPop();
-    	int bestmaxsize = bestPop.getConfiguration().getPopulationSize();
-    	Population bestall = (Population) bestPop.clone();
-    	if(chroms!=null&&chroms.size()>0){
-    		for(IChromosome chrom:chroms){
-    			bestall.addChromosome(chrom);
-    		}
-    	}    	
-    	int bestnowsize = bestall.size();
-    	if(bestnowsize<=bestmaxsize){
-    		bestPop.clear();
-    		bestPop = (Population) bestall.clone();
-    	}else{
-    		bestall.sortByFitness();
-    		bestPop.clear();
-    		for(int i=0;i<=bestmaxsize-1;i++){
-    			bestPop.addChromosome((IChromosome) bestall.getChromosome(i).clone());
-    		}
-    	}
-    	obj.setBestPop(bestPop);
-    	
-    	
-    	//维护一个局部最优群体
-       	Population localPop = obj.getLocalPop();
-       	int maxsize = localPop.getConfiguration().getPopulationSize();
-       	Population all = (Population) localPop.clone();
-       	//新的染色体排序
-		if (chroms != null && chroms.size() > 0) {
-
-			Collections.sort(chroms, new Comparator<IChromosome>() {
-				public int compare(IChromosome chrom1, IChromosome chrom2) {
-					return ((Double) chrom2.getFitnessValueDirectly())
-							.compareTo(chrom1.getFitnessValueDirectly());
-				}
-			});
-
-		}
-       	int newsize = chroms.size();
-       	int nowsize = all.size();
-       	if(nowsize+10<=maxsize){
-       		for(int i=0;i<=9;i++){
-       			all.addChromosome(chroms.get(i));
-       		}
-       		localPop.clear();
-       		localPop = (Population) all.clone();
-       	}else{
-       		localPop.clear();
-       	    if(newsize<=10){
-       	    	for(IChromosome chrom:chroms){
-           			all.addChromosome(chrom);
-           		}
-       	    	for(int i=nowsize+newsize-maxsize;i<=nowsize+newsize-1;i++){
-       	    		localPop.addChromosome((IChromosome) all.getChromosome(i).clone());
-           		}
-       	    }else{
-       	    	for(int i=0;i<=9;i++){
-           			all.addChromosome(chroms.get(i));
-           		}
-       	    	for(int i=nowsize+10-maxsize;i<=nowsize+9;i++){
-       	    		localPop.addChromosome((IChromosome) all.getChromosome(i).clone());
-           		}
-       	    }
-       	}
-       	obj.setLocalPop(localPop);
-       	//根据新的最佳群体得到一个模式
-       	
-       	
-       	int m = localPop.size();
-       	int n = localPop.getConfiguration().getChromosomeSize();
-       	
-       	newpattern = getPatternfromPop(localPop, cutoff, obj);
-       	String patternstr = "";
-       	for(int a:newpattern){
-       		if(a!=2){
-       			patternstr+=a;
-       		}else{
-       			patternstr+="*";
-       		}
-       	}
-       	obj.getPatterns().add(patternstr);	
-       	return newpattern;
-       }
-    /**
-     *    通过计算最近两组最佳染色体的标准差，小于cutoff认为是一个模式
-     * @param chroms 新产生的染色体
-     * @param obj 算法对象
-     * @param cutoff 阈值
-     * @return 返回一个模式
-     */
-   private static Map<Integer, Double> maintainbestchromlesscutoffbytime(List<IChromosome> chroms, APGA obj, Double cutoff){
-       	
-       	Map<Integer, Double> newpattern = new HashMap();
-      //维护一个历史最优群体
-       	Population bestPop = obj.getBestPop();
-    	int bestmaxsize = bestPop.getConfiguration().getPopulationSize();
-    	Population bestall = (Population) bestPop.clone();
-    	if(chroms!=null&&chroms.size()>0){
-    		for(IChromosome chrom:chroms){
-    			bestall.addChromosome(chrom);
-    		}
-    	}    	
-    	int bestnowsize = bestall.size();
-    	if(bestnowsize<=bestmaxsize){
-    		bestPop.clear();
-    		bestPop = (Population) bestall.clone();
-    	}else{
-    		bestall.sortByFitness();
-    		bestPop.clear();
-    		for(int i=0;i<=bestmaxsize-1;i++){
-    			bestPop.addChromosome((IChromosome) bestall.getChromosome(i).clone());
-    		}
-    	}
-    	obj.setBestPop(bestPop);
-    	
-    	
-    	//维护一个局部最优群体
-       	Population localPop = obj.getLocalPop();
-       	int maxsize = localPop.getConfiguration().getPopulationSize();
-       	Population all = (Population) localPop.clone();
-       	//新的染色体排序
-		if (chroms != null && chroms.size() > 0) {
-
-			Collections.sort(chroms, new Comparator<IChromosome>() {
-				public int compare(IChromosome chrom1, IChromosome chrom2) {
-					return ((Double) chrom2.getFitnessValueDirectly())
-							.compareTo(chrom1.getFitnessValueDirectly());
-				}
-			});
-
-		}
-       	int newsize = chroms.size();
-       	int nowsize = all.size();
-       	if(nowsize+10<=maxsize){
-       		for(int i=0;i<=9;i++){
-       			all.addChromosome(chroms.get(i));
-       		}
-       		localPop.clear();
-       		localPop = (Population) all.clone();
-       	}else{
-       		localPop.clear();
-       	    if(newsize<=10){
-       	    	for(IChromosome chrom:chroms){
-           			all.addChromosome(chrom);
-           		}
-       	    	for(int i=nowsize+newsize-maxsize;i<=nowsize+newsize-1;i++){
-       	    		localPop.addChromosome((IChromosome) all.getChromosome(i).clone());
-           		}
-       	    }else{
-       	    	for(int i=0;i<=9;i++){
-           			all.addChromosome(chroms.get(i));
-           		}
-       	    	for(int i=nowsize+10-maxsize;i<=nowsize+9;i++){
-       	    		localPop.addChromosome((IChromosome) all.getChromosome(i).clone());
-           		}
-       	    }
-       	}
-       	obj.setLocalPop(localPop);
-       	//根据新的最佳群体得到一个模式
-       	
-       	
-       	int m = localPop.size();
-       	int n = localPop.getConfiguration().getChromosomeSize();
-       	
-       	if(m>=maxsize){
-   			Matrix mydata = pop2matrix(localPop);
-   			Double[] avgset = new Double[n];// 平均值
-   			for (int j = 0; j <= n - 1; j++) {
-   				Double tempsum = 0.0;
-   				for (int i = 0; i <= m - 1; i++) {
-   					tempsum += mydata.data[i][j];
-   				}
-   				avgset[j] = tempsum / m;
-   			}
-
-   			// 标准差
-   			for (int j = 0; j <= n - 1; j++) {
-   				Double tempsum = 0.0;
-   				for (int i = 0; i <= m - 1; i++) {
-   					tempsum += ((mydata.data[i][j] - avgset[j]) * (mydata.data[i][j] - avgset[j]));
-   				}
-   				double stddev = Math.sqrt(tempsum / m);
-   				if (stddev <= cutoff) {
-   					newpattern.put(j, stddev);
-   				}
-   			}
-
-   			String pattern = "";
-   			for (int i = 0; i <= n - 1; i++) {
-   				if (newpattern.get(i) == null) {
-   					pattern += "*\t";
-   				} else {
-   					pattern = pattern + avgset[i] + "\t";
-   				}
-   			}
-   			obj.getPatterns().add(pattern);
-   		}
-       	return newpattern;
-       }
-    
- /**
-  *    通过计算历史最佳染色体的标准差，小于cutoff认为是一个模式
-  * @param chroms 新产生的染色体
-  * @param obj 算法对象
-  * @param cutoff 阈值
-  * @return 返回一个模式
-  */
-private static Map<Integer, Double> maintainbestchromlesscutoff(List<IChromosome> chroms, APGA obj, Double cutoff){
-    	
-    	Map<Integer, Double> newpattern = new HashMap();
-    	
-    	Population bestPop = obj.getBestPop();
-    	int maxsize = bestPop.getConfiguration().getPopulationSize();
-    	Population all = (Population) bestPop.clone();
-    	if(chroms!=null&&chroms.size()>0){
-    		for(IChromosome chrom:chroms){
-    			all.addChromosome(chrom);
-    		}
-    	}
-    	
-    	
-    	
-    	int nowsize = all.size();
-    	if(nowsize<=maxsize){
-    		bestPop.clear();
-    		bestPop = (Population) all.clone();
-    	}else{
-    		all.sortByFitness();
-    		bestPop.clear();
-    		for(int i=0;i<=maxsize-1;i++){
-    			bestPop.addChromosome((IChromosome) all.getChromosome(i).clone());
-    		}
-    	}
-    	obj.setBestPop(bestPop);
-    	//根据新的最佳群体得到一个模式
-    	
-    	
-    	int m = bestPop.size();
-    	int n = bestPop.getConfiguration().getChromosomeSize();
-    	
-    	if(m>=maxsize){
-			Matrix mydata = pop2matrix(bestPop);
-			Double[] avgset = new Double[n];// 平均值
-			for (int j = 0; j <= n - 1; j++) {
-				Double tempsum = 0.0;
-				for (int i = 0; i <= m/2 - 1; i++) {
-					tempsum += mydata.data[i][j];
-				}
-				avgset[j] = 2*tempsum / m;
-			}
-
-			// 标准差
-			for (int j = 0; j <= n - 1; j++) {
-				Double tempsum = 0.0;
-				for (int i = 0; i <= m / 2 - 1; i++) {
-					tempsum += ((mydata.data[i][j] - avgset[j]) * (mydata.data[i][j] - avgset[j]));
-				}
-				double stddev = Math.sqrt(2*tempsum / m);
-				if (stddev <= cutoff) {
-					newpattern.put(j, stddev);
-				}
-			}
-
-			String pattern = "";
-			for (int i = 0; i <= n - 1; i++) {
-				if (newpattern.get(i) == null) {
-					pattern += "*\t";
-				} else {
-					pattern = pattern + avgset[i] + "\t";
-				}
-			}
-			obj.getPatterns().add(pattern);
-		}
-    	return newpattern;
-    }
     
     /**
      * 返回一个模式 通过计算历史最优的N个染色体各位上的标准差，取标准差最小的前size*cutoff个，作为模式
@@ -366,39 +82,9 @@ private static Map<Integer, Double> maintainbestchromlesscutoff(List<IChromosome
     	
     	Map<Integer, Double> newpattern = new HashMap();
     	
-    	Population bestPop = obj.getBestPop();
+    	Population bestPop = maintain_history_best(chroms, obj);
     	int maxsize = bestPop.getConfiguration().getPopulationSize();
-    	Population all = (Population) bestPop.clone();
-//    	all.clear();
-//    	if(bestPop!=null&&bestPop.size()>0){
-//    		for(int i = 0; i<= bestPop.size()-1; i++){
-//    			if(bestPop.getChromosome(i).getFitnessValueDirectly()>0){
-//    				all.addChromosome(bestPop.getChromosome(i));
-//    			}else{
-//    				;
-//    			}
-//    		}
-//    }
-    	if(chroms!=null&&chroms.size()>0){
-    		for(IChromosome chrom:chroms){
-    			all.addChromosome(chrom);
-    		}
-    	}
     	
-    	
-    	
-    	int nowsize = all.size();
-    	if(nowsize<=maxsize){
-    		bestPop.clear();
-    		bestPop = (Population) all.clone();
-    	}else{
-    		all.sortByFitness();
-    		bestPop.clear();
-    		for(int i=0;i<=maxsize-1;i++){
-    			bestPop.addChromosome((IChromosome) all.getChromosome(i).clone());
-    		}
-    	}
-    	obj.setBestPop(bestPop);
     	//根据新的最佳群体得到一个模式
     	int m = bestPop.size();
     	int n = bestPop.getConfiguration().getChromosomeSize();
@@ -464,6 +150,192 @@ private static Map<Integer, Double> maintainbestchromlesscutoff(List<IChromosome
     	return newpattern;
     }
     
+    /**
+     * 维护一个历史最优的个体集合
+     * @param chroms 新产生的个体
+     * @param obj 算法对象
+     * @return
+     */
+    private static Population maintain_history_best(List<IChromosome> chroms, APGA obj){
+    		
+    	Population bestPop = obj.getBestPop();
+    	int maxsize = bestPop.getConfiguration().getPopulationSize();
+    	Population all = (Population) bestPop.clone();
+    	if(chroms!=null&&chroms.size()>0){
+    		for(IChromosome chrom:chroms){
+    			all.addChromosome(chrom);
+    		}
+    	}
+    	
+    	
+    	
+    	int nowsize = all.size();
+    	if(nowsize<=maxsize){
+    		bestPop.clear();
+    		bestPop = (Population) all.clone();
+    	}else{
+    		all.sortByFitness();
+    		bestPop.clear();
+    		for(int i=0;i<=maxsize-1;i++){
+    			bestPop.addChromosome((IChromosome) all.getChromosome(i).clone());
+    		}
+    	}
+    	obj.setBestPop(bestPop);
+    	return bestPop;
+    }
+    
+    /**
+     * 维护一个局部最优的个体集合
+     * @param chroms 新产生的个体
+     * @param obj 算法对象
+     * @return
+     */
+    private static Population maintain_local_best(List<IChromosome> chroms, APGA obj){
+    		
+    	//维护一个局部最优群体
+       	Population localPop = obj.getLocalPop();
+       	int maxsize = localPop.getConfiguration().getPopulationSize();
+       	Population all = (Population) localPop.clone();
+       	//新的染色体排序
+		if (chroms != null && chroms.size() > 0) {
+
+			Collections.sort(chroms, new Comparator<IChromosome>() {
+				public int compare(IChromosome chrom1, IChromosome chrom2) {
+					return ((Double) chrom2.getFitnessValueDirectly())
+							.compareTo(chrom1.getFitnessValueDirectly());
+				}
+			});
+
+		}
+       	int newsize = chroms.size();
+       	int nowsize = all.size();
+       	if(nowsize+10<=maxsize){
+       		for(int i=0;i<=9;i++){
+       			all.addChromosome(chroms.get(i));
+       		}
+       		localPop.clear();
+       		localPop = (Population) all.clone();
+       	}else{
+       		localPop.clear();
+       	    if(newsize<=10){
+       	    	for(IChromosome chrom:chroms){
+           			all.addChromosome(chrom);
+           		}
+       	    	for(int i=nowsize+newsize-maxsize;i<=nowsize+newsize-1;i++){
+       	    		localPop.addChromosome((IChromosome) all.getChromosome(i).clone());
+           		}
+       	    }else{
+       	    	for(int i=0;i<=9;i++){
+           			all.addChromosome(chroms.get(i));
+           		}
+       	    	for(int i=nowsize+10-maxsize;i<=nowsize+9;i++){
+       	    		localPop.addChromosome((IChromosome) all.getChromosome(i).clone());
+           		}
+       	    }
+       	}
+       	obj.setLocalPop(localPop);
+    	return localPop;
+    }
+    
+    /**
+     * 维护一个局部最差的个体集合
+     * @param chroms 新产生的个体
+     * @param obj 算法对象
+     * @return
+     */
+    private static Population maintain_local_worst(List<IChromosome> chroms, APGA obj){
+    		
+    	//维护一个局部最优群体
+       	Population localWorst = obj.getLocalWorst();
+       	int maxsize = localWorst.getConfiguration().getPopulationSize();
+       	Population all = (Population) localWorst.clone();
+       	//新的染色体排序
+		if (chroms != null && chroms.size() > 0) {
+
+			Collections.sort(chroms, new Comparator<IChromosome>() {
+				public int compare(IChromosome chrom1, IChromosome chrom2) {
+					return ((Double) chrom1.getFitnessValueDirectly())
+							.compareTo(chrom2.getFitnessValueDirectly());
+				}
+			});
+
+		}
+       	int newsize = chroms.size();
+       	int nowsize = all.size();
+       	if(nowsize+10<=maxsize){
+       		for(int i=0;i<=9;i++){
+       			all.addChromosome(chroms.get(i));
+       		}
+       		localWorst.clear();
+       		localWorst = (Population) all.clone();
+       	}else{
+       		localWorst.clear();
+       	    if(newsize<=10){
+       	    	for(IChromosome chrom:chroms){
+           			all.addChromosome(chrom);
+           		}
+       	    	for(int i=nowsize+newsize-maxsize;i<=nowsize+newsize-1;i++){
+       	    		localWorst.addChromosome((IChromosome) all.getChromosome(i).clone());
+           		}
+       	    }else{
+       	    	for(int i=0;i<=9;i++){
+           			all.addChromosome(chroms.get(i));
+           		}
+       	    	for(int i=nowsize+10-maxsize;i<=nowsize+9;i++){
+       	    		localWorst.addChromosome((IChromosome) all.getChromosome(i).clone());
+           		}
+       	    }
+       	}
+       	obj.setLocalWorst(localWorst);
+    	return localWorst;
+    }
+    
+    private static Map<Integer, Double> getPatternlesscutoff(Population pop, APGA obj, Double cutoff){
+    	
+        Map<Integer, Double> newpattern = new HashMap();
+    	int maxsize = pop.getConfiguration().getPopulationSize();
+    	//根据新的最佳群体得到一个模式
+    	
+    	
+    	int m = pop.size();
+    	int n = pop.getConfiguration().getChromosomeSize();
+    	
+    	if(m>=maxsize){
+			Matrix mydata = pop2matrix(pop);
+			Double[] avgset = new Double[n];// 平均值
+			for (int j = 0; j <= n - 1; j++) {
+				Double tempsum = 0.0;
+				for (int i = 0; i <= m/2 - 1; i++) {
+					tempsum += mydata.data[i][j];
+				}
+				avgset[j] = 2*tempsum / m;
+			}
+
+			// 标准差
+			for (int j = 0; j <= n - 1; j++) {
+				Double tempsum = 0.0;
+				for (int i = 0; i <= m / 2 - 1; i++) {
+					tempsum += ((mydata.data[i][j] - avgset[j]) * (mydata.data[i][j] - avgset[j]));
+				}
+				double stddev = Math.sqrt(2*tempsum / m);
+				if (stddev <= cutoff) {
+					newpattern.put(j, stddev);
+				}
+			}
+
+			String pattern = "";
+			for (int i = 0; i <= n - 1; i++) {
+				if (newpattern.get(i) == null) {
+					pattern += "*\t";
+				} else {
+					pattern = pattern + avgset[i] + "\t";
+				}
+			}
+			obj.getPatterns().add(pattern);
+		}
+    	return newpattern;
+    }
+    
     private static List<Integer> getPatternfromPop(Population pop, double cutoff, APGA obj){
     	List<Integer> result = new ArrayList();
     	//首先把pop转成二进制
@@ -494,6 +366,15 @@ private static Map<Integer, Double> maintainbestchromlesscutoff(List<IChromosome
     			result.add(2);
     		}
     	}
+    	String patternstr = "";
+       	for(int a:result){
+       		if(a!=2){
+       			patternstr+=a;
+       		}else{
+       			patternstr+="*";
+       		}
+       	}
+       	obj.getPatterns().add(patternstr);	
     	return result;
     }
     
@@ -627,9 +508,9 @@ private static Map<Integer, Double> maintainbestchromlesscutoff(List<IChromosome
 			null_chroms.get(i).setFitnessValue(fits[i]);
 			((Chromosome)null_chroms.get(i)).setIscenter(true);
 		}
-//		List<Integer> newpattern = maintainbestchromlesscutoffbybin(null_chroms, obj, cutoff);
-		Map<Integer, Double> newpattern = maintainbestchromlesscutoffbytime(null_chroms, obj, cutoff);
-//		Map<Integer, Double> newpattern = maintainbestchromlesscutoff(null_chroms, obj, cutoff);
+		Population bestPop = maintain_history_best(null_chroms, obj);
+		Population localPop = maintain_local_best(null_chroms, obj);
+		Population localWorst = maintain_local_worst(null_chroms, obj);
         obj.setnIterateCount(obj.getnIterateCount()+null_chroms.size());
     	return objects;
     }
@@ -665,9 +546,12 @@ private static Map<Integer, Double> maintainbestchromlesscutoff(List<IChromosome
 			}
 		}
 		
-//		List<Integer> newpattern = maintainbestchromlesscutoffbybin(center_chroms, obj, cutoff);
-		Map<Integer, Double> newpattern = maintainbestchromlesscutoffbytime(center_chroms, obj, cutoff);
-//		Map<Integer, Double> newpattern = maintainbestchromlesscutoff(center_chroms, obj, cutoff);
+		Population bestPop = maintain_history_best(center_chroms, obj);
+		Population localPop = maintain_local_best(center_chroms, obj);
+		Population localWorst = maintain_local_worst(center_chroms, obj);
+		
+		Map<Integer, Double> bestpattern = getPatternlesscutoff(localPop, obj, cutoff);
+		Map<Integer, Double> worstpattern = getPatternlesscutoff(localWorst, obj, cutoff);
 
 		double dis_max = datamatrix[0][0];
 		double dis_min = datamatrix[0][0];
@@ -682,8 +566,12 @@ private static Map<Integer, Double> maintainbestchromlesscutoff(List<IChromosome
 				datamatrix[i][j] = 1-(datamatrix[i][j]-dis_min)/(dis_max-dis_min);
 			}
 		}
-		String realone = "";
-		String evalone = "";
+		double[] realone = new double[datamatrix.length];
+		double[] evalone = new double[datamatrix.length];
+		double[] diff = new double[datamatrix.length];
+		double diffmin = 6000;
+		double diffmax = 0;
+		double diffsum = 0;
 		for(int i=0; i <= datamatrix.length-1; i++){
 			double tempfit  = 0.0;
 			if(i==results.get(i)){
@@ -691,24 +579,25 @@ private static Map<Integer, Double> maintainbestchromlesscutoff(List<IChromosome
 			}else{
 				
 				double s = 1/(1+datamatrix[i][results.get(i)]);
-				tempfit = ((1-lamda)*s+lamda)*centerObjects.get(results.get(i));
-				tempfit = centerObjects.get(results.get(i));
-//				if(datamatrix[i][results.get(i)]>0.8){
-//					if(Math.random()<0.3){
-//						tempfit = tempfit + tempfit*0.01;
-//					}					
-//				}
-				Population bestPop = obj.getBestPop();
-				Population localPop = obj.getLocalPop();
+//				tempfit = ((1-lamda)*s+lamda)*centerObjects.get(results.get(i));
+				tempfit = (Math.random()+0.5)*centerObjects.get(results.get(i));
+//				tempfit = centerObjects.get(results.get(i));
 				// 对于局部模式估计 这里用localPop
 //				boolean flag = EstimateFitnessBybin(chrs.get(i), obj, newpattern);
-				int e_much = EstimateFitnessHowmuch(chrs.get(i), localPop, newpattern);
+				int e_much = EstimateFitnessHowmuch(chrs.get(i), localPop, bestpattern);
+				int w_much = EstimateFitnessHowmuch(chrs.get(i), localWorst, worstpattern);
 //				boolean flag = EstimateFitness(chrs.get(i), bestPop, newpattern);
 //				boolean flag = EstimateFitness(chrs.get(i), localPop, newpattern);
 //				if(localPop.size()>=bestPop.getConfiguration().getPopulationSize()&&flag){
-				if(localPop.size()>=bestPop.getConfiguration().getPopulationSize()&&e_much>0){
-//					tempfit = tempfit+tempfit*extra;
-					tempfit = tempfit+tempfit*extra*e_much/newpattern.size();
+				if(localPop.size()>=bestPop.getConfiguration().getPopulationSize()){
+					if(e_much>0){
+//					    tempfit = tempfit+tempfit*extra;
+					    tempfit = tempfit+tempfit*extra*e_much/bestpattern.size();
+					}
+					if(w_much>0){
+//					    tempfit = tempfit-tempfit*extra;
+					    tempfit = tempfit-tempfit*extra*w_much/worstpattern.size();
+					}
 					if(tempfit>bestPop.determineFittestChromosome().getFitnessValueDirectly()){
 						tempfit=bestPop.determineFittestChromosome().getFitnessValueDirectly();
 					}
@@ -716,8 +605,12 @@ private static Map<Integer, Double> maintainbestchromlesscutoff(List<IChromosome
 				}
 			}
 		
-			//realone = realone +  calconeFittnessValue(pop.getChromosome(i), obj,  fitness).intValue() +"\t";
-			//evalone = evalone + (int)tempfit +"\t";
+			realone[i] = calconeFittnessValue(pop.getChromosome(i), obj,  fitness);
+			evalone[i] = tempfit;
+			diff[i] = Math.abs(realone[i]-evalone[i]);
+			if(diff[i]>diffmax)diffmax = diff[i];
+			if(diff[i]<diffmin)diffmin = diff[i];
+			diffsum += diff[i];
 			
 			objects.add(tempfit);
 			if(pop.getChromosome(i).getFitnessValueDirectly()<0||!((Chromosome)pop.getChromosome(i)).isIscenter()){
@@ -725,11 +618,15 @@ private static Map<Integer, Double> maintainbestchromlesscutoff(List<IChromosome
 			    ((Chromosome)pop.getChromosome(i)).setIscenter(false);
 			}
 		}
-		//obj.getFitnessvalues().add(realone);
-		//obj.getFitnessvalues().add(evalone);
-		/*for(double a : objects){
-        	System.out.println(a);
-        }*/
+
+		double diffavg = diffsum/datamatrix.length;
+		double diffstdsum = 0;
+		for(int i=0; i <= datamatrix.length-1; i++){
+			diffstdsum+=((diffavg-diff[i])*(diffavg-diff[i]));
+		}
+		double diffstd = Math.sqrt(diffstdsum/datamatrix.length);
+		String fitstr = diffmin + "\t" + diffmax + "\t" + diffstd;
+		obj.getFitnessvalues().add(fitstr);
 
 		return objects;
 	}
