@@ -141,8 +141,8 @@ public class TestAny {
 			BufferedWriter output2 = new BufferedWriter(new FileWriter(result2));
 			
 			for(int a=0; a<=0;a++){
-				a1.Calculate(new MaxFunction(), 0.1, 0.05, 100.0, 0.8, 0.7, consValue, lastPos, pBest, 200, output);
-				a1.Calculate(new CosMaxFunction(), 0.1, 0.05, 100.0, 0.8, 0.7, consValue, lastPos, pBest, 200, output2);
+				a1.Calculate(new MaxFunction(), 0.1, 0.05, 100.0, 0.8, 1.0, consValue, lastPos, pBest, 200, output);
+				//a1.Calculate(new CosMaxFunction(), 0.1, 0.05, 100.0, 0.8, 1.0, consValue, lastPos, pBest, 200, output2);
 			}
 			
 			output.close();
