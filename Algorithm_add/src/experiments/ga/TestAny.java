@@ -84,12 +84,12 @@ public class TestAny {
 		Matrix lastPos = new Matrix(m, n);
 		Matrix pBest = new Matrix(1, m);
 		for(int i = 0; i<=n-1;i++ ){
-			consValue.data[0][i] = -10;
-			consValue.data[1][i] = 10;
+			consValue.data[0][i] = -32;
+			consValue.data[1][i] = 32;
 		}
 		for(int i = 0; i<=m-1;i++ ){
 			for(int j = 0; j<=n-1;j++ ){
-				lastPos.data[i][j] = Math.random()*20-10;
+				lastPos.data[i][j] = Math.random()*64-32;
 //				lastPos.data[i][j] = 0.0;
 			}
 		}
@@ -99,8 +99,9 @@ public class TestAny {
 //				total+=(lastPos.data[i][j]*lastPos.data[i][j]-10*Math.cos(2*lastPos.data[i][j]*Math.PI)+10);
 				total+=Math.pow(lastPos.data[i][j], 2.0);
 			}
+			pBest.data[0][i] = 20+Math.E;
 //			pBest.data[0][i] = n*111-total;
-			pBest.data[0][i] = n*Math.pow(10, 2.0)-total;
+//			pBest.data[0][i] = n*Math.pow(10, 2.0)-total;
 		}
 		
 		try {
@@ -141,7 +142,7 @@ public class TestAny {
 			BufferedWriter output2 = new BufferedWriter(new FileWriter(result2));
 			
 			for(int a=0; a<=0;a++){
-				a1.Calculate(new MaxFunction(), 0.1, 0.05, 100.0, 0.8, 0.8, consValue, lastPos, pBest, 200, output);
+				a1.Calculate(new AckleyMaxFunction(), 0.1, 0.0, 100.0, 0.8, 1.0, consValue, lastPos, pBest, 200, output);
 				//a1.Calculate(new CosMaxFunction(), 0.1, 0.05, 100.0, 0.8, 1.0, consValue, lastPos, pBest, 200, output2);
 			}
 			

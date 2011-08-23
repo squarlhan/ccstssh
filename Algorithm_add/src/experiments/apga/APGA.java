@@ -19,6 +19,7 @@ import org.jgap.impl.DefaultConfiguration;
 import org.jgap.impl.DoubleGene;
 
 import experiments.Matrix;
+import experiments.ga.AckleyMaxFunction;
 import experiments.ga.GAFunction;
 import experiments.ga.MaxFunction;
 
@@ -241,7 +242,7 @@ public void setLocalPop(Population localPop) {
 			}
 			System.out.println();
 			output.write("\n");
-			System.out.println("sum counts: " + MaxFunction.counts);
+			System.out.println("sum counts: " + AckleyMaxFunction.counts);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -261,8 +262,8 @@ public void setLocalPop(Population localPop) {
 			}
 			pBest_ga = pop2matrix(genotype.getPopulation());
 		}
-		printsth("patterns.txt", patterns);
-		printsth("values.txt", fitnessvalues);
+//		printsth("patterns.txt", patterns);
+//		printsth("values.txt", fitnessvalues);
 		return new Object[] { pBest_ga, pBest, consValue };
 
 	}// end of this math
