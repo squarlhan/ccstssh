@@ -579,8 +579,8 @@ public class clustObjectFun {
 			}else{
 				
 				double s = 1/(1+datamatrix[i][results.get(i)]);
-//				tempfit = ((1-lamda)*s+lamda)*centerObjects.get(results.get(i));
-				tempfit = (Math.random()+0.5)*centerObjects.get(results.get(i));
+				tempfit = ((1-lamda)*s+lamda)*centerObjects.get(results.get(i));
+//				tempfit = (Math.random()+0.5)*centerObjects.get(results.get(i));
 //				tempfit = centerObjects.get(results.get(i));
 				// 对于局部模式估计 这里用localPop
 //				boolean flag = EstimateFitnessBybin(chrs.get(i), obj, newpattern);
@@ -609,7 +609,7 @@ public class clustObjectFun {
 			evalone[i] = tempfit;
 			diff[i] = Math.abs(realone[i]-evalone[i]);
 			if(diff[i]>diffmax)diffmax = diff[i];
-			if(diff[i]<diffmin)diffmin = diff[i];
+			if(diff[i]!=0&&diff[i]<diffmin)diffmin = diff[i];
 			diffsum += diff[i];
 			
 			objects.add(tempfit);

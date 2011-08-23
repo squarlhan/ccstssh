@@ -261,7 +261,7 @@ public void setLocalPop(Population localPop) {
 			}
 			pBest_ga = pop2matrix(genotype.getPopulation());
 		}
-		//printsth("patterns.txt", patterns);
+		printsth("patterns.txt", patterns);
 		printsth("values.txt", fitnessvalues);
 		return new Object[] { pBest_ga, pBest, consValue };
 
