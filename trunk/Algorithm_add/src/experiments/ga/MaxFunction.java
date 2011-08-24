@@ -80,7 +80,7 @@ public Double[] excute(Matrix data, int nIterateCount) {
 		}
 //		results[i] = n*111-total;
 		
-		results[i] = n*Math.pow(10, 2.0)-total;
+		results[i] = n*Math.pow(100, 2.0)-total;
 	}
 	counts += m;
 	return results;

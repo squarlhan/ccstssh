@@ -70,7 +70,7 @@ public class CosSimpleMaxFunction
       
     }
     counts ++;
-    return n*111-total;
+    return n*41-total;
 //    return n*Math.pow(10, 2.0)-total; 
   }
 

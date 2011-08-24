@@ -71,7 +71,7 @@ public class SimpleMaxFunction
     }
     counts ++;
 //    return n*111-total;
-    return n*Math.pow(10, 2.0)-total; 
+    return n*Math.pow(100, 2.0)-total; 
   }
 
 @Override
