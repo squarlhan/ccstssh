@@ -42,7 +42,7 @@ public class SimpleExample {
 			//构建基因(Gene)
 			Gene[] sampleGenes = new Gene[chromeSize];//基因长度2
 			 for (int i = 0; i < sampleGenes.length; i++) {					    
-					sampleGenes[i] = new DoubleGene(gaConf, -32, 32);
+					sampleGenes[i] = new DoubleGene(gaConf, -5.12, 5.12);
 			 }
 			// 构建染色体(Chromosome)
 			 IChromosome sampleChromosome = new Chromosome(gaConf, sampleGenes);
@@ -149,8 +149,8 @@ public class SimpleExample {
 			BufferedWriter output2 = new BufferedWriter(new FileWriter(result2));
 			
 			for(int a=0; a<=0;a++){
-				se.runga(120, 30, 40, new AckleySimpleMaxFunction(), output);
-//				se.runga(200, 30, 40, new CosSimpleMaxFunction(), output2);
+				se.runga(120, 30, 40, new CosSimpleMaxFunction(), output);
+				se.runga(200, 30, 40, new CosSimpleMaxFunction(), output2);
 			}
 			
 			output.close();

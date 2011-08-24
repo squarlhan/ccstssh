@@ -80,28 +80,44 @@ public class TestAny {
 		APGA a1 = new APGA();
 		int m = 40;
 		int n = 30;
-		Matrix consValue = new Matrix(2, n);
-		Matrix lastPos = new Matrix(m, n);
-		Matrix pBest = new Matrix(1, m);
+		Matrix consValue32 = new Matrix(2, n);
+		Matrix consValue100 = new Matrix(2, n);
+		Matrix consValue512 = new Matrix(2, n);
+		Matrix lastPos32 = new Matrix(m, n);
+		Matrix lastPos100 = new Matrix(m, n);
+		Matrix lastPos512 = new Matrix(m, n);
+		Matrix pBest32 = new Matrix(1, m);
+		Matrix pBest100 = new Matrix(1, m);
+		Matrix pBest512 = new Matrix(1, m);
 		for(int i = 0; i<=n-1;i++ ){
-			consValue.data[0][i] = -32;
-			consValue.data[1][i] = 32;
+			consValue32.data[0][i] = -32;
+			consValue32.data[1][i] = 32;
+			consValue100.data[0][i] = -100;
+			consValue100.data[1][i] = 100;
+			consValue512.data[0][i] = -5.12;
+			consValue512.data[1][i] = 5.12;
 		}
 		for(int i = 0; i<=m-1;i++ ){
 			for(int j = 0; j<=n-1;j++ ){
-				lastPos.data[i][j] = Math.random()*64-32;
-//				lastPos.data[i][j] = 0.0;
+				lastPos32.data[i][j] = Math.random()*64-32;
+				lastPos100.data[i][j] = Math.random()*200-100;
+				lastPos512.data[i][j] = Math.random()*10.24-5.12;
 			}
 		}
 		for(int i = 0; i<=m-1; i++){
-			double total = 0;
+			double total32 = 0;
+			double totalcos = 0;
+			double total100 = 0;
+			double total512 = 0;
 			for(int j = 0; j<=n-1; j++){
-//				total+=(lastPos.data[i][j]*lastPos.data[i][j]-10*Math.cos(2*lastPos.data[i][j]*Math.PI)+10);
-				total+=Math.pow(lastPos.data[i][j], 2.0);
+				total32 +=  (lastPos32.data[i][j]*lastPos32.data[i][j]);
+				totalcos += (Math.cos(2*Math.PI*lastPos32.data[i][j]));
+				total512+=(lastPos512.data[i][j]*lastPos512.data[i][j]-10*Math.cos(2*lastPos512.data[i][j]*Math.PI)+10);
+				total100+=Math.pow(lastPos100.data[i][j], 2.0);
 			}
-			pBest.data[0][i] = 20+Math.E;
-//			pBest.data[0][i] = n*111-total;
-//			pBest.data[0][i] = n*Math.pow(10, 2.0)-total;
+			pBest32.data[0][i] = 20*Math.exp(-0.2*Math.sqrt(total32/n))+Math.exp(totalcos/n);
+			pBest512.data[0][i] = n*111-total512;
+			pBest100.data[0][i] = n*Math.pow(10, 2.0)-total100;
 		}
 		
 		try {
@@ -142,8 +158,12 @@ public class TestAny {
 			BufferedWriter output2 = new BufferedWriter(new FileWriter(result2));
 			
 			for(int a=0; a<=0;a++){
-				a1.Calculate(new AckleyMaxFunction(), 0.1, 0.0, 100.0, 0.8, 1.0, consValue, lastPos, pBest, 200, output);
-				//a1.Calculate(new CosMaxFunction(), 0.1, 0.05, 100.0, 0.8, 1.0, consValue, lastPos, pBest, 200, output2);
+				a1.Calculate(new AckleyMaxFunction(), 0.1, 0.05, 100.0, 0.8, 1.0, consValue32, lastPos32, pBest32, 200, output);
+				a1.Calculate(new AckleyMaxFunction(), 0.1, 0.05, 100.0, 0.8, 0.8, consValue32, lastPos32, pBest32, 200, output);
+				a1.Calculate(new MaxFunction(), 0.1, 0.05, 100.0, 0.8, 1.0, consValue100, lastPos100, pBest100, 200, output);
+				a1.Calculate(new MaxFunction(), 0.1, 0.05, 100.0, 0.8, 0.8, consValue100, lastPos100, pBest100, 200, output);
+				a1.Calculate(new CosMaxFunction(), 0.1, 0.05, 100.0, 0.8, 1.0, consValue512, lastPos512, pBest512, 200, output);
+				a1.Calculate(new CosMaxFunction(), 0.1, 0.05, 100.0, 0.8, 0.8, consValue512, lastPos512, pBest512, 200, output);
 			}
 			
 			output.close();

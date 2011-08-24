@@ -550,8 +550,12 @@ public class clustObjectFun {
 		Population localPop = maintain_local_best(center_chroms, obj);
 		Population localWorst = maintain_local_worst(center_chroms, obj);
 		
-		Map<Integer, Double> bestpattern = getPatternlesscutoff(localPop, obj, cutoff);
-		Map<Integer, Double> worstpattern = getPatternlesscutoff(localWorst, obj, cutoff);
+		Map<Integer, Double> newpattern = getPatternlesscutoff(bestPop, obj, cutoff);
+//		Map<Integer, Double> bestpattern = getPatternlesscutoff(localPop, obj, cutoff);
+//		Map<Integer, Double> worstpattern = getPatternlesscutoff(localWorst, obj, cutoff);
+		
+//		List<Integer> bestpattern = getPatternfromPop(localPop, cutoff, obj);
+//		List<Integer> worstpattern = getPatternfromPop(localWorst, cutoff, obj);
 
 		double dis_max = datamatrix[0][0];
 		double dis_min = datamatrix[0][0];
@@ -583,21 +587,26 @@ public class clustObjectFun {
 //				tempfit = (Math.random()+0.5)*centerObjects.get(results.get(i));
 //				tempfit = centerObjects.get(results.get(i));
 				// 对于局部模式估计 这里用localPop
-//				boolean flag = EstimateFitnessBybin(chrs.get(i), obj, newpattern);
-				int e_much = EstimateFitnessHowmuch(chrs.get(i), localPop, bestpattern);
-				int w_much = EstimateFitnessHowmuch(chrs.get(i), localWorst, worstpattern);
-//				boolean flag = EstimateFitness(chrs.get(i), bestPop, newpattern);
+//				boolean flag1 = EstimateFitnessBybin(chrs.get(i), obj, bestpattern);
+//				boolean flag2 = EstimateFitnessBybin(chrs.get(i), obj, worstpattern);
+//				int e_much = EstimateFitnessHowmuch(chrs.get(i), localPop, bestpattern);
+//				int w_much = EstimateFitnessHowmuch(chrs.get(i), localWorst, worstpattern);
+				boolean flag1 = EstimateFitness(chrs.get(i), bestPop, newpattern);
 //				boolean flag = EstimateFitness(chrs.get(i), localPop, newpattern);
 //				if(localPop.size()>=bestPop.getConfiguration().getPopulationSize()&&flag){
 				if(localPop.size()>=bestPop.getConfiguration().getPopulationSize()){
-					if(e_much>0){
-//					    tempfit = tempfit+tempfit*extra;
-					    tempfit = tempfit+tempfit*extra*e_much/bestpattern.size();
+//					if(e_much>0){
+//					    tempfit = tempfit+tempfit*extra*e_much/bestpattern.size();
+//					}
+//					if(w_much>0){
+//					    tempfit = tempfit-tempfit*extra*w_much/worstpattern.size();
+//					}
+					if(flag1){
+					    tempfit = tempfit+tempfit*extra;
 					}
-					if(w_much>0){
+//					if(flag2){
 //					    tempfit = tempfit-tempfit*extra;
-					    tempfit = tempfit-tempfit*extra*w_much/worstpattern.size();
-					}
+//					}
 					if(tempfit>bestPop.determineFittestChromosome().getFitnessValueDirectly()){
 						tempfit=bestPop.determineFittestChromosome().getFitnessValueDirectly();
 					}
