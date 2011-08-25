@@ -31,9 +31,18 @@ private Population localWorst = null;
 private List<String> patterns = new ArrayList();
 private List<String> fitnessvalues = new ArrayList();
 private Matrix consValue = null;
+private int progress = 0;
 
 	
 	
+	public int getProgress() {
+	return progress;
+}
+
+public void setProgress(int progress) {
+	this.progress = progress;
+}
+
 	public Matrix getConsValue() {
 	return consValue;
 }
@@ -99,6 +108,14 @@ public void setLocalPop(Population localPop) {
 	public Object[] Calculate(APGAFunction fitness, double Pc, double pc1,
 			double Pm, double T, double Pt, Matrix consValue, Matrix lastPos,
 			Matrix pBest, int NG, BufferedWriter output) {
+		nIterateCount=0;
+		bestPop = null;
+		localPop = null;
+		localWorst = null;
+		patterns = new ArrayList();
+		fitnessvalues = new ArrayList();
+		this.consValue = null;
+		progress = 0;
 		//确认所有矩阵的大小正确
 		if(consValue==null||consValue.getM()!=2||consValue.getN()<1){
 			System.out.println("consValue   M:" + consValue.getM() + " N:"+ consValue.getN());
@@ -181,7 +198,7 @@ public void setLocalPop(Population localPop) {
 			e.printStackTrace();
 			System.exit(-2);
 		}
-		int progress = 0;
+		progress = 0;
 		int percentEvolution = numEvolutions / 10;
 		for (int i = 0; i < numEvolutions; i++) {
         	//Start GA
