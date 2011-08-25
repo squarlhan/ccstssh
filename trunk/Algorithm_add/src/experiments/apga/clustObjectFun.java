@@ -573,8 +573,6 @@ public class clustObjectFun {
 		double[] realone = new double[datamatrix.length];
 		double[] evalone = new double[datamatrix.length];
 		double[] diff = new double[datamatrix.length];
-		double diffmin = 6000;
-		double diffmax = 0;
 		double diffsum = 0;
 		for(int i=0; i <= datamatrix.length-1; i++){
 			double tempfit  = 0.0;
@@ -614,12 +612,10 @@ public class clustObjectFun {
 				}
 			}
 		
-//			realone[i] = calconeFittnessValue(pop.getChromosome(i), obj,  fitness);
-//			evalone[i] = tempfit;
-//			diff[i] = Math.abs(realone[i]-evalone[i]);
-//			if(diff[i]>diffmax)diffmax = diff[i];
-//			if(diff[i]!=0&&diff[i]<diffmin)diffmin = diff[i];
-//			diffsum += diff[i];
+			realone[i] = calconeFittnessValue(pop.getChromosome(i), obj,  fitness);
+			evalone[i] = tempfit;
+			diff[i] = Math.abs(realone[i]-evalone[i]);
+			diffsum += (diff[i]/realone[i]);
 			
 			objects.add(tempfit);
 			if(pop.getChromosome(i).getFitnessValueDirectly()<0||!((Chromosome)pop.getChromosome(i)).isIscenter()){
@@ -628,14 +624,8 @@ public class clustObjectFun {
 			}
 		}
 
-//		double diffavg = diffsum/datamatrix.length;
-//		double diffstdsum = 0;
-//		for(int i=0; i <= datamatrix.length-1; i++){
-//			diffstdsum+=((diffavg-diff[i])*(diffavg-diff[i]));
-//		}
-//		double diffstd = Math.sqrt(diffstdsum/datamatrix.length);
-//		String fitstr = diffmin + "\t" + diffmax + "\t" + diffstd;
-//		obj.getFitnessvalues().add(fitstr);
+     	String fitstr = diffsum/datamatrix.length + "\t" ;
+		obj.getFitnessvalues().add(fitstr);
 
 		return objects;
 	}

@@ -121,23 +121,23 @@ public class TestAny {
 		}
 		
 		try {
-			File result = new File("newpga_x_2.txt");
-			if (result.exists()) {
-				result.delete();
-				if (result.createNewFile()) {
-					System.out.println("result file create success!");
+			File result1 = new File("x.txt");
+			if (result1.exists()) {
+				result1.delete();
+				if (result1.createNewFile()) {
+					System.out.println("result1 file create success!");
 				} else {
-					System.out.println("result file create failed!");
+					System.out.println("result1 file create failed!");
 				}
 			} else {
-				if (result.createNewFile()) {
-					System.out.println("result file create success!");
+				if (result1.createNewFile()) {
+					System.out.println("result1 file create success!");
 				} else {
-					System.out.println("result file create failed!");
+					System.out.println("result1 file create failed!");
 				}
 
 			}
-			File result2 = new File("newpga_cos_2.txt");
+			File result2 = new File("cos.txt");
 			if (result2.exists()) {
 				result2.delete();
 				if (result2.createNewFile()) {
@@ -153,21 +153,42 @@ public class TestAny {
 				}
 
 			}
+			File result3 = new File("ackley.txt");
+			if (result3.exists()) {
+				result3.delete();
+				if (result3.createNewFile()) {
+					System.out.println("result3 file create success!");
+				} else {
+					System.out.println("result3 file create failed!");
+				}
+			} else {
+				if (result3.createNewFile()) {
+					System.out.println("result3 file create success!");
+				} else {
+					System.out.println("result3 file create failed!");
+				}
 
-			BufferedWriter output = new BufferedWriter(new FileWriter(result));
+			}
+
+			BufferedWriter output1 = new BufferedWriter(new FileWriter(result1));
 			BufferedWriter output2 = new BufferedWriter(new FileWriter(result2));
+			BufferedWriter output3 = new BufferedWriter(new FileWriter(result3));
 			
-			for(int a=0; a<=0;a++){
-				a1.Calculate(new AckleyMaxFunction(), 0.1, 0.05, 100.0, 0.8, 1.0, consValue32, lastPos32, pBest32, 200, output);
-				a1.Calculate(new AckleyMaxFunction(), 0.1, 0.05, 100.0, 0.8, 0.8, consValue32, lastPos32, pBest32, 200, output);
-				a1.Calculate(new MaxFunction(), 0.1, 0.05, 100.0, 0.8, 1.0, consValue100, lastPos100, pBest100, 200, output);
-				a1.Calculate(new MaxFunction(), 0.1, 0.05, 100.0, 0.8, 0.8, consValue100, lastPos100, pBest100, 200, output);
-				a1.Calculate(new CosMaxFunction(), 0.1, 0.05, 100.0, 0.8, 1.0, consValue512, lastPos512, pBest512, 200, output);
-				a1.Calculate(new CosMaxFunction(), 0.1, 0.05, 100.0, 0.8, 0.8, consValue512, lastPos512, pBest512, 200, output);
+			double lamda = 0;
+//			for(int a=0; a<=0;a++){
+            while(lamda<=2){
+//				a1.Calculate(new AckleyMaxFunction(), 0.1, 0.05, 100.0, 0.8, 1.0, consValue32, lastPos32, pBest32, 200, output);
+				a1.Calculate(new AckleyMaxFunction(), 0.1, 0.0, 100.0, 0.8, lamda, consValue32, lastPos32, pBest32, 200, output3);
+//				a1.Calculate(new MaxFunction(), 0.1, 0.05, 100.0, 0.8, 1.0, consValue100, lastPos100, pBest100, 200, output);
+				a1.Calculate(new MaxFunction(), 0.1, 0.0, 100.0, 0.8, lamda, consValue100, lastPos100, pBest100, 200, output1);
+//				a1.Calculate(new CosMaxFunction(), 0.1, 0.05, 100.0, 0.8, 1.0, consValue512, lastPos512, pBest512, 200, output);
+				a1.Calculate(new CosMaxFunction(), 0.1, 0.0, 100.0, 0.8, lamda, consValue512, lastPos512, pBest512, 200, output2);
+				lamda+=0.05;
 			}
 			
-			output.close();
+			output1.close();
 			output2.close();
+			output3.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
