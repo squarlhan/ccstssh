@@ -76,11 +76,9 @@ public Double[] excute(Matrix data, int nIterateCount) {
 		double total = 0;
 		for(int j = 0; j<=n-1; j++){
 			total +=  (data.data[i][j]*data.data[i][j]-10*Math.cos(2*data.data[i][j]*Math.PI)+10);
-//			total+=Math.pow(data.data[i][j], 2.0);
 		}
-		results[i] = n*41-total;
-		
-//		results[i] = n*Math.pow(10, 2.0)-total;
+//		results[i] = n*41-total;
+		results[i] = 1000*(n*41-total)/(n*41);
 	}
 	counts += m;
 	return results;

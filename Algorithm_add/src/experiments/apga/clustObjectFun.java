@@ -344,7 +344,7 @@ public class clustObjectFun {
     	for(int i = 0; i<=pop.size()-1; i++){
     		List<Integer> chrombin = new ArrayList();
     		for(int j = 0; j<=pop.getConfiguration().getChromosomeSize()-1;j++){
-    			chrombin.addAll(doube2binary2(obj.getConsValue().getData()[0][j],
+    			chrombin.addAll(doube2binary(obj.getConsValue().getData()[0][j],
     					obj.getConsValue().getData()[1][j],
     					10,
     					(Double) pop.getChromosome(i).getGene(j).getAllele()));
@@ -459,7 +459,7 @@ public class clustObjectFun {
     	int n = chrom.size();
     	List<Integer> chrombin = new ArrayList();
 		for(int j = 0; j<=n-1;j++){
-			chrombin.addAll(doube2binary2(obj.getConsValue().getData()[0][j],
+			chrombin.addAll(doube2binary(obj.getConsValue().getData()[0][j],
 					obj.getConsValue().getData()[1][j],
 					10,
 					(Double)chrom.getGene(j).getAllele()));
@@ -550,12 +550,12 @@ public class clustObjectFun {
 		Population localPop = maintain_local_best(center_chroms, obj);
 		Population localWorst = maintain_local_worst(center_chroms, obj);
 		
-		Map<Integer, Double> newpattern = getPatternlesscutoff(bestPop, obj, cutoff);
+//		Map<Integer, Double> newpattern = getPatternlesscutoff(bestPop, obj, cutoff);
 //		Map<Integer, Double> bestpattern = getPatternlesscutoff(localPop, obj, cutoff);
 //		Map<Integer, Double> worstpattern = getPatternlesscutoff(localWorst, obj, cutoff);
 		
-//		List<Integer> bestpattern = getPatternfromPop(localPop, cutoff, obj);
-//		List<Integer> worstpattern = getPatternfromPop(localWorst, cutoff, obj);
+		List<Integer> bestpattern = getPatternfromPop(localPop, cutoff, obj);
+		List<Integer> worstpattern = getPatternfromPop(localWorst, cutoff, obj);
 
 		double dis_max = datamatrix[0][0];
 		double dis_min = datamatrix[0][0];
@@ -589,7 +589,7 @@ public class clustObjectFun {
 //				boolean flag2 = EstimateFitnessBybin(chrs.get(i), obj, worstpattern);
 //				int e_much = EstimateFitnessHowmuch(chrs.get(i), localPop, bestpattern);
 //				int w_much = EstimateFitnessHowmuch(chrs.get(i), localWorst, worstpattern);
-				boolean flag1 = EstimateFitness(chrs.get(i), bestPop, newpattern);
+//				boolean flag1 = EstimateFitness(chrs.get(i), bestPop, newpattern);
 //				boolean flag = EstimateFitness(chrs.get(i), localPop, newpattern);
 //				if(localPop.size()>=bestPop.getConfiguration().getPopulationSize()&&flag){
 				if(localPop.size()>=bestPop.getConfiguration().getPopulationSize()){
@@ -599,9 +599,30 @@ public class clustObjectFun {
 //					if(w_much>0){
 //					    tempfit = tempfit-tempfit*extra*w_much/worstpattern.size();
 //					}
-					if(flag1){
-					    tempfit = tempfit+tempfit*extra;
+					int b = match(bestpattern, chrs.get(i), obj);
+					int w = match(worstpattern, chrs.get(i), obj);
+					if(b>=w){
+						double temp = 0;
+						for(int a = 0; a<= localPop.size()-1;a++){
+							temp = temp + ((double)match(bestpattern, localPop.getChromosome(a), obj)
+									/localPop.getChromosome(a).size())
+									*localPop.getChromosome(a).getFitnessValueDirectly();
+						}
+						tempfit = tempfit + extra*Math.exp(-1*obj.getProgress())*
+								(1-((double)b/bestpattern.size()))*temp/localPop.size();
+					}else{
+						double temp = 0;
+						for(int a = 0; a<= localWorst.size()-1;a++){
+							temp = temp + ((double)match(bestpattern, localWorst.getChromosome(a), obj)
+									/localWorst.getChromosome(a).size())
+									*localWorst.getChromosome(a).getFitnessValueDirectly();
+						}
+						tempfit = tempfit - extra*Math.exp(-1*obj.getProgress())*
+								(1-((double)b/bestpattern.size()))*temp/localWorst.size();
 					}
+//					if(flag1){
+//					    tempfit = tempfit+tempfit*extra;
+//					}
 //					if(flag2){
 //					    tempfit = tempfit-tempfit*extra;
 //					}
@@ -659,6 +680,24 @@ public class clustObjectFun {
     	  }
     	  return result;
       }
+    
+    private static int match(List<Integer> pattern,  IChromosome chrom, APGA obj){
+    	int result = 0;
+    	int n = chrom.size();
+    	List<Integer> chrombin = new ArrayList();
+		for(int j = 0; j<=n-1;j++){
+			chrombin.addAll(doube2binary(obj.getConsValue().getData()[0][j],
+					obj.getConsValue().getData()[1][j],
+					10,
+					(Double)chrom.getGene(j).getAllele()));
+		}
+		int plen = pattern.size();
+		for(int i = 0; i<= plen-1; i++){
+			if(pattern.get(i) == chrombin.get(i))result ++;
+		}
+    	return result;
+    }
+    
   //二进制分三部分，第一位是符号位，接下来几位表示整数部分，最后一些是小数部分
   	private static List<Integer> doube2binary2(double min, double max, int p, double num){
   		List<Integer> result = new ArrayList();

@@ -177,12 +177,12 @@ public class TestAny {
 			double lamda = 0;
 //			for(int a=0; a<=0;a++){
             while(lamda<=2){
-//				a1.Calculate(new AckleyMaxFunction(), 0.1, 0.05, 100.0, 0.8, 1.0, consValue32, lastPos32, pBest32, 200, output);
-				a1.Calculate(new AckleyMaxFunction(), 0.1, 0.0, 100.0, 0.8, lamda, consValue32, lastPos32, pBest32, 200, output3);
-//				a1.Calculate(new MaxFunction(), 0.1, 0.05, 100.0, 0.8, 1.0, consValue100, lastPos100, pBest100, 200, output);
-				a1.Calculate(new MaxFunction(), 0.1, 0.0, 100.0, 0.8, lamda, consValue100, lastPos100, pBest100, 200, output1);
-//				a1.Calculate(new CosMaxFunction(), 0.1, 0.05, 100.0, 0.8, 1.0, consValue512, lastPos512, pBest512, 200, output);
-				a1.Calculate(new CosMaxFunction(), 0.1, 0.0, 100.0, 0.8, lamda, consValue512, lastPos512, pBest512, 200, output2);
+				a1.Calculate(new AckleyMaxFunction(), 0.8, 0.01, 100.0, 0.8, lamda, consValue32, lastPos32, pBest32, 200, output3);
+//				a1.Calculate(new AckleyMaxFunction(), 0.8, 0.01, 100.0, 0.8, 0.8, consValue32, lastPos32, pBest32, 200, output3);
+				a1.Calculate(new MaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue100, lastPos100, pBest100, 200, output1);
+//				a1.Calculate(new MaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue100, lastPos100, pBest100, 200, output1);
+				a1.Calculate(new CosMaxFunction(), 0.8, 0.01, 100.0, 0.8, lamda, consValue512, lastPos512, pBest512, 200, output2);
+//				a1.Calculate(new CosMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue512, lastPos512, pBest512, 200, output2);
 				lamda+=0.05;
 			}
 			
