@@ -283,8 +283,8 @@ public void setLocalPop(Population localPop) {
 		if(consValue.data[0][0]==-100)label ="x";
 		if(consValue.data[0][0]==-5.12)label ="cox";
 		if(consValue.data[0][0]==-32)label ="ackley";
-		printsth(label+myformat.format(Pt)+"patterns.txt", patterns);
-		printsth(label+myformat.format(Pt)+"values.txt", fitnessvalues);
+		printsth("patterns"+label+myformat.format(Pt)+".txt", patterns);
+		printsth("values"+label+myformat.format(Pt)+".txt", fitnessvalues);
 		return new Object[] { pBest_ga, pBest, consValue };
 
 	}// end of this math

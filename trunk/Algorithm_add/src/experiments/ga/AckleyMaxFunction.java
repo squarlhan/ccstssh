@@ -79,7 +79,8 @@ public Double[] excute(Matrix data, int nIterateCount) {
 			total +=  (data.data[i][j]*data.data[i][j]);
 			totalcos += (Math.cos(2*Math.PI*data.data[i][j]));
 		}
-		results[i] = 20*Math.exp(-0.2*Math.sqrt(total/n))+Math.exp(totalcos/n);
+//		results[i] = 20*Math.exp(-0.2*Math.sqrt(total/n))+Math.exp(totalcos/n);
+		results[i] = 1000*(20*Math.exp(-0.2*Math.sqrt(total/n))+Math.exp(totalcos/n))/(20 + Math.E);
 	}
 	counts += m;
 	return results;
