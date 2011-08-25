@@ -122,7 +122,7 @@ public void setLocalPop(Population localPop) {
 			System.out.println("pc1 Should be between 0 and 1");
 		    return null;
 		}
-		if(Pt>1||Pt<0){
+		if(Pt>2||Pt<0){
 			System.out.println("Pt Should be between 0 and 1");
 		    return null;
 		}
@@ -230,19 +230,19 @@ public void setLocalPop(Population localPop) {
 				fittest = fittest3;
 			}
 		}
+		DecimalFormat myformat = new DecimalFormat("#0.00");
 		try {
 			output.write(fittest.getFitnessValueDirectly() + "\n");
 
-			DecimalFormat myformat = new DecimalFormat("#0.00");
+			
 			for (int i = 0; i < chromeSize; i++) {
 				System.out.print(myformat
 						.format(fittest.getGene(i).getAllele()) + "	");
-				output.write(myformat.format(fittest.getGene(i).getAllele())
-						+ "	");
+//				output.write(myformat.format(fittest.getGene(i).getAllele())+ "	");
 			}
 			System.out.println();
-			output.write("\n");
-			System.out.println("sum counts: " + AckleyMaxFunction.counts);
+//			output.write("\n");
+//			System.out.println("sum counts: " + AckleyMaxFunction.counts);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -262,8 +262,12 @@ public void setLocalPop(Population localPop) {
 			}
 			pBest_ga = pop2matrix(genotype.getPopulation());
 		}
-//		printsth("patterns.txt", patterns);
-//		printsth("values.txt", fitnessvalues);
+		String label = "";
+		if(consValue.data[0][0]==-100)label ="x";
+		if(consValue.data[0][0]==-5.12)label ="cox";
+		if(consValue.data[0][0]==-32)label ="ackley";
+		printsth(label+myformat.format(Pt)+"patterns.txt", patterns);
+		printsth(label+myformat.format(Pt)+"values.txt", fitnessvalues);
 		return new Object[] { pBest_ga, pBest, consValue };
 
 	}// end of this math
