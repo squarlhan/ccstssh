@@ -78,8 +78,8 @@ public Double[] excute(Matrix data, int nIterateCount) {
 		for(int j = 0; j<=n-1; j++){
 			total+=(Math.floor(data.data[i][j]+0.5)*Math.floor(data.data[i][j]+0.5));		
 	    }
-		results[i] =  n*100*100-total;
-//		results[i] = 1000*( n*100*100-total)/(n*100*100);
+//		results[i] =  n*100*100-total;
+		results[i] = 1000*( n*100*100-total)/(n*100*100);
 	}
 	counts += m;
 	return results;

@@ -178,7 +178,7 @@ public class TestAny {
 
 			}
 			
-			File result4 = new File("max.txt");
+			File result4 = new File("Quardirc.txt");
 			if (result4.exists()) {
 				result4.delete();
 				if (result4.createNewFile()) {
@@ -227,8 +227,8 @@ public class TestAny {
 //				a1.Calculate(new MaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue100, lastPos100, pBestx, 200, output1);
 //				a1.Calculate(new CosMaxFunction(), 0.8, 0.01, 100.0, 0.8, lamda, consValue512, lastPos512, pBestcos, 200, output2);
 //				a1.Calculate(new CosMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue512, lastPos512, pBestcos, 200, output2);
-            	a1.Calculate(new MaxMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue100, lastPos100, pBestmax, 200, output4);
-//				a1.Calculate(new MaxMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue100, lastPos100, pBestmax, 200, output4);
+            	a1.Calculate(new QuardircMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue100, lastPos100, pBestmax, 200, output4);
+//				a1.Calculate(new QuardircMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue100, lastPos100, pBestmax, 200, output4);
 				a1.Calculate(new StepMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue100, lastPos100, pBeststep, 200, output5);
 //				a1.Calculate(new StepMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue100, lastPos100, pBeststep, 200, output5);
 				lamda+=0.05;
@@ -237,6 +237,8 @@ public class TestAny {
 			output1.close();
 			output2.close();
 			output3.close();
+			output4.close();
+			output5.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
