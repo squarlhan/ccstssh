@@ -86,9 +86,11 @@ public class TestAny {
 		Matrix lastPos32 = new Matrix(m, n);
 		Matrix lastPos100 = new Matrix(m, n);
 		Matrix lastPos512 = new Matrix(m, n);
-		Matrix pBest32 = new Matrix(1, m);
-		Matrix pBest100 = new Matrix(1, m);
-		Matrix pBest512 = new Matrix(1, m);
+		Matrix pBestackley = new Matrix(1, m);
+		Matrix pBestx = new Matrix(1, m);
+		Matrix pBestmax = new Matrix(1, m);
+		Matrix pBeststep = new Matrix(1, m);
+		Matrix pBestcos = new Matrix(1, m);
 		for(int i = 0; i<=n-1;i++ ){
 			consValue32.data[0][i] = -32;
 			consValue32.data[1][i] = 32;
@@ -105,19 +107,25 @@ public class TestAny {
 			}
 		}
 		for(int i = 0; i<=m-1; i++){
-			double total32 = 0;
+			double totalacley = 0;
 			double totalcos = 0;
-			double total100 = 0;
-			double total512 = 0;
+			double totalx = 0;
+			double totalmax = 0;
+			double totalcos0 = 0;
+			double totalstep = 0;
 			for(int j = 0; j<=n-1; j++){
-				total32 +=  (lastPos32.data[i][j]*lastPos32.data[i][j]);
+				totalacley +=  (lastPos32.data[i][j]*lastPos32.data[i][j]);
 				totalcos += (Math.cos(2*Math.PI*lastPos32.data[i][j]));
-				total512+=(lastPos512.data[i][j]*lastPos512.data[i][j]-10*Math.cos(2*lastPos512.data[i][j]*Math.PI)+10);
-				total100+=Math.pow(lastPos100.data[i][j], 2.0);
+				totalcos0+=(lastPos512.data[i][j]*lastPos512.data[i][j]-10*Math.cos(2*lastPos512.data[i][j]*Math.PI)+10);
+				totalx+=Math.pow(lastPos100.data[i][j], 2.0);
+				if(totalmax<Math.abs(lastPos100.data[i][j]))totalmax=Math.abs(lastPos100.data[i][j]);
+				totalstep+=(Math.floor(lastPos100.data[i][j]+0.5)*Math.floor(lastPos100.data[i][j]+0.5));
 			}
-			pBest32.data[0][i] = 20*Math.exp(-0.2*Math.sqrt(total32/n))+Math.exp(totalcos/n);
-			pBest512.data[0][i] = n*111-total512;
-			pBest100.data[0][i] = n*Math.pow(10, 2.0)-total100;
+			pBestackley.data[0][i] = 20*Math.exp(-0.2*Math.sqrt(totalacley/n))+Math.exp(totalcos/n);
+			pBestcos.data[0][i] = n*111-totalcos0;
+			pBestx.data[0][i] = n*Math.pow(10, 2.0)-totalx;
+			pBeststep.data[0][i] = n*Math.pow(10, 2.0)-totalstep;
+			pBestmax.data[0][i] = 100-totalmax;
 		}
 		
 		try {
@@ -174,15 +182,19 @@ public class TestAny {
 			BufferedWriter output2 = new BufferedWriter(new FileWriter(result2));
 			BufferedWriter output3 = new BufferedWriter(new FileWriter(result3));
 			
-			double lamda = 0;
-//			for(int a=0; a<=0;a++){
-            while(lamda<=2){
-				a1.Calculate(new AckleyMaxFunction(), 0.8, 0.01, 100.0, 0.8, lamda, consValue32, lastPos32, pBest32, 200, output3);
-//				a1.Calculate(new AckleyMaxFunction(), 0.8, 0.01, 100.0, 0.8, 0.8, consValue32, lastPos32, pBest32, 200, output3);
-				a1.Calculate(new MaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue100, lastPos100, pBest100, 200, output1);
-//				a1.Calculate(new MaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue100, lastPos100, pBest100, 200, output1);
-				a1.Calculate(new CosMaxFunction(), 0.8, 0.01, 100.0, 0.8, lamda, consValue512, lastPos512, pBest512, 200, output2);
-//				a1.Calculate(new CosMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue512, lastPos512, pBest512, 200, output2);
+			double lamda =1.0;
+			for(int a=0; a<=0;a++){
+//            while(lamda<=2){
+//				a1.Calculate(new AckleyMaxFunction(), 0.8, 0.01, 100.0, 0.8, lamda, consValue32, lastPos32, pBestackley, 200, output3);
+//				a1.Calculate(new AckleyMaxFunction(), 0.8, 0.01, 100.0, 0.8, 0.8, consValue32, lastPos32, pBestackley, 200, output3);
+//				a1.Calculate(new MaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue100, lastPos100, pBestx, 200, output1);
+//				a1.Calculate(new MaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue100, lastPos100, pBestx, 200, output1);
+//				a1.Calculate(new CosMaxFunction(), 0.8, 0.01, 100.0, 0.8, lamda, consValue512, lastPos512, pBestcos, 200, output2);
+//				a1.Calculate(new CosMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue512, lastPos512, pBestcos, 200, output2);
+            	a1.Calculate(new MaxMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue100, lastPos100, pBestmax, 200, output1);
+				a1.Calculate(new MaxMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue100, lastPos100, pBestmax, 200, output1);
+//				a1.Calculate(new StepMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue100, lastPos100, pBeststep, 200, output1);
+//				a1.Calculate(new StepMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue100, lastPos100, pBeststep, 200, output1);
 				lamda+=0.05;
 			}
 			
