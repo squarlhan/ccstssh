@@ -77,8 +77,8 @@ public Double[] excute(Matrix data, int nIterateCount) {
 		for(int j = 0; j<=n-1; j++){
 			if(Math.abs(data.data[i][j])>total)total =Math.abs(data.data[i][j]);
 		}
-		results[i] = 100-total;
-//		results[i] = 1000*(100-total)/100;
+//		results[i] = 100-total;
+		results[i] = 1000*(100-total)/100;
 		
 	}
 	counts += m;
