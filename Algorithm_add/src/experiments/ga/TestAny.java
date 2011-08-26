@@ -177,24 +177,60 @@ public class TestAny {
 				}
 
 			}
+			
+			File result4 = new File("max.txt");
+			if (result4.exists()) {
+				result4.delete();
+				if (result4.createNewFile()) {
+					System.out.println("result4 file create success!");
+				} else {
+					System.out.println("result4 file create failed!");
+				}
+			} else {
+				if (result4.createNewFile()) {
+					System.out.println("result4 file create success!");
+				} else {
+					System.out.println("result4 file create failed!");
+				}
+
+			}
+			
+			File result5 = new File("step.txt");
+			if (result5.exists()) {
+				result5.delete();
+				if (result5.createNewFile()) {
+					System.out.println("result5 file create success!");
+				} else {
+					System.out.println("result5 file create failed!");
+				}
+			} else {
+				if (result5.createNewFile()) {
+					System.out.println("result5 file create success!");
+				} else {
+					System.out.println("result5 file create failed!");
+				}
+
+			}
 
 			BufferedWriter output1 = new BufferedWriter(new FileWriter(result1));
 			BufferedWriter output2 = new BufferedWriter(new FileWriter(result2));
 			BufferedWriter output3 = new BufferedWriter(new FileWriter(result3));
+			BufferedWriter output4 = new BufferedWriter(new FileWriter(result4));
+			BufferedWriter output5 = new BufferedWriter(new FileWriter(result5));
 			
 			double lamda =1.0;
-			for(int a=0; a<=0;a++){
-//            while(lamda<=2){
+//			for(int a=0; a<=0;a++){
+            while(lamda<=2){
 //				a1.Calculate(new AckleyMaxFunction(), 0.8, 0.01, 100.0, 0.8, lamda, consValue32, lastPos32, pBestackley, 200, output3);
 //				a1.Calculate(new AckleyMaxFunction(), 0.8, 0.01, 100.0, 0.8, 0.8, consValue32, lastPos32, pBestackley, 200, output3);
 //				a1.Calculate(new MaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue100, lastPos100, pBestx, 200, output1);
 //				a1.Calculate(new MaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue100, lastPos100, pBestx, 200, output1);
 //				a1.Calculate(new CosMaxFunction(), 0.8, 0.01, 100.0, 0.8, lamda, consValue512, lastPos512, pBestcos, 200, output2);
 //				a1.Calculate(new CosMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue512, lastPos512, pBestcos, 200, output2);
-            	a1.Calculate(new MaxMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue100, lastPos100, pBestmax, 200, output1);
-				a1.Calculate(new MaxMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue100, lastPos100, pBestmax, 200, output1);
-//				a1.Calculate(new StepMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue100, lastPos100, pBeststep, 200, output1);
-//				a1.Calculate(new StepMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue100, lastPos100, pBeststep, 200, output1);
+            	a1.Calculate(new MaxMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue100, lastPos100, pBestmax, 200, output4);
+//				a1.Calculate(new MaxMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue100, lastPos100, pBestmax, 200, output4);
+				a1.Calculate(new StepMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue100, lastPos100, pBeststep, 200, output5);
+//				a1.Calculate(new StepMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue100, lastPos100, pBeststep, 200, output5);
 				lamda+=0.05;
 			}
 			
