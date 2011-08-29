@@ -222,8 +222,8 @@ public void setLocalPop(Population localPop) {
 		}
 		IChromosome fittest1 = bestPop.determineFittestChromosome();
 		IChromosome fittest2 = localPop.determineFittestChromosome();
-		System.out.println("Fittest Chromosome in bestPop has fitness "+ (1999999999-fittest1.getFitnessValueDirectly()));
-		System.out.println("Fittest Chromosome in localPop has fitness "+ (1999999999-fittest2.getFitnessValueDirectly()));
+		System.out.println("Fittest Chromosome in bestPop has fitness "+ (fittest1.getFitnessValueDirectly()));
+		System.out.println("Fittest Chromosome in localPop has fitness "+ (fittest2.getFitnessValueDirectly()));
 		IChromosome fittest3 = null;
 		genotype.getPopulation().sortByFitness();
 		for(IChromosome fittest:genotype.getPopulation().getChromosomes()){
@@ -233,7 +233,7 @@ public void setLocalPop(Population localPop) {
 			}
 		}
 		if(fittest3!=null){
-			System.out.println("Fittest Chromosome in genotype has fitness "+ (1999999999-fittest3.getFitnessValueDirectly()));
+			System.out.println("Fittest Chromosome in genotype has fitness "+ (fittest3.getFitnessValueDirectly()));
 		}
 		IChromosome fittest = null;
 		if(fittest1.getFitnessValueDirectly()>fittest2.getFitnessValueDirectly()){
@@ -249,7 +249,7 @@ public void setLocalPop(Population localPop) {
 		}
 		DecimalFormat myformat = new DecimalFormat("#0.00");
 		try {
-			output.write(fittest.getFitnessValueDirectly() + "\n");
+			output.write(fittest.getFitnessValueDirectly() + "\t");
 
 			
 			for (int i = 0; i < chromeSize; i++) {
@@ -279,12 +279,12 @@ public void setLocalPop(Population localPop) {
 			}
 			pBest_ga = pop2matrix(genotype.getPopulation());
 		}
-		String label = "";
-		if(consValue.data[0][0]==-100)label ="x";
-		if(consValue.data[0][0]==-5.12)label ="cox";
-		if(consValue.data[0][0]==-32)label ="ackley";
-		printsth("patterns"+label+myformat.format(Pt)+".txt", patterns);
-		printsth("values"+label+myformat.format(Pt)+".txt", fitnessvalues);
+//		String label = "";
+//		if(consValue.data[0][0]==-100)label ="x";
+//		if(consValue.data[0][0]==-5.12)label ="cox";
+//		if(consValue.data[0][0]==-32)label ="ackley";
+//		printsth("patterns"+label+myformat.format(Pt)+".txt", patterns);
+//		printsth("values"+label+myformat.format(Pt)+".txt", fitnessvalues);
 		return new Object[] { pBest_ga, pBest, consValue };
 
 	}// end of this math

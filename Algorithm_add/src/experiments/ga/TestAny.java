@@ -93,16 +93,22 @@ public class TestAny {
 		Matrix consValue30 = new Matrix(2, n);
 		Matrix consValue100 = new Matrix(2, n);
 		Matrix consValue512 = new Matrix(2, n);
+		Matrix consValue500 = new Matrix(2, n);
+		Matrix consValue600 = new Matrix(2, n);
 		Matrix lastPos32 = new Matrix(m, n);
 		Matrix lastPos30 = new Matrix(m, n);
 		Matrix lastPos100 = new Matrix(m, n);
 		Matrix lastPos512 = new Matrix(m, n);
+		Matrix lastPos500 = new Matrix(m, n);
+		Matrix lastPos600 = new Matrix(m, n);
 		Matrix pBestrosen = new Matrix(1, m);
 		Matrix pBestackley = new Matrix(1, m);
 		Matrix pBestx = new Matrix(1, m);
 		Matrix pBestmax = new Matrix(1, m);
 		Matrix pBeststep = new Matrix(1, m);
 		Matrix pBestcos = new Matrix(1, m);
+		Matrix pBestsch = new Matrix(1, m);
+		Matrix pBestgri = new Matrix(1, m);
 		for(int i = 0; i<=n-1;i++ ){
 			consValue30.data[0][i] = -30;
 			consValue30.data[1][i] = 30;
@@ -112,6 +118,10 @@ public class TestAny {
 			consValue100.data[1][i] = 100;
 			consValue512.data[0][i] = -5.12;
 			consValue512.data[1][i] = 5.12;
+			consValue500.data[0][i] = -500;
+			consValue500.data[1][i] = 500;
+			consValue600.data[0][i] = -600;
+			consValue600.data[1][i] = 600;
 		}
 		for(int i = 0; i<=m-1;i++ ){
 			for(int j = 0; j<=n-1;j++ ){
@@ -119,6 +129,8 @@ public class TestAny {
 				lastPos32.data[i][j] = Math.random()*64-32;
 				lastPos100.data[i][j] = Math.random()*200-100;
 				lastPos512.data[i][j] = Math.random()*10.24-5.12;
+				lastPos500.data[i][j] = Math.random()*1000-500;
+				lastPos600.data[i][j] = Math.random()*1200-600;
 			}
 		}
 		for(int i = 0; i<=m-1; i++){
@@ -129,14 +141,22 @@ public class TestAny {
 			double totalcos0 = 0;
 			double totalstep = 0;
 			double totalrosen = 0;
-			for(int j = 0; j<=n-1-1; j++){
+			double totalsch = 0;
+			double totalgri = 0;
+			double prodgri = 1;
+			for(int j = 0; j<=n-1; j++){
 				totalacley +=  (lastPos32.data[i][j]*lastPos32.data[i][j]);
 				totalcos += (Math.cos(2*Math.PI*lastPos32.data[i][j]));
 				totalcos0+=(lastPos512.data[i][j]*lastPos512.data[i][j]-10*Math.cos(2*lastPos512.data[i][j]*Math.PI)+10);
 				totalx+=Math.pow(lastPos100.data[i][j], 2.0);
 				if(totalmax<Math.abs(lastPos100.data[i][j]))totalmax=Math.abs(lastPos100.data[i][j]);
 				totalstep+=(Math.floor(lastPos100.data[i][j]+0.5)*Math.floor(lastPos100.data[i][j]+0.5));
-				totalrosen+=(100*Math.pow((lastPos30.data[i][j+1]-Math.pow(lastPos30.data[i][j], 2)), 2)+Math.pow((lastPos30.data[i][j]-1), 2));
+				if(j<=n-1-1){
+					totalrosen+=(100*Math.pow((lastPos30.data[i][j+1]-Math.pow(lastPos30.data[i][j], 2)), 2)+Math.pow((lastPos30.data[i][j]-1), 2));
+				}
+				totalsch+=(-1*lastPos500.data[i][j]*Math.sin(Math.sqrt(Math.abs(lastPos500.data[i][j]))));
+				totalgri+=(Math.pow(lastPos600.data[i][j], 2));
+				prodgri*=(Math.cos(lastPos600.data[i][j]/Math.sqrt(j+1)));
 			}
 			pBestackley.data[0][i] = 20*Math.exp(-0.2*Math.sqrt(totalacley/n))+Math.exp(totalcos/n);
 			pBestcos.data[0][i] = n*111-totalcos0;
@@ -144,138 +164,60 @@ public class TestAny {
 			pBeststep.data[0][i] = n*Math.pow(10, 2.0)-totalstep;
 			pBestmax.data[0][i] = 100-totalmax;
 			pBestrosen.data[0][i] = (1999999999-totalrosen)<=0?1:1999999999-totalrosen;
+			pBestsch.data[0][i] = (838*n-418.9829*n-totalsch)<=0?1:838*n-418.9829*n-totalsch;
+			pBestgri.data[0][i] = (2701-1-totalgri/4000+prodgri)<=0?1:2701-1-totalgri/4000+prodgri;
 		}
 		
 		try {
-			File result1 = new File("x.txt");
-			if (result1.exists()) {
-				result1.delete();
-				if (result1.createNewFile()) {
-					System.out.println("result1 file create success!");
-				} else {
-					System.out.println("result1 file create failed!");
-				}
-			} else {
-				if (result1.createNewFile()) {
-					System.out.println("result1 file create success!");
-				} else {
-					System.out.println("result1 file create failed!");
-				}
-
-			}
-			File result2 = new File("cos.txt");
-			if (result2.exists()) {
-				result2.delete();
-				if (result2.createNewFile()) {
-					System.out.println("result2 file create success!");
-				} else {
-					System.out.println("result2 file create failed!");
-				}
-			} else {
-				if (result2.createNewFile()) {
-					System.out.println("result2 file create success!");
-				} else {
-					System.out.println("result2 file create failed!");
-				}
-
-			}
-			File result3 = new File("ackley.txt");
-			if (result3.exists()) {
-				result3.delete();
-				if (result3.createNewFile()) {
-					System.out.println("result3 file create success!");
-				} else {
-					System.out.println("result3 file create failed!");
-				}
-			} else {
-				if (result3.createNewFile()) {
-					System.out.println("result3 file create success!");
-				} else {
-					System.out.println("result3 file create failed!");
-				}
-
-			}
 			
-			File result4 = new File("Quardirc.txt");
-			if (result4.exists()) {
-				result4.delete();
-				if (result4.createNewFile()) {
-					System.out.println("result4 file create success!");
-				} else {
-					System.out.println("result4 file create failed!");
-				}
-			} else {
-				if (result4.createNewFile()) {
-					System.out.println("result4 file create success!");
-				} else {
-					System.out.println("result4 file create failed!");
-				}
-
-			}
-			
-			File result5 = new File("step.txt");
-			if (result5.exists()) {
-				result5.delete();
-				if (result5.createNewFile()) {
-					System.out.println("result5 file create success!");
-				} else {
-					System.out.println("result5 file create failed!");
-				}
-			} else {
-				if (result5.createNewFile()) {
-					System.out.println("result5 file create success!");
-				} else {
-					System.out.println("result5 file create failed!");
-				}
-			}
-			
-           File result6 = new File("rosen.txt");
-				if (result6.exists()) {
-					result6.delete();
-					if (result6.createNewFile()) {
-						System.out.println("result6 file create success!");
+			File[] result = {new File("x.txt"), new File("cos.txt"), 
+					new File("ackley.txt"),	new File("Quardirc.txt"), 
+					new File("step.txt"), new File("rosen.txt"), 
+					new File("sch.txt"), new File("gri.txt")};
+			BufferedWriter[] output = new BufferedWriter[result.length];
+			for(int i = 0; i<= result.length-1;i++){
+				if (result[i].exists()) {
+					result[i].delete();
+					if (result[i].createNewFile()) {
+						System.out.println("result"+i+" file create success!");
 					} else {
-						System.out.println("result6 file create failed!");
+						System.out.println("result"+i+" file create failed!");
 					}
 				} else {
-					if (result6.createNewFile()) {
-						System.out.println("result6 file create success!");
+					if (result[i].createNewFile()) {
+						System.out.println("result"+i+" file create success!");
 					} else {
-						System.out.println("result6 file create failed!");
+						System.out.println("result"+i+" file create failed!");
 					}
+
 				}
-				
-			BufferedWriter output1 = new BufferedWriter(new FileWriter(result1));
-			BufferedWriter output2 = new BufferedWriter(new FileWriter(result2));
-			BufferedWriter output3 = new BufferedWriter(new FileWriter(result3));
-			BufferedWriter output4 = new BufferedWriter(new FileWriter(result4));
-			BufferedWriter output5 = new BufferedWriter(new FileWriter(result5));
-			BufferedWriter output6 = new BufferedWriter(new FileWriter(result6));
+				output[i] = new BufferedWriter(new FileWriter(result[i]));
+			}
 			
 			double lamda =1.0;
 			for(int a=0; a<=0;a++){
 //            while(lamda<=2){
-//				a1.Calculate(new AckleyMaxFunction(), 0.8, 0.01, 100.0, 0.8, lamda, consValue32, lastPos32, pBestackley, 200, output3);
-//				a1.Calculate(new AckleyMaxFunction(), 0.8, 0.01, 100.0, 0.8, 0.8, consValue32, lastPos32, pBestackley, 200, output3);
-//				a1.Calculate(new MaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue100, lastPos100, pBestx, 200, output1);
-//				a1.Calculate(new MaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue100, lastPos100, pBestx, 200, output1);
-//				a1.Calculate(new CosMaxFunction(), 0.8, 0.01, 100.0, 0.8, lamda, consValue512, lastPos512, pBestcos, 200, output2);
-//				a1.Calculate(new CosMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue512, lastPos512, pBestcos, 200, output2);
-//            	a1.Calculate(new QuardircMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue100, lastPos100, pBestmax, 200, output4);
-//				a1.Calculate(new QuardircMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue100, lastPos100, pBestmax, 200, output4);
-//				a1.Calculate(new StepMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue100, lastPos100, pBeststep, 200, output5);
-//				a1.Calculate(new StepMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue100, lastPos100, pBeststep, 200, output5);
-				a1.Calculate(new RosenbrockMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue30, lastPos30, pBestrosen, 200, output6);
-				a1.Calculate(new RosenbrockMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue30, lastPos30, pBestrosen, 200, output6);
+//				a1.Calculate(new AckleyMaxFunction(), 0.8, 0.01, 100.0, 0.8, lamda, consValue32, lastPos32, pBestackley, 200, output[2]);
+//				a1.Calculate(new AckleyMaxFunction(), 0.8, 0.01, 100.0, 0.8, 0.8, consValue32, lastPos32, pBestackley, 200, output[2]);
+//				a1.Calculate(new MaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue100, lastPos100, pBestx, 200, output[0]);
+//				a1.Calculate(new MaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue100, lastPos100, pBestx, 200, output[0);
+//				a1.Calculate(new CosMaxFunction(), 0.8, 0.01, 100.0, 0.8, lamda, consValue512, lastPos512, pBestcos, 200, output[1]);
+//				a1.Calculate(new CosMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue512, lastPos512, pBestcos, 200, output[1]);
+//            	a1.Calculate(new QuardircMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue100, lastPos100, pBestmax, 200, output[3]);
+//				a1.Calculate(new QuardircMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue100, lastPos100, pBestmax, 200, output[3]);
+//				a1.Calculate(new StepMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue100, lastPos100, pBeststep, 200, output[4]);
+//				a1.Calculate(new StepMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue100, lastPos100, pBeststep, 200, output[4]);
+//				a1.Calculate(new RosenbrockMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue30, lastPos30, pBestrosen, 200, output[5]);
+//				a1.Calculate(new RosenbrockMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue30, lastPos30, pBestrosen, 200, output[5]);
+				a1.Calculate(new SchwefelMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue500, lastPos500, pBestsch, 200, output[6]);
+				a1.Calculate(new SchwefelMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue500, lastPos500, pBestsch, 200, output[6]);
+				a1.Calculate(new GriewankMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue600, lastPos600, pBestgri, 200, output[7]);
+				a1.Calculate(new GriewankMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue600, lastPos600, pBestgri, 200, output[7]);
 				lamda+=0.05;
 			}
-			
-			output1.close();
-			output2.close();
-			output3.close();
-			output4.close();
-			output5.close();
-			output6.close();
+			for(BufferedWriter op : output){
+				op.close();
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
