@@ -222,8 +222,8 @@ public void setLocalPop(Population localPop) {
 		}
 		IChromosome fittest1 = bestPop.determineFittestChromosome();
 		IChromosome fittest2 = localPop.determineFittestChromosome();
-		System.out.println("Fittest Chromosome in bestPop has fitness "+ fittest1.getFitnessValueDirectly());
-		System.out.println("Fittest Chromosome in localPop has fitness "+ fittest2.getFitnessValueDirectly());
+		System.out.println("Fittest Chromosome in bestPop has fitness "+ (1999999999-fittest1.getFitnessValueDirectly()));
+		System.out.println("Fittest Chromosome in localPop has fitness "+ (1999999999-fittest2.getFitnessValueDirectly()));
 		IChromosome fittest3 = null;
 		genotype.getPopulation().sortByFitness();
 		for(IChromosome fittest:genotype.getPopulation().getChromosomes()){
@@ -233,7 +233,7 @@ public void setLocalPop(Population localPop) {
 			}
 		}
 		if(fittest3!=null){
-			System.out.println("Fittest Chromosome in genotype has fitness "+ fittest3.getFitnessValueDirectly());
+			System.out.println("Fittest Chromosome in genotype has fitness "+ (1999999999-fittest3.getFitnessValueDirectly()));
 		}
 		IChromosome fittest = null;
 		if(fittest1.getFitnessValueDirectly()>fittest2.getFitnessValueDirectly()){
