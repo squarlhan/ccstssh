@@ -24,7 +24,7 @@ import experiments.apga.APGAFunction;
  * @author Klaus Meffert
  * @since 2.0
  */
-public class RosenbrockMaxFunction 
+public class PenalizedMaxFunction 
     extends FitnessFunction implements  APGAFunction{
   /** String containing the CVS revision. Read out via reflection!*/
   private final static String CVS_REVISION = "$Revision: 1.6 $";
@@ -74,14 +74,40 @@ public Double[] excute(Matrix data, int nIterateCount) {
 	}
 	for(int i = 0; i<=m-1; i++){
 		double total = 0;
-		for(int j = 0; j<=n-2; j++){
-			total+=(100*Math.pow((data.data[i][j+1]-Math.pow(data.data[i][j], 2)), 2)+Math.pow((data.data[i][j]-1), 2));
+		double total1 = 0;
+		double[] y = new double[n];
+		for(int j = 0; j<=n-1; j++){
+			double mydata = data.data[i][j];    	
+	    	y[j] = y(mydata);
+	    	if(j<n-1){
+	    		double mydata1 = data.data[i][j+1];    	
+	    		y[j+1]= y(mydata1);
+	    		total+=((y[j]-1)*(y[j]-1)*(1+10*Math.sin(Math.PI*y[j+1])*Math.sin(Math.PI*y[j+1])));
+	    	}
+	    	total1+=u(mydata,10,100,4);
 		}
-		results[i] = 1999999999-total;
+		results[i] = Math.PI/n*(10*Math.sin(Math.PI*y[0])*Math.sin(Math.PI*y[0])+total+(y[n-1]-1)*(y[n-1]-1))+total1;
+		results[i] = 1999999999-results[i];
 		if(results[i]<=0)results[i]= 1.0;
 		results[i] = 1000*(results[i])/(1999999999);
 	}
 	counts += m;
 	return results;
+}
+
+private double y(double x){
+	  return 1+(x+1)/4;
+}
+
+private double u(double x, int a, int k, int m){
+	  double result = 0;
+	  if (x>a){
+		  result = k*Math.pow(x-1, m);
+	  }else if (x<-1*a){
+  	  result = k*Math.pow(-1*x-a, m);
+	  }else{
+  	  result= 0;
+	  }
+	  return result;
 }
 }
