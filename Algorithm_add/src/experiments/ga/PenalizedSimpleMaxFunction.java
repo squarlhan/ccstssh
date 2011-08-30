@@ -15,7 +15,6 @@ import org.jgap.*;
 import org.jgap.impl.*;
 
 import experiments.Matrix;
-import experiments.apga.APGAFunction;
 
 /**
  * Fitness function for our example. See evaluate(...) method for details.
@@ -24,8 +23,8 @@ import experiments.apga.APGAFunction;
  * @author Klaus Meffert
  * @since 2.0
  */
-public class RosenbrockMaxFunction 
-    extends FitnessFunction implements  APGAFunction{
+public class PenalizedSimpleMaxFunction 
+    extends FitnessFunction implements  GAFunction{
   /** String containing the CVS revision. Read out via reflection!*/
   private final static String CVS_REVISION = "$Revision: 1.6 $";
   
@@ -54,14 +53,55 @@ public class RosenbrockMaxFunction
    * @since 2.0
    */
   public double evaluate(IChromosome a_subject) {
+    double total = 0;
+    double total1 = 0;
+    int time_delay = 0;
+    try {
+		Thread.sleep(time_delay);
+	} catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+    int n = a_subject.size();
+    double[] y = new double[n];
+    for (int i = 0; i < n; i++) {
+    	double data = ((DoubleGene)a_subject.getGene(i)).doubleValue();    	
+    	y[i] = y(data);
+    	if(i<n-1){
+    		double data1 = ((DoubleGene)a_subject.getGene(i+1)).doubleValue();
+    		y[i+1]= y(data1);
+    		total+=((y[i]-1)*(y[i]-1)*(1+10*Math.sin(Math.PI*y[i+1])*Math.sin(Math.PI*y[i+1])));
+    	}
+    	total1+=u(data,10,100,4);
+      
+    }
+    double result = 0;
+    result = Math.PI/n*(10*Math.sin(Math.PI*y[0])*Math.sin(Math.PI*y[0])+total+(y[n-1]-1)*(y[n-1]-1))+total1;
+    counts ++;
+    return (1999999999-total)<=0?1:1999999999-total;
+//    return n*Math.pow(10, 2.0)-total; 
+  }
   
-    return -1;
+  private double y(double x){
+	  return 1+(x+1)/4;
+  }
+  
+  private double u(double x, int a, int k, int m){
+	  double result = 0;
+	  if (x>a){
+		  result = k*Math.pow(x-1, m);
+	  }else if (x<-1*a){
+    	  result = k*Math.pow(-1*x-a, m);
+	  }else{
+    	  result= 0;
+	  }
+	  return result;
   }
 
 @Override
 public Double[] excute(Matrix data, int nIterateCount) {
-	// TODO Auto-generated method stub
 	int time_delay = 0;
+	// TODO Auto-generated method stub
 	if(data == null)return null;
 	int m = data.getM();
 	int n = data.getN();
@@ -74,12 +114,10 @@ public Double[] excute(Matrix data, int nIterateCount) {
 	}
 	for(int i = 0; i<=m-1; i++){
 		double total = 0;
-		for(int j = 0; j<=n-2; j++){
-			total+=(100*Math.pow((data.data[i][j+1]-Math.pow(data.data[i][j], 2)), 2)+Math.pow((data.data[i][j]-1), 2));
+		for(int j = 0; j<=n-1; j++){
+			total+=Math.pow(data.data[i][j], 2.0);
 		}
-		results[i] = 1999999999-total;
-		if(results[i]<=0)results[i]= 1.0;
-		results[i] = 1000*(results[i])/(1999999999);
+		results[i] = 2*Math.pow(5.12, 2.0)-total;
 	}
 	counts += m;
 	return results;

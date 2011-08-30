@@ -91,12 +91,14 @@ public class TestAny {
 		int n = 30;
 		Matrix consValue32 = new Matrix(2, n);
 		Matrix consValue30 = new Matrix(2, n);
+		Matrix consValue50 = new Matrix(2, n);
 		Matrix consValue100 = new Matrix(2, n);
 		Matrix consValue512 = new Matrix(2, n);
 		Matrix consValue500 = new Matrix(2, n);
 		Matrix consValue600 = new Matrix(2, n);
 		Matrix lastPos32 = new Matrix(m, n);
 		Matrix lastPos30 = new Matrix(m, n);
+		Matrix lastPos50 = new Matrix(m, n);
 		Matrix lastPos100 = new Matrix(m, n);
 		Matrix lastPos512 = new Matrix(m, n);
 		Matrix lastPos500 = new Matrix(m, n);
@@ -109,11 +111,15 @@ public class TestAny {
 		Matrix pBestcos = new Matrix(1, m);
 		Matrix pBestsch = new Matrix(1, m);
 		Matrix pBestgri = new Matrix(1, m);
+		Matrix pBestpen1 = new Matrix(1, m);
+		Matrix pBestpen2 = new Matrix(1, m);
 		for(int i = 0; i<=n-1;i++ ){
 			consValue30.data[0][i] = -30;
 			consValue30.data[1][i] = 30;
 			consValue32.data[0][i] = -32;
 			consValue32.data[1][i] = 32;
+			consValue50.data[0][i] = -50;
+			consValue50.data[1][i] = 50;
 			consValue100.data[0][i] = -100;
 			consValue100.data[1][i] = 100;
 			consValue512.data[0][i] = -5.12;
@@ -127,6 +133,7 @@ public class TestAny {
 			for(int j = 0; j<=n-1;j++ ){
 				lastPos30.data[i][j] = Math.random()*60-30;
 				lastPos32.data[i][j] = Math.random()*64-32;
+				lastPos50.data[i][j] = Math.random()*100-50;
 				lastPos100.data[i][j] = Math.random()*200-100;
 				lastPos512.data[i][j] = Math.random()*10.24-5.12;
 				lastPos500.data[i][j] = Math.random()*1000-500;
@@ -144,6 +151,11 @@ public class TestAny {
 			double totalsch = 0;
 			double totalgri = 0;
 			double prodgri = 1;
+			double totalpen1 = 0;
+			double totalpen2 = 0;
+			double totalu1 = 0;
+			double totalu2 = 0;
+			double[] y = new double[n];
 			for(int j = 0; j<=n-1; j++){
 				totalacley +=  (lastPos32.data[i][j]*lastPos32.data[i][j]);
 				totalcos += (Math.cos(2*Math.PI*lastPos32.data[i][j]));
@@ -151,12 +163,18 @@ public class TestAny {
 				totalx+=Math.pow(lastPos100.data[i][j], 2.0);
 				if(totalmax<Math.abs(lastPos100.data[i][j]))totalmax=Math.abs(lastPos100.data[i][j]);
 				totalstep+=(Math.floor(lastPos100.data[i][j]+0.5)*Math.floor(lastPos100.data[i][j]+0.5));
+		    	y[j] = y(lastPos50.data[i][j]);
 				if(j<=n-1-1){
+					y[j+1] = y(lastPos50.data[i][j+1]);
 					totalrosen+=(100*Math.pow((lastPos30.data[i][j+1]-Math.pow(lastPos30.data[i][j], 2)), 2)+Math.pow((lastPos30.data[i][j]-1), 2));
+					totalpen1+=((y[j]-1)*(y[j]-1)*(1+10*Math.sin(Math.PI*y[j+1])*Math.sin(Math.PI*y[j+1])));
+					totalpen2+=((lastPos50.data[i][j]-1)*(lastPos50.data[i][j]-1)*(1+Math.sin(3*Math.PI*lastPos50.data[i][j+1])*Math.sin(3*Math.PI*lastPos50.data[i][j+1])));
 				}
 				totalsch+=(-1*lastPos500.data[i][j]*Math.sin(Math.sqrt(Math.abs(lastPos500.data[i][j]))));
 				totalgri+=(Math.pow(lastPos600.data[i][j], 2));
 				prodgri*=(Math.cos(lastPos600.data[i][j]/Math.sqrt(j+1)));
+				totalu1+=u(lastPos50.data[i][j],10,100,4);
+				totalu2+=u(lastPos50.data[i][j],5,100,4);
 			}
 			pBestackley.data[0][i] = 20*Math.exp(-0.2*Math.sqrt(totalacley/n))+Math.exp(totalcos/n);
 			pBestcos.data[0][i] = n*111-totalcos0;
@@ -166,6 +184,10 @@ public class TestAny {
 			pBestrosen.data[0][i] = (1999999999-totalrosen)<=0?1:1999999999-totalrosen;
 			pBestsch.data[0][i] = (838*n-418.9829*n-totalsch)<=0?1:838*n-418.9829*n-totalsch;
 			pBestgri.data[0][i] = (2701-1-totalgri/4000+prodgri)<=0?1:2701-1-totalgri/4000+prodgri;
+			double tempen1 = Math.PI/n*(10*Math.sin(Math.PI*y[0])*Math.sin(Math.PI*y[0])+totalpen1+(y[n-1]-1)*(y[n-1]-1))+totalu1;
+			pBestpen1.data[0][i] = (1999999999-tempen1)<=0?1:1999999999-tempen1;
+			double tempen2 = 0.1*(Math.sin(3*Math.pow(Math.PI*lastPos50.data[i][0], 2))+totalpen2+Math.pow(lastPos50.data[i][n-1]-1, 2))+totalu2;
+			pBestpen2.data[0][i] = (1999999999-tempen2)<=0?1:1999999999-tempen2;
 		}
 		
 		try {
@@ -173,7 +195,8 @@ public class TestAny {
 			File[] result = {new File("x.txt"), new File("cos.txt"), 
 					new File("ackley.txt"),	new File("Quardirc.txt"), 
 					new File("step.txt"), new File("rosen.txt"), 
-					new File("sch.txt"), new File("gri.txt")};
+					new File("sch.txt"), new File("gri.txt"),
+					new File("pen1.txt"), new File("pen2.txt")};
 			BufferedWriter[] output = new BufferedWriter[result.length];
 			for(int i = 0; i<= result.length-1;i++){
 				if (result[i].exists()) {
@@ -209,10 +232,14 @@ public class TestAny {
 //				a1.Calculate(new StepMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue100, lastPos100, pBeststep, 200, output[4]);
 //				a1.Calculate(new RosenbrockMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue30, lastPos30, pBestrosen, 200, output[5]);
 //				a1.Calculate(new RosenbrockMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue30, lastPos30, pBestrosen, 200, output[5]);
-				a1.Calculate(new SchwefelMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue500, lastPos500, pBestsch, 200, output[6]);
-				a1.Calculate(new SchwefelMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue500, lastPos500, pBestsch, 200, output[6]);
-				a1.Calculate(new GriewankMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue600, lastPos600, pBestgri, 200, output[7]);
-				a1.Calculate(new GriewankMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue600, lastPos600, pBestgri, 200, output[7]);
+//				a1.Calculate(new SchwefelMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue500, lastPos500, pBestsch, 200, output[6]);
+//				a1.Calculate(new SchwefelMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue500, lastPos500, pBestsch, 200, output[6]);
+//				a1.Calculate(new GriewankMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue600, lastPos600, pBestgri, 200, output[7]);
+//				a1.Calculate(new GriewankMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue600, lastPos600, pBestgri, 200, output[7]);
+				a1.Calculate(new PenalizedMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue50, lastPos50, pBestpen1, 200, output[8]);
+				a1.Calculate(new PenalizedMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue50, lastPos50, pBestpen1, 200, output[8]);
+				a1.Calculate(new Penalized2MaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue50, lastPos50, pBestpen2, 200, output[9]);
+				a1.Calculate(new Penalized2MaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue50, lastPos50, pBestpen2, 200, output[9]);
 				lamda+=0.05;
 			}
 			for(BufferedWriter op : output){
@@ -229,6 +256,23 @@ public class TestAny {
 		long endTime = System.currentTimeMillis();
 		System.out.println("运行时间 " + (endTime - startTime) + "ms");
 		System.out.println("符合模式：" + clustObjectFun.mycount);
+	}
+	
+	
+	private static double y(double x){
+		  return 1+(x+1)/4;
+	}
+
+	private static double u(double x, int a, int k, int m){
+		  double result = 0;
+		  if (x>a){
+			  result = k*Math.pow(x-1, m);
+		  }else if (x<-1*a){
+	  	  result = k*Math.pow(-1*x-a, m);
+		  }else{
+	  	  result= 0;
+		  }
+		  return result;
 	}
 
 }
