@@ -71,7 +71,7 @@ public class SimpleExample {
 		// --------------
 		IChromosome fittest = genotype.getFittestChromosome();
 		System.out.println("Fittest Chromosome has fitness "
-				+ (1999999999-fittest.getFitnessValue()));
+				+ (fittest.getFitnessValue()));
 		try {
 			output.write(fittest.getFitnessValue() + "\n");
 
@@ -149,8 +149,8 @@ public class SimpleExample {
 			BufferedWriter output2 = new BufferedWriter(new FileWriter(result2));
 			
 			for(int a=0; a<=0;a++){
-				se.runga(120, 30, 40, -50,  50, new PenalizedSimpleMaxFunction(), output);
-				se.runga(200, 30, 40, -50,  50, new PenalizedSimpleMaxFunction(), output2);
+				se.runga(120, 30, 40, -0.5,  0.5, new NonSimpleMaxFunction(), output);
+				se.runga(200, 30, 40, -0.5,  0.5, new NonSimpleMaxFunction(), output2);
 			}
 			
 			output.close();

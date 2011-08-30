@@ -89,6 +89,7 @@ public class TestAny {
 		APGA a1 = new APGA();
 		int m = 40;
 		int n = 30;
+		Matrix consValue5 = new Matrix(2, n);
 		Matrix consValue32 = new Matrix(2, n);
 		Matrix consValue30 = new Matrix(2, n);
 		Matrix consValue50 = new Matrix(2, n);
@@ -96,6 +97,7 @@ public class TestAny {
 		Matrix consValue512 = new Matrix(2, n);
 		Matrix consValue500 = new Matrix(2, n);
 		Matrix consValue600 = new Matrix(2, n);
+		Matrix lastPos5 = new Matrix(m, n);
 		Matrix lastPos32 = new Matrix(m, n);
 		Matrix lastPos30 = new Matrix(m, n);
 		Matrix lastPos50 = new Matrix(m, n);
@@ -113,7 +115,11 @@ public class TestAny {
 		Matrix pBestgri = new Matrix(1, m);
 		Matrix pBestpen1 = new Matrix(1, m);
 		Matrix pBestpen2 = new Matrix(1, m);
+		Matrix pBestwei = new Matrix(1, m);
+		Matrix pBestnon = new Matrix(1, m);
 		for(int i = 0; i<=n-1;i++ ){
+			consValue5.data[0][i] = -0.5;
+			consValue5.data[1][i] = 0.5;
 			consValue30.data[0][i] = -30;
 			consValue30.data[1][i] = 30;
 			consValue32.data[0][i] = -32;
@@ -131,6 +137,7 @@ public class TestAny {
 		}
 		for(int i = 0; i<=m-1;i++ ){
 			for(int j = 0; j<=n-1;j++ ){
+				lastPos5.data[i][j] = Math.random()-0.5;
 				lastPos30.data[i][j] = Math.random()*60-30;
 				lastPos32.data[i][j] = Math.random()*64-32;
 				lastPos50.data[i][j] = Math.random()*100-50;
@@ -140,6 +147,9 @@ public class TestAny {
 				lastPos600.data[i][j] = Math.random()*1200-600;
 			}
 		}
+		double a = 0.5;
+	    double b = 3;
+	    int kmax = 20;
 		for(int i = 0; i<=m-1; i++){
 			double totalacley = 0;
 			double totalcos = 0;
@@ -155,7 +165,11 @@ public class TestAny {
 			double totalpen2 = 0;
 			double totalu1 = 0;
 			double totalu2 = 0;
+			double totalwei = 0;
+			double totalnon = 0;
+			double totalnon2 = 0;
 			double[] y = new double[n];
+			double yy = 0;
 			for(int j = 0; j<=n-1; j++){
 				totalacley +=  (lastPos32.data[i][j]*lastPos32.data[i][j]);
 				totalcos += (Math.cos(2*Math.PI*lastPos32.data[i][j]));
@@ -175,9 +189,21 @@ public class TestAny {
 				prodgri*=(Math.cos(lastPos600.data[i][j]/Math.sqrt(j+1)));
 				totalu1+=u(lastPos50.data[i][j],10,100,4);
 				totalu2+=u(lastPos50.data[i][j],5,100,4);
+				if(Math.abs(lastPos512.data[i][j])<0.5){
+		        	yy = lastPos512.data[i][j];
+		        }else{
+		        	yy = Math.round(2*lastPos512.data[i][j])/2;
+		        }
+				totalwei +=  (yy*yy-10*Math.cos(2*yy*Math.PI)+10);
+				double totalnon1 = 0;
+				for(int k = 0; k<=kmax;k++){
+					totalnon1 += (Math.pow(a, k)*Math.cos(2*Math.PI*Math.pow(b, k)*(lastPos5.data[i][j]+0.5)));
+		        	totalnon2 += (Math.pow(a, k)*Math.cos(2*Math.PI*Math.pow(b, k)*0.5));
+		        }
+		    	totalnon +=  totalnon1;
 			}
 			pBestackley.data[0][i] = 20*Math.exp(-0.2*Math.sqrt(totalacley/n))+Math.exp(totalcos/n);
-			pBestcos.data[0][i] = n*111-totalcos0;
+			pBestcos.data[0][i] = n*41-totalcos0;
 			pBestx.data[0][i] = n*Math.pow(10, 2.0)-totalx;
 			pBeststep.data[0][i] = n*Math.pow(10, 2.0)-totalstep;
 			pBestmax.data[0][i] = 100-totalmax;
@@ -188,6 +214,8 @@ public class TestAny {
 			pBestpen1.data[0][i] = (1999999999-tempen1)<=0?1:1999999999-tempen1;
 			double tempen2 = 0.1*(Math.sin(3*Math.pow(Math.PI*lastPos50.data[i][0], 2))+totalpen2+Math.pow(lastPos50.data[i][n-1]-1, 2))+totalu2;
 			pBestpen2.data[0][i] = (1999999999-tempen2)<=0?1:1999999999-tempen2;
+			pBestwei.data[0][i] = n*40.25-totalwei;
+			pBestnon.data[0][i] = n*4-totalnon+totalnon2;
 		}
 		
 		try {
@@ -196,7 +224,8 @@ public class TestAny {
 					new File("ackley.txt"),	new File("Quardirc.txt"), 
 					new File("step.txt"), new File("rosen.txt"), 
 					new File("sch.txt"), new File("gri.txt"),
-					new File("pen1.txt"), new File("pen2.txt")};
+					new File("pen1.txt"), new File("pen2.txt"),
+			        new File("wei.txt"), new File("non.txt")};
 			BufferedWriter[] output = new BufferedWriter[result.length];
 			for(int i = 0; i<= result.length-1;i++){
 				if (result[i].exists()) {
@@ -218,7 +247,7 @@ public class TestAny {
 			}
 			
 			double lamda =1.0;
-			for(int a=0; a<=0;a++){
+			for(int aa=0; aa<=0;aa++){
 //            while(lamda<=2){
 //				a1.Calculate(new AckleyMaxFunction(), 0.8, 0.01, 100.0, 0.8, lamda, consValue32, lastPos32, pBestackley, 200, output[2]);
 //				a1.Calculate(new AckleyMaxFunction(), 0.8, 0.01, 100.0, 0.8, 0.8, consValue32, lastPos32, pBestackley, 200, output[2]);
@@ -236,10 +265,14 @@ public class TestAny {
 //				a1.Calculate(new SchwefelMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue500, lastPos500, pBestsch, 200, output[6]);
 //				a1.Calculate(new GriewankMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue600, lastPos600, pBestgri, 200, output[7]);
 //				a1.Calculate(new GriewankMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue600, lastPos600, pBestgri, 200, output[7]);
-				a1.Calculate(new PenalizedMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue50, lastPos50, pBestpen1, 200, output[8]);
-				a1.Calculate(new PenalizedMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue50, lastPos50, pBestpen1, 200, output[8]);
-				a1.Calculate(new Penalized2MaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue50, lastPos50, pBestpen2, 200, output[9]);
-				a1.Calculate(new Penalized2MaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue50, lastPos50, pBestpen2, 200, output[9]);
+//				a1.Calculate(new PenalizedMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue50, lastPos50, pBestpen1, 200, output[8]);
+//				a1.Calculate(new PenalizedMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue50, lastPos50, pBestpen1, 200, output[8]);
+//				a1.Calculate(new Penalized2MaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue50, lastPos50, pBestpen2, 200, output[9]);
+//				a1.Calculate(new Penalized2MaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue50, lastPos50, pBestpen2, 200, output[9]);
+//				a1.Calculate(new WeiMaxFunction(), 0.8, 0.01, 100.0, 0.8, lamda, consValue512, lastPos512, pBestwei, 200, output[10]);
+//				a1.Calculate(new WeiMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue512, lastPos512, pBestwei, 200, output[10]);
+				a1.Calculate(new NonMaxFunction(), 0.8, 0.01, 100.0, 0.8, lamda, consValue5, lastPos5, pBestnon, 200, output[11]);
+				a1.Calculate(new NonMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue5, lastPos5, pBestnon, 200, output[11]);
 				lamda+=0.05;
 			}
 			for(BufferedWriter op : output){
