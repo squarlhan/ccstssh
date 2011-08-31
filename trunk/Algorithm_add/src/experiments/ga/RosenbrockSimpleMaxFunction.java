@@ -69,7 +69,9 @@ public class RosenbrockSimpleMaxFunction
       
     }
     counts ++;
-    return (1999999999-total)<=0?1:1999999999-total;
+    double result = (1999999999-total)<=0?1:1999999999-total;
+    result = 1000*(result)/1999999999;
+    return result;
 //    return n*Math.pow(10, 2.0)-total; 
   }
 

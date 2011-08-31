@@ -66,12 +66,12 @@ public class CosSimpleMaxFunction
       
     	total +=  (((DoubleGene)a_subject.getGene(i)).doubleValue()*((DoubleGene)a_subject.getGene(i)).doubleValue()
     			-10*Math.cos(2*((DoubleGene)a_subject.getGene(i)).doubleValue()*Math.PI)+10);
-//    	total += Math.pow(((DoubleGene)a_subject.getGene(i)).doubleValue(), 2.0);
       
     }
     counts ++;
-    return n*41-total;
-//    return n*Math.pow(10, 2.0)-total; 
+    double result = n*41-total;
+    result = 1000*(result)/(41*n);
+    return result;
   }
 
 @Override

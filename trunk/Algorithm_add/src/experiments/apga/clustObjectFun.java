@@ -344,7 +344,7 @@ public class clustObjectFun {
     	for(int i = 0; i<=pop.size()-1; i++){
     		List<Integer> chrombin = new ArrayList();
     		for(int j = 0; j<=pop.getConfiguration().getChromosomeSize()-1;j++){
-    			chrombin.addAll(doube2binary2(obj.getConsValue().getData()[0][j],
+    			chrombin.addAll(doube2binary(obj.getConsValue().getData()[0][j],
     					obj.getConsValue().getData()[1][j],
     					10,
     					(Double) pop.getChromosome(i).getGene(j).getAllele()));
@@ -459,7 +459,7 @@ public class clustObjectFun {
     	int n = chrom.size();
     	List<Integer> chrombin = new ArrayList();
 		for(int j = 0; j<=n-1;j++){
-			chrombin.addAll(doube2binary2(obj.getConsValue().getData()[0][j],
+			chrombin.addAll(doube2binary(obj.getConsValue().getData()[0][j],
 					obj.getConsValue().getData()[1][j],
 					10,
 					(Double)chrom.getGene(j).getAllele()));
@@ -686,7 +686,7 @@ public class clustObjectFun {
     	int n = chrom.size();
     	List<Integer> chrombin = new ArrayList();
 		for(int j = 0; j<=n-1;j++){
-			chrombin.addAll(doube2binary2(obj.getConsValue().getData()[0][j],
+			chrombin.addAll(doube2binary(obj.getConsValue().getData()[0][j],
 					obj.getConsValue().getData()[1][j],
 					10,
 					(Double)chrom.getGene(j).getAllele()));

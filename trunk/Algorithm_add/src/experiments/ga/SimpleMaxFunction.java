@@ -64,14 +64,13 @@ public class SimpleMaxFunction
     int n = a_subject.size();
     for (int i = 0; i < n; i++) {
       
-//    	total +=  (((DoubleGene)a_subject.getGene(i)).doubleValue()*((DoubleGene)a_subject.getGene(i)).doubleValue()
-//    			-10*Math.cos(2*((DoubleGene)a_subject.getGene(i)).doubleValue()*Math.PI)+10);
     	total += Math.pow(((DoubleGene)a_subject.getGene(i)).doubleValue(), 2.0);
       
     }
     counts ++;
-//    return n*111-total;
-    return n*Math.pow(100, 2.0)-total; 
+    double result = n*Math.pow(100, 2.0)-total; 
+    result = 1000*(result)/(n*Math.pow(100, 2.0));
+    return result;
   }
 
 @Override

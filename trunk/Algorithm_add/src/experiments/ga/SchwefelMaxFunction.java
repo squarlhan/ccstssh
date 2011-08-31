@@ -79,7 +79,7 @@ public Double[] excute(Matrix data, int nIterateCount) {
 		}
 		results[i] = 838*n-418.9829*n-total;//25140
 		if(results[i]<=0)results[i]= 1.0;
-//		results[i] = 1000*results[i]/(838*n);
+		results[i] = 1000*results[i]/(838*n);
 		
 	}
 	counts += m;

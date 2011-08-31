@@ -70,7 +70,9 @@ public class GriewankSimpleMaxFunction
       
     }
     counts ++;
-    return (2701-1-total/4000+prod)<=0?1:2701-1-total/4000+prod;
+    double result = (2701-1-total/4000+prod)<=0?1:2701-1-total/4000+prod;
+    result = 1000*(result)/(2701);
+    return result;
 //    return n*Math.pow(10, 2.0)-total; 
   }
 

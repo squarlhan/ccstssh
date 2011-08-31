@@ -74,7 +74,9 @@ public class WeiSimpleMaxFunction
       
     }
     counts ++;
-    return n*40.25-total;
+    double result = n*40.25-total;
+    result = 1000*(result)/(n*40.25);
+    return result;
   }
 
 @Override

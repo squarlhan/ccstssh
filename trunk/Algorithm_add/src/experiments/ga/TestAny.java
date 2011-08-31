@@ -220,12 +220,12 @@ public class TestAny {
 		
 		try {
 			
-			File[] result = {new File("x.txt"), new File("cos.txt"), 
-					new File("ackley.txt"),	new File("Quardirc.txt"), 
-					new File("step.txt"), new File("rosen.txt"), 
-					new File("sch.txt"), new File("gri.txt"),
-					new File("pen1.txt"), new File("pen2.txt"),
-			        new File("wei.txt"), new File("non.txt")};
+			File[] result = {new File("ap_x.txt"), new File("ap_cos.txt"), 
+					new File("ap_ackley.txt"),	new File("ap_quar.txt"), 
+					new File("ap_step.txt"), new File("ap_rosen.txt"), 
+					new File("ap_sch.txt"), new File("ap_gri.txt"),
+					new File("ap_pen1.txt"), new File("ap_pen2.txt"),
+			        new File("ap_wei.txt"), new File("ap_non.txt")};
 			BufferedWriter[] output = new BufferedWriter[result.length];
 			for(int i = 0; i<= result.length-1;i++){
 				if (result[i].exists()) {
@@ -249,20 +249,20 @@ public class TestAny {
 			double lamda =1.0;
 			for(int aa=0; aa<=0;aa++){
 //            while(lamda<=2){
-//				a1.Calculate(new AckleyMaxFunction(), 0.8, 0.01, 100.0, 0.8, lamda, consValue32, lastPos32, pBestackley, 200, output[2]);
-//				a1.Calculate(new AckleyMaxFunction(), 0.8, 0.01, 100.0, 0.8, 0.8, consValue32, lastPos32, pBestackley, 200, output[2]);
 //				a1.Calculate(new MaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue100, lastPos100, pBestx, 200, output[0]);
-//				a1.Calculate(new MaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue100, lastPos100, pBestx, 200, output[0);
+//				a1.Calculate(new MaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue100, lastPos100, pBestx, 200, output[0]);
 //				a1.Calculate(new CosMaxFunction(), 0.8, 0.01, 100.0, 0.8, lamda, consValue512, lastPos512, pBestcos, 200, output[1]);
 //				a1.Calculate(new CosMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue512, lastPos512, pBestcos, 200, output[1]);
+				a1.Calculate(new AckleyMaxFunction(), 0.8, 0.01, 100.0, 0.8, lamda, consValue32, lastPos32, pBestackley, 200, output[2]);
+				a1.Calculate(new AckleyMaxFunction(), 0.8, 0.01, 100.0, 0.8, 0.8, consValue32, lastPos32, pBestackley, 200, output[2]);
 //            	a1.Calculate(new QuardircMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue100, lastPos100, pBestmax, 200, output[3]);
 //				a1.Calculate(new QuardircMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue100, lastPos100, pBestmax, 200, output[3]);
 //				a1.Calculate(new StepMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue100, lastPos100, pBeststep, 200, output[4]);
 //				a1.Calculate(new StepMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue100, lastPos100, pBeststep, 200, output[4]);
 //				a1.Calculate(new RosenbrockMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue30, lastPos30, pBestrosen, 200, output[5]);
 //				a1.Calculate(new RosenbrockMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue30, lastPos30, pBestrosen, 200, output[5]);
-//				a1.Calculate(new SchwefelMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue500, lastPos500, pBestsch, 200, output[6]);
-//				a1.Calculate(new SchwefelMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue500, lastPos500, pBestsch, 200, output[6]);
+				a1.Calculate(new SchwefelMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue500, lastPos500, pBestsch, 200, output[6]);
+				a1.Calculate(new SchwefelMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue500, lastPos500, pBestsch, 200, output[6]);
 //				a1.Calculate(new GriewankMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue600, lastPos600, pBestgri, 200, output[7]);
 //				a1.Calculate(new GriewankMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue600, lastPos600, pBestgri, 200, output[7]);
 //				a1.Calculate(new PenalizedMaxFunction(), 0.8, 0.01, 100.0, 0.8,lamda, consValue50, lastPos50, pBestpen1, 200, output[8]);
@@ -271,8 +271,8 @@ public class TestAny {
 //				a1.Calculate(new Penalized2MaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue50, lastPos50, pBestpen2, 200, output[9]);
 //				a1.Calculate(new WeiMaxFunction(), 0.8, 0.01, 100.0, 0.8, lamda, consValue512, lastPos512, pBestwei, 200, output[10]);
 //				a1.Calculate(new WeiMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue512, lastPos512, pBestwei, 200, output[10]);
-				a1.Calculate(new NonMaxFunction(), 0.8, 0.01, 100.0, 0.8, lamda, consValue5, lastPos5, pBestnon, 200, output[11]);
-				a1.Calculate(new NonMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue5, lastPos5, pBestnon, 200, output[11]);
+//				a1.Calculate(new NonMaxFunction(), 0.8, 0.01, 100.0, 0.8, lamda, consValue5, lastPos5, pBestnon, 200, output[11]);
+//				a1.Calculate(new NonMaxFunction(), 0.8, 0.01, 100.0, 0.8,  0.8, consValue5, lastPos5, pBestnon, 200, output[11]);
 				lamda+=0.05;
 			}
 			for(BufferedWriter op : output){

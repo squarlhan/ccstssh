@@ -68,7 +68,9 @@ public class SchwefelSimpleMaxFunction
       
     }
     counts ++;
-    return (838*n-418.9829*n-total)<=0?1:838*n-418.9829*n-total;
+    double result = (838*n-418.9829*n-total)<=0?1:838*n-418.9829*n-total;
+    result = 1000*(result)/(838*n);
+    return result;
 //    return n*Math.pow(10, 2.0)-total; 
   }
 

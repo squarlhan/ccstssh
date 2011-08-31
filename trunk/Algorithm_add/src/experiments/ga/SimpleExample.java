@@ -112,49 +112,62 @@ public class SimpleExample {
 		SimpleExample se = new SimpleExample();	
 		
 		try {
-			File result = new File("ga_x_80.txt");
-			if (result.exists()) {
-				result.delete();
-				if (result.createNewFile()) {
-					System.out.println("result3 file create success!");
+			File[] result = {new File("ga_x.txt"), new File("ga_cos.txt"), 
+					new File("ga_ackley.txt"),	new File("ga_quar.txt"), 
+					new File("ga_step.txt"), new File("ga_rosen.txt"), 
+					new File("ga_sch.txt"), new File("ga_gri.txt"),
+					new File("ga_pen1.txt"), new File("ga_pen2.txt"),
+			        new File("ga_wei.txt"), new File("ga_non.txt")};
+			BufferedWriter[] output = new BufferedWriter[result.length];
+			for(int i = 0; i<= result.length-1;i++){
+				if (result[i].exists()) {
+					result[i].delete();
+					if (result[i].createNewFile()) {
+						System.out.println("result"+i+" file create success!");
+					} else {
+						System.out.println("result"+i+" file create failed!");
+					}
 				} else {
-					System.out.println("result3 file create failed!");
-				}
-			} else {
-				if (result.createNewFile()) {
-					System.out.println("result3 file create success!");
-				} else {
-					System.out.println("result3 file create failed!");
-				}
+					if (result[i].createNewFile()) {
+						System.out.println("result"+i+" file create success!");
+					} else {
+						System.out.println("result"+i+" file create failed!");
+					}
 
+				}
+				output[i] = new BufferedWriter(new FileWriter(result[i]));
 			}
-			File result2 = new File("ga_cos_80.txt");
-			if (result2.exists()) {
-				result2.delete();
-				if (result2.createNewFile()) {
-					System.out.println("result4 file create success!");
-				} else {
-					System.out.println("result4 file create failed!");
-				}
-			} else {
-				if (result2.createNewFile()) {
-					System.out.println("result4 file create success!");
-				} else {
-					System.out.println("result4 file create failed!");
-				}
-
-			}
-
-			BufferedWriter output = new BufferedWriter(new FileWriter(result));
-			BufferedWriter output2 = new BufferedWriter(new FileWriter(result2));
 			
 			for(int a=0; a<=0;a++){
-				se.runga(120, 30, 40, -0.5,  0.5, new NonSimpleMaxFunction(), output);
-				se.runga(200, 30, 40, -0.5,  0.5, new NonSimpleMaxFunction(), output2);
+//				se.runga(120, 30, 40, -100,  100, new SimpleMaxFunction(), output[0]);
+//				se.runga(200, 30, 40, -100,  100, new SimpleMaxFunction(), output[0]);
+//				se.runga(120, 30, 40, -5.12,  5.12, new CosSimpleMaxFunction(), output[1]);
+//				se.runga(200, 30, 40, -5.12,  5.12, new CosSimpleMaxFunction(), output[1]);
+				se.runga(120, 30, 40, -32,  32, new AckleySimpleMaxFunction(), output[2]);
+				se.runga(200, 30, 40, -32,  32, new AckleySimpleMaxFunction(), output[2]);
+//				se.runga(120, 30, 40, -100,  100, new QuardircSimpleMaxFunction(), output[3]);
+//				se.runga(200, 30, 40, -100,  100, new QuardircSimpleMaxFunction(), output[3]);
+//				se.runga(120, 30, 40, -100,  100, new StepSimpleMaxFunction(), output[4]);
+//				se.runga(200, 30, 40, -100,  100, new StepSimpleMaxFunction(), output[4]);
+//				se.runga(120, 30, 40, -30,  30, new RosenbrockSimpleMaxFunction(), output[5]);
+//				se.runga(200, 30, 40, -30,  30, new RosenbrockSimpleMaxFunction(), output[5]);
+				se.runga(120, 30, 40, -500,  500, new SchwefelSimpleMaxFunction(), output[6]);
+				se.runga(200, 30, 40, -500,  500, new SchwefelSimpleMaxFunction(), output[6]);
+//				se.runga(120, 30, 40, -600,  600, new GriewankSimpleMaxFunction(), output[7]);
+//				se.runga(200, 30, 40, -600,  600, new GriewankSimpleMaxFunction(), output[7]);
+//				se.runga(120, 30, 40, -50,  50, new PenalizedSimpleMaxFunction(), output[8]);
+//				se.runga(200, 30, 40, -50,  50, new PenalizedSimpleMaxFunction(), output[8]);
+//				se.runga(120, 30, 40, -50,  50, new Penalized2SimpleMaxFunction(), output[9]);
+//				se.runga(200, 30, 40, -50,  50, new Penalized2SimpleMaxFunction(), output[9]);
+//				se.runga(120, 30, 40, -5.12,  5.12, new WeiSimpleMaxFunction(), output[10]);
+//				se.runga(200, 30, 40, -5.12,  5.12, new WeiSimpleMaxFunction(), output[10]);
+//				se.runga(120, 30, 40, -0.5,  0.5, new NonSimpleMaxFunction(), output[11]);
+//				se.runga(200, 30, 40, -0.5,  0.5, new NonSimpleMaxFunction(), output[11]);
 			}
 			
-			output.close();
-			output2.close();
+			for(BufferedWriter op : output){
+				op.close();
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

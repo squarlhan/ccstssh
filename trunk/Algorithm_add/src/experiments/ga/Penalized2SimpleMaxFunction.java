@@ -77,7 +77,9 @@ public class Penalized2SimpleMaxFunction
     double result = 0;
     result = 0.1*(Math.sin(3*Math.PI*data0)*Math.sin(3*Math.PI*data0)+total+(datam-1)*(datam-1))+total1;
     counts ++;
-    return (1999999999-result)<=0?1:1999999999-result;
+    double result1 = (1999999999-result)<=0?1:1999999999-result;
+    result1 = 1000*(result1)/1999999999;
+    return result1;
 //    return n*Math.pow(10, 2.0)-total; 
   }
   

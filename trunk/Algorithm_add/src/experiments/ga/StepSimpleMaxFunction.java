@@ -67,7 +67,9 @@ public class StepSimpleMaxFunction
         total+=(Math.floor(data+0.5)*Math.floor(data+0.5));
     }
     counts ++;
-    return n*100*100-total; 
+    double result = n*100*100-total; 
+    result = 1000*(result)/(n*100*100);
+    return result;
   }
 
 @Override

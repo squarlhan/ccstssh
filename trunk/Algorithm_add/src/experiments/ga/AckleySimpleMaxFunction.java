@@ -67,12 +67,12 @@ public class AckleySimpleMaxFunction
       
     	total +=  (((DoubleGene)a_subject.getGene(i)).doubleValue()*((DoubleGene)a_subject.getGene(i)).doubleValue());
     	totalcos += (Math.cos(2*((DoubleGene)a_subject.getGene(i)).doubleValue()*Math.PI));
-//    	total += Math.pow(((DoubleGene)a_subject.getGene(i)).doubleValue(), 2.0);
       
     }
     counts ++;
-    return 20*Math.exp(-0.2*Math.sqrt(total/n))+Math.exp(totalcos/n);
-//    return n*Math.pow(10, 2.0)-total; 
+    double result = 20*Math.exp(-0.2*Math.sqrt(total/n))+Math.exp(totalcos/n);
+    result = 1000*(result)/(20+Math.exp(1));
+    return result;
   }
 
 @Override
