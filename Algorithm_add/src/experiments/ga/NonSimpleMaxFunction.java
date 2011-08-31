@@ -77,7 +77,9 @@ public class NonSimpleMaxFunction
       
     }
     counts ++;
-    return n*4-total+total2;
+    double result = n*4-total+total2;
+    result = 1000*(result)/(4*n);
+    return result;
   }
 
 @Override

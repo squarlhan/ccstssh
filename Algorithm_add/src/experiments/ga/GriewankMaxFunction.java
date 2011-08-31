@@ -81,7 +81,7 @@ public Double[] excute(Matrix data, int nIterateCount) {
 		}
 		results[i] = 2701-1-total/4000+prod;//2701
 		if(results[i]<=0)results[i]= 1.0;
-//		results[i] = 1000*results[i]/2701;
+		results[i] = 1000*results[i]/2701;
 	}
 	counts += m;
 	return results;

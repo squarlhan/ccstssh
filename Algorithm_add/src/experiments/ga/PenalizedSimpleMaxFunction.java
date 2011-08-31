@@ -78,7 +78,9 @@ public class PenalizedSimpleMaxFunction
     double result = 0;
     result = Math.PI/n*(10*Math.sin(Math.PI*y[0])*Math.sin(Math.PI*y[0])+total+(y[n-1]-1)*(y[n-1]-1))+total1;
     counts ++;
-    return (1999999999-total)<=0?1:1999999999-total;
+    double result1 = (1999999999-result)<=0?1:1999999999-result;
+    result1 = 1000*(result1)/1999999999;
+    return result1;
 //    return n*Math.pow(10, 2.0)-total; 
   }
   

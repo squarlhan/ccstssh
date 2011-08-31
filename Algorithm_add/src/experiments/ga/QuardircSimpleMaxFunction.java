@@ -72,7 +72,9 @@ public class QuardircSimpleMaxFunction
       
     }
     counts ++;
-    return (1+n)*(n/2)*Math.pow(100, 2.0)-total; 
+    double result = (1+n)*(n/2)*Math.pow(100, 2.0)-total;
+    result = 1000*(result)/((1+n)*(n/2)*Math.pow(100, 2.0));
+    return result; 
   }
 
 @Override
