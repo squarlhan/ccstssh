@@ -35,12 +35,12 @@ public class SEThread {
    */
   public static void main(String[] args)
       throws Exception {
-    final int numEvolutions = 50;
+    final int numEvolutions = 200;
     final int numThreads = 5;
-    int chromeSize = 32;
-    if (chromeSize > 32) {
+    int chromeSize = 30;
+    if (chromeSize > 30) {
       System.err.println("This example does not handle " +
-                         "Chromosomes greater than 32 bits in length.");
+                         "Chromosomes greater than 30 bits in length.");
       System.exit( -1);
     }
     for (int i = 0; i < numThreads; i++) {
@@ -48,10 +48,13 @@ public class SEThread {
       Configuration gaConf = new DefaultConfiguration(i + "", "no name");
       gaConf.setPreservFittestIndividual(i % 2 == 0);
       gaConf.setKeepPopulationSizeConstant(i % 2 != 0);
-      IChromosome sampleChromosome = new Chromosome(gaConf,
-          new BooleanGene(gaConf), chromeSize);
+      Gene[] genes = new DoubleGene[chromeSize];
+      for(int k = 0;k<=chromeSize-1;k++){
+    	  genes[k] = new DoubleGene(gaConf, -500, 500);
+      }
+      IChromosome sampleChromosome = new Chromosome(gaConf,genes);
       gaConf.setSampleChromosome(sampleChromosome);
-      gaConf.setPopulationSize(4);
+      gaConf.setPopulationSize(40);
       gaConf.setFitnessFunction(new SimpleMaxFunction());
       Genotype genotype = null;
       try {
