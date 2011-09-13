@@ -50,7 +50,7 @@ public class SEThread {
       gaConf.setKeepPopulationSizeConstant(i % 2 != 0);
       Gene[] genes = new DoubleGene[chromeSize];
       for(int k = 0;k<=chromeSize-1;k++){
-    	  genes[k] = new DoubleGene(gaConf, -500, 500);
+    	  genes[k] = new DoubleGene(gaConf, -100, 100);
       }
       IChromosome sampleChromosome = new Chromosome(gaConf,genes);
       gaConf.setSampleChromosome(sampleChromosome);
