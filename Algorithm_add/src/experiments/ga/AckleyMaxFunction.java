@@ -61,18 +61,19 @@ public class AckleyMaxFunction
 @Override
 public Double[] excute(Matrix data, int nIterateCount) {
 	// TODO Auto-generated method stub
-	int time_delay = 0;
+	int time_delay = 1000;
 	if(data == null)return null;
 	int m = data.getM();
 	int n = data.getN();
 	Double[] results = new Double[m];
-	try {
-		Thread.sleep(time_delay*m);
-	} catch (InterruptedException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
+	
 	for(int i = 0; i<=m-1; i++){
+		try {
+			Thread.sleep(time_delay);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		double total = 0;
 		double totalcos = 0;
 		for(int j = 0; j<=n-1; j++){
