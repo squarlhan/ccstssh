@@ -39,7 +39,7 @@ public class ThreadAckleyMaxFunction extends FitnessFunction implements
 		// TODO Auto-generated method stub
 		if (data == null)
 			return null;
-		int time_delay = 1000;
+		int time_delay = 0;
 		int m = data.getM();
 		int n = data.getN();
 		Double[] results = new Double[m];

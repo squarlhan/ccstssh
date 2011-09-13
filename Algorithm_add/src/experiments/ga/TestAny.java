@@ -219,7 +219,7 @@ public class TestAny {
 		}
 		
 		try {
-			String prefix = "50_";
+			String prefix = "lamda_50_";
 			List<File> results = new ArrayList();
 			
 			File result0 = new File(prefix+"ap_x.txt");
@@ -236,16 +236,16 @@ public class TestAny {
 			File result11 = new File(prefix+"ap_non.txt");
 			results.add(result0);
 			results.add(result1);
-//			results.add(result2);
-//			results.add(result3);
-//			results.add(result4);
-//			results.add(result5);
-//			results.add(result6);
-//			results.add(result7);
-//			results.add(result8);
-//			results.add(result9);
-//			results.add(result10);
-//			results.add(result11);
+			results.add(result2);
+			results.add(result3);
+			results.add(result4);
+			results.add(result5);
+			results.add(result6);
+			results.add(result7);
+			results.add(result8);
+			results.add(result9);
+			results.add(result10);
+			results.add(result11);
 			
 			BufferedWriter[] output = new BufferedWriter[results.size()];
 			
@@ -309,6 +309,7 @@ public class TestAny {
             	}
             	for(BufferedWriter op : output){
     				op.write("\n");
+    				op.flush();
     			}
 				lamda+=0.05;
 			}
