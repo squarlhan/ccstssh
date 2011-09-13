@@ -41,31 +41,32 @@ public class TestProc {
 //		}
 		
 		try {
-			
-			for(int i = 0; i<= 29;i++){
-				File result = new File(i+1+"process.txt");
-				BufferedWriter output = new BufferedWriter(new FileWriter(result));
-				if (result.exists()) {
-					result.delete();
-					if (result.createNewFile()) {
-						System.out.println("result1 file create success!");
-					} else {
-						System.out.println("result1 file create failed!");
-					}
+			File result = new File("process.txt");
+			BufferedWriter output = new BufferedWriter(new FileWriter(result));
+			if (result.exists()) {
+				result.delete();
+				if (result.createNewFile()) {
+					System.out.println("result1 file create success!");
 				} else {
-					if (result.createNewFile()) {
-						System.out.println("result file create success!");
-					} else {
-						System.out.println("result file create failed!");
-					}
-
+					System.out.println("result1 file create failed!");
 				}
-				System.out.println((i+1));
-				output.write((i+1)+" \n");
-				output.close();
-			    Thread.sleep(1000*10);
+			} else {
+				if (result.createNewFile()) {
+					System.out.println("result file create success!");
+				} else {
+					System.out.println("result file create failed!");
+				}
+
 			}
 			
+			for(int i = 0; i<= 29;i++){
+				
+				System.out.println((i+1));
+				output.write((i+1)+" \n");
+				output.flush();
+			    Thread.sleep(1000);
+			}
+			output.close();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

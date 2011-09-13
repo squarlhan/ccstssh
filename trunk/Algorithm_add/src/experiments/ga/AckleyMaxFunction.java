@@ -61,7 +61,7 @@ public class AckleyMaxFunction
 @Override
 public Double[] excute(Matrix data, int nIterateCount) {
 	// TODO Auto-generated method stub
-	int time_delay = 1000;
+	int time_delay = 0;
 	if(data == null)return null;
 	int m = data.getM();
 	int n = data.getN();
