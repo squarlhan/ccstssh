@@ -9,7 +9,7 @@ import org.jgap.IChromosome;
 
 public class TestTest {
 
-	public static double[][] vector_decoder(IChromosome chrom) {
+	public static double[][] vector_decoder(IChromosome chrom, double vol) {
 		int csize = chrom.size();
 		if (csize < 6) {
 			System.err.println("wrong chromosome size input!");
@@ -18,7 +18,7 @@ public class TestTest {
 		double[] input = new double[6];
 		for (int i = 0; i <= 2; i++) {
 			double genevalue = (Double) chrom.getGene(i).getAllele();
-			input[i] = 30 + genevalue * (150 - 30);
+			input[i] = (Math.PI/6) + genevalue * ((5*Math.PI/6) -(Math.PI/6));
 		}
 		input[3] = (Double) chrom.getGene(3).getAllele();
 		double max = 1;
@@ -54,11 +54,19 @@ public class TestTest {
 								/ Math.sin(input[0]), 2));
 		results[2][1] = Math.sqrt(Math.pow(input[5], 2)
 				- Math.pow(results[2][0], 2) - Math.pow(results[2][2], 2));
+		
+		double v = results[0][0]*results[1][1]*results[2][2];
+		double weight = Math.cbrt(vol/v);
+		for(int i = 0; i<=2;i++){
+			for(int j = 0; j<=2;j++){
+				results[i][j] = weight*results[i][j];
+			}
+		}
 
 		return results;
 	}
 
-	public static double[][] vector_decoder(Double[] chrom) {
+	public static double[][] vector_decoder(Double[] chrom, double vol) {
 		int csize = chrom.length;
 		if (csize < 6) {
 			System.err.println("wrong chromosome size input!");
@@ -67,8 +75,9 @@ public class TestTest {
 		double[] input = new double[6];
 		for (int i = 0; i <= 2; i++) {
 			double genevalue = chrom[i];
-			input[i] = 30 + genevalue * (150 - 30);
+			input[i] = (Math.PI/6) + genevalue * ((5*Math.PI/6) -(Math.PI/6));
 		}
+		input[0] = Math.PI/2;
 		input[3] = chrom[3];
 		double max = 1;
 		double min = input[3] / 4;
@@ -103,6 +112,14 @@ public class TestTest {
 								/ Math.sin(input[0]), 2)));
 		results[2][1] = Math.sqrt(Math.abs(Math.pow(input[5], 2)
 				- Math.pow(results[2][0], 2) - Math.pow(results[2][2], 2)));
+		
+		double v = results[0][0]*results[1][1]*results[2][2];
+		double weight = Math.cbrt(vol/v);
+		for(int i = 0; i<=2;i++){
+			for(int j = 0; j<=2;j++){
+				results[i][j] = weight*results[i][j];
+			}
+		}
 
 		return results;
 	}
@@ -136,8 +153,8 @@ public class TestTest {
 			int n = vecs[0].length;
 			for (int i = 0; i <= m - 1; i++) {
 				for (int j = 0; j <= n - 1; j++) {
-					System.out.print(vecs[i][j] * 10);
-					output.write(String.valueOf(vecs[i][j] * 10));
+					System.out.print(vecs[i][j]);
+					output.write(String.valueOf(vecs[i][j]));
 					System.out.print("\t");
 					output.write("\t");
 				}
@@ -179,8 +196,16 @@ public class TestTest {
 		for (int i = 0; i <= 5; i++) {
 			ins[i] = Math.random();
 		}
-		double[][] vecs = vector_decoder(ins);
-		writeposcar(vecs,4,"try");
+		double[] r = {1.81,1.81,1.81,1.81};
+		double[] v = new double[nn];
+		double vol = 0;
+		for(int i=0;i<=nn-1;i++){
+			v[i] = 4*Math.PI*Math.pow(r[i], 3)/3;
+			vol+=v[i];
+		}
+//		vol = 1.2*vol;
+		double[][] vecs = vector_decoder(ins, vol);
+		writeposcar(vecs,nn,"try");
 		
 
 	}
