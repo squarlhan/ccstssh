@@ -276,164 +276,29 @@ public class TestTest {
 		long startTime = System.currentTimeMillis();
 		APGA a1 = new APGA();
 		int m = 40;
-		int n = 30;
-		Matrix consValue5 = new Matrix(2, n);
-		Matrix consValue32 = new Matrix(2, n);
-		Matrix consValue30 = new Matrix(2, n);
-		Matrix consValue50 = new Matrix(2, n);
-		Matrix consValue100 = new Matrix(2, n);
-		Matrix consValue512 = new Matrix(2, n);
-		Matrix consValue500 = new Matrix(2, n);
-		Matrix consValue600 = new Matrix(2, n);
-		Matrix lastPos5 = new Matrix(m, n);
-		Matrix lastPos32 = new Matrix(m, n);
-		Matrix lastPos30 = new Matrix(m, n);
-		Matrix lastPos50 = new Matrix(m, n);
-		Matrix lastPos100 = new Matrix(m, n);
-		Matrix lastPos512 = new Matrix(m, n);
-		Matrix lastPos500 = new Matrix(m, n);
-		Matrix lastPos600 = new Matrix(m, n);
-		Matrix pBestrosen = new Matrix(1, m);
-		Matrix pBestackley = new Matrix(1, m);
-		Matrix pBestx = new Matrix(1, m);
-		Matrix pBestmax = new Matrix(1, m);
-		Matrix pBeststep = new Matrix(1, m);
-		Matrix pBestcos = new Matrix(1, m);
-		Matrix pBestsch = new Matrix(1, m);
-		Matrix pBestgri = new Matrix(1, m);
-		Matrix pBestpen1 = new Matrix(1, m);
-		Matrix pBestpen2 = new Matrix(1, m);
-		Matrix pBestwei = new Matrix(1, m);
-		Matrix pBestnon = new Matrix(1, m);
+		int n = 6;
+		Matrix consValue = new Matrix(2, n);
+		Matrix lastPos = new Matrix(m, n);
+		Matrix pVasp = new Matrix(1, m);
 		for(int i = 0; i<=n-1;i++ ){
-			consValue5.data[0][i] = -0.5;
-			consValue5.data[1][i] = 0.5;
-			consValue30.data[0][i] = -30;
-			consValue30.data[1][i] = 30;
-			consValue32.data[0][i] = -32;
-			consValue32.data[1][i] = 32;
-			consValue50.data[0][i] = -50;
-			consValue50.data[1][i] = 50;
-			consValue100.data[0][i] = -100;
-			consValue100.data[1][i] = 100;
-			consValue512.data[0][i] = -5.12;
-			consValue512.data[1][i] = 5.12;
-			consValue500.data[0][i] = -500;
-			consValue500.data[1][i] = 500;
-			consValue600.data[0][i] = -600;
-			consValue600.data[1][i] = 600;
+			consValue.data[0][i] = 0;
+			consValue.data[1][i] = 1;
 		}
 		for(int i = 0; i<=m-1;i++ ){
 			for(int j = 0; j<=n-1;j++ ){
-				lastPos5.data[i][j] = Math.random()-0.5;
-				lastPos30.data[i][j] = Math.random()*60-30;
-				lastPos32.data[i][j] = Math.random()*64-32;
-				lastPos50.data[i][j] = Math.random()*100-50;
-				lastPos100.data[i][j] = Math.random()*200-100;
-				lastPos512.data[i][j] = Math.random()*10.24-5.12;
-				lastPos500.data[i][j] = Math.random()*1000-500;
-				lastPos600.data[i][j] = Math.random()*1200-600;
+				lastPos.data[i][j] = Math.random();
 			}
 		}
-		double a = 0.5;
-	    double b = 3;
-	    int kmax = 20;
 		for(int i = 0; i<=m-1; i++){
-			double totalacley = 0;
-			double totalcos = 0;
-			double totalx = 0;
-			double totalmax = 0;
-			double totalcos0 = 0;
-			double totalstep = 0;
-			double totalrosen = 0;
-			double totalsch = 0;
-			double totalgri = 0;
-			double prodgri = 1;
-			double totalpen1 = 0;
-			double totalpen2 = 0;
-			double totalu1 = 0;
-			double totalu2 = 0;
-			double totalwei = 0;
-			double totalnon = 0;
-			double totalnon2 = 0;
-			double[] y = new double[n];
-			double yy = 0;
-			for(int j = 0; j<=n-1; j++){
-				totalacley +=  (lastPos32.data[i][j]*lastPos32.data[i][j]);
-				totalcos += (Math.cos(2*Math.PI*lastPos32.data[i][j]));
-				totalcos0+=(lastPos512.data[i][j]*lastPos512.data[i][j]-10*Math.cos(2*lastPos512.data[i][j]*Math.PI)+10);
-				totalx+=Math.pow(lastPos100.data[i][j], 2.0);
-				if(totalmax<Math.abs(lastPos100.data[i][j]))totalmax=Math.abs(lastPos100.data[i][j]);
-				totalstep+=(Math.floor(lastPos100.data[i][j]+0.5)*Math.floor(lastPos100.data[i][j]+0.5));
-		    	y[j] = y(lastPos50.data[i][j]);
-				if(j<=n-1-1){
-					y[j+1] = y(lastPos50.data[i][j+1]);
-					totalrosen+=(100*Math.pow((lastPos30.data[i][j+1]-Math.pow(lastPos30.data[i][j], 2)), 2)+Math.pow((lastPos30.data[i][j]-1), 2));
-					totalpen1+=((y[j]-1)*(y[j]-1)*(1+10*Math.sin(Math.PI*y[j+1])*Math.sin(Math.PI*y[j+1])));
-					totalpen2+=((lastPos50.data[i][j]-1)*(lastPos50.data[i][j]-1)*(1+Math.sin(3*Math.PI*lastPos50.data[i][j+1])*Math.sin(3*Math.PI*lastPos50.data[i][j+1])));
-				}
-				totalsch+=(-1*lastPos500.data[i][j]*Math.sin(Math.sqrt(Math.abs(lastPos500.data[i][j]))));
-				totalgri+=(Math.pow(lastPos600.data[i][j], 2));
-				prodgri*=(Math.cos(lastPos600.data[i][j]/Math.sqrt(j+1)));
-				totalu1+=u(lastPos50.data[i][j],10,100,4);
-				totalu2+=u(lastPos50.data[i][j],5,100,4);
-				if(Math.abs(lastPos512.data[i][j])<0.5){
-		        	yy = lastPos512.data[i][j];
-		        }else{
-		        	yy = Math.round(2*lastPos512.data[i][j])/2;
-		        }
-				totalwei +=  (yy*yy-10*Math.cos(2*yy*Math.PI)+10);
-				double totalnon1 = 0;
-				for(int k = 0; k<=kmax;k++){
-					totalnon1 += (Math.pow(a, k)*Math.cos(2*Math.PI*Math.pow(b, k)*(lastPos5.data[i][j]+0.5)));
-		        	totalnon2 += (Math.pow(a, k)*Math.cos(2*Math.PI*Math.pow(b, k)*0.5));
-		        }
-		    	totalnon +=  totalnon1;
-			}
-			pBestackley.data[0][i] = 20*Math.exp(-0.2*Math.sqrt(totalacley/n))+Math.exp(totalcos/n);
-			pBestcos.data[0][i] = n*41-totalcos0;
-			pBestx.data[0][i] = n*Math.pow(10, 2.0)-totalx;
-			pBeststep.data[0][i] = n*Math.pow(10, 2.0)-totalstep;
-			pBestmax.data[0][i] = 100-totalmax;
-			pBestrosen.data[0][i] = (1999999999-totalrosen)<=0?1:1999999999-totalrosen;
-			pBestsch.data[0][i] = (838*n-418.9829*n-totalsch)<=0?1:838*n-418.9829*n-totalsch;
-			pBestgri.data[0][i] = (2701-1-totalgri/4000+prodgri)<=0?1:2701-1-totalgri/4000+prodgri;
-			double tempen1 = Math.PI/n*(10*Math.sin(Math.PI*y[0])*Math.sin(Math.PI*y[0])+totalpen1+(y[n-1]-1)*(y[n-1]-1))+totalu1;
-			pBestpen1.data[0][i] = (1999999999-tempen1)<=0?1:1999999999-tempen1;
-			double tempen2 = 0.1*(Math.sin(3*Math.pow(Math.PI*lastPos50.data[i][0], 2))+totalpen2+Math.pow(lastPos50.data[i][n-1]-1, 2))+totalu2;
-			pBestpen2.data[0][i] = (1999999999-tempen2)<=0?1:1999999999-tempen2;
-			pBestwei.data[0][i] = n*40.25-totalwei;
-			pBestnon.data[0][i] = n*4-totalnon+totalnon2;
+			pVasp.data[0][i] = -1;
 		}
 		
 		try {
-			String prefix = "lamda_50_";
+			String prefix = "vasp_4";
 			List<File> results = new ArrayList();
 			
-			File result0 = new File(prefix+"ap_x.txt");
-			File result1 = new File(prefix+"ap_cos.txt");
-			File result2 = new File(prefix+"ap_ackley.txt");
-			File result3 = new File(prefix+"ap_quar.txt");
-			File result4 = new File(prefix+"ap_step.txt");
-			File result5 = new File(prefix+"ap_rosen.txt");
-			File result6 = new File(prefix+"ap_sch.txt");
-			File result7 = new File(prefix+"ap_gri.txt");
-			File result8 = new File(prefix+"ap_pen1.txt");
-			File result9 = new File(prefix+"ap_pen2.txt");
-			File result10 = new File(prefix+"ap_wei.txt");
-			File result11 = new File(prefix+"ap_non.txt");
+			File result0 = new File(prefix+".txt");
 			results.add(result0);
-			results.add(result1);
-			results.add(result2);
-			results.add(result3);
-			results.add(result4);
-			results.add(result5);
-			results.add(result6);
-			results.add(result7);
-			results.add(result8);
-			results.add(result9);
-			results.add(result10);
-			results.add(result11);
 			
 			BufferedWriter[] output = new BufferedWriter[results.size()];
 			
@@ -456,7 +321,7 @@ public class TestTest {
 				output[i] = new BufferedWriter(new FileWriter(results.get(i)));
 			}
 			
-			double lamda =0.0;
+			double lamda =1.0;
 			double extra =0.01;
 //			for(int aa=0; aa<=0;aa++){
 //				long time1 = System.currentTimeMillis();
@@ -468,17 +333,17 @@ public class TestTest {
 //				System.out.println("运行时间 " + (time3 - time2) + "ms");
 //				output[2].write("并行运行时间 " + (time2 - time1) + "ms \n");
 //				output[2].write("运行时间 " + (time3 - time2) + "ms \n");
-            while(lamda<=2.05){
-            	for(int bb=0; bb<=49;bb++){
-				a1.Calculate(new MaxFunction(), 0.8, extra, 100.0, 0.8,lamda, consValue100, lastPos100, pBestx, 200, output[0]);
-//				a1.Calculate(new MaxFunction(), 0.8, extra, 100.0, 0.8,  0.8, consValue100, lastPos100, pBestx, 200, output[0]);
+//            while(lamda<=2.05){
+            	for(int bb=0; bb<=0;bb++){
+				a1.Calculate(new VaspMaxFunction(nn, vol, "AutoPOSCAR"), 0.8, extra, 100.0, 0.8,lamda, consValue, lastPos, pVasp, 200, output[0]);
+//				a1.Calculate(new VaspMaxFunction(nn, vol, "AutoPOSCAR"), 0.8, extra, 100.0, 0.8,  0.8, consValue, lastPos, pVasp, 200, output[0]);
             	}
             	for(BufferedWriter op : output){
     				op.write("\n");
     				op.flush();
     			}
 				lamda+=0.05;
-			}
+//			}
 			for(BufferedWriter op : output){
 				op.close();
 			}
