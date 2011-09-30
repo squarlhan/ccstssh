@@ -294,5 +294,9 @@ public interface IChromosome
    * @since 3.2
    */
   int operatedOn();
+  
+  public boolean isIscenter() ;
+
+	public void setIscenter(boolean iscenter) ;
 
 }

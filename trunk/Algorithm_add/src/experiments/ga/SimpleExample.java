@@ -144,15 +144,15 @@ public class SimpleExample {
 //				se.runga(120, 30, 40, -5.12,  5.12, new CosSimpleMaxFunction(), output[1]);
 //				se.runga(200, 30, 40, -5.12,  5.12, new CosSimpleMaxFunction(), output[1]);
 				se.runga(120, 30, 40, -32,  32, new AckleySimpleMaxFunction(), output[2]);
-				se.runga(200, 30, 40, -32,  32, new AckleySimpleMaxFunction(), output[2]);
+//				se.runga(200, 30, 40, -32,  32, new AckleySimpleMaxFunction(), output[2]);
 //				se.runga(120, 30, 40, -100,  100, new QuardircSimpleMaxFunction(), output[3]);
 //				se.runga(200, 30, 40, -100,  100, new QuardircSimpleMaxFunction(), output[3]);
 //				se.runga(120, 30, 40, -100,  100, new StepSimpleMaxFunction(), output[4]);
 //				se.runga(200, 30, 40, -100,  100, new StepSimpleMaxFunction(), output[4]);
 //				se.runga(120, 30, 40, -30,  30, new RosenbrockSimpleMaxFunction(), output[5]);
 //				se.runga(200, 30, 40, -30,  30, new RosenbrockSimpleMaxFunction(), output[5]);
-				se.runga(120, 30, 40, -500,  500, new SchwefelSimpleMaxFunction(), output[6]);
-				se.runga(200, 30, 40, -500,  500, new SchwefelSimpleMaxFunction(), output[6]);
+//				se.runga(120, 30, 40, -500,  500, new SchwefelSimpleMaxFunction(), output[6]);
+//				se.runga(200, 30, 40, -500,  500, new SchwefelSimpleMaxFunction(), output[6]);
 //				se.runga(120, 30, 40, -600,  600, new GriewankSimpleMaxFunction(), output[7]);
 //				se.runga(200, 30, 40, -600,  600, new GriewankSimpleMaxFunction(), output[7]);
 //				se.runga(120, 30, 40, -50,  50, new PenalizedSimpleMaxFunction(), output[8]);

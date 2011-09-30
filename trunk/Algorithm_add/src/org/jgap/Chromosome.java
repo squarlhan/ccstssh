@@ -892,6 +892,9 @@ public void setIscenter(boolean iscenter) {
         }
       }
     }
+    if (otherChromosome.isIscenter() != iscenter) {
+        return 1;
+      }
     // Everything is equal. Return zero.
     // ---------------------------------
     return 0;

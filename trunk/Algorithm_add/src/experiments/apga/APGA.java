@@ -107,6 +107,176 @@ public void setLocalPop(Population localPop) {
 	 */
 	public Object[] Calculate(APGAFunction fitness, double Pc, double pc1,
 			double Pm, double T, double Pt, Matrix consValue, Matrix lastPos,
+			Matrix pBest, int NG) {
+		nIterateCount=0;
+		bestPop = null;
+		localPop = null;
+		localWorst = null;
+		patterns = new ArrayList();
+		fitnessvalues = new ArrayList();
+		this.consValue = null;
+		progress = 0;
+		//确认所有矩阵的大小正确
+		if(consValue==null||consValue.getM()!=2||consValue.getN()<1){
+			System.out.println("consValue   M:" + consValue.getM() + " N:"+ consValue.getN());
+			System.out.println("Invalid Matrix consValue!");
+			return null;
+		}
+		if(pBest!=null && lastPos!=null){
+		    if (pBest.getM() != 1|| pBest.getN() != lastPos.getM()||lastPos.getN()!=consValue.getN()) {
+			    // Matrix p must be 1 row!
+			    System.out.println("pBest   M:" + pBest.getM() + " N :"+ pBest.getN());
+			    System.out.println("lastPos   M:" + lastPos.getM() + " N:"+ lastPos.getN());
+			    System.out.println("Invalid Matrix pBest or lastPos!");
+			    return null;
+		    }
+		}
+		if(Pc>1||Pc<0){
+			System.out.println("Pc Should be between 0 and 1");
+		    return null;
+		}
+		if(pc1>1||pc1<0){
+			System.out.println("pc1 Should be between 0 and 1");
+		    return null;
+		}
+		if(Pt>2||Pt<0){
+			System.out.println("Pt Should be between 0 and 2");
+		    return null;
+		}
+		if(T>0.95||T<0.5){
+			System.out.println("T Should be between 0.5 and 0.95");
+		    return null;
+		}
+		this.setConsValue(consValue);
+		
+		int popSize = lastPos.getM();
+		int chromeSize = lastPos.getN();
+		Matrix pBest_ga = new Matrix(lastPos.data);
+		
+		int numEvolutions = NG;
+		Configuration gaConf = new DefaultConfiguration();
+		gaConf.reset();
+		gaConf.setPreservFittestIndividual(true);
+		gaConf.setKeepPopulationSizeConstant(false);
+		Genotype genotype = null;
+		
+		
+		
+		try {
+			//构建基因(Gene)
+			Gene[] sampleGenes = new DoubleGene[chromeSize];//基因长度
+			 for (int i = 0; i < sampleGenes.length; i++) {					    
+					sampleGenes[i] = new DoubleGene(gaConf, consValue.data[0][i],consValue.data[1][i]);
+			 }
+			// 构建染色体(Chromosome)
+			 IChromosome sampleChromosome = new Chromosome(gaConf, sampleGenes);
+			gaConf.setSampleChromosome(sampleChromosome);
+			gaConf.setPopulationSize(popSize);	
+			gaConf.setFitnessFunction(new MaxFunction());
+			genotype = Genotype.randomInitialGenotype(gaConf);
+			
+			bestPop = new Population(gaConf);
+			localPop = new Population(gaConf);
+			localWorst = new Population(gaConf);
+			
+			if(lastPos!=null){		
+                for(int i = 0; i<=popSize-1; i++){
+                	//DoubleGene[] tempGenes = new DoubleGene[chromeSize];
+                	for(int j = 0; j<=chromeSize-1;j++ ){
+                		genotype.getPopulation().getChromosome(i).getGene(j) .setAllele(lastPos.data[i][j]) ;
+                	}
+                //	IChromosome tempchrom = new Chromosome(gaConf, tempGenes);
+               // 	genotype.getPopulation().setChromosome(i, tempchrom);
+                }
+			}
+			if(lastPos!=null&&pBest!=null){
+				for(int i = 0; i<=popSize-1; i++){
+					genotype.getPopulation().getChromosome(i).setFitnessValue(pBest.data[0][i]);
+				}
+			}
+		} catch (InvalidConfigurationException e) {
+			e.printStackTrace();
+			System.exit(-2);
+		}
+		progress = 0;
+		int percentEvolution = numEvolutions / 10;
+		for (int i = 0; i < numEvolutions; i++) {
+        	//Start GA
+			genotype.evolve(this, fitness, (int)Pm, T, Pt, Pc, pc1);
+			// Print progress.
+			
+			Population temppop = genotype.getPopulation();
+			
+			// ---------------
+			if (percentEvolution > 0 && i % percentEvolution == 0) {
+				progress++;
+				IChromosome fittest  = genotype.getFittestChromosome();
+				double best_fitness = fittest.getFitnessValueDirectly();
+				System.out.println("Currently fittest Chromosome has fitness "+ best_fitness);
+			}
+		}
+		// Print summary.
+		// --------------
+		if(localPop.size()==0){
+			localPop = bestPop;
+		}
+		IChromosome fittest1 = bestPop.determineFittestChromosome();
+		IChromosome fittest2 = localPop.determineFittestChromosome();
+		System.out.println("Fittest Chromosome in bestPop has fitness "+ (fittest1.getFitnessValueDirectly()));
+		System.out.println("Fittest Chromosome in localPop has fitness "+ (fittest2.getFitnessValueDirectly()));
+		IChromosome fittest3 = null;
+		genotype.getPopulation().sortByFitness();
+		for(IChromosome fittest:genotype.getPopulation().getChromosomes()){
+			if(((Chromosome)fittest).isIscenter()){
+				fittest3 = fittest;
+				break;
+			}
+		}
+		if(fittest3!=null){
+			System.out.println("Fittest Chromosome in genotype has fitness "+ (fittest3.getFitnessValueDirectly()));
+		}
+		IChromosome fittest = null;
+		if(fittest1.getFitnessValueDirectly()>fittest2.getFitnessValueDirectly()){
+			fittest = fittest1;
+			if(fittest3!=null&&fittest3.getFitnessValueDirectly()>fittest.getFitnessValueDirectly()){
+				fittest = fittest3;
+			}
+		}else{
+			fittest = fittest2;
+			if(fittest3!=null&&fittest3.getFitnessValueDirectly()>fittest.getFitnessValueDirectly()){
+				fittest = fittest3;
+			}
+		}
+		DecimalFormat myformat = new DecimalFormat("#0.00");
+
+			
+			for (int i = 0; i < chromeSize; i++) {
+				System.out.print(myformat
+						.format(fittest.getGene(i).getAllele()) + "	");
+			}
+			System.out.println();
+		
+		//处理返回结果
+		if (bestPop.size()>0) {
+			for (int i = 0; i <= bestPop.size() - 1; i++) {
+				pBest.data[0][i] = bestPop.getChromosome(i)
+						.getFitnessValueDirectly();
+			}
+			pBest_ga = pop2matrix(bestPop);
+		}else{
+			for (int i = 0; i <= genotype.getPopulation().size() - 1; i++) {
+				pBest.data[0][i] = genotype.getPopulation().getChromosome(i)
+						.getFitnessValueDirectly();
+			}
+			pBest_ga = pop2matrix(genotype.getPopulation());
+		}
+		return new Object[] { pBest_ga, pBest, consValue };
+
+	}// end of this math
+	
+	
+	public Object[] Calculate(APGAFunction fitness, double Pc, double pc1,
+			double Pm, double T, double Pt, Matrix consValue, Matrix lastPos,
 			Matrix pBest, int NG, BufferedWriter output) {
 		nIterateCount=0;
 		bestPop = null;
@@ -140,7 +310,7 @@ public void setLocalPop(Population localPop) {
 		    return null;
 		}
 		if(Pt>2||Pt<0){
-			System.out.println("Pt Should be between 0 and 1");
+			System.out.println("Pt Should be between 0 and 2");
 		    return null;
 		}
 		if(T>0.95||T<0.5){
@@ -328,6 +498,9 @@ public void setLocalPop(Population localPop) {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	
 	
 	private Matrix pop2matrix(Population pop){
 		  if(pop==null){
