@@ -275,6 +275,20 @@ public void setLocalPop(Population localPop) {
 	}// end of this math
 	
 	
+	/**
+	 * 基因算法优化
+	 * @param fitness 目标函数
+	 * @param Pc      用来指定模式发现的概率，0到1之间
+	 * @param pc1    用来指定模式发现的增幅，0到1之间
+	 * @param Pm     用来指定ap算法迭代次数
+	 * @param T       ap算法的lamda，决定收敛速度，越大越慢 0.5到0.95之间
+	 * @param Pt      ap算法后，估算适应度的lamda 0到1之间
+	 * @param consValue 不确定参数取值范围矩阵 2行N列
+	 * @param lastPos   初始种群 M行N列
+	 * @param pBest     适应度 1行M列
+	 * @param NG        基因算法内部优化迭代次数
+	 * @return Object[] 新种群，更新后的适应度，不确定参数取值范围矩阵
+	 */
 	public Object[] Calculate(APGAFunction fitness, double Pc, double pc1,
 			double Pm, double T, double Pt, Matrix consValue, Matrix lastPos,
 			Matrix pBest, int NG, BufferedWriter output) {
@@ -458,7 +472,7 @@ public void setLocalPop(Population localPop) {
 		return new Object[] { pBest_ga, pBest, consValue };
 
 	}// end of this math
-
+	
 	public Population getLocalWorst() {
 		return localWorst;
 	}

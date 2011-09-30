@@ -70,7 +70,7 @@ public class RunSimulate
 	 */
 	public void AddTask(TaskRunInfo taskInfo, IProjectWork projectManage)
 	{
-		System.out.println("添加新任�?);
+		System.out.println("添加新任务");
 		threadPool.SetProjectManage(projectManage);
 
 		runMethod(taskInfo);
@@ -242,7 +242,7 @@ public class RunSimulate
 				taskInfo.nStartIndex += parameterFile.size();
 			}
 
-			if (methodInfo.getMethodName().equals("贝叶斯更�?) || methodInfo.getMethodName().equals("Bayesian"))
+			if (methodInfo.getMethodName().equals("贝叶斯更新") || methodInfo.getMethodName().equals("Bayesian"))
 			{
 				if (i == 1)
 				{
@@ -451,14 +451,14 @@ public class RunSimulate
 			}
 			
 			// 快速遗传算法
-						if (methodInfo.getMethodName().equals("快速遗传算法") || methodInfo.getMethodName().equals("APGA"))
+						if (methodInfo.getMethodName().equals("聚类遗传算法") || methodInfo.getMethodName().equals("APGA"))
 						{
 							if (i > 0)
 							{
 								// 注册算法与任务日志编号关�?
 								SimulateManage.getTaskWatch().addTaskId(taskInfo.ti.sUserName,
 										methodInfo.getMethodID(), newTaskLog.getId());
-								System.out.println("调用快速遗传算法");
+								System.out.println("调用聚类遗传算法");
 								APGAOptimize apga = null;
 
 								// 算法内部迭代，需要将添加任务接口传入
@@ -494,7 +494,7 @@ public class RunSimulate
 
 						}
 			
-			if (methodInfo.getMethodName().equals("粒子�?) || methodInfo.getMethodName().equals("PSO"))
+			if (methodInfo.getMethodName().equals("粒子群") || methodInfo.getMethodName().equals("PSO"))
 			{
 				if (i > 0)
 				{
