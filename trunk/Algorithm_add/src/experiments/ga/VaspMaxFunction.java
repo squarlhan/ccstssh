@@ -190,17 +190,76 @@ public void setJobname(String jobname) {
 				double[][] pos = new double[nn][3];
 				m = pos.length;
 				n = pos[0].length;
-				for (int i = 0; i <= m - 1; i++) {
-					for (int j = 0; j <= n - 1; j++) {
-						pos[i][j] = Math.random();
-						System.out.print(pos[i][j]);
-						output.write(String.valueOf(pos[i][j]));
-						System.out.print("\t");
-						output.write("\t");
-					}
-					System.out.print("\n");
-					output.write("\n");
-				}
+//				for (int i = 0; i <= m - 1; i++) {
+//				for (int j = 0; j <= n - 1; j++) {
+//					pos[i][j] = Math.random();
+//					System.out.print(pos[i][j]);
+//					output.write(String.valueOf(pos[i][j]));
+//					System.out.print("\t");
+//					output.write("\t");
+//				}
+//				System.out.print("\n");
+//				output.write("\n");
+//			}
+			System.out.print(0.25);
+			output.write(String.valueOf(0.25));
+			System.out.print("\t");
+			output.write("\t");
+			System.out.print(0.75);
+			output.write(String.valueOf(0.75));
+			System.out.print("\t");
+			output.write("\t");
+			System.out.print(0.0);
+			output.write(String.valueOf(0.0));
+			System.out.print("\t");
+			output.write("\t");
+			System.out.print("\n");
+			output.write("\n");
+			
+			System.out.print(0.75);
+			output.write(String.valueOf(0.75));
+			System.out.print("\t");
+			output.write("\t");
+			System.out.print(0.25);
+			output.write(String.valueOf(0.25));
+			System.out.print("\t");
+			output.write("\t");
+			System.out.print(0.0);
+			output.write(String.valueOf(0.0));
+			System.out.print("\t");
+			output.write("\t");
+			System.out.print("\n");
+			output.write("\n");
+			
+			System.out.print(0.25);
+			output.write(String.valueOf(0.25));
+			System.out.print("\t");
+			output.write("\t");
+			System.out.print(0.75);
+			output.write(String.valueOf(0.75));
+			System.out.print("\t");
+			output.write("\t");
+			System.out.print(0.5);
+			output.write(String.valueOf(0.5));
+			System.out.print("\t");
+			output.write("\t");
+			System.out.print("\n");
+			output.write("\n");
+			
+			System.out.print(0.75);
+			output.write(String.valueOf(0.75));
+			System.out.print("\t");
+			output.write("\t");
+			System.out.print(0.25);
+			output.write(String.valueOf(0.25));
+			System.out.print("\t");
+			output.write("\t");
+			System.out.print(0.5);
+			output.write(String.valueOf(0.5));
+			System.out.print("\t");
+			output.write("\t");
+			System.out.print("\n");
+			output.write("\n");
 				output.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -220,7 +279,7 @@ public void setJobname(String jobname) {
 	  	    this.writeposcar(vecs);
 	  	    
 	  		try {
-	  				Process proc = Runtime.getRuntime().exec("bsub < vasp.lsf");
+	  				Process proc = Runtime.getRuntime().exec("mpirun.lsf ./vasp.5.2");
 	  				BufferedInputStream in = new BufferedInputStream(proc.getInputStream());
 	  				BufferedReader inBr = new BufferedReader(new InputStreamReader(in));
 	  				String lineStr;
@@ -233,6 +292,9 @@ public void setJobname(String jobname) {
 	  					if (proc.exitValue() == 1)// p.exitValue()==0表示正常结束，1：非正常结束
 	  						System.err.println("命令执行失败!");
 	  				}
+	  				
+	  				Thread.sleep(1000*60*5);
+	  				
 	  				Process proc1 = Runtime.getRuntime().exec(" awk '/free  energy/{print $5;}' OUTCAR |tail -1");
 	  				BufferedInputStream in1 = new BufferedInputStream(proc1.getInputStream());
 	  				BufferedReader inBr1 = new BufferedReader(new InputStreamReader(in1));
