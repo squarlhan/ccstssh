@@ -7,14 +7,14 @@
  * or have a look at the top of class org.jgap.Chromosome which representatively
  * includes the JGAP license policy applicable for any file delivered with JGAP.
  */
-package experiments.ga;
+package test;
 
 import java.util.List;
 
 import org.jgap.*;
 import org.jgap.impl.*;
 
-import experiments.Matrix;
+
 
 /**
  * Fitness function for our example. See evaluate(...) method for details.
@@ -24,7 +24,7 @@ import experiments.Matrix;
  * @since 2.0
  */
 public class QuardircSimpleMaxFunction 
-    extends FitnessFunction implements  GAFunction{
+    extends FitnessFunction {
   /** String containing the CVS revision. Read out via reflection!*/
   private final static String CVS_REVISION = "$Revision: 1.6 $";
   
@@ -77,28 +77,5 @@ public class QuardircSimpleMaxFunction
     return result; 
   }
 
-@Override
-public Double[] excute(Matrix data, int nIterateCount) {
-	int time_delay = 0;
-	// TODO Auto-generated method stub
-	if(data == null)return null;
-	int m = data.getM();
-	int n = data.getN();
-	Double[] results = new Double[m];
-	try {
-		Thread.sleep(time_delay*m);
-	} catch (InterruptedException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-	for(int i = 0; i<=m-1; i++){
-		double total = 0;
-		for(int j = 0; j<=n-1; j++){
-			total+=Math.pow(data.data[i][j], 2.0);
-		}
-		results[i] = 2*Math.pow(5.12, 2.0)-total;
-	}
-	counts += m;
-	return results;
-}
+
 }

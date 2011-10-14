@@ -143,7 +143,7 @@ public class SimpleExample {
 //				se.runga(200, 30, 40, -100,  100, new SimpleMaxFunction(), output[0]);
 //				se.runga(120, 30, 40, -5.12,  5.12, new CosSimpleMaxFunction(), output[1]);
 //				se.runga(200, 30, 40, -5.12,  5.12, new CosSimpleMaxFunction(), output[1]);
-//				se.runga(120, 30, 40, -32,  32, new AckleySimpleMaxFunction(), output[2]);
+				se.runga(120, 30, 40, -32,  32, new AckleySimpleMaxFunction(), output[2]);
 				se.runga(200, 30, 40, -32,  32, new AckleySimpleMaxFunction(), output[2]);
 //				se.runga(120, 30, 40, -100,  100, new QuardircSimpleMaxFunction(), output[3]);
 //				se.runga(200, 30, 40, -100,  100, new QuardircSimpleMaxFunction(), output[3]);
