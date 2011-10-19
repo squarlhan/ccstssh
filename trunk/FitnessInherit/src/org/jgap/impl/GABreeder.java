@@ -311,17 +311,24 @@ public class GABreeder
   // 继承适应度算法
   private double fitnessInherit(IChromosome chrom){
 	  double result = 0;
+	  
+	  DoubleGene dg0 = (DoubleGene) chrom.getGene(0);
+	  Double lower = dg0.getLowerBound();
+	  Double upper = dg0.getUpperBound();
+	  
 	  IChromosome pap = this.last_gen.get(chrom.getPap());
 	  IChromosome mom = this.last_gen.get(chrom.getMom());
 	  List<Integer> papbin = new ArrayList();
 	  List<Integer> mombin = new ArrayList();
 	  List<Integer> chrbin = new ArrayList();
+	  
 	  int n = chrom.size();
 	  for(int j = 0; j<=n-1;j++){
-			papbin.addAll(doube2binary(-32, 32, 16, (Double) pap.getGene(j).getAllele()));
-			mombin.addAll(doube2binary(-32, 32, 16, (Double) mom.getGene(j).getAllele()));
-			chrbin.addAll(doube2binary(-32, 32, 16, (Double) chrom.getGene(j).getAllele()));
+			papbin.addAll(doube2binary(lower, upper, 16, (Double) pap.getGene(j).getAllele()));
+			mombin.addAll(doube2binary(lower, upper, 16, (Double) mom.getGene(j).getAllele()));
+			chrbin.addAll(doube2binary(lower, upper, 16, (Double) chrom.getGene(j).getAllele()));
 	  }
+	  
 	  int m = chrbin.size();
 	  int pc = 0;
 	  int mc = 0;
@@ -352,7 +359,7 @@ public class GABreeder
   }
   //实数转成二进制
   private static List<Integer> doube2binary(double min, double max, int p, double num){
-		List<Integer> result = new ArrayList();
+		List<Integer> result = new ArrayList<Integer>();
 		int rank = (int) ((Math.pow(2, p)-1)*(num-min)/(max-min));
 		String temp = Integer.toBinaryString(rank);
 		if(temp.length()>0){
