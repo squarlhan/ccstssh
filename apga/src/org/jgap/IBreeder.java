@@ -10,6 +10,7 @@
 package org.jgap;
 
 import java.io.*;
+
 import org.jgap.util.ICloneable;
 
 import experiments.apga.APGA;
@@ -41,5 +42,5 @@ public interface IBreeder
   Population evolve(Population a_pop, Configuration a_conf);
   Population evolve(Population a_pop, Configuration a_conf, APGA obj,  
 		  FitnessFunction fitness, int ap_num, double ap_lamda, 
-		  double fit_lamda, double cutoff, double extra);
+		  double fit_lamda, double cutoff, double extra,BufferedWriter output);
 }

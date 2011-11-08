@@ -137,10 +137,18 @@ public void setLocalPop(Population localPop) {
 		int percentEvolution = numEvolutions / 10;
 		for (int i = 0; i < numEvolutions; i++) {
         	//Start GA
-			genotype.evolve(this, fitness, ap_max, ap_lamda, lamda, p_lamda, p_extra);
+			genotype.evolve(this, fitness, ap_max, ap_lamda, lamda, p_lamda, p_extra, output);
 			// Print progress.
-			
-			Population temppop = genotype.getPopulation();
+//			try {
+//				Population temppop = genotype.getPopulation();
+//				for (IChromosome mychrom : temppop.getChromosomes()) {
+//					output.write(Math.abs(fitness.evaluate(mychrom)-mychrom.getFitnessValueDirectly()) + "\t");
+//				}
+//				output.write("\n");
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 			
 			// ---------------
 			if (percentEvolution > 0 && i % percentEvolution == 0) {
@@ -184,7 +192,7 @@ public void setLocalPop(Population localPop) {
 		}
 		DecimalFormat myformat = new DecimalFormat("#0.00");
 		try {
-			output.write(fittest.getFitnessValueDirectly() + "\t");
+//			output.write(fittest.getFitnessValueDirectly() + "\t");
             output.flush();
 			
 			for (int i = 0; i < chromeSize; i++) {

@@ -100,7 +100,7 @@ public abstract class FitnessFunction
    * @author Klaus Meffert
    * @since 2.0 (until 1.1: return type int)
    */
-  protected abstract double evaluate(IChromosome a_subject);
+  public abstract double evaluate(IChromosome a_subject);
 
   /**
    * Please override in your implementations!

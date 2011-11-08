@@ -12,6 +12,8 @@ package org.jgap.impl;
 import experiments.apga.APGA;
 import experiments.apga.clustObjectFun;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -55,7 +57,7 @@ public class GABreeder
    */
   public Population evolve(Population a_pop, Configuration a_conf, APGA obj,  
 		  FitnessFunction fitness, int ap_num, double ap_lamda, 
-		  double fit_lamda, double cutoff, double extra) {
+		  double fit_lamda, double cutoff, double extra,BufferedWriter output) {
     Population pop = a_pop;
     int originalPopSize = a_conf.getPopulationSize();
     boolean monitorActive = a_conf.getMonitor() != null;
@@ -181,7 +183,7 @@ public class GABreeder
           IEvolutionMonitor.MONITOR_EVENT_BEFORE_UPDATE_CHROMOSOMES2,
           a_conf.getGenerationNr(), new Object[]{pop});
     }
-    updateChromosomes(pop, a_conf, obj, fitness, ap_num, ap_lamda, fit_lamda, cutoff, extra);
+    updateChromosomes(pop, a_conf, obj, fitness, ap_num, ap_lamda, fit_lamda, cutoff, extra, output);
     //去掉重复的个体
     /*pop.sortByFitness();
     Population tempop = (Population) pop.clone();
@@ -536,7 +538,7 @@ public class GABreeder
 	  cof.calcFittnessValueDrictely(a_pop, obj, fitness, cutoff);
   }
   
-  protected void updateChromosomes(Population a_pop, Configuration a_conf, APGA obj, FitnessFunction fitness, int ap_num, double ap_lamda, double fit_lamda, double cutoff, double extra) {
+  protected void updateChromosomes(Population a_pop, Configuration a_conf, APGA obj, FitnessFunction fitness, int ap_num, double ap_lamda, double fit_lamda, double cutoff, double extra, BufferedWriter output) {
 		
 			double[][] chromatrix = pop2matrix(a_pop);
 			double[][] dis = EucDistance.calcEucMatrix(chromatrix);
@@ -569,12 +571,20 @@ public class GABreeder
 				}
 				System.err.println("Cluster Error, 0 result!");	
 			}
-			List<Double> objests = cof.calcFittnessValue(a_pop, obj, fitness, results, dis, fit_lamda, cutoff, extra);
-			// for (int i = 0; i < currentPopSize; i++) {
-			// IChromosome chrom = a_pop.getChromosome(i);
-			// System.out.print(chrom.getFitnessValue()+";");
-			// }
-			// System.out.print("\n");
+			List<Double> objests = cof.calcFittnessValue(a_pop, obj, fitness, results, dis, fit_lamda, cutoff, extra, output);
+//			try {
+//					for (IChromosome mychrom : a_pop.getChromosomes()) {
+//						IChromosome mychrom1 = (IChromosome) mychrom.clone();
+//						double a1 = fitness.evaluate(mychrom1);
+//						double a2 = mychrom.getFitnessValueDirectly();
+//					    output.write(Math.abs(a1-a2) + "\t");
+//				}
+//				output.write("\n");
+//				output.flush();
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 		
 	  }
   
