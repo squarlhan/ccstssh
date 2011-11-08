@@ -1,5 +1,7 @@
 package experiments.apga;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -443,7 +445,7 @@ public class clustObjectFun {
     
     public static  Double calconeFittnessValue(IChromosome chrom, APGA obj,  FitnessFunction fitness){
     	obj.setnIterateCount(obj.getnIterateCount()+1);
-    	return chrom.getFitnessValue();
+    	return fitness.evaluate(chrom);
     }
     
     public static  List<Double> calcFittnessValueDrictely(Population pop, APGA obj,  FitnessFunction fitness, double cutoff){
@@ -455,7 +457,7 @@ public class clustObjectFun {
     		if(pop.getChromosome(i).getFitnessValueDirectly()<0){
     			nullfitset.add(i);
     			null_chroms.add(pop.getChromosome(i));
-    			pop.getChromosome(i).getFitnessValue();
+    			fitness.evaluate(pop.getChromosome(i));
     		}
 		}
 		for(int i = 0; i<=null_chroms.size()-1; i++){
@@ -470,7 +472,7 @@ public class clustObjectFun {
     	return objects;
     }
     
-    public static  List<Double> calcFittnessValue(Population pop, APGA obj,  FitnessFunction fitness, List<Integer> results, double[][] datamatrix, double lamda, double cutoff, double extra){
+    public static  List<Double> calcFittnessValue(Population pop, APGA obj,  FitnessFunction fitness, List<Integer> results, double[][] datamatrix, double lamda, double cutoff, double extra, BufferedWriter output){
 
 		List<IChromosome> chrs = pop.getChromosomes();
 		List<Double> objects = new ArrayList();
@@ -482,18 +484,15 @@ public class clustObjectFun {
 		List<IChromosome> center_chroms = new ArrayList();
 		while (iter.hasNext()) {
 			int a = (Integer) iter.next();
-			if(((Chromosome)pop.getChromosome(a)).isIscenter()&&pop.getChromosome(a).getFitnessValueDirectly()>0){
-				centerObjects.put(a, pop.getChromosome(a).getFitnessValueDirectly());
-			}else{
+			
 			    center_chroms.add(pop.getChromosome(a));
 			    clac_centers.add(a);
 			    pop.getChromosome(a).getFitnessValue();
-			}
 		}
 		if(center_chroms.size()>0){
 			obj.setnIterateCount(obj.getnIterateCount() + center_chroms.size());
 			for (int i = 0; i <= clac_centers.size() - 1; i++) {
-				centerObjects.put(clac_centers.get(i),  pop.getChromosome(clac_centers.get(i)).getFitnessValue());
+				centerObjects.put(clac_centers.get(i),  fitness.evaluate(pop.getChromosome(clac_centers.get(i))));
 				((Chromosome) pop.getChromosome(clac_centers.get(i))).setIscenter(true);
 				((Chromosome)center_chroms.get(i)).setIscenter(true);
 			}
@@ -579,17 +578,20 @@ public class clustObjectFun {
 //					if(flag2){
 //					    tempfit = tempfit-tempfit*extra;
 //					}
-					if(tempfit>bestPop.determineFittestChromosome().getFitnessValueDirectly()){
-						tempfit=bestPop.determineFittestChromosome().getFitnessValueDirectly();
-					}
+//					double besthis = bestPop.determineFittestChromosome().getFitnessValueDirectly();
+//					if(tempfit>besthis){
+//						tempfit=besthis+Math.random()*(1000-besthis);
+//					}
 					mycount++;
 				}
 			}
 		
-			realone[i] = calconeFittnessValue(pop.getChromosome(i), obj,  fitness);
-			evalone[i] = tempfit;
-			diff[i] = Math.abs(realone[i]-evalone[i]);
-			diffsum += (diff[i]/realone[i]);
+			
+//			evalone[i] = tempfit;
+//			realone[i] = calconeFittnessValue((IChromosome)(pop.getChromosome(i).clone()), obj,  fitness);
+//			
+//			diff[i] = Math.abs(realone[i]-evalone[i]);
+//			diffsum += (diff[i]/realone[i]);
 			
 			objects.add(tempfit);
 			if(pop.getChromosome(i).getFitnessValueDirectly()<0||!((Chromosome)pop.getChromosome(i)).isIscenter()){
@@ -598,8 +600,18 @@ public class clustObjectFun {
 			}
 		}
 
-     	String fitstr = diffsum/datamatrix.length + "\t" ;
-		obj.getFitnessvalues().add(fitstr);
+//     	String fitstr = diffsum/datamatrix.length + "\t" ;
+//		obj.getFitnessvalues().add(fitstr);
+		try {
+			for (double dd : diff) {
+			    output.write(dd + "\t");
+		}
+		output.write("\n");
+		output.flush();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 
 		return objects;
 	}

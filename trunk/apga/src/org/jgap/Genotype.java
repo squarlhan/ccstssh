@@ -230,9 +230,9 @@ public class Genotype
     setPopulation(newPop);
   }
   
-  public synchronized void evolve(APGA obj,  FitnessFunction fitness, int ap_num, double ap_lamda, double fit_lamda, double cutoff, double extra) {
+  public synchronized void evolve(APGA obj,  FitnessFunction fitness, int ap_num, double ap_lamda, double fit_lamda, double cutoff, double extra,BufferedWriter output) {
 	    IBreeder breeder = getConfiguration().getBreeder();
-	    Population newPop = breeder.evolve(getPopulation(), getConfiguration(), obj, fitness, ap_num, ap_lamda, fit_lamda, cutoff, extra);
+	    Population newPop = breeder.evolve(getPopulation(), getConfiguration(), obj, fitness, ap_num, ap_lamda, fit_lamda, cutoff, extra, output);
 	    setPopulation(newPop);
 	  }
  

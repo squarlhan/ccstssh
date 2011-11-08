@@ -133,7 +133,7 @@ public class TestAny {
 		    scopes600.add(sp600);
 		}
 		try {
-			String prefix = "10_50_";
+			String prefix = "lamda_20_";
 			List<File> results = new ArrayList();
 			
 			File result0 = new File(prefix+"ap_x.txt");
@@ -183,27 +183,28 @@ public class TestAny {
 			}
 			
 			double p_lamda =0.8;
-			double lamda =1.0;
-			double lamda2 =0.8;
-			double p_extra =0.01;
+			double p_lamda0 =0.8;
+			double lamda =0.8;
+			double lamda2 =1.15;
+			double p_extra =0.001;
 			int ap_max = 100;
 			double ap_lamda = 0.8;
-//            while(lamda<=2.05){
+//            while(lamda2<=1.05){
             	for(int bb=0; bb<=0;bb++){       
-            	a1.Calculate(200, 40, 30, scopes100, new MaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda2, output[0]);
-//            	a1.Calculate(200, 40, 30, scopes512, new CosMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda2, output[1]);
-//            	a1.Calculate(200, 40, 30, scopes32, new AckleyMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda2, output[2]);
-//            	a1.Calculate(200, 40, 30, scopes100, new QuardircMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda2, output[3]);
-//            	a1.Calculate(200, 40, 30, scopes100, new StepMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda2, output[4]);
-//            	a1.Calculate(200, 40, 30, scopes30, new RosenbrockMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda2, output[5]);
-//            	a1.Calculate(200, 40, 30, scopes500, new SchwefelMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda2, output[6]);
-//            	a1.Calculate(200, 40, 30, scopes600, new GriewankMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda2, output[7]);
-//            	a1.Calculate(200, 40, 30, scopes50, new PenalizedMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda2, output[8]);
-//            	a1.Calculate(200, 40, 30, scopes50, new Penalized2MaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda2, output[9]);
-//            	a1.Calculate(200, 40, 30, scopes512, new WeiMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda2, output[10]);
-//            	a1.Calculate(200, 40, 30, scopes5, new NonMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda2, output[11]);
-//            	           	
-//            	a1.Calculate(200, 40, 30, scopes100, new MaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output[0]);
+            	a1.Calculate(200, 40, 30, scopes100, new MaxFunction(), p_lamda0, p_extra, ap_max, ap_lamda, lamda2, output[0]);
+//            	a1.Calculate(200, 40, 30, scopes512, new CosMaxFunction(), p_lamda0, p_extra, ap_max, ap_lamda, lamda2, output[1]);
+//            	a1.Calculate(200, 40, 30, scopes32, new AckleyMaxFunction(), p_lamda0, p_extra, ap_max, ap_lamda, lamda2, output[2]);
+//            	a1.Calculate(200, 40, 30, scopes100, new QuardircMaxFunction(), p_lamda0, p_extra, ap_max, ap_lamda, lamda2, output[3]);
+//            	a1.Calculate(200, 40, 30, scopes100, new StepMaxFunction(), p_lamda0, p_extra, ap_max, ap_lamda, lamda2, output[4]);
+//            	a1.Calculate(200, 40, 30, scopes30, new RosenbrockMaxFunction(), p_lamda0, p_extra, ap_max, ap_lamda, lamda2, output[5]);
+//            	a1.Calculate(200, 40, 30, scopes500, new SchwefelMaxFunction(), p_lamda0, p_extra, ap_max, ap_lamda, lamda2, output[6]);
+//            	a1.Calculate(200, 40, 30, scopes600, new GriewankMaxFunction(), p_lamda0, p_extra, ap_max, ap_lamda, lamda2, output[7]);
+//            	a1.Calculate(200, 40, 30, scopes50, new PenalizedMaxFunction(), p_lamda0, p_extra, ap_max, ap_lamda, lamda2, output[8]);
+//            	a1.Calculate(200, 40, 30, scopes50, new Penalized2MaxFunction(), p_lamda0, p_extra, ap_max, ap_lamda, lamda2, output[9]);
+//            	a1.Calculate(200, 40, 30, scopes512, new WeiMaxFunction(), p_lamda0, p_extra, ap_max, ap_lamda, lamda2, output[10]);
+//            	a1.Calculate(200, 40, 30, scopes5, new NonMaxFunction(), p_lamda0, p_extra, ap_max, ap_lamda, lamda2, output[11]);
+            	           	
+            	a1.Calculate(200, 40, 30, scopes100, new MaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output[0]);
 //            	a1.Calculate(200, 40, 30, scopes512, new CosMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output[1]);
 //            	a1.Calculate(200, 40, 30, scopes32, new AckleyMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output[2]);
 //            	a1.Calculate(200, 40, 30, scopes100, new QuardircMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output[3]);
@@ -215,14 +216,17 @@ public class TestAny {
 //            	a1.Calculate(200, 40, 30, scopes50, new Penalized2MaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output[9]);
 //            	a1.Calculate(200, 40, 30, scopes512, new WeiMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output[10]);
 //            	a1.Calculate(200, 40, 30, scopes5, new NonMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output[11]);
-            	
-                	for (BufferedWriter op : output) {
-    					   op.write("\n");
-    					   op.flush();
-    					   }
+            	 for (BufferedWriter op : output) {
+					   op.write("\n");
+					   op.flush();
+					   }
+                	
             	}
-
-//				lamda+=0.05;
+//                      for (BufferedWriter op : output) {
+//    					   op.write("\n");
+//    					   op.flush();
+//    					   }
+//				lamda2+=0.05;
 //			}
 			for(BufferedWriter op : output){
 				op.close();
