@@ -457,7 +457,7 @@ public class clustObjectFun {
     		if(pop.getChromosome(i).getFitnessValueDirectly()<0){
     			nullfitset.add(i);
     			null_chroms.add(pop.getChromosome(i));
-    			fitness.evaluate(pop.getChromosome(i));
+    			pop.getChromosome(i).setFitnessValue(fitness.evaluate(pop.getChromosome(i)));
     		}
 		}
 		for(int i = 0; i<=null_chroms.size()-1; i++){
@@ -487,7 +487,7 @@ public class clustObjectFun {
 			
 			    center_chroms.add(pop.getChromosome(a));
 			    clac_centers.add(a);
-			    pop.getChromosome(a).getFitnessValue();
+			    pop.getChromosome(a).setFitnessValue(fitness.evaluate(pop.getChromosome(a)));
 		}
 		if(center_chroms.size()>0){
 			obj.setnIterateCount(obj.getnIterateCount() + center_chroms.size());

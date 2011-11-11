@@ -92,7 +92,7 @@ public class SimpleExample {
 		}
 		long endTime = System.currentTimeMillis();
 		System.out.println("运行时间 " + (endTime - startTime) + "ms");
-		System.out.println("sum counts:  "+ AckleyMaxFunction.counts);
+		System.out.println("sum counts:  "+ MaxFunction.counts);
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class SimpleExample {
 				output[i] = new BufferedWriter(new FileWriter(result[i]));
 			}
 			
-			for(int a=0; a<=49;a++){
+			for(int a=0; a<=0;a++){
 				se.runga(120, 30, 40, -100,  100, new MaxFunction(), output[0]);
 //				se.runga(200, 30, 40, -100,  100, new MaxFunction(), output[0]);
 //				se.runga(120, 30, 40, -5.12,  5.12, new CosMaxFunction(), output[1]);
