@@ -45,7 +45,7 @@ public class GABreeder
    * @author Klaus Meffert
    * @since 3.2
    */
-  public Population evolve(Population a_pop, Configuration a_conf) {
+  public Population evolve(double lamda, Population a_pop, Configuration a_conf) {
     Population pop = a_pop;
 
     int originalPopSize = a_conf.getPopulationSize();
@@ -170,7 +170,7 @@ public class GABreeder
           IEvolutionMonitor.MONITOR_EVENT_BEFORE_UPDATE_CHROMOSOMES2,
           a_conf.getGenerationNr(), new Object[]{pop});
     }
-    updatePostChromosomes(pop, a_conf);
+    updatePostChromosomes(lamda, pop, a_conf);
     if (monitorActive) {
       // Monitor that fitness value of chromosomes is being updated.
       // -----------------------------------------------------------
@@ -299,17 +299,17 @@ public class GABreeder
     }
   }
   
-  protected void updatePostChromosomes(Population a_pop, Configuration a_conf) {
+  protected void updatePostChromosomes(double lamda, Population a_pop, Configuration a_conf) {
 	    for(IChromosome chrom:a_pop.getChromosomes()){
 	    	if(chrom.getFitnessValueDirectly() ==-1){
-	    		fitnessInherit(chrom);
+	    		fitnessInherit(lamda, chrom);
 	    	}	    	
 	    }	    
 //	    System.out.println(1);
 	  }
   
   // ¼Ì³ÐÊÊÓ¦¶ÈËã·¨
-  private double fitnessInherit(IChromosome chrom){
+  private double fitnessInherit(double lamda, IChromosome chrom){
 	  double result = 0;
 	  
 	  DoubleGene dg0 = (DoubleGene) chrom.getGene(0);
@@ -345,7 +345,7 @@ public class GABreeder
 	  double pr = pap.getR();
 	  double mr = mom.getR();
 	  double r = (Math.pow(ps*pr, 2)+Math.pow(ms*mr,2))/(ps*pr+ms*mr);
-	  if(r>0.7){
+	  if(r>lamda){
 			double pf = pap.getFitnessValue();
 			double mf = mom.getFitnessValue();
 			result = (ps * pr * pf + ms * mr * mf) / (ps * pr + ms * mr);
@@ -374,5 +374,11 @@ public class GABreeder
 		}
 		return result;
 	}
+
+@Override
+public Population evolve(Population a_pop, Configuration a_conf) {
+	// TODO Auto-generated method stub
+	return null;
+}
   
 }

@@ -29,7 +29,7 @@ public class SimpleExample {
 	/** String containing the CVS revision. Read out via reflection! */
 	private static final String CVS_REVISION = "$Revision: 1.9 $";
 	
-	public void runga(int ng, int chromeSize, int popsize, double left, double right, FitnessFunction fitnessfun, BufferedWriter output){
+	public void runga(double lamda, int ng, int chromeSize, int popsize, double left, double right, FitnessFunction fitnessfun, BufferedWriter output){
 		long startTime = System.currentTimeMillis();
 		int numEvolutions = ng;
 		Configuration gaConf = new DefaultConfiguration();
@@ -57,8 +57,12 @@ public class SimpleExample {
 		int progress = 0;
 		int percentEvolution = numEvolutions / 10;
 		for (int i = 0; i < numEvolutions; i++) {
-			genotype.evolve();
-			// Print progress.
+			genotype.evolve(lamda);
+			Population temppop = genotype.getPopulation();
+//				for (IChromosome mychrom : temppop.getChromosomes()) {
+//					output.write(Math.abs(fitnessfun.evaluate(mychrom)-mychrom.getFitnessValueDirectly()) + "\t");
+//				}
+//				output.write("\n");
 			// ---------------
 			if (percentEvolution > 0 && i % percentEvolution == 0) {
 				progress++;
@@ -72,24 +76,22 @@ public class SimpleExample {
 		IChromosome fittest = genotype.getFittestChromosome();
 		System.out.println("Fittest Chromosome has fitness "
 				+ (fittest.getFitnessValue()));
+		DecimalFormat myformat = new DecimalFormat("#0.00");
+		for (int i = 0; i < chromeSize; i++) {
+
+			// System.out.println(myformat.format(((DoubleGene)fittest.getGene(i)).doubleValue()));
+			System.out.print(myformat.format(fittest.getGene(i).getAllele()) + "	");
+//				output.write(myformat.format(fittest.getGene(i).getAllele()) + "	");
+		}
+		System.out.println();
 		try {
-			output.write(fittest.getFitnessValue() + "\n");
-
-			DecimalFormat myformat = new DecimalFormat("#0.00");
-			for (int i = 0; i < chromeSize; i++) {
-
-				// System.out.println(myformat.format(((DoubleGene)fittest.getGene(i)).doubleValue()));
-				System.out.print(myformat
-						.format(fittest.getGene(i).getAllele()) + "	");
-				output.write(myformat
-						.format(fittest.getGene(i).getAllele()) + "	");
-			}
-			System.out.println();
-			output.write("\n");
+			output.write(fittest.getFitnessValue() + "\t");
+			output.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+//			output.write("\n");
 		long endTime = System.currentTimeMillis();
 		System.out.println("运行时间 " + (endTime - startTime) + "ms");
 		System.out.println("sum counts:  "+ AckleySimpleMaxFunction.counts);
@@ -140,29 +142,48 @@ public class SimpleExample {
 			
 			for(int a=0; a<=49;a++){
 //				se.runga(120, 30, 40, -100,  100, new SimpleMaxFunction(), output[0]);
-//				se.runga(200, 30, 40, -100,  100, new SimpleMaxFunction(), output[0]);
 //				se.runga(120, 30, 40, -5.12,  5.12, new CosSimpleMaxFunction(), output[1]);
-//				se.runga(200, 30, 40, -5.12,  5.12, new CosSimpleMaxFunction(), output[1]);
-				se.runga(120, 30, 40, -32,  32, new AckleySimpleMaxFunction(), output[2]);
-				se.runga(200, 30, 40, -32,  32, new AckleySimpleMaxFunction(), output[2]);
+//				se.runga(120, 30, 40, -32,  32, new AckleySimpleMaxFunction(), output[2]);
 //				se.runga(120, 30, 40, -100,  100, new QuardircSimpleMaxFunction(), output[3]);
-//				se.runga(200, 30, 40, -100,  100, new QuardircSimpleMaxFunction(), output[3]);
-//				se.runga(120, 30, 40, -100,  100, new StepSimpleMaxFunction(), output[4]);
-//				se.runga(200, 30, 40, -100,  100, new StepSimpleMaxFunction(), output[4]);
+//				se.runga(120, 30, 40, -100,  100, new StepSimpleMaxFunction(), output[4])
 //				se.runga(120, 30, 40, -30,  30, new RosenbrockSimpleMaxFunction(), output[5]);
-//				se.runga(200, 30, 40, -30,  30, new RosenbrockSimpleMaxFunction(), output[5]);
 //				se.runga(120, 30, 40, -500,  500, new SchwefelSimpleMaxFunction(), output[6]);
-//				se.runga(200, 30, 40, -500,  500, new SchwefelSimpleMaxFunction(), output[6]);
 //				se.runga(120, 30, 40, -600,  600, new GriewankSimpleMaxFunction(), output[7]);
-//				se.runga(200, 30, 40, -600,  600, new GriewankSimpleMaxFunction(), output[7]);
 //				se.runga(120, 30, 40, -50,  50, new PenalizedSimpleMaxFunction(), output[8]);
-//				se.runga(200, 30, 40, -50,  50, new PenalizedSimpleMaxFunction(), output[8]);
 //				se.runga(120, 30, 40, -50,  50, new Penalized2SimpleMaxFunction(), output[9]);
-//				se.runga(200, 30, 40, -50,  50, new Penalized2SimpleMaxFunction(), output[9]);
 //				se.runga(120, 30, 40, -5.12,  5.12, new WeiSimpleMaxFunction(), output[10]);
-//				se.runga(200, 30, 40, -5.12,  5.12, new WeiSimpleMaxFunction(), output[10]);
 //				se.runga(120, 30, 40, -0.5,  0.5, new NonSimpleMaxFunction(), output[11]);
-//				se.runga(200, 30, 40, -0.5,  0.5, new NonSimpleMaxFunction(), output[11]);
+				
+				se.runga(0.3, 200, 30, 40, -100,  100, new SimpleMaxFunction(), output[0]);
+				se.runga(0.3, 200, 30, 40, -5.12,  5.12, new CosSimpleMaxFunction(), output[1]);
+				se.runga(0.3, 200, 30, 40, -32,  32, new AckleySimpleMaxFunction(), output[2]);
+				se.runga(0.3, 200, 30, 40, -100,  100, new QuardircSimpleMaxFunction(), output[3]);
+				se.runga(0.3, 200, 30, 40, -100,  100, new StepSimpleMaxFunction(), output[4]);
+				se.runga(0.3, 200, 30, 40, -30,  30, new RosenbrockSimpleMaxFunction(), output[5]);
+				se.runga(0.3, 200, 30, 40, -500,  500, new SchwefelSimpleMaxFunction(), output[6]);
+				se.runga(0.3, 200, 30, 40, -600,  600, new GriewankSimpleMaxFunction(), output[7]);
+				se.runga(0.3, 200, 30, 40, -50,  50, new PenalizedSimpleMaxFunction(), output[8]);
+				se.runga(0.3, 200, 30, 40, -50,  50, new Penalized2SimpleMaxFunction(), output[9]);
+				se.runga(0.3, 200, 30, 40, -5.12,  5.12, new WeiSimpleMaxFunction(), output[10]);
+				se.runga(0.3, 200, 30, 40, -0.5,  0.5, new NonSimpleMaxFunction(), output[11]);
+				
+				se.runga(0.7, 200, 30, 40, -100,  100, new SimpleMaxFunction(), output[0]);
+				se.runga(0.7, 200, 30, 40, -5.12,  5.12, new CosSimpleMaxFunction(), output[1]);
+				se.runga(0.7, 200, 30, 40, -32,  32, new AckleySimpleMaxFunction(), output[2]);
+				se.runga(0.7, 200, 30, 40, -100,  100, new QuardircSimpleMaxFunction(), output[3]);
+				se.runga(0.7, 200, 30, 40, -100,  100, new StepSimpleMaxFunction(), output[4]);
+				se.runga(0.7, 200, 30, 40, -30,  30, new RosenbrockSimpleMaxFunction(), output[5]);
+				se.runga(0.7, 200, 30, 40, -500,  500, new SchwefelSimpleMaxFunction(), output[6]);
+				se.runga(0.7, 200, 30, 40, -600,  600, new GriewankSimpleMaxFunction(), output[7]);
+				se.runga(0.7, 200, 30, 40, -50,  50, new PenalizedSimpleMaxFunction(), output[8]);
+				se.runga(0.7, 200, 30, 40, -50,  50, new Penalized2SimpleMaxFunction(), output[9]);
+				se.runga(0.7, 200, 30, 40, -5.12,  5.12, new WeiSimpleMaxFunction(), output[10]);
+				se.runga(0.7, 200, 30, 40, -0.5,  0.5, new NonSimpleMaxFunction(), output[11]);
+				
+				for(BufferedWriter op : output){
+					op.write("\n");
+					op.flush();
+				}
 			}
 			
 			for(BufferedWriter op : output){
