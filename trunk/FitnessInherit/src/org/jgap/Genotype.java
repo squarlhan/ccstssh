@@ -223,9 +223,15 @@ public class Genotype
    */
   public synchronized void evolve() {
     IBreeder breeder = getConfiguration().getBreeder();
-    Population newPop = breeder.evolve(getPopulation(), getConfiguration());
+    Population newPop = breeder.evolve( getPopulation(), getConfiguration());
     setPopulation(newPop);
   }
+  
+  public synchronized void evolve(double  lamda) {
+	    IBreeder breeder = getConfiguration().getBreeder();
+	    Population newPop = breeder.evolve( lamda, getPopulation(), getConfiguration());
+	    setPopulation(newPop);
+	  }
 
   /**
    * Evolves this Genotype the specified number of times. This is
