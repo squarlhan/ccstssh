@@ -149,10 +149,10 @@ public void setLocalPop(Population localPop) {
 //				// TODO Auto-generated catch block
 //				e.printStackTrace();
 //			}
-			
+			progress++;
 			// ---------------
 			if (percentEvolution > 0 && i % percentEvolution == 0) {
-				progress++;
+				
 				IChromosome fittest  = genotype.getFittestChromosome();
 				double best_fitness = fittest.getFitnessValueDirectly();
 				System.out.println("Currently fittest Chromosome has fitness "+ best_fitness);
@@ -200,6 +200,13 @@ public void setLocalPop(Population localPop) {
 						.format(fittest.getGene(i).getAllele()) + "	");
 //				output.write(myformat.format(fittest.getGene(i).getAllele())+ "	");
 			}
+//			for(int i = 0;i<=popSize-1;i++){
+//				for (int j = 0; j < chromeSize; j++) {
+//					output.write(myformat.format(genotype.getPopulation().getChromosome(i).getGene(j).getAllele())+ "\t");
+//				}
+//				output.write("\n");
+//				output.flush();
+//			}
 			System.out.println();
 //			output.write("\n");
 //			System.out.println("sum counts: " + AckleyMaxFunction.counts);

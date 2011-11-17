@@ -133,7 +133,7 @@ public class TestAny {
 		    scopes600.add(sp600);
 		}
 		try {
-			String prefix = "lamda_20_";
+			String prefix = "test_";
 			List<File> results = new ArrayList();
 			
 			File result0 = new File(prefix+"ap_x.txt");
@@ -186,7 +186,7 @@ public class TestAny {
 			double p_lamda0 =0.8;
 			double lamda =0.8;
 			double lamda2 =1.15;
-			double p_extra =0.001;
+			double p_extra =0.002;
 			int ap_max = 100;
 			double ap_lamda = 0.8;
 //            while(lamda2<=1.05){

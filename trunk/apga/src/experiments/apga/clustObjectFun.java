@@ -1,7 +1,10 @@
 package experiments.apga;
 
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -474,6 +477,14 @@ public class clustObjectFun {
     
     public static  List<Double> calcFittnessValue(Population pop, APGA obj,  FitnessFunction fitness, List<Integer> results, double[][] datamatrix, double lamda, double cutoff, double extra, BufferedWriter output){
 
+    	//确保没有算过适应度的个体的染色体都是false
+    	
+    	int oldpopsize = pop.getConfiguration().getPopulationSize();
+    	int nowpopsize = pop.size();
+    	for(int i = oldpopsize;i<nowpopsize;i++){
+    		pop.getChromosome(i).setIscenter(false);
+    	}
+    	
 		List<IChromosome> chrs = pop.getChromosomes();
 		List<Double> objects = new ArrayList();
 		List<Integer> clac_centers = new ArrayList();
@@ -484,15 +495,17 @@ public class clustObjectFun {
 		List<IChromosome> center_chroms = new ArrayList();
 		while (iter.hasNext()) {
 			int a = (Integer) iter.next();
-			
-			    center_chroms.add(pop.getChromosome(a));
-			    clac_centers.add(a);
+			center_chroms.add(pop.getChromosome(a));
+		    clac_centers.add(a);
+			if(!pop.getChromosome(a).isIscenter()){
+			    
 			    pop.getChromosome(a).setFitnessValue(fitness.evaluate(pop.getChromosome(a)));
+			    }
 		}
 		if(center_chroms.size()>0){
 			obj.setnIterateCount(obj.getnIterateCount() + center_chroms.size());
 			for (int i = 0; i <= clac_centers.size() - 1; i++) {
-				centerObjects.put(clac_centers.get(i),  fitness.evaluate(pop.getChromosome(clac_centers.get(i))));
+				centerObjects.put(clac_centers.get(i),  pop.getChromosome(clac_centers.get(i)).getFitnessValueDirectly());
 				((Chromosome) pop.getChromosome(clac_centers.get(i))).setIscenter(true);
 				((Chromosome)center_chroms.get(i)).setIscenter(true);
 			}
@@ -602,17 +615,49 @@ public class clustObjectFun {
 
 //     	String fitstr = diffsum/datamatrix.length + "\t" ;
 //		obj.getFitnessvalues().add(fitstr);
-		try {
-			for (double dd : diff) {
-			    output.write(dd + "\t");
-		}
-		output.write("\n");
-		output.flush();
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
+//		try {
+//			for (double dd : diff) {
+//			    output.write(dd + "\t");
+//		}
+//		output.write("\n");
+//		output.flush();
+//	} catch (IOException e) {
+//		// TODO Auto-generated catch block
+//		e.printStackTrace();
+//	}
 
+		try {
+			if (obj.getProgress() == 199) {
+				File popout = new File("finalpop.txt");
+				DecimalFormat myformat = new DecimalFormat("#0.00");
+				if (popout.exists()) {
+					popout.delete();
+					if (popout.createNewFile()) {
+						System.out.println("result  file create success!");
+					} else {
+						System.out.println("result file create failed!");
+					}
+				} else {
+					if (popout.createNewFile()) {
+						System.out.println("result file create success!");
+					} else {
+						System.out.println("result file create failed!");
+					}
+				}
+				BufferedWriter popoutput = new BufferedWriter(new FileWriter(popout));
+				for(int i = 0;i<=pop.size()-1;i++){
+				for (int j = 0; j < 30; j++) {
+					popoutput.write(myformat.format(pop.getChromosome(i).getGene(j).getAllele())+ "\t");
+				}
+				popoutput.write("\n");
+				popoutput.flush();
+			}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return objects;
 	}
 	

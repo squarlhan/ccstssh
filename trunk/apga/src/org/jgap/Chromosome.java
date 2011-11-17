@@ -620,7 +620,8 @@ public void setIscenter(boolean iscenter) {
    */
   public String toString() {
     StringBuffer representation = new StringBuffer();
-    representation.append(S_SIZE + ":" + size());
+    representation.append("Center:" + isIscenter());
+    representation.append(", " + S_SIZE + ":" + size());
     // Don't use getFitnessValue() here as it would then be initialized if
     // it was not. We want to capture the current state here!
     // -------------------------------------------------------------------
