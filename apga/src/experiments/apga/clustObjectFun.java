@@ -626,37 +626,37 @@ public class clustObjectFun {
 //		e.printStackTrace();
 //	}
 
-		try {
-			if (obj.getProgress() == 199) {
-				File popout = new File("finalpop.txt");
-				DecimalFormat myformat = new DecimalFormat("#0.00");
-				if (popout.exists()) {
-					popout.delete();
-					if (popout.createNewFile()) {
-						System.out.println("result  file create success!");
-					} else {
-						System.out.println("result file create failed!");
-					}
-				} else {
-					if (popout.createNewFile()) {
-						System.out.println("result file create success!");
-					} else {
-						System.out.println("result file create failed!");
-					}
-				}
-				BufferedWriter popoutput = new BufferedWriter(new FileWriter(popout));
-				for(int i = 0;i<=pop.size()-1;i++){
-				for (int j = 0; j < 30; j++) {
-					popoutput.write(myformat.format(pop.getChromosome(i).getGene(j).getAllele())+ "\t");
-				}
-				popoutput.write("\n");
-				popoutput.flush();
-			}
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			if (obj.getProgress() == 199) {
+//				File popout = new File("finalpop.txt");
+//				DecimalFormat myformat = new DecimalFormat("#0.00");
+//				if (popout.exists()) {
+//					popout.delete();
+//					if (popout.createNewFile()) {
+//						System.out.println("result  file create success!");
+//					} else {
+//						System.out.println("result file create failed!");
+//					}
+//				} else {
+//					if (popout.createNewFile()) {
+//						System.out.println("result file create success!");
+//					} else {
+//						System.out.println("result file create failed!");
+//					}
+//				}
+//				BufferedWriter popoutput = new BufferedWriter(new FileWriter(popout));
+//				for(int i = 0;i<=pop.size()-1;i++){
+//				for (int j = 0; j < 30; j++) {
+//					popoutput.write(myformat.format(pop.getChromosome(i).getGene(j).getAllele())+ "\t");
+//				}
+//				popoutput.write("\n");
+//				popoutput.flush();
+//			}
+//			}
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		return objects;
 	}
