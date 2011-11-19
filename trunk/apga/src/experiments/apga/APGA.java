@@ -28,7 +28,6 @@ private Population localWorst = null;
 private List<String> patterns = new ArrayList();
 private List<String> fitnessvalues = new ArrayList();
 private int progress = 0;
-
 	
 	
 	public int getProgress() {
@@ -192,7 +191,7 @@ public void setLocalPop(Population localPop) {
 		}
 		DecimalFormat myformat = new DecimalFormat("#0.00");
 		try {
-			output.write(fittest.getFitnessValueDirectly() + "\t");
+//			output.write(fittest.getFitnessValueDirectly() + "\t");
             output.flush();
 			
 			for (int i = 0; i < chromeSize; i++) {

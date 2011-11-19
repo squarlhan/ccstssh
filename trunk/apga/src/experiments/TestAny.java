@@ -192,7 +192,7 @@ public class TestAny {
 			double ap_lamda = 0.8;
 //            while(lamda2<=1.05){
             	for(int bb=0; bb<=0;bb++){       
-            	a1.Calculate(200, 40, 30, scopes100, new MaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[0]);
+//            	a1.Calculate(200, 40, 30, scopes100, new MaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[0]);
 //            	a1.Calculate(200, 40, 30, scopes512, new CosMaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[1]);
 //            	a1.Calculate(200, 40, 30, scopes32, new AckleyMaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[2]);
 //            	a1.Calculate(200, 40, 30, scopes100, new QuardircMaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[3]);
@@ -239,7 +239,7 @@ public class TestAny {
 
 		long endTime = System.currentTimeMillis();
 		System.out.println("运行时间 " + (endTime - startTime) + "ms");
-//		System.out.println("x计算次数：" + MaxFunction.counts);
+		System.out.println("x计算次数：" + MaxFunction.counts);
 		try {
 			File popout = new File("apcounts.txt");
 			if (popout.exists()) {

@@ -498,7 +498,6 @@ public class clustObjectFun {
 			center_chroms.add(pop.getChromosome(a));
 		    clac_centers.add(a);
 			if(!pop.getChromosome(a).isIscenter()){
-			    
 			    pop.getChromosome(a).setFitnessValue(fitness.evaluate(pop.getChromosome(a)));
 			    }
 		}
@@ -615,16 +614,16 @@ public class clustObjectFun {
 
 //     	String fitstr = diffsum/datamatrix.length + "\t" ;
 //		obj.getFitnessvalues().add(fitstr);
-//		try {
+		try {
 //			for (double dd : diff) {
 //			    output.write(dd + "\t");
 //		}
-//		output.write("\n");
-//		output.flush();
-//	} catch (IOException e) {
-//		// TODO Auto-generated catch block
-//		e.printStackTrace();
-//	}
+		output.write((centers.size()-40)+"\n");
+		output.flush();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 
 //		try {
 //			if (obj.getProgress() == 199) {

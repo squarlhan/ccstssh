@@ -139,7 +139,7 @@ public class SimpleExample {
 			}
 			
 			for(int a=0; a<=0;a++){
-				se.runga(110, 30, 40, -100,  100, new MaxFunction(), output[0]);
+				se.runga(100, 30, 40, -100,  100, new MaxFunction(), output[0]);
 //				se.runga(200, 30, 40, -100,  100, new MaxFunction(), output[0]);
 //				se.runga(120, 30, 40, -5.12,  5.12, new CosMaxFunction(), output[1]);
 //				se.runga(200, 30, 40, -5.12,  5.12, new CosMaxFunction(), output[1]);
