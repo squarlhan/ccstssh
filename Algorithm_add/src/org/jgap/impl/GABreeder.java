@@ -12,6 +12,7 @@ package org.jgap.impl;
 import experiments.Matrix;
 import experiments.apga.APGAFunction;
 import experiments.apga.APGA;
+import experiments.apga.RunAP;
 import experiments.apga.clustObjectFun;
 
 import java.util.Collection;
@@ -540,43 +541,8 @@ public class GABreeder
   
   protected void updateChromosomes(Population a_pop, Configuration a_conf, APGA obj, APGAFunction fitness, int ap_num, double ap_lamda, double fit_lamda, double cutoff, double extra) {
 		
-			double[][] chromatrix = pop2matrix(a_pop).data;
-			double[][] dis = EucDistance.calcEucMatrix(chromatrix);
-			Collection<InteractionData> inputs = EucDistance
-					.transEucMatrix(dis);
-			Double lambda = ap_lamda;
-			Integer iterations = ap_num;
-			clustObjectFun cof = new clustObjectFun();
-			Integer convits = null;
-			Double preferences = dis[0][0];
-
-			String kind = "clusters";
-			AffinityConnectingMethod connMode = AffinityConnectingMethod.ORIGINAL;
-			boolean takeLog = false;
-			boolean refine = true;
-			Integer steps = null;
-
-			RunAlgorithm alg = new RunAlgorithm(inputs, lambda, iterations,
-					convits, preferences, kind);
-			alg.setTakeLog(takeLog);
-			alg.setConnMode(connMode);
-			alg.setSteps(steps);
-			alg.setRefine(refine);
-
-			alg.setParemeters();
-			List<Integer> results = alg.run();
-			if(results==null||results.size()==0){
-				for(int i = 0; i<= a_pop.size()-1; i++){
-					results.add(i);
-				}
-				System.err.println("Cluster Error, 0 result!");	
-			}
-			List<Double> objests = cof.calcFittnessValue(a_pop, obj, fitness, results, dis, fit_lamda, cutoff, extra);
-			// for (int i = 0; i < currentPopSize; i++) {
-			// IChromosome chrom = a_pop.getChromosome(i);
-			// System.out.print(chrom.getFitnessValue()+";");
-			// }
-			// System.out.print("\n");
+	  RunAP rap  = new RunAP();
+	  rap.run(a_pop, a_conf, obj, fitness, ap_num, ap_lamda, fit_lamda, cutoff, extra);
 		
 	  }
   

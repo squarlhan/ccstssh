@@ -206,10 +206,10 @@ public void setLocalPop(Population localPop) {
 			// Print progress.
 			
 			Population temppop = genotype.getPopulation();
-			
+			progress++;
 			// ---------------
 			if (percentEvolution > 0 && i % percentEvolution == 0) {
-				progress++;
+				
 				IChromosome fittest  = genotype.getFittestChromosome();
 				double best_fitness = fittest.getFitnessValueDirectly();
 				System.out.println("Currently fittest Chromosome has fitness "+ best_fitness);
@@ -390,10 +390,10 @@ public void setLocalPop(Population localPop) {
 			// Print progress.
 			
 			Population temppop = genotype.getPopulation();
-			
+			progress++;
 			// ---------------
 			if (percentEvolution > 0 && i % percentEvolution == 0) {
-				progress++;
+				
 				IChromosome fittest  = genotype.getFittestChromosome();
 				double best_fitness = fittest.getFitnessValueDirectly();
 				System.out.println("Currently fittest Chromosome has fitness "+ best_fitness);
