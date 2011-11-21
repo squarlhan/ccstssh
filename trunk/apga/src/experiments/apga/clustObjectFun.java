@@ -178,29 +178,24 @@ public class clustObjectFun {
 		}
        	int newsize = chroms.size();
        	int nowsize = all.size();
-       	if(nowsize+10<=maxsize){
-       		for(int i=0;i<=9;i++){
+       	int extra = newsize<=10?newsize:10;
+       	
+       	if(nowsize+extra<=maxsize){
+       		for(int i=0;i<=extra-1;i++){
        			all.addChromosome(chroms.get(i));
        		}
        		localPop.clear();
        		localPop = (Population) all.clone();
        	}else{
        		localPop.clear();
-       	    if(newsize<=10){
-       	    	for(IChromosome chrom:chroms){
-           			all.addChromosome(chrom);
-           		}
-       	    	for(int i=nowsize+newsize-maxsize;i<=nowsize+newsize-1;i++){
-       	    		localPop.addChromosome((IChromosome) all.getChromosome(i).clone());
-           		}
-       	    }else{
-       	    	for(int i=0;i<=9;i++){
+       	   
+       	    	for(int i=0;i<=extra-1;i++){
            			all.addChromosome(chroms.get(i));
            		}
-       	    	for(int i=nowsize+10-maxsize;i<=nowsize+9;i++){
+       	    	for(int i=nowsize+extra-maxsize;i<=nowsize+extra-1;i++){
        	    		localPop.addChromosome((IChromosome) all.getChromosome(i).clone());
            		}
-       	    }
+       	    
        	}
        	obj.setLocalPop(localPop);
     	return localPop;
@@ -233,29 +228,21 @@ public class clustObjectFun {
 		}
        	int newsize = chroms.size();
        	int nowsize = all.size();
-       	if(nowsize+10<=maxsize){
-       		for(int i=0;i<=9;i++){
+       	int extra = newsize<=10?newsize:10;
+       	if(nowsize+extra<=maxsize){
+       		for(int i=0;i<=extra-1;i++){
        			all.addChromosome(chroms.get(i));
        		}
        		localWorst.clear();
        		localWorst = (Population) all.clone();
        	}else{
        		localWorst.clear();
-       	    if(newsize<=10){
-       	    	for(IChromosome chrom:chroms){
-           			all.addChromosome(chrom);
-           		}
-       	    	for(int i=nowsize+newsize-maxsize;i<=nowsize+newsize-1;i++){
-       	    		localWorst.addChromosome((IChromosome) all.getChromosome(i).clone());
-           		}
-       	    }else{
-       	    	for(int i=0;i<=9;i++){
+       	    	for(int i=0;i<=extra-1;i++){
            			all.addChromosome(chroms.get(i));
            		}
-       	    	for(int i=nowsize+10-maxsize;i<=nowsize+9;i++){
+       	    	for(int i=nowsize+extra-maxsize;i<=nowsize+extra-1;i++){
        	    		localWorst.addChromosome((IChromosome) all.getChromosome(i).clone());
            		}
-       	    }
        	}
        	obj.setLocalWorst(localWorst);
     	return localWorst;
@@ -614,16 +601,16 @@ public class clustObjectFun {
 
 //     	String fitstr = diffsum/datamatrix.length + "\t" ;
 //		obj.getFitnessvalues().add(fitstr);
-		try {
+//		try {
 //			for (double dd : diff) {
 //			    output.write(dd + "\t");
 //		}
-		output.write((centers.size()-40)+"\n");
-		output.flush();
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
+//		output.write((centers.size()-40)+"\n");
+//		output.flush();
+//	} catch (IOException e) {
+//		// TODO Auto-generated catch block
+//		e.printStackTrace();
+//	}
 
 //		try {
 //			if (obj.getProgress() == 199) {
