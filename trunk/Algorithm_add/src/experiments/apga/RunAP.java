@@ -11,6 +11,8 @@ import org.jgap.Configuration;
 import org.jgap.FitnessFunction;
 import org.jgap.Population;
 
+import experiments.Matrix;
+
 import affinitymain.InteractionData;
 import affinitymain.RunAlgorithm;
 import algorithm.abs.AffinityPropagationAlgorithm.AffinityConnectingMethod;
@@ -18,21 +20,20 @@ import algorithm.abs.AffinityPropagationAlgorithm.AffinityConnectingMethod;
 public class RunAP {
 
 	public void run(Population a_pop, Configuration a_conf, APGA obj,
-			FitnessFunction fitness, int ap_num, double ap_lamda,
-			double fit_lamda, double cutoff, double extra, BufferedWriter output) {
+			APGAFunction fitness, int ap_num, double ap_lamda,
+			double fit_lamda, double cutoff, double extra) {
 		// runimplafter(a_pop, a_conf, obj, fitness, ap_num, ap_lamda,
 		// fit_lamda, cutoff, extra, output);
 		runimpl(a_pop, a_conf, obj, fitness, ap_num, ap_lamda, fit_lamda,
 				cutoff, extra);
 	}
 
-	private void runimpl(Population a_pop, Configuration a_conf, APGA obj,
-			FitnessFunction fitness, int ap_num, double ap_lamda,
-			double fit_lamda, double cutoff, double extra) {
+	private void runimpl(Population a_pop, Configuration a_conf, APGA obj, APGAFunction fitness, int ap_num, double ap_lamda, double fit_lamda, double cutoff, double extra) {
 
-		double[][] chromatrix = pop2matrix(a_pop);
+		double[][] chromatrix = pop2matrix(a_pop).data;
 		double[][] dis = EucDistance.calcEucMatrix(chromatrix);
-		Collection<InteractionData> inputs = EucDistance.transEucMatrix(dis);
+		Collection<InteractionData> inputs = EucDistance
+				.transEucMatrix(dis);
 		Double lambda = ap_lamda;
 		Integer iterations = ap_num;
 		clustObjectFun cof = new clustObjectFun();
@@ -54,37 +55,26 @@ public class RunAP {
 
 		alg.setParemeters();
 		List<Integer> results = alg.run();
-		if (results == null || results.size() == 0) {
-			for (int i = 0; i <= a_pop.size() - 1; i++) {
+		if(results==null||results.size()==0){
+			for(int i = 0; i<= a_pop.size()-1; i++){
 				results.add(i);
 			}
-			System.err.println("Cluster Error, 0 result!");
+			System.err.println("Cluster Error, 0 result!");	
 		}
-		List<Double> objests = cof.calcFittnessValue(a_pop, obj, fitness,
-				results, dis, fit_lamda, cutoff, extra);
-		// try {
-		// for (IChromosome mychrom : a_pop.getChromosomes()) {
-		// IChromosome mychrom1 = (IChromosome) mychrom.clone();
-		// double a1 = fitness.evaluate(mychrom1);
-		// double a2 = mychrom.getFitnessValueDirectly();
-		// output.write(Math.abs(a1-a2) + "\t");
+		List<Double> objests = cof.calcFittnessValue(a_pop, obj, fitness, results, dis, fit_lamda, cutoff, extra);
+		// for (int i = 0; i < currentPopSize; i++) {
+		// IChromosome chrom = a_pop.getChromosome(i);
+		// System.out.print(chrom.getFitnessValue()+";");
 		// }
-		// output.write("\n");
-		// output.flush();
-		// } catch (IOException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
+		// System.out.print("\n");
 
 	}
 
-	private void runimplafter(Population a_pop, Configuration a_conf, APGA obj,
-			FitnessFunction fitness, int ap_num, double ap_lamda,
-			double fit_lamda, double cutoff, double extra, BufferedWriter output) {
+	private void runimplafter(Population a_pop, Configuration a_conf, APGA obj, APGAFunction fitness, int ap_num, double ap_lamda, double fit_lamda, double cutoff, double extra) {
 
-		double[][] chromatrix = pop2matrixafter(a_pop, a_conf);
+		double[][] chromatrix = pop2matrixafter(a_pop, a_conf).data;
 		double[][] dis = EucDistance.calcEucMatrix(chromatrix);
-		double[][] fullchromatrix = pop2matrix(a_pop);
+		double[][] fullchromatrix = pop2matrix(a_pop).data;
 		double[][] fulldis = EucDistance.calcEucMatrix(fullchromatrix);
 		Collection<InteractionData> inputs = EucDistance.transEucMatrix(dis);
 		Double lambda = ap_lamda;
@@ -144,38 +134,36 @@ public class RunAP {
 
 	}
 
-	private double[][] pop2matrix(Population pop) {
-
-		if (pop == null) {
-			return null;
-		}
-		int m = pop.size();
-		int n = pop.getChromosome(0).size();
-		double[][] chromatrix = new double[m][n];
-		for (int i = 0; i <= m - 1; i++) {
-			for (int j = 0; j <= n - 1; j++) {
-				chromatrix[i][j] = (Double) pop.getChromosome(i).getGene(j)
-						.getAllele();
-			}
-		}
-		return chromatrix;
-	}
-
-	private double[][] pop2matrixafter(Population pop, Configuration a_conf) {
+	private Matrix pop2matrix(Population pop){
+		  if(pop==null){
+			  return null;
+		  }
+		  int m = pop.size();
+		  int n = pop.getChromosome(0).size();
+		  Matrix result = new Matrix(m,n);
+		  for(int i = 0; i<=m-1;i++){
+			  for(int j = 0; j<=n-1;j++){
+				  result.data[i][j] = (Double)pop.getChromosome(i).getGene(j).getAllele();
+			  }
+		  }
+		  return result;
+	  }
+	
+	private Matrix pop2matrixafter(Population pop, Configuration a_conf) {
 		int oldpopsize = a_conf.getPopulationSize();
 		if (pop.size() <= oldpopsize) {
 			return null;
 		}
 		int m = pop.size() - oldpopsize;
 		int n = pop.getChromosome(0).size();
-		double[][] chromatrix = new double[m][n];
+		 Matrix result = new Matrix(m,n);
 		for (int i = 0; i <= m - 1; i++) {
 			for (int j = 0; j <= n - 1; j++) {
-				chromatrix[i][j] = (Double) pop.getChromosome(i + oldpopsize)
+				result.data[i][j] = (Double) pop.getChromosome(i + oldpopsize)
 						.getGene(j).getAllele();
 			}
 		}
-		return chromatrix;
+		return result;
 	}
 
 }
