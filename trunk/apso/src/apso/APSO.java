@@ -1,6 +1,7 @@
 package apso;
 
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,11 +124,11 @@ public class APSO {
 	 */
 	public void Calculate(int max_gen, int numofparticals, int dimention, double intertia, 
 			double velocity, 	List<List<Double>> scopes, FitnessFunction fitness, 
-			double p_lamda, double p_extra,	int ap_max, double ap_lamda, double lamda){
+			double p_lamda, double p_extra,	int ap_max, double ap_lamda, double lamda, BufferedWriter output){
 		
 
-		System.out.println("Begin: MaxTest 1\n");
-
+//		System.out.println("Begin: MaxTest 1\n");
+		long startTime = System.currentTimeMillis();
 		// Create a swarm (using 'MyParticle' as sample particle and
 		// 'MyFitnessFunction' as finess function)
 		Swarm swarm = new Swarm(numofparticals, new MaxParticle(dimention), fitness);
@@ -155,8 +156,16 @@ public class APSO {
 
 		// Print en results
 		System.out.println(swarm.toStringStats());
-		System.out.println("Fitness count: " + MaxFunction.counts);
-		System.out.println("End: Example 1");
+		long endTime = System.currentTimeMillis();
+		System.out.println("运行时间 " + (endTime - startTime) + "ms");
+		try {
+			output.write(swarm.getBestFitness()+"\t");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//System.out.println("Fitness count: " + MaxFunction.counts);
+//		System.out.println("End: Example 1");
 	
 		
 	}

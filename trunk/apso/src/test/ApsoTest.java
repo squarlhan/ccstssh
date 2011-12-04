@@ -24,13 +24,6 @@ public class ApsoTest {
 		   int max_gen = 200;
 		   int numofparticals = 40;
 		   int dimention = 30;
-		   double intertia = 0.9; 
-		   double velocity = 0.9;
-		   double p_lamda = 0.8;
-		   double p_extra = 0.002;
-		   int ap_max = 100;
-		   double ap_lamda = 0.8;
-		   double lamda = 0.8;
 		   
 		   List<List<Double>> scopes5 = new ArrayList();
 	        List<List<Double>> scopes30 = new ArrayList();
@@ -76,7 +69,7 @@ public class ApsoTest {
 			    scopes600.add(sp600);
 			}
 			try {
-				String prefix = "20_";
+				String prefix = " ";
 				List<File> results = new ArrayList();
 				
 				File result0 = new File(prefix+"ap_x.txt");
@@ -125,19 +118,31 @@ public class ApsoTest {
 					output[i] = new BufferedWriter(new FileWriter(results.get(i)));
 				}
 		
-		   APSO apso = new APSO();
-		   apso.Calculate(max_gen, numofparticals, dimention, intertia,velocity, scopes100, new MaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda);
-		   apso.Calculate(max_gen, numofparticals, dimention, intertia,velocity, scopes512, new CosMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda);
-		   apso.Calculate(max_gen, numofparticals, dimention, intertia,velocity, scopes32, new AckleyMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda);
-		   apso.Calculate(max_gen, numofparticals, dimention, intertia,velocity, scopes100, new QuardircMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda);
-		   apso.Calculate(max_gen, numofparticals, dimention, intertia,velocity, scopes100, new StepMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda);
-		   apso.Calculate(max_gen, numofparticals, dimention, intertia,velocity, scopes30, new RosenbrockMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda);
-		   apso.Calculate(max_gen, numofparticals, dimention, intertia,velocity, scopes500, new SchwefelMaxFunction(),p_lamda, p_extra, ap_max, ap_lamda, lamda);
-		   apso.Calculate(max_gen, numofparticals, dimention, intertia,velocity, scopes600, new GriewankMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda);
-		   apso.Calculate(max_gen, numofparticals, dimention, intertia,velocity, scopes50, new PenalizedMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda);
-		   apso.Calculate(max_gen, numofparticals, dimention, intertia,velocity, scopes50, new Penalized2MaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda);  		   		   
-		   apso.Calculate(max_gen, numofparticals, dimention, intertia,velocity, scopes512, new WeiMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda);
-		   apso.Calculate(max_gen, numofparticals, dimention, intertia,velocity, scopes5, new NonMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda);
+				
+			double intertia = 0.9;
+			double velocity = 0.9;
+			double p_lamda = 0.8;
+			double p_extra = 0.002;
+			int ap_max = 100;
+			double ap_lamda = 0.8;
+			double lamda = 0.8;
+			APSO apso = new APSO();
+		   apso.Calculate(max_gen, numofparticals, dimention, intertia,velocity, scopes100, new MaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output[0]);
+		   apso.Calculate(max_gen, numofparticals, dimention, intertia,velocity, scopes512, new CosMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output[1]);
+		   apso.Calculate(max_gen, numofparticals, dimention, intertia,velocity, scopes32, new AckleyMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output[2]);
+		   apso.Calculate(max_gen, numofparticals, dimention, intertia,velocity, scopes100, new QuardircMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output[3]);
+		   apso.Calculate(max_gen, numofparticals, dimention, intertia,velocity, scopes100, new StepMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output[4]);
+		   apso.Calculate(max_gen, numofparticals, dimention, intertia,velocity, scopes30, new RosenbrockMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output[5]);
+		   apso.Calculate(max_gen, numofparticals, dimention, intertia,velocity, scopes500, new SchwefelMaxFunction(),p_lamda, p_extra, ap_max, ap_lamda, lamda, output[6]);
+		   apso.Calculate(max_gen, numofparticals, dimention, intertia,velocity, scopes600, new GriewankMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output[7]);
+		   apso.Calculate(max_gen, numofparticals, dimention, intertia,velocity, scopes50, new PenalizedMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output[8]);
+		   apso.Calculate(max_gen, numofparticals, dimention, intertia,velocity, scopes50, new Penalized2MaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output[9]); 		   		   
+		   apso.Calculate(max_gen, numofparticals, dimention, intertia,velocity, scopes512, new WeiMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output[10]);
+		   apso.Calculate(max_gen, numofparticals, dimention, intertia,velocity, scopes5, new NonMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output[11]);
+		   for (BufferedWriter op : output) {
+			   op.write("\n");
+			   op.flush();
+			   }
 		}catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
