@@ -75,21 +75,21 @@ public class KmpsoTest {
 			    scopes600.add(sp600);
 			}
 			try {
-				String prefix = "20_";
+				String prefix = "";
 				List<File> results = new ArrayList();
 				
-				File result0 = new File(prefix+"ap_x.txt");
-				File result1 = new File(prefix+"ap_cos.txt");
-				File result2 = new File(prefix+"ap_ackley.txt");
-				File result3 = new File(prefix+"ap_quar.txt");
-				File result4 = new File(prefix+"ap_step.txt");
-				File result5 = new File(prefix+"ap_rosen.txt");
-				File result6 = new File(prefix+"ap_sch.txt");
-				File result7 = new File(prefix+"ap_gri.txt");
-				File result8 = new File(prefix+"ap_pen1.txt");
-				File result9 = new File(prefix+"ap_pen2.txt");
-				File result10 = new File(prefix+"ap_wei.txt");
-				File result11 = new File(prefix+"ap_non.txt");
+				File result0 = new File(prefix+"km_x.txt");
+				File result1 = new File(prefix+"km_cos.txt");
+				File result2 = new File(prefix+"km_ackley.txt");
+				File result3 = new File(prefix+"km_quar.txt");
+				File result4 = new File(prefix+"km_step.txt");
+				File result5 = new File(prefix+"km_rosen.txt");
+				File result6 = new File(prefix+"km_sch.txt");
+				File result7 = new File(prefix+"km_gri.txt");
+				File result8 = new File(prefix+"km_pen1.txt");
+				File result9 = new File(prefix+"km_pen2.txt");
+				File result10 = new File(prefix+"km_wei.txt");
+				File result11 = new File(prefix+"km_non.txt");
 				results.add(result0);
 				results.add(result1);
 				results.add(result2);
