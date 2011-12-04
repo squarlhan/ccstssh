@@ -25,7 +25,7 @@ public class clustObjectFun {
 	public static int mycount = 0;
     
     /**
-     * 维护�?��历史�?��的个体集�?
+     * 维护�?��历史�?��的个体集�?
      * @param chroms 新产生的个体
      * @param obj 算法对象
      * @return
@@ -76,14 +76,14 @@ public class clustObjectFun {
     }
     
     /**
-     * 维护�?���?���?��的个体集�?
+     * 维护�?���?���?��的个体集�?
      * @param chroms 新产生的个体
      * @param obj 算法对象
      * @return
      */
     private static List<Particle> maintain_local_best(List<Particle> chroms, APSO obj, Swarm runningobj){
     		
-    	//维护�?���?���?��群体
+    	//维护�?���?���?��群体
     	List<Particle> localPop = obj.getLocalPop();
        	int maxsize = runningobj.size();
        	List<Particle> all  = new ArrayList();
@@ -92,7 +92,7 @@ public class clustObjectFun {
 				all.add(p);
 			}
 		}
-       	//新的染色体排�?
+       	//新的染色体排�?
 		if (chroms != null && chroms.size() > 0) {
 
 			Collections.sort(chroms, new Comparator<Particle>() {
@@ -135,14 +135,14 @@ public class clustObjectFun {
     }
     
     /**
-     * 维护�?���?���?��的个体集�?
+     * 维护�?���?���?��的个体集�?
      * @param chroms 新产生的个体
      * @param obj 算法对象
      * @return
      */
     private static List<Particle> maintain_local_worst(List<Particle> chroms, APSO obj, Swarm runningobj){
     		
-    	//维护�?���?���?��群体
+    	//维护�?���?���?��群体
     	List<Particle> localWorst = obj.getLocalWorst();
        	int maxsize = runningobj.size();
        	List<Particle> all  = new ArrayList();
@@ -151,7 +151,7 @@ public class clustObjectFun {
 				all.add(p);
 			}
 		}
-       	//新的染色体排�?
+       	//新的染色体排�?
 		if (chroms != null && chroms.size() > 0) {
 
 			Collections.sort(chroms, new Comparator<Particle>() {
@@ -196,7 +196,7 @@ public class clustObjectFun {
     
     private static List<Integer> getPatternfromPop(List<Particle> pop, double cutoff, APSO obj, Swarm runnongobj){
     	List<Integer> result = new ArrayList();
-    	//首先把pop转成二进�?
+    	//首先把pop转成二进�?
     	List<List<Integer>> popbin = new ArrayList();
     	int n = 0;
     	for(int i = 0; i<=pop.size()-1; i++){
@@ -276,8 +276,9 @@ public class clustObjectFun {
     	}
 		List<Double> objects = new ArrayList();
 		List<Integer> clac_centers = new ArrayList();
-		Set<Integer> centers = new HashSet();
+		Set<Integer> centers = new HashSet();	
 		centers.addAll(results);
+		runningobj.setNumberOfEvaliations(runningobj.getNumberOfEvaliations()+centers.size());
 		Map<Integer, Double> centerObjects = new HashMap();
 		Iterator iter = centers.iterator();
 		List<Particle> center_chroms = new ArrayList();
@@ -405,10 +406,10 @@ public class clustObjectFun {
     	return result;
     }
     
-  //二进制分三部分，第一位是符号位，接下来几位表示整数部分，�?���?��是小数部�?
+  //二进制分三部分，第一位是符号位，接下来几位表示整数部分，�?���?��是小数部�?
   	private static List<Integer> doube2binary2(double min, double max, int p, double num){
   		List<Integer> result = new ArrayList();
-  		//首先确定符号�?表示+�?表示-
+  		//首先确定符号�?表示+�?表示-
   		int sign = num<0?0:1;
   		result.add(sign);
   		//确定整数部分
@@ -421,7 +422,7 @@ public class clustObjectFun {
   		for(int i = 0;i<=int_lenth-1;i++){
   			result.add(Integer.parseInt(int_str.substring(i, i+1)));
   		}
-  		//确定小数部分，这个和精度有关系， 比如小数点后�?位，精度�?0�?4位精度为14位， 5位为17, 6位为20�?
+  		//确定小数部分，这个和精度有关系， 比如小数点后�?位，精度�?0�?4位精度为14位， 5位为17, 6位为20�?
   		double pp = Math.pow(2, p);
   		int pp_curser = 10;
   		while(pp/pp_curser>10){
