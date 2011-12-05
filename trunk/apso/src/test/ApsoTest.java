@@ -69,7 +69,7 @@ public class ApsoTest {
 			    scopes600.add(sp600);
 			}
 			try {
-				String prefix = " ";
+				String prefix = "";
 				List<File> results = new ArrayList();
 				
 				File result0 = new File(prefix+"ap_x.txt");
