@@ -33,8 +33,7 @@ public class PurePso {
 		long startTime = System.currentTimeMillis();
 		// Create a swarm (using 'MyParticle' as sample particle and
 		// 'MyFitnessFunction' as finess function)
-		Swarm swarm = new Swarm(numofparticals, new MaxParticle(dimention),
-				new CosMaxFunction());
+		Swarm swarm = new Swarm(numofparticals, new MaxParticle(dimention),fitness);
 
 		// Set position (and velocity) constraints. I.e.: where to look for
 		// solutions
@@ -47,7 +46,6 @@ public class PurePso {
 		swarm.setInertia(intertia);
 		swarm.setMaxPosition(uppers);
 		swarm.setMinPosition(lowers);
-		swarm.setMaxMinVelocity(velocity);
 		swarm.setMaxMinVelocity(velocity);
 
 		int numberOfIterations = max_gen;
@@ -62,7 +60,8 @@ public class PurePso {
 		long endTime = System.currentTimeMillis();
 		System.out.println("运行时间 " + (endTime - startTime) + "ms");
 		try {
-			output.write(swarm.getBestFitness()+"\t");
+			output.write(String.valueOf(swarm.getBestFitness())+"\t");
+			output.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
