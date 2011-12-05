@@ -160,6 +160,7 @@ public class KMPSO {
 		System.out.println("运行时间 " + (endTime - startTime) + "ms");
 		try {
 			output.write(swarm.getBestFitness()+"\t");
+			output.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -68,7 +68,7 @@ public class PureTest {
 			    scopes600.add(sp600);
 			}
 			try {
-				String prefix = " ";
+				String prefix = "";
 				List<File> results = new ArrayList();
 				
 				File result0 = new File(prefix+"x.txt");
@@ -119,6 +119,8 @@ public class PureTest {
 		   double intertia = 0.9; 
 		   double velocity = 0.9;
 		   PurePso purepso = new PurePso();
+//		   purepso.Calculate(max_gen, numofparticals, dimention,intertia,velocity, scopes600,new GriewankMaxFunction(), output[7]);	
+//		   purepso.Calculate(max_gen, numofparticals, dimention,intertia,velocity, scopes5, new NonMaxFunction(), output[11]);
 			for(double v = 0.5; v <= 2.05; v += 0.05) {
 				for (double i = 0.5; i <= 1.05; i += 0.05){
 					purepso.Calculate(max_gen, numofparticals, dimention,i, v,scopes100, new MaxFunction(), output[0]);
@@ -133,11 +135,12 @@ public class PureTest {
 					purepso.Calculate(max_gen, numofparticals, dimention,i,v, scopes50,	new Penalized2MaxFunction(), output[9]);
 					purepso.Calculate(max_gen, numofparticals, dimention,i,v, scopes512, new WeiMaxFunction(), output[10]);
 					purepso.Calculate(max_gen, numofparticals, dimention,i,v, scopes5, new NonMaxFunction(), output[11]);
-					 for (BufferedWriter op : output) {
-						   op.write("\n");
-						   op.flush();
-						   }
+					 
 				}
+				for (BufferedWriter op : output) {
+					   op.write("\n");
+					   op.flush();
+					   }
 			}
 		}catch (IOException e) {
 			// TODO Auto-generated catch block
