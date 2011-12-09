@@ -1,6 +1,7 @@
 package experiments.apga;
 
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -9,6 +10,7 @@ import java.util.Set;
 
 import org.jgap.Configuration;
 import org.jgap.FitnessFunction;
+import org.jgap.IChromosome;
 import org.jgap.Population;
 
 import affinitymain.InteractionData;

@@ -133,7 +133,7 @@ public class TestAny {
 		    scopes600.add(sp600);
 		}
 		try {
-			String prefix = "20_";
+			String prefix = "mse_";
 			List<File> results = new ArrayList();
 			
 			File result0 = new File(prefix+"ap_x.txt");
@@ -187,23 +187,23 @@ public class TestAny {
 			double lamda =0.8;
 			double lamda2 =0.8;
 			double p_extra0 =0.00;
-			double p_extra =0.002;
+			double p_extra =0.01;
 			int ap_max = 100;
 			double ap_lamda = 0.8;
 //            while(lamda2<=1.05){
-            	for(int bb=0; bb<=19;bb++){       
-            	a1.Calculate(200, 40, 30, scopes100, new MaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[0]);
-            	a1.Calculate(200, 40, 30, scopes512, new CosMaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[1]);
-            	a1.Calculate(200, 40, 30, scopes32, new AckleyMaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[2]);
-            	a1.Calculate(200, 40, 30, scopes100, new QuardircMaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[3]);
-            	a1.Calculate(200, 40, 30, scopes100, new StepMaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[4]);
-            	a1.Calculate(200, 40, 30, scopes30, new RosenbrockMaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[5]);
-            	a1.Calculate(200, 40, 30, scopes500, new SchwefelMaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[6]);
-            	a1.Calculate(200, 40, 30, scopes600, new GriewankMaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[7]);
-            	a1.Calculate(200, 40, 30, scopes50, new PenalizedMaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[8]);
-            	a1.Calculate(200, 40, 30, scopes50, new Penalized2MaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[9]);
-            	a1.Calculate(200, 40, 30, scopes512, new WeiMaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[10]);
-            	a1.Calculate(200, 40, 30, scopes5, new NonMaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[11]);
+            	for(int bb=0; bb<=0;bb++){       
+//            	a1.Calculate(200, 40, 30, scopes100, new MaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[0]);
+//            	a1.Calculate(200, 40, 30, scopes512, new CosMaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[1]);
+//            	a1.Calculate(200, 40, 30, scopes32, new AckleyMaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[2]);
+//            	a1.Calculate(200, 40, 30, scopes100, new QuardircMaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[3]);
+//            	a1.Calculate(200, 40, 30, scopes100, new StepMaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[4]);
+//            	a1.Calculate(200, 40, 30, scopes30, new RosenbrockMaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[5]);
+//            	a1.Calculate(200, 40, 30, scopes500, new SchwefelMaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[6]);
+//            	a1.Calculate(200, 40, 30, scopes600, new GriewankMaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[7]);
+//            	a1.Calculate(200, 40, 30, scopes50, new PenalizedMaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[8]);
+//            	a1.Calculate(200, 40, 30, scopes50, new Penalized2MaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[9]);
+//            	a1.Calculate(200, 40, 30, scopes512, new WeiMaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[10]);
+//            	a1.Calculate(200, 40, 30, scopes5, new NonMaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[11]);
             	           	
             	a1.Calculate(200, 40, 30, scopes100, new MaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output[0]);
             	a1.Calculate(200, 40, 30, scopes512, new CosMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output[1]);

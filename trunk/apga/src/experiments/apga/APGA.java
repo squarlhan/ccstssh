@@ -153,8 +153,14 @@ public void setLocalPop(Population localPop) {
 			if (percentEvolution > 0 && i % percentEvolution == 0) {
 				
 				IChromosome fittest  = genotype.getFittestChromosome();
-				double best_fitness = fittest.getFitnessValueDirectly();
-				System.out.println("Currently fittest Chromosome has fitness "+ best_fitness);
+				double sum = 0;
+				double bestfitness = fittest.getFitnessValue();
+//				System.out.println("Currently fittest Chromosome has fitness "+ bestfitness);
+			    for (int j = 0; j < fittest.size(); j++) {
+			        sum += (Double)fittest.getGene(j).getAllele(); ;
+			    }				
+			    double max =  (1/bestfitness)-(sum*fittest.size());
+				System.out.println("Currently fittest Chromosome has fitness "+ bestfitness +" max= "+max);
 			}
 		}
 		// Print summary.
@@ -193,11 +199,11 @@ public void setLocalPop(Population localPop) {
 		try {
 			output.write(fittest.getFitnessValueDirectly() + "\t");
             output.flush();
-			
+            output.write("\n");
 			for (int i = 0; i < chromeSize; i++) {
 				System.out.print(myformat
 						.format(fittest.getGene(i).getAllele()) + "	");
-//				output.write(myformat.format(fittest.getGene(i).getAllele())+ "	");
+				output.write(myformat.format(fittest.getGene(i).getAllele())+ "	");
 			}
 //			for(int i = 0;i<=popSize-1;i++){
 //				for (int j = 0; j < chromeSize; j++) {
