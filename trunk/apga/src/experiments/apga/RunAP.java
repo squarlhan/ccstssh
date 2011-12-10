@@ -20,8 +20,8 @@ import algorithm.abs.AffinityPropagationAlgorithm.AffinityConnectingMethod;
 public class RunAP {
 	
 	public void run(Population a_pop, Configuration a_conf, APGA obj, FitnessFunction fitness, int ap_num, double ap_lamda, double fit_lamda, double cutoff, double extra, BufferedWriter output){
-//		runimplafter(a_pop, a_conf, obj, fitness, ap_num, ap_lamda, fit_lamda, cutoff, extra, output);
-		runimpl(a_pop, a_conf, obj, fitness, ap_num, ap_lamda, fit_lamda, cutoff, extra, output);
+		runimplafter(a_pop, a_conf, obj, fitness, ap_num, ap_lamda, fit_lamda, cutoff, extra, output);
+//		runimpl(a_pop, a_conf, obj, fitness, ap_num, ap_lamda, fit_lamda, cutoff, extra, output);
 	}
 	
 	private  void runimpl(Population a_pop, Configuration a_conf, APGA obj, FitnessFunction fitness, int ap_num, double ap_lamda, double fit_lamda, double cutoff, double extra, BufferedWriter output) {
@@ -120,19 +120,20 @@ public class RunAP {
 			}
 		}
 		List<Double> objests = cof.calcFittnessValue(a_pop, obj, fitness, results, fulldis, fit_lamda, cutoff, extra, output);
-//		try {
+		try {
 //				for (IChromosome mychrom : a_pop.getChromosomes()) {
 //					IChromosome mychrom1 = (IChromosome) mychrom.clone();
 //					double a1 = fitness.evaluate(mychrom1);
 //					double a2 = mychrom.getFitnessValueDirectly();
 //				    output.write(Math.abs(a1-a2) + "\t");
 //			}
-//			output.write("\n");
-//			output.flush();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+			output.write(temp.size()+"\t");
+			output.write("\n");
+			output.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	
   }
 

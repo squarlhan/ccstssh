@@ -155,12 +155,12 @@ public void setLocalPop(Population localPop) {
 				IChromosome fittest  = genotype.getFittestChromosome();
 				double sum = 0;
 				double bestfitness = fittest.getFitnessValue();
-//				System.out.println("Currently fittest Chromosome has fitness "+ bestfitness);
-			    for (int j = 0; j < fittest.size(); j++) {
-			        sum += (Double)fittest.getGene(j).getAllele(); ;
-			    }				
-			    double max =  (1/bestfitness)-(sum*fittest.size());
-				System.out.println("Currently fittest Chromosome has fitness "+ bestfitness +" max= "+max);
+				System.out.println("Currently fittest Chromosome has fitness "+ bestfitness);
+//			    for (int j = 0; j < fittest.size(); j++) {
+//			        sum += (Double)fittest.getGene(j).getAllele(); ;
+//			    }				
+//			    double max =  (1/bestfitness)-(sum*fittest.size());
+//				System.out.println("Currently fittest Chromosome has fitness "+ bestfitness +" max= "+max);
 			}
 		}
 		// Print summary.
@@ -197,7 +197,7 @@ public void setLocalPop(Population localPop) {
 		}
 		DecimalFormat myformat = new DecimalFormat("#0.00");
 		try {
-			output.write(fittest.getFitnessValueDirectly() + "\t");
+//			output.write(fittest.getFitnessValueDirectly() + "\t");
             output.flush();
             output.write("\n");
 			for (int i = 0; i < chromeSize; i++) {
