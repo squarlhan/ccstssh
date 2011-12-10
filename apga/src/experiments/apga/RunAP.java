@@ -119,6 +119,7 @@ public class RunAP {
 				results.add(0, i);
 			}
 		}
+		int fc = getpopfalse(a_pop, a_conf);
 		List<Double> objests = cof.calcFittnessValue(a_pop, obj, fitness, results, fulldis, fit_lamda, cutoff, extra, output);
 		try {
 //				for (IChromosome mychrom : a_pop.getChromosomes()) {
@@ -127,7 +128,7 @@ public class RunAP {
 //					double a2 = mychrom.getFitnessValueDirectly();
 //				    output.write(Math.abs(a1-a2) + "\t");
 //			}
-			output.write(temp.size()+"\t");
+			output.write(temp.size()+"\t"+fc);
 			output.write("\n");
 			output.flush();
 		} catch (IOException e) {
@@ -136,6 +137,17 @@ public class RunAP {
 		}
 	
   }
+	
+	
+	private int  getpopfalse(Population pop, Configuration a_conf){
+		int oldpopsize = a_conf.getPopulationSize();
+		int sum = 0;
+		for(int i = 0; i<= oldpopsize-1; i++){
+			IChromosome chrom =  pop.getChromosome(i);
+			if(!chrom.isIscenter())sum++;
+		}
+		return sum;
+		}
 
 private double[][]  pop2matrix(Population pop){
   
