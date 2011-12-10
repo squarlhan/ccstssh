@@ -480,23 +480,23 @@ public class clustObjectFun {
 		Map<Integer, Double> centerObjects = new HashMap();
 		Iterator iter = centers.iterator();
 		List<IChromosome> center_chroms = new ArrayList();
-		int ccc = 0;
+//		int ccc = 0;
 		while (iter.hasNext()) {
 			int a = (Integer) iter.next();
 			center_chroms.add(pop.getChromosome(a));
 		    clac_centers.add(a);
 			if(!pop.getChromosome(a).isIscenter()){
 			    pop.getChromosome(a).setFitnessValue(fitness.evaluate(pop.getChromosome(a)));
-			    ccc++;
+//			    ccc++;
 			    }
 		}
-		try {
-		output.write(ccc+"\t");
-		output.flush();
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
+//		try {
+//		output.write(ccc+"\t");
+//		output.flush();
+//	} catch (IOException e) {
+//		// TODO Auto-generated catch block
+//		e.printStackTrace();
+//	}
 		if(center_chroms.size()>0){
 			obj.setnIterateCount(obj.getnIterateCount() + center_chroms.size());
 			for (int i = 0; i <= clac_centers.size() - 1; i++) {
