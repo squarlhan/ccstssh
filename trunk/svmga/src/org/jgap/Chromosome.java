@@ -65,7 +65,7 @@ import java.util.*;
 public class Chromosome
     extends BaseChromosome {
   /** String containing the CVS revision. Read out via reflection!*/
-  private final static String CVS_REVISION = "$Revision: 1.105 $";
+  private final static String CVS_REVISION = "$Revision: 1.103 $";
 
   /**
    * Application-specific data that is attached to this Chromosome.
@@ -75,8 +75,17 @@ public class Chromosome
    * comparations (if user opted in to do so).
    */
   private Object m_applicationData;
+  private boolean iscenter = false;
 
-  /**
+  public boolean isIscenter() {
+	return iscenter;
+}
+
+public void setIscenter(boolean iscenter) {
+	this.iscenter = iscenter;
+}
+
+/**
    * Holds multiobjective values.
    *
    * @since 2.6
@@ -380,9 +389,6 @@ public class Chromosome
                     throw new RuntimeException(ex);
                   }
                 }
-                else {
-                  /**@todo once output a warning: allele should be cloneable!*/
-                }
               }
             }
             copyOfGenes[i].setAllele(allele);
@@ -461,6 +467,7 @@ public class Chromosome
         }
       }
     }
+    ((Chromosome)copy).setIscenter(iscenter);
     return copy;
   }
 
@@ -573,7 +580,7 @@ public class Chromosome
 
   /**
    * Sets the fitness value of this Chromosome. This method is for use
-   * by bulk fitness functions and should not be invoked from anything
+   * by bulk fitness functions and should not be invokved from anything
    * else (except test cases).
    *
    * @param a_newFitnessValue a positive integer representing the fitness
@@ -613,7 +620,8 @@ public class Chromosome
    */
   public String toString() {
     StringBuffer representation = new StringBuffer();
-    representation.append(S_SIZE + ":" + size());
+    representation.append("Center:" + isIscenter());
+    representation.append(", " + S_SIZE + ":" + size());
     // Don't use getFitnessValue() here as it would then be initialized if
     // it was not. We want to capture the current state here!
     // -------------------------------------------------------------------
@@ -885,6 +893,9 @@ public class Chromosome
         }
       }
     }
+    if (otherChromosome.isIscenter() != iscenter) {
+        return 1;
+      }
     // Everything is equal. Return zero.
     // ---------------------------------
     return 0;

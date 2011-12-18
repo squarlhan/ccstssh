@@ -12,6 +12,8 @@ package org.jgap;
 import java.io.*;
 import org.jgap.util.ICloneable;
 
+import svmga.SVMGA;
+
 /**
  * Interface for GA breeders. A breeder evolves a population by performing
  * genetic operations.
@@ -37,4 +39,5 @@ public interface IBreeder
    * @since 3.2
    */
   Population evolve(Population a_pop, Configuration a_conf);
+  Population evolve(Population a_pop, Configuration a_conf, SVMGA obj, FitnessFunction fitness, double gamma, double c, BufferedWriter output);
 }

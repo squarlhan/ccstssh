@@ -9,9 +9,14 @@
  */
 package org.jgap.impl;
 
+import java.io.BufferedWriter;
+
 import org.jgap.*;
 import org.jgap.audit.*;
 import org.jgap.event.*;
+
+import svmga.GetFit;
+import svmga.SVMGA;
 
 public class GABreeder
     extends BreederBase {
@@ -290,4 +295,203 @@ public class GABreeder
       }
     }
   }
+  
+  protected void updateChromosomes(Population a_pop, Configuration a_conf, SVMGA obj,
+			FitnessFunction fitness, double gamma, double c, BufferedWriter output) {
+	    GetFit gf = new GetFit();
+	    gf.getfitness(a_pop, a_conf, obj, fitness, gamma, c, output);
+	    
+	  }
+
+@Override
+public Population evolve(Population a_pop, Configuration a_conf, SVMGA obj,
+		FitnessFunction fitness, double gamma, double c, BufferedWriter output) {
+	    Population pop = a_pop;
+	    int originalPopSize = a_conf.getPopulationSize();
+	    boolean monitorActive = a_conf.getMonitor() != null;
+	    IChromosome fittest = null;
+	    // If first generation: Set age to one to allow genetic operations,
+	    // see CrossoverOperator for an illustration.
+	    // ----------------------------------------------------------------
+	    if (a_conf.getGenerationNr() == 0) {
+	      int size = pop.size();
+	      for (int i = 0; i < size; i++) {
+	        IChromosome chrom = pop.getChromosome(i);
+	        chrom.increaseAge();
+	      }
+	    }
+	    else {
+	      // Select fittest chromosome in case it should be preserved and we are
+	      // not in the very first generation.
+	      // -------------------------------------------------------------------
+	      if (a_conf.isPreserveFittestIndividual()) {
+	        /**@todo utilize jobs. In pop do also utilize jobs, especially for fitness
+	         * computation*/
+	        fittest = pop.determineFittestChromosome(0, pop.size() - 1);
+	      }
+	    }
+	    if (a_conf.getGenerationNr() > 0) {
+	      // Adjust population size to configured size (if wanted).
+	      // Theoretically, this should be done at the end of this method.
+	      // But for optimization issues it is not. If it is the last call to
+	      // evolve() then the resulting population possibly contains more
+	      // chromosomes than the wanted number. But this is no bad thing as
+	      // more alternatives mean better chances having a fit candidate.
+	      // If it is not the last call to evolve() then the next call will
+	      // ensure the correct population size by calling keepPopSizeConstant.
+	      // ------------------------------------------------------------------
+	      keepPopSizeConstant(pop, a_conf);
+	    }
+	    // Ensure fitness value of all chromosomes is udpated.
+	    // ---------------------------------------------------
+	    if (monitorActive) {
+	      // Monitor that fitness value of chromosomes is being updated.
+	      // -----------------------------------------------------------
+	      a_conf.getMonitor().event(
+	          IEvolutionMonitor.MONITOR_EVENT_BEFORE_UPDATE_CHROMOSOMES1,
+	          a_conf.getGenerationNr(), new Object[]{pop});
+	    }
+	    updateChromosomes(a_pop, a_conf, obj,fitness, gamma, c, output);
+	    if (monitorActive) {
+	      // Monitor that fitness value of chromosomes is being updated.
+	      // -----------------------------------------------------------
+	      a_conf.getMonitor().event(
+	          IEvolutionMonitor.MONITOR_EVENT_AFTER_UPDATE_CHROMOSOMES1,
+	          a_conf.getGenerationNr(), new Object[]{pop});
+	    }
+	    // Apply certain NaturalSelectors before GeneticOperators will be executed.
+	    // ------------------------------------------------------------------------
+	    pop = applyNaturalSelectors(a_conf, pop, true);
+	    int newChromIndex = pop.size();
+	    // Execute all of the Genetic Operators.
+	    // -------------------------------------
+	    applyGeneticOperators(a_conf, pop);
+	    // Reset fitness value of genetically operated chromosomes.
+	    // Normally, this should not be necessary as the Chromosome class
+	    // initializes each newly created chromosome with
+	    // FitnessFunction.NO_FITNESS_VALUE. But who knows which Chromosome
+	    // implementation is used or if cloning is utilized.
+	    // ----------------------------------------------------------------
+	    int currentPopSize = pop.size();
+	    for (int i = newChromIndex; i < currentPopSize; i++) {
+	      IChromosome chrom = pop.getChromosome(i);
+	      chrom.setFitnessValueDirectly(FitnessFunction.NO_FITNESS_VALUE);
+	      // Mark chromosome as new-born.
+	      // ----------------------------
+	      chrom.resetAge();
+	      // Mark chromosome as being operated on.
+	      // -------------------------------------
+	      chrom.increaseOperatedOn();
+	    }
+	    // Increase age of all chromosomes which are not modified by genetic
+	    // operations.
+	    // -----------------------------------------------------------------
+	    int size = Math.min(newChromIndex, currentPopSize);
+	    for (int i = 0; i < size; i++) {
+	      IChromosome chrom = pop.getChromosome(i);
+	      chrom.increaseAge();
+	      // Mark chromosome as not being operated on.
+	      // -----------------------------------------
+	      chrom.resetOperatedOn();
+	      }
+	      // If a bulk fitness function has been provided, call it.
+	    // ------------------------------------------------------
+	    BulkFitnessFunction bulkFunction = a_conf.getBulkFitnessFunction();
+	    if (bulkFunction != null) {
+
+	      if (monitorActive) {
+	        // Monitor that bulk fitness will be called for evaluation.
+	        // --------------------------------------------------------
+	        a_conf.getMonitor().event(
+	            IEvolutionMonitor.MONITOR_EVENT_BEFORE_BULK_EVAL,
+	            a_conf.getGenerationNr(), new Object[] {bulkFunction, pop});
+	      }
+	      /**@todo utilize jobs: bulk fitness function is not so important for a
+	       * prototype! */
+	      bulkFunction.evaluate(pop);
+	      if (monitorActive) {
+	        // Monitor that bulk fitness has been called for evaluation.
+	        // ---------------------------------------------------------
+	        a_conf.getMonitor().event(
+	            IEvolutionMonitor.MONITOR_EVENT_AFTER_BULK_EVAL,
+	            a_conf.getGenerationNr(), new Object[] {bulkFunction, pop});
+	      }
+	    }
+	    // Ensure fitness value of all chromosomes is udpated.
+	    // ---------------------------------------------------
+	    if (monitorActive) {
+	      // Monitor that fitness value of chromosomes is being updated.
+	      // -----------------------------------------------------------
+	      a_conf.getMonitor().event(
+	          IEvolutionMonitor.MONITOR_EVENT_BEFORE_UPDATE_CHROMOSOMES2,
+	          a_conf.getGenerationNr(), new Object[]{pop});
+	    }
+	    updateChromosomes(a_pop, a_conf, obj,fitness, gamma, c, output);
+	    if (monitorActive) {
+	      // Monitor that fitness value of chromosomes is being updated.
+	      // -----------------------------------------------------------
+	      a_conf.getMonitor().event(
+	          IEvolutionMonitor.MONITOR_EVENT_AFTER_UPDATE_CHROMOSOMES2,
+	          a_conf.getGenerationNr(), new Object[]{pop});
+	    }
+	    // Apply certain NaturalSelectors after GeneticOperators have been applied.
+	    // ------------------------------------------------------------------------
+	    pop = applyNaturalSelectors(a_conf, pop, false);
+
+	    // Fill up population randomly if size dropped below specified percentage
+	    // of original size.
+	    // ----------------------------------------------------------------------
+	    if (a_conf.getMinimumPopSizePercent() > 0) {
+	      int sizeWanted = a_conf.getPopulationSize();
+	      int popSize;
+	      int minSize = (int) Math.round(sizeWanted *
+	                                     (double) a_conf.getMinimumPopSizePercent()
+	                                     / 100);
+	      popSize = pop.size();
+	      if (popSize < minSize) {
+	        IChromosome newChrom;
+	        IChromosome sampleChrom = a_conf.getSampleChromosome();
+	        Class sampleChromClass = sampleChrom.getClass();
+	        IInitializer chromIniter = a_conf.getJGAPFactory().
+	            getInitializerFor(sampleChrom, sampleChromClass);
+	        while (pop.size() < minSize) {
+	          try {
+	            /**@todo utilize jobs as initialization may be time-consuming as
+	             * invalid combinations may have to be filtered out*/
+	            newChrom = (IChromosome) chromIniter.perform(sampleChrom,
+	                sampleChromClass, null);
+	            if (monitorActive) {
+	              // Monitor that fitness value of chromosomes is being updated.
+	              // -----------------------------------------------------------
+	              a_conf.getMonitor().event(
+	                  IEvolutionMonitor.MONITOR_EVENT_BEFORE_ADD_CHROMOSOME,
+	                  a_conf.getGenerationNr(), new Object[]{pop, newChrom});
+	            }
+	            pop.addChromosome(newChrom);
+	          } catch (Exception ex) {
+	            throw new RuntimeException(ex);
+	          }
+	        }
+	      }
+	    }
+	    IChromosome newFittest = reAddFittest(pop, fittest);
+	    if (monitorActive && newFittest != null) {
+	      // Monitor that fitness value of chromosomes is being updated.
+	      // -----------------------------------------------------------
+	      a_conf.getMonitor().event(
+	          IEvolutionMonitor.MONITOR_EVENT_READD_FITTEST,
+	          a_conf.getGenerationNr(), new Object[] {pop, fittest});
+	    }
+
+	    // Increase number of generations.
+	    // -------------------------------
+	    a_conf.incrementGenerationNr();
+	    // Fire an event to indicate we've performed an evolution.
+	    // -------------------------------------------------------
+	    m_lastPop = pop;
+	    m_lastConf = a_conf;
+	    a_conf.getEventManager().fireGeneticEvent(
+	        new GeneticEvent(GeneticEvent.GENOTYPE_EVOLVED_EVENT, this));
+	    return pop;
+	  }
 }
