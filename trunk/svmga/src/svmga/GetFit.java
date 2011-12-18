@@ -16,16 +16,18 @@ public class GetFit {
 		if(obj.getSvmin().size()<200){
 			for(IChromosome chrom:a_pop.getChromosomes()){
 				chrom.getFitnessValue();
+				chrom.setIscenter(true);
 				obj.getSvmin().add(chrom);
 			}
 		}else{
 			List<IChromosome> chroms = a_pop.getChromosomes();
 			List<IChromosome> pre_chrom = new ArrayList();
 			for(int i = 0; i<=chroms.size()-1;i++){
-				if(i%2==0){
+				if(!chroms.get(i).isIscenter()&&i%2==0){
 					chroms.get(i).getFitnessValue();
+					chroms.get(i).setIscenter(true);
 					obj.getSvmin().add(chroms.get(i));					
-				}else{
+				}else if(!chroms.get(i).isIscenter()&&i%2==1){
 					pre_chrom.add(chroms.get(i));
 				}
 			}
