@@ -160,6 +160,7 @@ public svm_parameter initsvm(double gamma, double c){
 	public void predict(svm_model model, List<IChromosome> chroms){
 		for(IChromosome chrom:chroms){
 			chrom.setFitnessValueDirectly(predict(model, chrom));
+			chrom.setIscenter(false);
 		}
 	}
 	
