@@ -35,6 +35,9 @@ public interface IChromosome
   public final static String S_APPLICATION_DATA = "Application data";
 
   public final static String S_SIZE = "Size";
+  
+  
+  
 
   /**
    * Returns the Gene at the given index (locus) within the Chromosome. The
@@ -88,7 +91,7 @@ public interface IChromosome
    * @since 2.6
    */
   int size();
-
+  
   /**
    * Sets the fitness value of this Chromosome. This method is for use
    * by bulk fitness functions and should not be invokved from anything
@@ -291,5 +294,9 @@ public interface IChromosome
    * @since 3.2
    */
   int operatedOn();
+  
+  public boolean isIscenter() ;
+
+	public void setIscenter(boolean iscenter) ;
 
 }
