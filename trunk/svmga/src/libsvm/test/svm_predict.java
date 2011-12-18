@@ -1,4 +1,4 @@
-package svmtest;
+package libsvm.test;
 import libsvm.*;
 import java.io.*;
 import java.util.*;
