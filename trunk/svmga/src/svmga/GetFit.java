@@ -13,6 +13,13 @@ public class GetFit {
 	
 	public void getfitness(Population a_pop, Configuration a_conf, SVMGA obj,
 			FitnessFunction fitness, double gamma, double c, BufferedWriter output){
+//确保没有算过适应度的个体的染色体都是false
+    	
+    	int oldpopsize = a_conf.getPopulationSize();
+    	int nowpopsize = a_pop.size();
+    	for(int i = oldpopsize;i<nowpopsize;i++){
+    		a_pop.getChromosome(i).setIscenter(false);
+    	}
 		if(obj.getSvmin().size()<200){
 			for(IChromosome chrom:a_pop.getChromosomes()){
 				chrom.getFitnessValue();
