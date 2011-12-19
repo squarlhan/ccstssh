@@ -39,5 +39,5 @@ public interface IBreeder
    * @since 3.2
    */
   Population evolve(Population a_pop, Configuration a_conf);
-  Population evolve(Population a_pop, Configuration a_conf, SVMGA obj, FitnessFunction fitness, double gamma, double c, BufferedWriter output);
+  Population evolve(Population a_pop, Configuration a_conf, SVMGA obj, FitnessFunction fitness, int percent, double gamma, double c, BufferedWriter output);
 }

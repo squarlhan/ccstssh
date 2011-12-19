@@ -12,7 +12,7 @@ import org.jgap.Population;
 public class GetFit {
 	
 	public void getfitness(Population a_pop, Configuration a_conf, SVMGA obj,
-			FitnessFunction fitness, double gamma, double c, BufferedWriter output){
+			FitnessFunction fitness, int percent, double gamma, double c, BufferedWriter output){
 //确保没有算过适应度的个体的染色体都是false
     	
     	int oldpopsize = a_conf.getPopulationSize();
@@ -30,11 +30,11 @@ public class GetFit {
 			List<IChromosome> chroms = a_pop.getChromosomes();
 			List<IChromosome> pre_chrom = new ArrayList();
 			for(int i = 0; i<=chroms.size()-1;i++){
-				if(!chroms.get(i).isIscenter()&&i%2==0){
+				if(!chroms.get(i).isIscenter()&&i%percent==0){
 					chroms.get(i).getFitnessValue();
 					chroms.get(i).setIscenter(true);
 					obj.getSvmin().add(chroms.get(i));					
-				}else if(!chroms.get(i).isIscenter()&&i%2==1){
+				}else if(!chroms.get(i).isIscenter()&&i%percent!=0){
 					pre_chrom.add(chroms.get(i));
 				}
 			}

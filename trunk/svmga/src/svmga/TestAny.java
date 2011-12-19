@@ -182,20 +182,21 @@ public class TestAny {
 			
 			double gamma =0.002;
 			double c = 300;
+			int percent = 4;
             	for(int bb=0; bb<=0;bb++){       
             	           	
-            	a1.Calculate(200, 40, 30, scopes100, new MaxFunction(), gamma, c, output[0]);
-//            	a1.Calculate(200, 40, 30, scopes512, new CosMaxFunction(), gamma, c, output[1]);
-//            	a1.Calculate(200, 40, 30, scopes32, new AckleyMaxFunction(), gamma, c, output[2]);
-//            	a1.Calculate(200, 40, 30, scopes100, new QuardircMaxFunction(), gamma, c, output[3]);
-//            	a1.Calculate(200, 40, 30, scopes100, new StepMaxFunction(), gamma, c, output[4]);
-//            	a1.Calculate(200, 40, 30, scopes30, new RosenbrockMaxFunction(), gamma, c, output[5]);
-//            	a1.Calculate(200, 40, 30, scopes500, new SchwefelMaxFunction(), gamma, c, output[6]);
-//            	a1.Calculate(200, 40, 30, scopes600, new GriewankMaxFunction(), gamma, c, output[7]);
-//            	a1.Calculate(200, 40, 30, scopes50, new PenalizedMaxFunction(), gamma, c, output[8]);
-//            	a1.Calculate(200, 40, 30, scopes50, new Penalized2MaxFunction(), gamma, c, output[9]);
-//            	a1.Calculate(200, 40, 30, scopes512, new WeiMaxFunction(), gamma, c, output[10]);
-//            	a1.Calculate(200, 40, 30, scopes5, new NonMaxFunction(), gamma, c, output[11]);
+            	a1.Calculate(200, 40, 30, scopes100, new MaxFunction(), percent, gamma, c, output[0]);
+//            	a1.Calculate(200, 40, 30, scopes512, new CosMaxFunction(), percent, gamma, c, output[1]);
+//            	a1.Calculate(200, 40, 30, scopes32, new AckleyMaxFunction(), percent, gamma, c, output[2]);
+//            	a1.Calculate(200, 40, 30, scopes100, new QuardircMaxFunction(), percent, gamma, c, output[3]);
+//            	a1.Calculate(200, 40, 30, scopes100, new StepMaxFunction(), percent, gamma, c, output[4]);
+//            	a1.Calculate(200, 40, 30, scopes30, new RosenbrockMaxFunction(), percent, gamma, c, output[5]);
+//            	a1.Calculate(200, 40, 30, scopes500, new SchwefelMaxFunction(), percent, gamma, c, output[6]);
+//            	a1.Calculate(200, 40, 30, scopes600, new GriewankMaxFunction(), percent, gamma, c, output[7]);
+//            	a1.Calculate(200, 40, 30, scopes50, new PenalizedMaxFunction(), percent, gamma, c, output[8]);
+//            	a1.Calculate(200, 40, 30, scopes50, new Penalized2MaxFunction(), percent, gamma, c, output[9]);
+//            	a1.Calculate(200, 40, 30, scopes512, new WeiMaxFunction(), percent, gamma, c, output[10]);
+//            	a1.Calculate(200, 40, 30, scopes5, new NonMaxFunction(), percent, gamma, c, output[11]);
             	 for (BufferedWriter op : output) {
 					   op.write("\n");
 					   op.flush();
