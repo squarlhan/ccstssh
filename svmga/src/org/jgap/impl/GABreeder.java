@@ -297,15 +297,15 @@ public class GABreeder
   }
   
   protected void updateChromosomes(Population a_pop, Configuration a_conf, SVMGA obj,
-			FitnessFunction fitness, double gamma, double c, BufferedWriter output) {
+			FitnessFunction fitness, int percent, double gamma, double c, BufferedWriter output) {
 	    GetFit gf = new GetFit();
-	    gf.getfitness(a_pop, a_conf, obj, fitness, gamma, c, output);
+	    gf.getfitness(a_pop, a_conf, obj, fitness, percent, gamma, c, output);
 	    
 	  }
 
 @Override
 public Population evolve(Population a_pop, Configuration a_conf, SVMGA obj,
-		FitnessFunction fitness, double gamma, double c, BufferedWriter output) {
+		FitnessFunction fitness, int percent, double gamma, double c, BufferedWriter output) {
 	    Population pop = a_pop;
 	    int originalPopSize = a_conf.getPopulationSize();
 	    boolean monitorActive = a_conf.getMonitor() != null;
@@ -351,7 +351,7 @@ public Population evolve(Population a_pop, Configuration a_conf, SVMGA obj,
 	          IEvolutionMonitor.MONITOR_EVENT_BEFORE_UPDATE_CHROMOSOMES1,
 	          a_conf.getGenerationNr(), new Object[]{pop});
 	    }
-	    updateChromosomes(a_pop, a_conf, obj,fitness, gamma, c, output);
+	    updateChromosomes(a_pop, a_conf, obj,fitness, percent, gamma, c, output);
 	    if (monitorActive) {
 	      // Monitor that fitness value of chromosomes is being updated.
 	      // -----------------------------------------------------------
@@ -426,7 +426,7 @@ public Population evolve(Population a_pop, Configuration a_conf, SVMGA obj,
 	          IEvolutionMonitor.MONITOR_EVENT_BEFORE_UPDATE_CHROMOSOMES2,
 	          a_conf.getGenerationNr(), new Object[]{pop});
 	    }
-	    updateChromosomes(a_pop, a_conf, obj,fitness, gamma, c, output);
+	    updateChromosomes(a_pop, a_conf, obj,fitness, percent, gamma, c, output);
 	    if (monitorActive) {
 	      // Monitor that fitness value of chromosomes is being updated.
 	      // -----------------------------------------------------------

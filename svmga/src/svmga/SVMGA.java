@@ -66,13 +66,14 @@ public void setFitnessvalues(List<String> fitnessvalues) {
 	 * @param fitness 目标函数
 	 * @param gamma      svm的gamma
 	 * @param c    svm罚分
+	 *  @param percent    群体中有多少是真实算的用来加入到训练集
 	 * @param scopes 每个参数取值范围矩阵 2行列
 	 * @param popSize  种群大小
 	 * @param chromeSize     参数个数
 	 * @param max_gen        基因算法内部优化迭代次数
 	 */
 	public void Calculate(int max_gen, int popSize, int chromeSize, List<List<Double>> scopes, FitnessFunction fitness, 
-			double gamma, double c, BufferedWriter output) {
+			int percent, double gamma, double c, BufferedWriter output) {
 		nIterateCount=0;
 		svmin = new ArrayList();
 		fitnessvalues = new ArrayList();
@@ -108,7 +109,7 @@ public void setFitnessvalues(List<String> fitnessvalues) {
 		int percentEvolution = numEvolutions / 10;
 		for (int i = 0; i < numEvolutions; i++) {
         	//Start GA
-			genotype.evolve(this, fitness, gamma, c, output);
+			genotype.evolve(this, fitness, percent, gamma, c, output);
 			// Print progress.
 //			try {
 //				Population temppop = genotype.getPopulation();

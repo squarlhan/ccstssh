@@ -230,9 +230,9 @@ public class Genotype
     setPopulation(newPop);
   }
   
-  public synchronized void evolve(SVMGA obj,  FitnessFunction fitness, double gamma, double c, BufferedWriter output) {
+  public synchronized void evolve(SVMGA obj,  FitnessFunction fitness, int percent, double gamma, double c, BufferedWriter output) {
 	    IBreeder breeder = getConfiguration().getBreeder();
-	    Population newPop = breeder.evolve(getPopulation(), getConfiguration(), obj, fitness, gamma, c, output);
+	    Population newPop = breeder.evolve(getPopulation(), getConfiguration(), obj, fitness, percent, gamma, c, output);
 	    setPopulation(newPop);
 	  }
  
