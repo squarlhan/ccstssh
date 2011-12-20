@@ -12,13 +12,21 @@ public class OutputInFortran {
 	public void OutputtoFile(){
 		try{
 		PrintWriter  Opt=new PrintWriter(new FileWriter("stap90.in"));
+//		PrintWriter  Opt=new PrintWriter(new FileWriter("A2dgtz201110091.infc"));
 		Opt.println("a test to STAP90");
 //		Pattern pattern = Pattern.compile("[0-9]+");
 		Iterator Oitor=list.iterator();
 		while(Oitor.hasNext()){
 			Iterator Subitor=((List)Oitor.next()).iterator();
+//			System.out.println(Subitor);
 			while(Subitor.hasNext()){
 				Object str=Subitor.next();
+				
+				
+//				double d=(Double)str;
+//				Opt.printf("%10.3e", d);
+				
+				
 				if(str instanceof Integer){
 					int i=(Integer)str;
 					Opt.printf("%5d", i);

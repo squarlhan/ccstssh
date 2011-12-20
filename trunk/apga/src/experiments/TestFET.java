@@ -38,13 +38,13 @@ public class TestFET {
 		long startTime = System.currentTimeMillis();
 		APGA a1 = new APGA();
 		int m = 40;
-		int n = 5;
+		int n = 24;
 		List<List<Double>> scopes5 = new ArrayList();
 		for(int i = 0; i<=n-1;i++ ){
 			List<Double> sp5 = new ArrayList();
 			
-		    sp5.add(0.0);
-		    sp5.add(5.0);
+		    sp5.add(1.0);
+		    sp5.add(2.5);
 		    scopes5.add(sp5);
 		}
 		try {
@@ -66,7 +66,7 @@ public class TestFET {
             	for(int bb=0; bb<=0;bb++){       
 //            	a1.Calculate(200, 40, 5, scopes5, new FetMaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output);
             	           	
-            	a1.Calculate(200, 40, 5, scopes5, new FetMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output);
+            	a1.Calculate(200, 40, 24, scopes5, new FetMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output);
             		 output.write("\n");
             		 output.flush();
                 	

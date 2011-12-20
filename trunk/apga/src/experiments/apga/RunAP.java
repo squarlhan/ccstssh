@@ -20,8 +20,8 @@ import algorithm.abs.AffinityPropagationAlgorithm.AffinityConnectingMethod;
 public class RunAP {
 	
 	public void run(Population a_pop, Configuration a_conf, APGA obj, FitnessFunction fitness, int ap_num, double ap_lamda, double fit_lamda, double cutoff, double extra, BufferedWriter output){
-		runimplafter(a_pop, a_conf, obj, fitness, ap_num, ap_lamda, fit_lamda, cutoff, extra, output);
-//		runimpl(a_pop, a_conf, obj, fitness, ap_num, ap_lamda, fit_lamda, cutoff, extra, output);
+//		runimplafter(a_pop, a_conf, obj, fitness, ap_num, ap_lamda, fit_lamda, cutoff, extra, output);
+		runimpl(a_pop, a_conf, obj, fitness, ap_num, ap_lamda, fit_lamda, cutoff, extra, output);
 	}
 	
 	private  void runimpl(Population a_pop, Configuration a_conf, APGA obj, FitnessFunction fitness, int ap_num, double ap_lamda, double fit_lamda, double cutoff, double extra, BufferedWriter output) {

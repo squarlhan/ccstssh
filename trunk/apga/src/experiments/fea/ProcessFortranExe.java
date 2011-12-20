@@ -16,15 +16,12 @@ public boolean Fortran(){
 		 BufferedInputStream in = new BufferedInputStream(process.getInputStream());   
          BufferedReader inBr = new BufferedReader(new InputStreamReader(in));   
 		String lineStr;   
-		 System.out.println("123456789");
+
         while ((lineStr = inBr.readLine()) != null){   
-            //�������ִ�к��ڿ���̨�������Ϣ   
-        	System.out.println("123456789");
-            System.out.println(lineStr);// ��ӡ�����Ϣ   
-        //��������Ƿ�ִ��ʧ�ܡ�   
+//        	System.out.println(lineStr);
         }
         if (process.waitFor() != 0) {   
-            if (process.exitValue() == 1)//p.exitValue()==0��ʾ�����1���������   
+            if (process.exitValue() == 1)
                 System.err.println("����ִ��ʧ��!");   
         }   
         inBr.close();   

@@ -38,7 +38,7 @@ private List DataConverter(){
 	while(itor.hasNext()){		
 		List SubList=new ArrayList();
 		pData=(String)itor.next();
-   Matcher m=Pattern.compile("(\\d\\S+)|(\\d)").matcher(pData);
+   Matcher m=Pattern.compile("(\\d\\S+)|(\\d)|(\\-\\d\\S+)").matcher(pData);
    boolean flag=false;
    while(m.find()){
 	   flag=true;

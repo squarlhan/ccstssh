@@ -197,7 +197,7 @@ public void setLocalPop(Population localPop) {
 		}
 		DecimalFormat myformat = new DecimalFormat("#0.00");
 		try {
-//			output.write(fittest.getFitnessValueDirectly() + "\t");
+			output.write(fittest.getFitnessValueDirectly() + "\t");
             output.flush();
             output.write("\n");
 			for (int i = 0; i < chromeSize; i++) {
