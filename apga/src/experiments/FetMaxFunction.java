@@ -9,6 +9,7 @@
  */
 package experiments;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jgap.*;
@@ -55,6 +56,7 @@ public class FetMaxFunction
    */
   public double evaluate(IChromosome a_subject) {
     double total = 0;
+     final double MAXFOCRCE=2.35e8;
     int time_delay = 0;
     try {
 		Thread.sleep(time_delay);
@@ -65,18 +67,43 @@ public class FetMaxFunction
     int n = a_subject.size();
     double[] rs = new double[n];
     double sum = 0;
+    
+    
     for (int i = 0; i < n; i++) {     
     	rs[i] = (Double)a_subject.getGene(i).getAllele();
         sum += rs[i] ;
     }
+    
+    for(int i=0;i<n;i++){
+    	int max=i;
+    	for(int j=i+1;j<n;j++){
+    		if(rs[max]<rs[j]){
+    			max=j;
+    		}
+    	}
+    	if(max!=i){
+    	double temp=rs[max];
+    	rs[max]=rs[i];
+    	rs[i]=temp;
+    	}
+//    	System.out.print(rs[i]+"  ");
+    }
+//    System.out.println();
+    
     Exectute fea = new Exectute();
     fea.FirstCallFrotran();
     fea.NewArea(rs);
-    double result  = fea.GetResult();
+    double result  = fea.CaculateOutputData();
+//    System.out.println(1/result);
     counts ++;
 //    double result = n*Math.pow(100, 2.0)-total; 
 //    result = 1000*(result)/(n*Math.pow(100, 2.0));
-    result = (sum*5) + result;
-    return 1/result;
+    if(result!=-1){
+    result =(24/sum+result/MAXFOCRCE)*500;
+    return result;
+    }
+    else{
+    	return 0;
+    }
   }
 }

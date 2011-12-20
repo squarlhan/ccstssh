@@ -122,7 +122,7 @@ public class TestFETPure {
 			
 			
 			for(int a=0; a<=0;a++){
-				se.runga(200, 5, 40, 0.0,  5.0, new FetMaxFunction(), output);
+				se.runga(200, 24, 40, 1.0,  2.5, new FetMaxFunction(), output);
 					output.write("\n");
 					output.flush();
 			}
@@ -132,11 +132,6 @@ public class TestFETPure {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-
-		
-				
-				
-			
+		}	
 	}
 }

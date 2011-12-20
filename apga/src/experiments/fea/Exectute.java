@@ -5,21 +5,39 @@ import java.util.*;
 public class Exectute {
 private static List OcdList,MemList;
 private static List OutputData;
-private static final int NUMEG=1, NLCASE=1,MODEX=1,LL=1,IDIRN=3,NPAR1=1,NPAR3=5,KG=0;
-private static final double E_N=207.0e9,AREA_N=120e-6;
-private static final double FLOAD=1000;
+private static final int NUMEG=1, NLCASE=1,MODEX=1,LL=1,IDIRN=3,NPAR1=1,NPAR3=24,KG=0;
+private static final double[] E_N={207.0e9,207.0e9,207.0e9},AREA_N={196.25e-5,125.6e-5,70.65e-5};
+private static final double R=Math.pow(625.0, 1.0/3),BALLRAEA=2*Math.PI*(R)*(R),SNOW=600*0.5,FLOAD=(BALLRAEA*SNOW*9.8),MAX_FORCE=2.35e8;
 private static final double[]  E=new double[NPAR3], AREA=new double[NPAR3];
 private static int MTYP=0;
 private static void Init(){
 	for(int i=0;i<NPAR3;i++){
-		E[i]=E_N;
-		AREA[i]=AREA_N-i*12e-6;
+		E[i]=E_N[i/8];
+		AREA[i]=AREA_N[i/8]+5*1.0e-5*(i%8);
 	}
 }
 public  void NewArea(double[] area){
-	for(int i=0;i<AREA.length;i++){
-		AREA[i]=Math.pow(area[i]*0.01, 2)*Math.PI;
+	try{
+		int length=E_N.length;
+//		System.out.println(area.length);
+	for(int i=0;i<AREA.length/length;i++){
+		for(int j=0;j<length;j++){
+		AREA[j*(AREA.length/length)+i]=area[i*length+j]*area[i*length+j]*3.14*0.0001;
+		}
 	}
+	}catch(Exception e){
+		System.err.println("the nember of areas is not enough! please check input !");
+		e.printStackTrace();
+		
+	}
+//	for(int i=0;i<AREA.length;i++){
+//		if(i%8==0){
+//			System.out.println();
+//		}
+//		System.out.print(AREA[i]+" ");
+//	
+//	
+//	}
 }
  public  void FirstCallFrotran(){
 //	 double max=0;
@@ -49,7 +67,7 @@ public  void NewArea(double[] area){
 	 max=GetResult();
 	 return max;
 	 }
- public   double GetResult(){
+ private   double GetResult(){
 	 
 	 List RList=new ArrayList();
 	 List RList1=new ArrayList();
@@ -57,11 +75,13 @@ public  void NewArea(double[] area){
 	 InputResultData ISD=new InputResultData("stap90.out");
 	 List ResultList=ISD.GetInputData( " D I S P L A C E M E N T S");
 	 Iterator itor=ResultList.iterator();
-	 double max=0;
-	 int i=0;
+	 double max1=0,max2=0,average=0.0;
+	 int i=0,num=0;
+	 
 	 while(itor.hasNext()){
 		 List list=(List)itor.next();
 		 Iterator it=list.iterator();
+		 
 		 
 		 it.hasNext();
 		 it.next();
@@ -69,29 +89,52 @@ public  void NewArea(double[] area){
 			 double temp=0;
 			 while(it.hasNext()){
 				 double d=Double.parseDouble((String)it.next());
+				 d=Math.abs(d);
 				 temp+=d*d;
 			 }
-			 if(max<temp){
-				 max=temp;
+			 if(max1<temp){
+				 max1=temp;
 			 }
 			 RList1.add(list);
 //			 System.out.println(list);
 		 }
 		 else{
+			 double temp=0;
+			 it.hasNext();
+			 it.next();
+		
+			 if(it.hasNext())
+			 temp=Double.parseDouble((String)it.next());
+			 temp=Math.abs(temp);
+			 average+=temp;
+			 ++num;
+			 if(max2<temp){
+				 max2=temp;
+			 }
+				 
 			 RList2.add(list);
+//			 System.out.println(R+"  "+BALLRAEA+"   "+FLOAD);
 //			 System.out.println(list);
 		 }
 	 
 	 }
-	 max=Math.sqrt(max);
-	 RList1.add(max);
+	 average/=num;
+	 max1=Math.sqrt(max1);
+	 RList1.add(max1);
+	 RList2.add(max2);
 	 RList.add(RList1);
 	 RList.add(RList2);
-//	 System.out.println(max);
-	 return max;
+	 
+	 if(max2>MAX_FORCE){
+		 average=-1;
+	 }
+//	 System.out.println(RList1.size());
+//	 System.out.println(RList2.size());
+//	 System.out.println(max1+"    "+max2+" "+average);
+	 return average;
 	 
  }
- private  double CaculateOutputData(){
+ public  double CaculateOutputData(){
 	 double max=0;
 	 List  list=new ArrayList();
 	 list.add(OcdList.size());
@@ -104,7 +147,7 @@ public  void NewArea(double[] area){
 
 	 
 	 Iterator itor=OcdList.iterator();
-	 System.out.println(OcdList.size());
+//	 System.out.println(OcdList.size());
      while(itor.hasNext()){
     	 List  SubList=(List)itor.next();
     	 double length=SubList.size()+1;
@@ -142,7 +185,12 @@ public  void NewArea(double[] area){
    List SubList2=new ArrayList();
    SubList2.add(i+1);
    SubList2.add(IDIRN);
-   SubList2.add(FLOAD);
+   if((i<OcdList.size()/2-1)||(i==OcdList.size()-2)){
+   SubList2.add(FLOAD/OcdList.size());
+   }
+   else{
+	   SubList2.add(0);
+   }
    OutputData.add(SubList2);
    }
    
@@ -162,22 +210,17 @@ public  void NewArea(double[] area){
  }
  
  Iterator Eitor= MemList.iterator();
- int i=0;
+
  while(Eitor.hasNext()){
 	 List subList5=(List)Eitor.next();
 	 List EList=new ArrayList();
 	 EList.add(Integer.parseInt((String)subList5.get(0)));
 	 EList.add(Integer.parseInt((String)subList5.get(6)));
 	 EList.add(Integer.parseInt((String)subList5.get(7)));
-//	 need replace
-	 switch(++i){
-	 case 1:           MTYP=1;break;
-	 case 385:       MTYP=2;break;
-	 case 1105:     MTYP=3;break;
-	 case 1489:     MTYP=4;break;
-	 case 2209:     MTYP=5;break;
-	 default:         break;
-	 }
+	 
+	 MTYP= Integer.parseInt((String)subList5.get(3));
+//	 System.out.println(Integer.parseInt((String)subList5.get(0))+"---->"+MTYP);
+	
 	 EList.add(MTYP);
 	 EList.add(KG);
 	 OutputData.add(EList); 
