@@ -66,7 +66,7 @@ public class TestFET {
             	for(int bb=0; bb<=0;bb++){       
 //            	a1.Calculate(200, 40, 5, scopes5, new FetMaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output);
             	           	
-            	a1.Calculate(200, 40, 24, scopes5, new FetMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output);
+            	a1.Calculate(100, 40, 24, scopes5, new FetMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output);
             		 output.write("\n");
             		 output.flush();
                 	

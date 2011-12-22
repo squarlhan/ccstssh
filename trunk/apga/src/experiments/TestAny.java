@@ -187,9 +187,9 @@ public class TestAny {
 			double lamda =0.8;
 			double lamda2 =0.8;
 			double p_extra0 =0.00;
-			double p_extra =0.01;
+			double p_extra =0.002;
 			int ap_max = 100;
-			double ap_lamda = 0.8;
+			double ap_lamda = 0.9;
 //            while(lamda2<=1.05){
             	for(int bb=0; bb<=0;bb++){       
 //            	a1.Calculate(200, 40, 30, scopes100, new MaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output[0]);

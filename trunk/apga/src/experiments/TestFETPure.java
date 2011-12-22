@@ -122,7 +122,7 @@ public class TestFETPure {
 			
 			
 			for(int a=0; a<=0;a++){
-				se.runga(200, 24, 40, 1.0,  2.5, new FetMaxFunction(), output);
+				se.runga(100, 24, 40, 1.0,  2.5, new FetMaxFunction(), output);
 					output.write("\n");
 					output.flush();
 			}
