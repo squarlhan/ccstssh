@@ -86,12 +86,12 @@ public class TestFET {
 			int ap_max = 100;
 			double ap_lamda = 0.8;
 			// while(lamda2<=1.05){
-			for (int bb = 0; bb <= 0; bb++) {
+			for (int bb = 10; bb <= 0; bb++) {
 				startTime = System.currentTimeMillis();
 				// a1.Calculate(200, m, n, scopes5, new FetMaxFunction(),
 				// p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output);
 
-				a1.Calculate(1, m, n, scopes5, new FetMaxFunction(),
+				a1.Calculate(100, m, n, scopes5, new FetMaxFunction(),
 						p_lamda, p_extra, ap_max, ap_lamda, lamda, output);
 				endTime = System.currentTimeMillis();
 				output.write("\n");
@@ -109,6 +109,7 @@ public class TestFET {
 			// lamda2+=0.05;
 			// }
 			output.close();
+			popoutput.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
