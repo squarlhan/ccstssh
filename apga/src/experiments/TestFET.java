@@ -48,7 +48,7 @@ public class TestFET {
 		    scopes5.add(sp5);
 		}
 		try {
-			String prefix = "1_";
+			String prefix = "10_";
 			
 			File result = new File(prefix+"ap_fet.txt");
 			
@@ -63,8 +63,8 @@ public class TestFET {
 			int ap_max = 100;
 			double ap_lamda = 0.8;
 //            while(lamda2<=1.05){
-            	for(int bb=0; bb<=0;bb++){       
-//            	a1.Calculate(200, 40, 5, scopes5, new FetMaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output);
+            	for(int bb=0; bb<=10;bb++){       
+//            	a1.Calculate(200, 40, 24, scopes5, new FetMaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output);
             	           	
             	a1.Calculate(100, 40, 24, scopes5, new FetMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output);
             		 output.write("\n");
