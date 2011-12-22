@@ -20,72 +20,103 @@ import org.jgap.impl.DoubleGene;
 import experiments.apga.APGA;
 import experiments.apga.clustObjectFun;
 
-
 public class TestFET {
 
-	
-	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
 
-        
-		
-		
-		long startTime = System.currentTimeMillis();
+		long startTime = 0;
+		long endTime = 0;
 		APGA a1 = new APGA();
 		int m = 40;
 		int n = 24;
+		int sumcount = 0;
 		List<List<Double>> scopes5 = new ArrayList();
-		for(int i = 0; i<=n-1;i++ ){
+		for (int i = 0; i <= n - 1; i++) {
 			List<Double> sp5 = new ArrayList();
-			
-		    sp5.add(1.0);
-		    sp5.add(2.5);
-		    scopes5.add(sp5);
+
+			sp5.add(1.0);
+			sp5.add(2.5);
+			scopes5.add(sp5);
 		}
 		try {
 			String prefix = "10_";
-			
-			File result = new File(prefix+"ap_fet.txt");
-			
+
+			File result = new File(prefix + "ap_fet.txt");
+			if (result.exists()) {
+				result.delete();
+				if (result.createNewFile()) {
+					System.out.println("result  file create success!");
+				} else {
+					System.out.println("result file create failed!");
+				}
+			} else {
+				if (result.createNewFile()) {
+					System.out.println("result file create success!");
+				} else {
+					System.out.println("result file create failed!");
+				}
+			}
+			File popout = new File("apcounts.txt");
+			if (popout.exists()) {
+				popout.delete();
+				if (popout.createNewFile()) {
+					System.out.println("popout  file create success!");
+				} else {
+					System.out.println("popout file create failed!");
+				}
+			} else {
+				if (popout.createNewFile()) {
+					System.out.println("popout file create success!");
+				} else {
+					System.out.println("popout file create failed!");
+				}
+			}
 			BufferedWriter output = new BufferedWriter(new FileWriter(result));
-			
-			double p_lamda =0.8;
-			double p_lamda0 =0.0;
-			double lamda =0.8;
-			double lamda2 =0.8;
-			double p_extra0 =0.00;
-			double p_extra =0.01;
+			BufferedWriter popoutput = new BufferedWriter(new FileWriter(popout));
+			double p_lamda = 0.8;
+			double p_lamda0 = 0.0;
+			double lamda = 0.8;
+			double lamda2 = 0.8;
+			double p_extra0 = 0.00;
+			double p_extra = 0.01;
 			int ap_max = 100;
 			double ap_lamda = 0.8;
-//            while(lamda2<=1.05){
-            	for(int bb=0; bb<=10;bb++){       
-//            	a1.Calculate(200, 40, 24, scopes5, new FetMaxFunction(), p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output);
-            	           	
-            	a1.Calculate(100, 40, 24, scopes5, new FetMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output);
-            		 output.write("\n");
-            		 output.flush();
-                	
-            	}
-//                      for (BufferedWriter op : output) {
-//    					   op.write("\n");
-//    					   op.flush();
-//    					   }
-//				lamda2+=0.05;
-//			}
-				output.close();
+			// while(lamda2<=1.05){
+			for (int bb = 0; bb <= 0; bb++) {
+				startTime = System.currentTimeMillis();
+				// a1.Calculate(200, m, n, scopes5, new FetMaxFunction(),
+				// p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output);
+
+				a1.Calculate(1, m, n, scopes5, new FetMaxFunction(),
+						p_lamda, p_extra, ap_max, ap_lamda, lamda, output);
+				endTime = System.currentTimeMillis();
+				output.write("\n");
+				output.flush();
+				popoutput.write(String.valueOf(endTime - startTime) + "ms \t");
+				popoutput.write(String.valueOf(FetMaxFunction.counts) + "\n");
+				sumcount+=FetMaxFunction.counts;
+				FetMaxFunction.counts = 0;
+				popoutput.flush();
+			}
+			// for (BufferedWriter op : output) {
+			// op.write("\n");
+			// op.flush();
+			// }
+			// lamda2+=0.05;
+			// }
+			output.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		long endTime = System.currentTimeMillis();
 		System.out.println("运行时间 " + (endTime - startTime) + "ms");
-		System.out.println("fet计算次数：" + FetMaxFunction.counts);
+		System.out.println("fet计算次数：" + sumcount);
+
 	}
 
 }
