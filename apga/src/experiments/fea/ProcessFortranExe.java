@@ -11,7 +11,7 @@ public boolean Fortran(){
 	boolean flag=false;
 	try{
 		 
-		String command="stap90.exe";
+		String command="STAP90.exe";
 		process=rt.exec(command);
 		 BufferedInputStream in = new BufferedInputStream(process.getInputStream());   
          BufferedReader inBr = new BufferedReader(new InputStreamReader(in));   
