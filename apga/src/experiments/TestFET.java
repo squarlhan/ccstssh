@@ -21,6 +21,8 @@ import experiments.apga.APGA;
 import experiments.apga.clustObjectFun;
 
 public class TestFET {
+	
+	public static int falsecount = 0;
 
 	/**
 	 * @param args
@@ -86,7 +88,7 @@ public class TestFET {
 			int ap_max = 100;
 			double ap_lamda = 0.8;
 			// while(lamda2<=1.05){
-			for (int bb = 10; bb <= 0; bb++) {
+			for (int bb = 0; bb <= 0; bb++) {
 				startTime = System.currentTimeMillis();
 				// a1.Calculate(200, m, n, scopes5, new FetMaxFunction(),
 				// p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output);
@@ -97,9 +99,11 @@ public class TestFET {
 				output.write("\n");
 				output.flush();
 				popoutput.write(String.valueOf(endTime - startTime) + "ms \t");
-				popoutput.write(String.valueOf(FetMaxFunction.counts) + "\n");
+				popoutput.write("True: "+String.valueOf(FetMaxFunction.counts) + "\t");
+				popoutput.write("False: "+String.valueOf(falsecount) + "\t");
 				sumcount+=FetMaxFunction.counts;
 				FetMaxFunction.counts = 0;
+				falsecount = 0;
 				popoutput.flush();
 			}
 			// for (BufferedWriter op : output) {
