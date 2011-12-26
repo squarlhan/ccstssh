@@ -76,11 +76,18 @@ public class Chromosome
    */
   private Object m_applicationData;
   private boolean iscenter = false;
-
+  private List  fitnesslist=null;
   public boolean isIscenter() {
 	return iscenter;
 }
-
+public void SetFitnessList(List list){
+	if(list!=null){
+	this.fitnesslist=list;
+	}
+}
+public List GetFitnessList(){
+	return this.fitnesslist;
+}
 public void setIscenter(boolean iscenter) {
 	this.iscenter = iscenter;
 }

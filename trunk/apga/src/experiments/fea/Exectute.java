@@ -1,5 +1,6 @@
 package experiments.fea;
 import java.util.*;
+import org.jgap.*;
 
 
 public class Exectute {
@@ -10,6 +11,10 @@ private static final double[] E_N={207.0e9,207.0e9,207.0e9},AREA_N={196.25e-5,12
 private static final double R=Math.pow(625.0, 1.0/3),BALLRAEA=2*Math.PI*(R)*(R),SNOW=600*0.5,FLOAD=(BALLRAEA*SNOW*9.8),MAX_FORCE=2.35e8;
 private static final double[]  E=new double[NPAR3], AREA=new double[NPAR3];
 private static int MTYP=0;
+private IChromosome IChrom=null;
+public Exectute(IChromosome a_subject){
+	this.IChrom=a_subject;
+}
 private static void Init(){
 	for(int i=0;i<NPAR3;i++){
 		E[i]=E_N[i/8];
@@ -75,7 +80,7 @@ public  void NewArea(double[] area){
 	 InputResultData ISD=new InputResultData("stap90.out");
 	 List ResultList=ISD.GetInputData( " D I S P L A C E M E N T S");
 	 Iterator itor=ResultList.iterator();
-	 double max1=0,max2=0,average=0.0;
+	 double max1=0,max2=0,min2=0,average=0.0;
 	 int i=0,num=0;
 	 
 	 while(itor.hasNext()){
@@ -95,7 +100,7 @@ public  void NewArea(double[] area){
 			 if(max1<temp){
 				 max1=temp;
 			 }
-			 RList1.add(list);
+			 RList1.add(temp);
 //			 System.out.println(list);
 		 }
 		 else{
@@ -111,26 +116,33 @@ public  void NewArea(double[] area){
 			 if(max2<temp){
 				 max2=temp;
 			 }
+			 else if(min2>temp){
+				 min2=temp;
+			 }
 				 
-			 RList2.add(list);
+			 RList2.add(temp);
 //			 System.out.println(R+"  "+BALLRAEA+"   "+FLOAD);
 //			 System.out.println(list);
 		 }
 	 
 	 }
 	 average/=num;
-	 max1=Math.sqrt(max1);
-	 RList1.add(max1);
-	 RList2.add(max2);
-	 RList.add(RList1);
-	 RList.add(RList2);
-	 
 	 if(max2>MAX_FORCE){
 		 average=-1;
 	 }
+	 max1=Math.sqrt(max1);
+	 RList1.add(max1);
+	 RList2.add(max2);
+	 RList2.add(average);
+	 RList2.add(min2);
+	 RList.add(RList1);
+	 RList.add(RList2);
+	 IChrom.SetFitnessList(RList);
+
 //	 System.out.println(RList1.size());
 //	 System.out.println(RList2.size());
 //	 System.out.println(max1+"    "+max2+" "+average);
+//	 return max2;
 	 return average;
 	 
  }

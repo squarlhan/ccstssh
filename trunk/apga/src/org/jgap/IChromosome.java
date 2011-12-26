@@ -10,6 +10,8 @@
 package org.jgap;
 
 import java.io.*;
+import java.util.List;
+
 import org.jgap.util.*;
 
 /**
@@ -298,5 +300,8 @@ public interface IChromosome
   public boolean isIscenter() ;
 
 	public void setIscenter(boolean iscenter) ;
+	
+	public void SetFitnessList(List list);
+	public List GetFitnessList();
 
 }
