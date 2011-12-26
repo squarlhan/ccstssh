@@ -24,6 +24,8 @@ import org.jgap.InvalidConfigurationException;
 import org.jgap.Population;
 import org.jgap.impl.DoubleGene;
 
+import experiments.TestFET;
+
 import affinitymain.CommandLineParser;
 import affinitymain.InteractionData;
 import affinitymain.RunAlgorithm;
@@ -34,6 +36,7 @@ public class clustObjectFun {
 	private static List<Integer> results;
 	private static List<Double> objects;
 	public static int mycount = 0;
+	public int falsecount = 0;
 
     
     /**
@@ -294,7 +297,7 @@ public class clustObjectFun {
     	return newpattern;
     }
     
-    private static List<Integer> getPatternfromPop(Population pop, double cutoff, APGA obj){
+    private List<Integer> getPatternfromPop(Population pop, double cutoff, APGA obj){
     	List<Integer> result = new ArrayList();
     	//首先把pop转成二进制
     	List<List<Integer>> popbin = new ArrayList();
@@ -411,7 +414,7 @@ public class clustObjectFun {
      * @param cutoff 有多少gene匹配上，认为这个染色体符合这个模式
      * @return
      */
-    private static boolean EstimateFitnessBybin(IChromosome chrom, APGA obj, List<Integer> newpattern){
+    private boolean EstimateFitnessBybin(IChromosome chrom, APGA obj, List<Integer> newpattern){
     	boolean result = true;
     	int n = chrom.size();
     	List<Integer> chrombin = new ArrayList();
@@ -433,12 +436,12 @@ public class clustObjectFun {
     	return result;
     }
     
-    public static  Double calconeFittnessValue(IChromosome chrom, APGA obj,  FitnessFunction fitness){
+    public  Double calconeFittnessValue(IChromosome chrom, APGA obj,  FitnessFunction fitness){
     	obj.setnIterateCount(obj.getnIterateCount()+1);
     	return fitness.evaluate(chrom);
     }
     
-    public static  List<Double> calcFittnessValueDrictely(Population pop, APGA obj,  FitnessFunction fitness, double cutoff){
+    public  List<Double> calcFittnessValueDrictely(Population pop, APGA obj,  FitnessFunction fitness, double cutoff){
    
     	List<Double> objects = new ArrayList();
     	List<Integer> nullfitset = new  ArrayList();
@@ -462,8 +465,8 @@ public class clustObjectFun {
     	return objects;
     }
     
-    public static  List<Double> calcFittnessValue(Population pop, APGA obj,  FitnessFunction fitness, List<Integer> results, double[][] datamatrix, double lamda, double cutoff, double extra, BufferedWriter output){
-
+    public  List<Double> calcFittnessValue(Population pop, APGA obj,  FitnessFunction fitness, List<Integer> results, double[][] datamatrix, double lamda, double cutoff, double extra, BufferedWriter output){
+    	
     	//确保没有算过适应度的个体的染色体都是false
     	
     	int oldpopsize = pop.getConfiguration().getPopulationSize();
@@ -605,6 +608,8 @@ public class clustObjectFun {
 			if(pop.getChromosome(i).getFitnessValueDirectly()<0||!((Chromosome)pop.getChromosome(i)).isIscenter()){
 			    pop.getChromosome(i).setFitnessValue(tempfit);
 			    ((Chromosome)pop.getChromosome(i)).setIscenter(false);
+			    falsecount++;
+			    TestFET.falsecount++;
 			}
 		}
 
@@ -615,7 +620,8 @@ public class clustObjectFun {
 //			    output.write(dd + "\t");
 //		}
 //		output.write((centers.size()-40)+"\n");
-//		output.flush();
+//			output.write("false: "+String.valueOf(falsecount)+"\n");
+//		    output.flush();
 //	} catch (IOException e) {
 //		// TODO Auto-generated catch block
 //		e.printStackTrace();
@@ -652,13 +658,13 @@ public class clustObjectFun {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-		
+
 		return objects;
 	}
 	
     
     
-    private static int match(List<Integer> pattern,  IChromosome chrom, APGA obj){
+    private int match(List<Integer> pattern,  IChromosome chrom, APGA obj){
     	int result = 0;
     	int n = chrom.size();
     	List<Integer> chrombin = new ArrayList();
@@ -676,7 +682,7 @@ public class clustObjectFun {
     }
     
   //二进制分三部分，第一位是符号位，接下来几位表示整数部分，最后一些是小数部分
-  	private static List<Integer> doube2binary2(double min, double max, int p, double num){
+  	private List<Integer> doube2binary2(double min, double max, int p, double num){
   		List<Integer> result = new ArrayList();
   		//首先确定符号，1表示+，0表示-
   		int sign = num<0?0:1;
@@ -710,7 +716,7 @@ public class clustObjectFun {
   		}
   		return result;
   	}
-    private static List<Integer> doube2binary(double min, double max, int p, double num){
+    private List<Integer> doube2binary(double min, double max, int p, double num){
 		List<Integer> result = new ArrayList();
 		int rank = (int) ((Math.pow(2, p)-1)*(num-min)/(max-min));
 		String temp = Integer.toBinaryString(rank);

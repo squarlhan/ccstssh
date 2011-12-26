@@ -197,13 +197,13 @@ public void setLocalPop(Population localPop) {
 		}
 		DecimalFormat myformat = new DecimalFormat("#0.00");
 		try {
-			output.write(fittest.getFitnessValueDirectly() + "\t");
+//			output.write(fittest.getFitnessValueDirectly() + "\t");
             output.flush();
-            output.write("\n");
+//            output.write("\t");
 			for (int i = 0; i < chromeSize; i++) {
 				System.out.print(myformat
 						.format(fittest.getGene(i).getAllele()) + "	");
-				output.write(myformat.format(fittest.getGene(i).getAllele())+ "	");
+//				output.write(myformat.format(fittest.getGene(i).getAllele())+ "	");
 			}
 //			for(int i = 0;i<=popSize-1;i++){
 //				for (int j = 0; j < chromeSize; j++) {
