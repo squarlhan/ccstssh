@@ -57,7 +57,7 @@ public class FetMaxFunction
    */
   public double evaluate(IChromosome a_subject) {
     double total = 0;
-     final double MAXFOCRCE=2.35e8,MIN_AREA=24*1.0,MAX_AREA=24*2.5;
+     final double MAXFOCRCE=2.35e8,MIN_AREA=2849*1.0,MAX_AREA=2849*2.5;
     int time_delay = 0;
     try {
 		Thread.sleep(time_delay);
@@ -97,7 +97,8 @@ public class FetMaxFunction
     fea.NewArea(rs);
     double result  = fea.CaculateOutputData();
     long endtime=System.currentTimeMillis();
-    System.out.println("runtime"+(endtime-starttime)+"ms");
+//    System.out.println("runtime"+(endtime-starttime)+"ms");
+    
     List list=a_subject.GetFitnessList();
     Iterator  itor=list.iterator();
     boolean isArea=true;
@@ -119,6 +120,7 @@ public class FetMaxFunction
     		Min_Force=(Double)subitor.next();
     	}
     }
+//    System.out.println(Max_Force+"  "+Average_Force+"  "+Min_Force);
 //    System.out.println(1/result);
     counts ++;
     
@@ -126,18 +128,22 @@ public class FetMaxFunction
 //    double result = n*Math.pow(100, 2.0)-total; 
 //    result = 1000*(result)/(n*Math.pow(100, 2.0));
     
-//    result=(Math.exp(-(sum-MIN_AREA)/(MAX_AREA-MIN_AREA))/(1+Math.exp(400*(result/MAXFOCRCE-1))))*1000;
+    result=(Math.exp(-0.5*(result-MIN_AREA)/(MAX_AREA-MIN_AREA)-0.5*(1-Average_Force/MAXFOCRCE))/(1+Math.exp(400*(Max_Force/MAXFOCRCE-1))))*1000;
 //    if(result<0.0){
 //    	result=0;
 //    }
-//    return result;
-    
-    if(result!=-1){
-    result =((MAX_AREA-sum)/(MAX_AREA-MIN_AREA)+1-result/MAXFOCRCE)*500;
+    System.out.print("  "+result);
+    if(counts%15==0){
+    	System.out.println();
+    }
     return result;
-    }
-    else{
-    	return 0;
-    }
+    
+//    if(result!=-1){
+//    result =((MAX_AREA-sum)/(MAX_AREA-MIN_AREA)+1-result/MAXFOCRCE)*500;
+//    return result;
+//    }
+//    else{
+//    	return 0;
+//    }
   }
 }
