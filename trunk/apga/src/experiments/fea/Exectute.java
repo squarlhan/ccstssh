@@ -142,7 +142,7 @@ public  void NewArea(double[] area){
 	 RList2.add(min2);
 	 RList.add(RList1);
 	 RList.add(RList2);
-//	 IChrom.SetFitnessList(RList);
+	 if(IChrom!=null) IChrom.SetFitnessList(RList);
 
 //	 System.out.println(RList1.size());
 //	 System.out.println(RList2.size());
