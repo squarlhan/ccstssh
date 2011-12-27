@@ -57,7 +57,8 @@ public class FetMaxFunction
    */
   public double evaluate(IChromosome a_subject) {
     double total = 0;
-     final double MAXFOCRCE=2.35e8,MIN_AREA=2849*1.0,MAX_AREA=2849*2.5;
+//     final double MAXFOCRCE=2.35e8,MIN_AREA=2849*1.0,MAX_AREA=2849*2.5;
+     final double MAXFOCRCE=2.35e8,MIN_AREA=24*1.0,MAX_AREA=24*2.5;
     int time_delay = 0;
     try {
 		Thread.sleep(time_delay);
