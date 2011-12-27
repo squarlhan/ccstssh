@@ -106,7 +106,7 @@ public class TestFET {
 				popoutput.write("False: "+String.valueOf(falsecount) + "\t");
 				popoutput.write("Fitness: "+String.valueOf(re.getFitnessValueDirectly()) + "\t");
 				for (int i = 0; i < re.size(); i++) {
-					output.write(myformat.format(re.getGene(i).getAllele()) + "\t");
+					popoutput.write(myformat.format(re.getGene(i).getAllele()) + "\t");
 				}
 				popoutput.write("\n");
 				sumcount+=FetMaxFunction.counts;
