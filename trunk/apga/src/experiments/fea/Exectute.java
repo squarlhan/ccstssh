@@ -16,6 +16,8 @@ private IChromosome IChrom=null;
 public Exectute(IChromosome a_subject){
 	this.IChrom=a_subject;
 }
+public Exectute(){
+}
 private static void Init(){
 	for(int i=0;i<NPAR3;i++){
 		E[i]=E_N[i/8];
@@ -140,13 +142,13 @@ public  void NewArea(double[] area){
 	 RList2.add(min2);
 	 RList.add(RList1);
 	 RList.add(RList2);
-	 IChrom.SetFitnessList(RList);
+//	 IChrom.SetFitnessList(RList);
 
 //	 System.out.println(RList1.size());
 //	 System.out.println(RList2.size());
 //	 System.out.println(max1+"    "+max2+" "+average);
-//	 return max2;
-	 return SumArea;
+//	 return average;
+	 return max2;
 	 
  }
  public  double CaculateOutputData(){

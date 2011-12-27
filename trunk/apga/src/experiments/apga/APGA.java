@@ -93,7 +93,7 @@ public void setLocalPop(Population localPop) {
 	 * @param chromeSize     参数个数
 	 * @param max_gen        基因算法内部优化迭代次数
 	 */
-	public void Calculate(int max_gen, int popSize, int chromeSize, List<List<Double>> scopes, FitnessFunction fitness, 
+	public IChromosome Calculate(int max_gen, int popSize, int chromeSize, List<List<Double>> scopes, FitnessFunction fitness, 
 			double p_lamda, double p_extra,	int ap_max, double ap_lamda, double lamda, BufferedWriter output) {
 		nIterateCount=0;
 		bestPop = null;
@@ -138,29 +138,20 @@ public void setLocalPop(Population localPop) {
         	//Start GA
 			genotype.evolve(this, fitness, ap_max, ap_lamda, lamda, p_lamda, p_extra, output);
 			// Print progress.
-//			try {
-//				Population temppop = genotype.getPopulation();
-//				for (IChromosome mychrom : temppop.getChromosomes()) {
-//					output.write(Math.abs(fitness.evaluate(mychrom)-mychrom.getFitnessValueDirectly()) + "\t");
-//				}
+			IChromosome fittest  = genotype.getFittestChromosome();
+			double bestfitness = fittest.getFitnessValue();
+			try {
+				output.write(fittest.getFitnessValueDirectly() + "\t");
+	            output.flush();
 //				output.write("\n");
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			progress++;
 			// ---------------
 			if (percentEvolution > 0 && i % percentEvolution == 0) {
-				
-				IChromosome fittest  = genotype.getFittestChromosome();
-				double sum = 0;
-				double bestfitness = fittest.getFitnessValue();
 				System.out.println("Currently fittest Chromosome has fitness "+ bestfitness);
-//			    for (int j = 0; j < fittest.size(); j++) {
-//			        sum += (Double)fittest.getGene(j).getAllele(); ;
-//			    }				
-//			    double max =  (1/bestfitness)-(sum*fittest.size());
-//				System.out.println("Currently fittest Chromosome has fitness "+ bestfitness +" max= "+max);
 			}
 		}
 		// Print summary.
@@ -221,7 +212,7 @@ public void setLocalPop(Population localPop) {
 		}
 		
 		//处理返回结果
-
+        return fittest;
 	}// end of this math
 	
 	public Population getLocalWorst() {

@@ -91,14 +91,13 @@ public class FetMaxFunction
     }
 //    System.out.println();
 //    sum=0;
-    long starttime=System.currentTimeMillis();
+//    long starttime=System.currentTimeMillis();
     Exectute fea = new Exectute(a_subject);
     fea.FirstCallFrotran();
     fea.NewArea(rs);
     double result  = fea.CaculateOutputData();
-    long endtime=System.currentTimeMillis();
+//    long endtime=System.currentTimeMillis();
 //    System.out.println("runtime"+(endtime-starttime)+"ms");
-    
     List list=a_subject.GetFitnessList();
     Iterator  itor=list.iterator();
     boolean isArea=true;
@@ -128,13 +127,10 @@ public class FetMaxFunction
 //    double result = n*Math.pow(100, 2.0)-total; 
 //    result = 1000*(result)/(n*Math.pow(100, 2.0));
     
-    result=(Math.exp(-0.5*(result-MIN_AREA)/(MAX_AREA-MIN_AREA)-0.5*(1-Average_Force/MAXFOCRCE))/(1+Math.exp(400*(Max_Force/MAXFOCRCE-1))))*1000;
-//    if(result<0.0){
-//    	result=0;
-//    }
-    System.out.print("  "+result);
-    if(counts%15==0){
-    	System.out.println();
+    result=(Math.exp(-(sum-MIN_AREA)/(MAX_AREA-MIN_AREA))/(1+Math.exp(400*(result/MAXFOCRCE-1))))*1000;
+//result=(Math.exp(-0.5*(result-MIN_AREA)/(MAX_AREA-MIN_AREA)-0.5*(1-Average_Force/MAXFOCRCE))/(1+Math.exp(400*(Max_Force/MAXFOCRCE-1))))*1000;
+    if(result<0.0){
+    	result=0;
     }
     return result;
     
