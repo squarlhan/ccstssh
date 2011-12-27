@@ -11,6 +11,7 @@ private static final double[] E_N={207.0e9,207.0e9,207.0e9},AREA_N={196.25e-5,12
 private static final double R=Math.pow(625.0, 1.0/3),BALLRAEA=2*Math.PI*(R)*(R),SNOW=600*0.5,FLOAD=(BALLRAEA*SNOW*9.8),MAX_FORCE=2.35e8;
 private static final double[]  E=new double[NPAR3], AREA=new double[NPAR3];
 private static int MTYP=0;
+private static double SumArea=0.0;
 private IChromosome IChrom=null;
 public Exectute(IChromosome a_subject){
 	this.IChrom=a_subject;
@@ -80,7 +81,7 @@ public  void NewArea(double[] area){
 	 InputResultData ISD=new InputResultData("stap90.out");
 	 List ResultList=ISD.GetInputData( " D I S P L A C E M E N T S");
 	 Iterator itor=ResultList.iterator();
-	 double max1=0,max2=0,min2=0,average=0.0;
+	 double max1=0,max2=0,min2=Double.MAX_VALUE ,average=0.0;
 	 int i=0,num=0;
 	 
 	 while(itor.hasNext()){
@@ -116,8 +117,9 @@ public  void NewArea(double[] area){
 			 if(max2<temp){
 				 max2=temp;
 			 }
-			 else if(min2>temp){
+			 if(min2>temp&&temp!=0){
 				 min2=temp;
+//				 System.out.println(temp);
 			 }
 				 
 			 RList2.add(temp);
@@ -127,6 +129,7 @@ public  void NewArea(double[] area){
 	 
 	 }
 	 average/=num;
+//	 System.out.println(num);
 	 if(max2>MAX_FORCE){
 		 average=-1;
 	 }
@@ -143,7 +146,7 @@ public  void NewArea(double[] area){
 //	 System.out.println(RList2.size());
 //	 System.out.println(max1+"    "+max2+" "+average);
 //	 return max2;
-	 return average;
+	 return SumArea;
 	 
  }
  public  double CaculateOutputData(){
@@ -219,10 +222,12 @@ public  void NewArea(double[] area){
 	 SubList4.add(E[i]);
 	 SubList4.add(AREA[i]);
 	 OutputData.add(SubList4);
+//	 System.out.println(SubList4.size());
  }
  
  Iterator Eitor= MemList.iterator();
-
+ 
+ SumArea=0.0;
  while(Eitor.hasNext()){
 	 List subList5=(List)Eitor.next();
 	 List EList=new ArrayList();
@@ -231,6 +236,7 @@ public  void NewArea(double[] area){
 	 EList.add(Integer.parseInt((String)subList5.get(7)));
 	 
 	 MTYP= Integer.parseInt((String)subList5.get(3));
+	 SumArea+=(Math.sqrt(AREA[MTYP-1]/3.14));
 //	 System.out.println(Integer.parseInt((String)subList5.get(0))+"---->"+MTYP);
 	
 	 EList.add(MTYP);
