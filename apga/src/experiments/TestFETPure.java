@@ -29,7 +29,7 @@ public class TestFETPure {
 	/** String containing the CVS revision. Read out via reflection! */
 	private static final String CVS_REVISION = "$Revision: 1.9 $";
 	
-	public void runga(int ng, int chromeSize, int popsize, double left, double right, FitnessFunction fitnessfun, BufferedWriter output){
+	public IChromosome runga(int ng, int chromeSize, int popsize, double left, double right, FitnessFunction fitnessfun, BufferedWriter output){
 		long startTime = System.currentTimeMillis();
 		int numEvolutions = ng;
 		Configuration gaConf = new DefaultConfiguration();
@@ -60,16 +60,22 @@ public class TestFETPure {
 			genotype.evolve();
 			// Print progress.
 			// ---------------
+			IChromosome fittest = genotype.getFittestChromosome();
+			double fitness = fittest.getFitnessValue();
+			try {
+				output.write(fitness + "\t");
+				output.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			if (percentEvolution > 0 && i % percentEvolution == 0) {
 				progress++;
-				IChromosome fittest = genotype.getFittestChromosome();
-				double sum = 0;
-			    for (int j = 0; j < fittest.size(); j++) {
-			        sum += (Double)fittest.getGene(j).getAllele(); ;
-			    }
-				double fitness = fittest.getFitnessValue();
-			    double max =  (1/fitness)-(sum*fittest.size());
-				System.out.println("Currently fittest Chromosome has fitness "+ fitness +" max= "+max);
+//				double sum = 0;
+//			    for (int j = 0; j < fittest.size(); j++) {
+//			        sum += (Double)fittest.getGene(j).getAllele(); ;
+//			    }
+//			    double max =  (1/fitness)-(sum*fittest.size());
+				System.out.println("Currently fittest Chromosome has fitness "+ fitness);
 			}
 		}
 		// Print summary.
@@ -78,7 +84,7 @@ public class TestFETPure {
 		System.out.println("Fittest Chromosome has fitness "
 				+ (fittest.getFitnessValue()));
 		try {
-			output.write(fittest.getFitnessValue() + "\t");
+//			output.write(fittest.getFitnessValue() + "\t");
 
 			DecimalFormat myformat = new DecimalFormat("#0.00");
 			for (int i = 0; i < chromeSize; i++) {
@@ -98,6 +104,7 @@ public class TestFETPure {
 		long endTime = System.currentTimeMillis();
 		System.out.println("运行时间 " + (endTime - startTime) + "ms");
 		System.out.println("sum counts:  "+ FetMaxFunction.counts);
+		return fittest;
 	}
 
 	/**
@@ -113,18 +120,59 @@ public class TestFETPure {
 	 * @since 2.0
 	 */
 	public static void main(String[] args) throws IOException {
-
+		long startTime = 0;
+		long endTime = 0;
 		TestFETPure se = new TestFETPure();	
 		
 		try {
 			File result = new File("ga_fet.txt");
+			if (result.exists()) {
+				result.delete();
+				if (result.createNewFile()) {
+					System.out.println("result  file create success!");
+				} else {
+					System.out.println("result file create failed!");
+				}
+			} else {
+				if (result.createNewFile()) {
+					System.out.println("result file create success!");
+				} else {
+					System.out.println("result file create failed!");
+				}
+			}
+			File popout = new File("gacounts.txt");
+			if (popout.exists()) {
+				popout.delete();
+				if (popout.createNewFile()) {
+					System.out.println("popout  file create success!");
+				} else {
+					System.out.println("popout file create failed!");
+				}
+			} else {
+				if (popout.createNewFile()) {
+					System.out.println("popout file create success!");
+				} else {
+					System.out.println("popout file create failed!");
+				}
+			}
 			BufferedWriter output = new BufferedWriter(new FileWriter(result));
-			
-			
-			for(int a=0; a<=0;a++){
-				se.runga(100, 24, 40, 1.0,  2.5, new FetMaxFunction(), output);
-					output.write("\n");
-					output.flush();
+			BufferedWriter popoutput = new BufferedWriter(new FileWriter(popout));
+			DecimalFormat myformat = new DecimalFormat("#0.00");
+			for(int a=0; a<=9;a++){
+				startTime = System.currentTimeMillis();
+				IChromosome re = se.runga(100, 24, 40, 1.0,  2.5, new FetMaxFunction(), output);
+				endTime = System.currentTimeMillis();
+				output.write("\n");
+				output.flush();
+				popoutput.write(String.valueOf(endTime - startTime) + "ms \t");
+				popoutput.write(FetMaxFunction.counts + " \t");
+				popoutput.write(re.getFitnessValueDirectly() + " \t");
+				for (int i = 0; i < re.size(); i++) {
+					popoutput.write(myformat.format(re.getGene(i).getAllele()) + "\t");
+				}
+				FetMaxFunction.counts  = 0;
+				popoutput.write("\n");
+				popoutput.flush();
 			}
 			
 	

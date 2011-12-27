@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.jgap.FitnessFunction;
+import org.jgap.IChromosome;
 import org.jgap.impl.DoubleGene;
 
 import experiments.apga.APGA;
@@ -62,7 +64,7 @@ public class TestFET {
 					System.out.println("result file create failed!");
 				}
 			}
-			File popout = new File("apcounts.txt");
+			File popout = new File("10_apcounts.txt");
 			if (popout.exists()) {
 				popout.delete();
 				if (popout.createNewFile()) {
@@ -87,13 +89,14 @@ public class TestFET {
 			double p_extra = 0.01;
 			int ap_max = 100;
 			double ap_lamda = 0.8;
+			DecimalFormat myformat = new DecimalFormat("#0.00");
 			// while(lamda2<=1.05){
-			for (int bb = 0; bb <= 0; bb++) {
+			for (int bb = 0; bb <= 9; bb++) {
 				startTime = System.currentTimeMillis();
 				// a1.Calculate(200, m, n, scopes5, new FetMaxFunction(),
 				// p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output);
 
-				a1.Calculate(100, m, n, scopes5, new FetMaxFunction(),
+				IChromosome re = a1.Calculate(100, m, n, scopes5, new FetMaxFunction(),
 						p_lamda, p_extra, ap_max, ap_lamda, lamda, output);
 				endTime = System.currentTimeMillis();
 				output.write("\n");
@@ -101,6 +104,11 @@ public class TestFET {
 				popoutput.write(String.valueOf(endTime - startTime) + "ms \t");
 				popoutput.write("True: "+String.valueOf(FetMaxFunction.counts) + "\t");
 				popoutput.write("False: "+String.valueOf(falsecount) + "\t");
+				popoutput.write("Fitness: "+String.valueOf(re.getFitnessValueDirectly()) + "\t");
+				for (int i = 0; i < re.size(); i++) {
+					output.write(myformat.format(re.getGene(i).getAllele()) + "\t");
+				}
+				popoutput.write("\n");
 				sumcount+=FetMaxFunction.counts;
 				FetMaxFunction.counts = 0;
 				falsecount = 0;
