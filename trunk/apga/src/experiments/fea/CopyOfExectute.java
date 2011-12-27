@@ -3,7 +3,7 @@ import java.util.*;
 import org.jgap.*;
 
 
-public class Exectute {
+public class CopyOfExectute {
 private static List OcdList,MemList;
 private static List OutputData;
 private static final int NUMEG=1, NLCASE=1,MODEX=1,LL=1,IDIRN=3,NPAR1=1,NPAR3=24,KG=0;
@@ -13,10 +13,10 @@ private static final double[]  E=new double[NPAR3], AREA=new double[NPAR3];
 private static int MTYP=0;
 private static double SumArea=0.0;
 private IChromosome IChrom=null;
-public Exectute(IChromosome a_subject){
+public CopyOfExectute(IChromosome a_subject){
 	this.IChrom=a_subject;
 }
-public Exectute(){
+public CopyOfExectute(){
 }
 private static void Init(){
 	for(int i=0;i<NPAR3;i++){
@@ -142,13 +142,13 @@ public  void NewArea(double[] area){
 	 RList2.add(min2);
 	 RList.add(RList1);
 	 RList.add(RList2);
-	 if(IChrom!=null)IChrom.SetFitnessList(RList);
+	 if(IChrom!=null) IChrom.SetFitnessList(RList);
 
 //	 System.out.println(RList1.size());
 //	 System.out.println(RList2.size());
 //	 System.out.println(max1+"    "+max2+" "+average);
-//	 return max2;
-	 return SumArea;
+//	 return average;
+	 return max2;
 	 
  }
  public  double CaculateOutputData(){
@@ -238,7 +238,7 @@ public  void NewArea(double[] area){
 	 EList.add(Integer.parseInt((String)subList5.get(7)));
 	 
 	 MTYP= Integer.parseInt((String)subList5.get(3));
-	 SumArea+=(100*Math.sqrt(AREA[MTYP-1]/3.14));
+	 SumArea+=(Math.sqrt(AREA[MTYP-1]/3.14));
 //	 System.out.println(Integer.parseInt((String)subList5.get(0))+"---->"+MTYP);
 	
 	 EList.add(MTYP);
