@@ -182,7 +182,7 @@ public class TestAny {
 			
 			double gamma =0.002;
 			double c = 300;
-			int percent = 4;
+			int percent = 2;
             	for(int bb=0; bb<=0;bb++){       
             	           	
             	a1.Calculate(200, 40, 30, scopes100, new MaxFunction(), percent, gamma, c, output[0]);
