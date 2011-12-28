@@ -30,12 +30,14 @@ public class GetFit {
 			List<IChromosome> chroms = a_pop.getChromosomes();
 			List<IChromosome> pre_chrom = new ArrayList();
 			for(int i = 0; i<=chroms.size()-1;i++){
-				if(!chroms.get(i).isIscenter()&&i%percent==0){
-					chroms.get(i).getFitnessValue();
-					chroms.get(i).setIscenter(true);
-					obj.getSvmin().add(chroms.get(i));					
-				}else if(!chroms.get(i).isIscenter()&&i%percent!=0){
-					pre_chrom.add(chroms.get(i));
+				if(!chroms.get(i).isIscenter()){
+					if(i%percent==0){
+						chroms.get(i).getFitnessValue();
+						chroms.get(i).setIscenter(true);
+						obj.getSvmin().add(chroms.get(i));
+					}else{
+						pre_chrom.add(chroms.get(i));
+					}
 				}
 			}
 			SVMTest st = new SVMTest();
