@@ -91,18 +91,13 @@ public class FetMaxFunction
     }
 //    System.out.println();
 //    sum=0;
-    long starttime=System.currentTimeMillis();
+//    long starttime=System.currentTimeMillis();
     Exectute fea = new Exectute(a_subject);
     fea.FirstCallFrotran();
     fea.NewArea(rs);
     double result  = fea.CaculateOutputData();
-    long endtime=System.currentTimeMillis();
+//    long endtime=System.currentTimeMillis();
 //    System.out.println("runtime"+(endtime-starttime)+"ms");
-    
-    
-    double res=result;
-    result=0.0;
-    List forcelist=new ArrayList();
     List list=a_subject.GetFitnessList();
     Iterator  itor=list.iterator();
     boolean isArea=true;
@@ -117,7 +112,7 @@ public class FetMaxFunction
     	}
     	else{
     		for(int i=0;i<sublist.size()-3;i++){
-    			forcelist.add(subitor.next());
+    			subitor.next();
     		}
     		Max_Force=(Double)subitor.next();
     	    Average_Force=(Double)subitor.next();
@@ -128,32 +123,17 @@ public class FetMaxFunction
 //    System.out.println(1/result);
     counts ++;
     
-    Iterator fitor=forcelist.iterator();
-    while(fitor.hasNext()){
-    	double temp=(Math.pow((Math.abs((Double)fitor.next())/MAXFOCRCE)-1, 2));
-    	if(temp>=1){
-    		temp*=2;
-    	}
-    	result+=Math.exp(-temp);
-    }
-   result/=(forcelist.size()*2);
-//   System.out.println(result+"  "+res);
-   result+=Math.exp(-(res-MIN_AREA)/(MAX_AREA-MIN_AREA))*0.5;
-   return result*1000;
    
 //    double result = n*Math.pow(100, 2.0)-total; 
 //    result = 1000*(result)/(n*Math.pow(100, 2.0));
     
-//    result=(Math.exp(-0.5*(result-MIN_AREA)/(MAX_AREA-MIN_AREA)-0.5*(1-Average_Force/MAXFOCRCE))/(1+Math.exp(400*(Max_Force/MAXFOCRCE-1))))*1000;
-   
-//    if(result<0.0){
-//    	result=0;
-//    }
-//    System.out.print("  "+result);
-//    if(counts%15==0){
-//    	System.out.println();
-//    }
-//    return result;
+//    result=(Math.exp(-(sum-MIN_AREA)/(MAX_AREA-MIN_AREA))/(1+Math.exp(400*(result/MAXFOCRCE-1))))*1000;
+//    System.out.println(result);
+result=(Math.exp(-0.5*(result-MIN_AREA)/(MAX_AREA-MIN_AREA)-0.5*(Average_Force/MAXFOCRCE))/(1+Math.exp(400*(Max_Force/MAXFOCRCE-1))))*1000;
+    if(result<0.0){
+    	result=0;
+    }
+    return result;
     
 //    if(result!=-1){
 //    result =((MAX_AREA-sum)/(MAX_AREA-MIN_AREA)+1-result/MAXFOCRCE)*500;
