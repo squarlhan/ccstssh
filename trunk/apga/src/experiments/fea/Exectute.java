@@ -73,7 +73,7 @@ public  void NewArea(double[] area){
 		 
 	 }
 	 max=GetResult();
-	 return max;
+	 return SumArea;
 	 }
  private   double GetResult(){
 	 
@@ -132,9 +132,9 @@ public  void NewArea(double[] area){
 	 }
 	 average/=num;
 //	 System.out.println(num);
-	 if(max2>MAX_FORCE){
-		 average=-1;
-	 }
+//	 if(max2>MAX_FORCE){
+//		 average=-1;
+//	 }
 	 max1=Math.sqrt(max1);
 	 RList1.add(max1);
 	 RList2.add(max2);
@@ -142,13 +142,13 @@ public  void NewArea(double[] area){
 	 RList2.add(min2);
 	 RList.add(RList1);
 	 RList.add(RList2);
-	 if(IChrom!=null)IChrom.SetFitnessList(RList);
+	 if(IChrom!=null) IChrom.SetFitnessList(RList);
 
 //	 System.out.println(RList1.size());
 //	 System.out.println(RList2.size());
 //	 System.out.println(max1+"    "+max2+" "+average);
-//	 return max2;
-	 return SumArea;
+//	 return average;
+	 return max2;
 	 
  }
  public  double CaculateOutputData(){
@@ -230,7 +230,9 @@ public  void NewArea(double[] area){
  Iterator Eitor= MemList.iterator();
  
  SumArea=0.0;
+// int aa=0;
  while(Eitor.hasNext()){
+	 
 	 List subList5=(List)Eitor.next();
 	 List EList=new ArrayList();
 	 EList.add(Integer.parseInt((String)subList5.get(0)));
@@ -238,7 +240,9 @@ public  void NewArea(double[] area){
 	 EList.add(Integer.parseInt((String)subList5.get(7)));
 	 
 	 MTYP= Integer.parseInt((String)subList5.get(3));
+//	 double dd=SumArea;
 	 SumArea+=(100*Math.sqrt(AREA[MTYP-1]/3.14));
+//	 System.out.println((SumArea-dd)+"  "+aa++);
 //	 System.out.println(Integer.parseInt((String)subList5.get(0))+"---->"+MTYP);
 	
 	 EList.add(MTYP);
