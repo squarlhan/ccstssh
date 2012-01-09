@@ -183,13 +183,18 @@ public  void NewArea(double[] area){
     	 }
 //    	 need replace
     	 int num=(Integer)iList.get(0);
-    	 for(int j=0;j<6;j++){
-    		 if((num==j*8)||(num==j*8+384)){
-    			 iList.set(1, 1);
-    			 iList.set(2, 1);
-    			 iList.set(3, 1);
-    		 }
-    	 }
+    	 if(((num<=48)&&(num%8==0))||((num>=385)&&(num<=432))){
+			 iList.set(1, 1);
+			 iList.set(2, 1);
+			 iList.set(3, 1);
+		 }
+//    	 for(int j=0;j<=6;j++){
+//    		 if((num==j*8)||(num==j*8+384)){
+//    			 iList.set(1, 1);
+//    			 iList.set(2, 1);
+//    			 iList.set(3, 1);
+//    		 }
+//    	 }
     	 OutputData.add(iList); 
      }
      
