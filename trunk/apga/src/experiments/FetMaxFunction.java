@@ -129,6 +129,9 @@ public class FetMaxFunction
     
 //    result=(Math.exp(-(sum-MIN_AREA)/(MAX_AREA-MIN_AREA))/(1+Math.exp(400*(result/MAXFOCRCE-1))))*1000;
 //    System.out.println(result);
+  //应力最小时优化
+//    result=(Math.exp(-0.5*(result-MIN_AREA)/(MAX_AREA-MIN_AREA)-0.5*(1-Average_Force/MAXFOCRCE))/(1+Math.exp(400*(Max_Force/MAXFOCRCE-1))))*1000;
+    //应力最大时优化
 result=(Math.exp(-0.5*(result-MIN_AREA)/(MAX_AREA-MIN_AREA)-0.5*(Average_Force/MAXFOCRCE))/(1+Math.exp(400*(Max_Force/MAXFOCRCE-1))))*1000;
     if(result<0.0){
     	result=0;
