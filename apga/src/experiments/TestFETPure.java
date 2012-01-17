@@ -86,7 +86,7 @@ public class TestFETPure {
 		try {
 //			output.write(fittest.getFitnessValue() + "\t");
 
-			DecimalFormat myformat = new DecimalFormat("#0.00");
+			DecimalFormat myformat = new DecimalFormat("#0.0000");
 			for (int i = 0; i < chromeSize; i++) {
 
 				// System.out.println(myformat.format(((DoubleGene)fittest.getGene(i)).doubleValue()));
@@ -125,7 +125,7 @@ public class TestFETPure {
 		TestFETPure se = new TestFETPure();	
 		
 		try {
-			File result = new File("ga_fet.txt");
+			File result = new File("4_ga_fet.txt");
 			if (result.exists()) {
 				result.delete();
 				if (result.createNewFile()) {
@@ -140,7 +140,7 @@ public class TestFETPure {
 					System.out.println("result file create failed!");
 				}
 			}
-			File popout = new File("gacounts.txt");
+			File popout = new File("4_gacounts.txt");
 			if (popout.exists()) {
 				popout.delete();
 				if (popout.createNewFile()) {
@@ -158,7 +158,7 @@ public class TestFETPure {
 			BufferedWriter output = new BufferedWriter(new FileWriter(result));
 			BufferedWriter popoutput = new BufferedWriter(new FileWriter(popout));
 			DecimalFormat myformat = new DecimalFormat("#0.00");
-			for(int a=0; a<=9;a++){
+			for(int a=0; a<=4;a++){
 				startTime = System.currentTimeMillis();
 				IChromosome re = se.runga(100, 24, 40, 1.0,  2.5, new FetMaxFunction(), output);
 				endTime = System.currentTimeMillis();

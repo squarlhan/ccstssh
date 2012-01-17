@@ -47,7 +47,7 @@ public class TestFET {
 			scopes5.add(sp5);
 		}
 		try {
-			String prefix = "10_";
+			String prefix = "4_";
 
 			File result = new File(prefix + "ap_fet.txt");
 			if (result.exists()) {
@@ -64,7 +64,7 @@ public class TestFET {
 					System.out.println("result file create failed!");
 				}
 			}
-			File popout = new File("10_apcounts.txt");
+			File popout = new File(prefix + "apcounts.txt");
 			if (popout.exists()) {
 				popout.delete();
 				if (popout.createNewFile()) {
@@ -89,9 +89,9 @@ public class TestFET {
 			double p_extra = 0.01;
 			int ap_max = 100;
 			double ap_lamda = 0.8;
-			DecimalFormat myformat = new DecimalFormat("#0.00");
+			DecimalFormat myformat = new DecimalFormat("#0.0000");
 			// while(lamda2<=1.05){
-			for (int bb = 0; bb <= 9; bb++) {
+			for (int bb = 0; bb <= 4; bb++) {
 				startTime = System.currentTimeMillis();
 				// a1.Calculate(200, m, n, scopes5, new FetMaxFunction(),
 				// p_lamda0, p_extra0, ap_max, ap_lamda, lamda2, output);
