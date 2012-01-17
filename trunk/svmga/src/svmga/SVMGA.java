@@ -22,7 +22,8 @@ import org.jgap.impl.DoubleGene;
 
 public class SVMGA {
 private int nIterateCount=0;
-private List<IChromosome> svmin = new ArrayList();
+private List<IChromosome> svmin_history = new ArrayList();
+private List<IChromosome> svmin_local = new ArrayList();
 private List<String> fitnessvalues = new ArrayList();
 private int progress = 0;
 	
@@ -53,12 +54,21 @@ public void setFitnessvalues(List<String> fitnessvalues) {
 	}
 	
 	
-	public List<IChromosome> getSvmin() {
-		return svmin;
+
+	public List<IChromosome> getSvmin_history() {
+		return svmin_history;
 	}
 
-	public void setSvmin(List<IChromosome> svmin) {
-		this.svmin = svmin;
+	public void setSvmin_history(List<IChromosome> svmin_history) {
+		this.svmin_history = svmin_history;
+	}
+
+	public List<IChromosome> getSvmin_local() {
+		return svmin_local;
+	}
+
+	public void setSvmin_local(List<IChromosome> svmin_local) {
+		this.svmin_local = svmin_local;
 	}
 
 	/**
@@ -75,7 +85,8 @@ public void setFitnessvalues(List<String> fitnessvalues) {
 	public void Calculate(int max_gen, int popSize, int chromeSize, List<List<Double>> scopes, FitnessFunction fitness, 
 			int percent, double gamma, double c, BufferedWriter output) {
 		nIterateCount=0;
-		svmin = new ArrayList();
+		svmin_history = new ArrayList();
+		svmin_local = new ArrayList();
 		fitnessvalues = new ArrayList();
 		progress = 0;
 		
@@ -147,7 +158,7 @@ public void setFitnessvalues(List<String> fitnessvalues) {
 			}
 		}
 		IChromosome fittest2 = fittest3;
-		for(IChromosome fittest:svmin){
+		for(IChromosome fittest:svmin_history){
 			if(fittest3.getFitnessValueDirectly()<fittest.getFitnessValueDirectly()){
 				fittest2 = fittest;
 			}
