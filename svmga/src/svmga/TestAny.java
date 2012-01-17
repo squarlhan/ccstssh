@@ -185,7 +185,7 @@ public class TestAny {
 			int percent = 2;
             	for(int bb=0; bb<=0;bb++){       
             	           	
-            	a1.Calculate(200, 40, 30, scopes100, new MaxFunction(), percent, gamma, c, output[0]);
+            	a1.Calculate(100, 40, 30, scopes100, new MaxFunction(), percent, gamma, c, output[0]);
 //            	a1.Calculate(200, 40, 30, scopes512, new CosMaxFunction(), percent, gamma, c, output[1]);
 //            	a1.Calculate(200, 40, 30, scopes32, new AckleyMaxFunction(), percent, gamma, c, output[2]);
 //            	a1.Calculate(200, 40, 30, scopes100, new QuardircMaxFunction(), percent, gamma, c, output[3]);
