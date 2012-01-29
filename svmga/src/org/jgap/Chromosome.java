@@ -75,7 +75,7 @@ public class Chromosome
    * comparations (if user opted in to do so).
    */
   private Object m_applicationData;
-  private boolean iscenter = false;
+  private boolean iscenter;
 
   public boolean isIscenter() {
 	return iscenter;
@@ -442,6 +442,7 @@ public void setIscenter(boolean iscenter) {
         }
       }
       copy.setFitnessValue(m_fitnessValue);
+      copy.setIscenter(iscenter);
       // Clone constraint checker.
       // -------------------------
       copy.setConstraintChecker(getConstraintChecker());
