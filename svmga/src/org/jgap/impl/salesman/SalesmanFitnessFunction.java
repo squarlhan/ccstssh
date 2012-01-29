@@ -41,7 +41,7 @@ public class SalesmanFitnessFunction
    * @author Audrius Meskauskas
    * @since 2.0
    */
-  protected double evaluate(final IChromosome a_subject) {
+  public double evaluate(final IChromosome a_subject) {
     double s = 0;
     Gene[] genes = a_subject.getGenes();
     for (int i = 0; i < genes.length - 1; i++) {

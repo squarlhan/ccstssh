@@ -59,9 +59,9 @@ public class GetFit {
     	int oldpopsize = a_conf.getPopulationSize();
 //		int oldpopsize = 0;
     	int nowpopsize = a_pop.size();
-//    	for(int i = oldpopsize;i<nowpopsize;i++){
-//    		a_pop.getChromosome(i).setIscenter(false);
-//    	}
+    	for(int i = oldpopsize;i<nowpopsize;i++){
+    		a_pop.getChromosome(i).setIscenter(false);
+    	}
 		if(obj.getSvmin_history().size()<200){
 			for(IChromosome chrom:a_pop.getChromosomes()){
 				chrom.getFitnessValue();
@@ -87,22 +87,25 @@ public class GetFit {
 //					}
 //				}
 //			}
-			for(int i = 0; i<=chroms.size()-1;i+=2){
-						chroms.get(i).getFitnessValue();
+			for(int i = 40; i<=chroms.size()-1;i+=2){
+				if(!chroms.get(i).isIscenter()){
+						chroms.get(i).setFitnessValueDirectly(fitness.evaluate(chroms.get(i)));
 						chroms.get(i).setIscenter(true);
 						if(chroms.get(i).getFitnessValue()>1000){
 							System.out.println("ininin!"+chroms.get(i).getFitnessValue());
 						}
 						obj.getSvmin_history().add(chroms.get(i));
+			     }
 			}
 			obj.setSvmin_local(new ArrayList());
 			for(int i = obj.getSvmin_history().size()-200;i<= obj.getSvmin_history().size()-1;i++){
 				obj.getSvmin_local().add(obj.getSvmin_history().get(i));
 			}
-			for(int i = 1; i<=chroms.size()-1;i+=2){
-						pre_chrom.add(chroms.get(i));
+			for(int i = 41; i<=chroms.size()-1;i+=2){
+				if(!chroms.get(i).isIscenter()){
 						chroms.get(i).setFitnessValueDirectly(st.predict(st.getmodel(obj.getSvmin_local(), gamma, c), chroms.get(i)));
 						chroms.get(i).setIscenter(false);
+				}
 			}
 			
 //			SVMTest st = new SVMTest();

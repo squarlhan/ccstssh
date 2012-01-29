@@ -146,6 +146,7 @@ public class TestAny {
 			File result9 = new File(prefix+"ap_pen2.txt");
 			File result10 = new File(prefix+"ap_wei.txt");
 			File result11 = new File(prefix+"ap_non.txt");
+			File result12 = new File("counts.txt");
 			results.add(result0);
 			results.add(result1);
 			results.add(result2);
@@ -158,6 +159,7 @@ public class TestAny {
 			results.add(result9);
 			results.add(result10);
 			results.add(result11);
+			results.add(result12);
 			
 			BufferedWriter[] output = new BufferedWriter[results.size()];
 			
@@ -179,24 +181,48 @@ public class TestAny {
 				}
 				output[i] = new BufferedWriter(new FileWriter(results.get(i)));
 			}
-			
 			double gamma =0.002;
 			double c = 300;
 			int percent = 2;
-            	for(int bb=0; bb<=0;bb++){       
+            	for(int bb=0; bb<=19;bb++){       
             	           	
-//            	a1.Calculate(100, 40, 30, scopes100, new MaxFunction(), percent, gamma, c, output[0]);
-//            	a1.Calculate(200, 40, 30, scopes512, new CosMaxFunction(), percent, gamma, c, output[1]);
-//            	a1.Calculate(200, 40, 30, scopes32, new AckleyMaxFunction(), percent, gamma, c, output[2]);
-//            	a1.Calculate(200, 40, 30, scopes100, new QuardircMaxFunction(), percent, gamma, c, output[3]);
-//            	a1.Calculate(200, 40, 30, scopes100, new StepMaxFunction(), percent, gamma, c, output[4]);
-//            	a1.Calculate(200, 40, 30, scopes30, new RosenbrockMaxFunction(), percent, gamma, c, output[5]);
-//            	a1.Calculate(200, 40, 30, scopes500, new SchwefelMaxFunction(), percent, gamma, c, output[6]);
-//            	a1.Calculate(200, 40, 30, scopes600, new GriewankMaxFunction(), percent, gamma, c, output[7]);
+            	a1.Calculate(200, 40, 30, scopes100, new MaxFunction(), percent, gamma, c, output[0]);
+            	a1.Calculate(200, 40, 30, scopes512, new CosMaxFunction(), percent, gamma, c, output[1]);
+            	a1.Calculate(200, 40, 30, scopes32, new AckleyMaxFunction(), percent, gamma, c, output[2]);
+            	a1.Calculate(200, 40, 30, scopes100, new QuardircMaxFunction(), percent, gamma, c, output[3]);
+            	a1.Calculate(200, 40, 30, scopes100, new StepMaxFunction(), percent, gamma, c, output[4]);
+            	a1.Calculate(200, 40, 30, scopes30, new RosenbrockMaxFunction(), percent, gamma, c, output[5]);
+            	a1.Calculate(200, 40, 30, scopes500, new SchwefelMaxFunction(), percent, gamma, c, output[6]);
+            	a1.Calculate(200, 40, 30, scopes600, new GriewankMaxFunction(), percent, gamma, c, output[7]);
             	a1.Calculate(200, 40, 30, scopes50, new PenalizedMaxFunction(), percent, gamma, c, output[8]);
             	a1.Calculate(200, 40, 30, scopes50, new Penalized2MaxFunction(), percent, gamma, c, output[9]);
-//            	a1.Calculate(200, 40, 30, scopes512, new WeiMaxFunction(), percent, gamma, c, output[10]);
-//            	a1.Calculate(200, 40, 30, scopes5, new NonMaxFunction(), percent, gamma, c, output[11]);
+            	a1.Calculate(200, 40, 30, scopes512, new WeiMaxFunction(), percent, gamma, c, output[10]);
+            	a1.Calculate(200, 40, 30, scopes5, new NonMaxFunction(), percent, gamma, c, output[11]);
+            	
+            	output[12].write(MaxFunction.counts+"\t");
+        		output[12].write(CosMaxFunction.counts+"\t");
+        		output[12].write(AckleyMaxFunction.counts+"\t");
+        		output[12].write(QuardircMaxFunction.counts+"\t");
+        		output[12].write(StepMaxFunction.counts+"\t");
+        		output[12].write(RosenbrockMaxFunction.counts+"\t");
+        		output[12].write(SchwefelMaxFunction.counts+"\t");
+        		output[12].write(GriewankMaxFunction.counts+"\t");
+        		output[12].write(PenalizedMaxFunction.counts+"\t");
+        		output[12].write(Penalized2MaxFunction.counts+"\t");
+        		output[12].write(WeiMaxFunction.counts+"\t");
+        		output[12].write(NonMaxFunction.counts+"\t");
+        		MaxFunction.counts = 0;
+        		CosMaxFunction.counts = 0;
+        		AckleyMaxFunction.counts = 0;
+        		QuardircMaxFunction.counts = 0;
+        		StepMaxFunction.counts = 0;
+        		RosenbrockMaxFunction.counts = 0;
+        		SchwefelMaxFunction.counts = 0;
+        		GriewankMaxFunction.counts = 0;
+        		PenalizedMaxFunction.counts = 0;
+        		Penalized2MaxFunction.counts = 0;
+        		WeiMaxFunction.counts = 0;
+        		NonMaxFunction.counts = 0;
             	 for (BufferedWriter op : output) {
 					   op.write("\n");
 					   op.flush();
@@ -214,40 +240,8 @@ public class TestAny {
 		long endTime = System.currentTimeMillis();
 		System.out.println("运行时间 " + (endTime - startTime) + "ms");
 		System.out.println("x计算次数 " + MaxFunction.counts);
-		try {
-			File popout = new File("apcounts.txt");
-			if (popout.exists()) {
-				popout.delete();
-				if (popout.createNewFile()) {
-					System.out.println("result  file create success!");
-				} else {
-					System.out.println("result file create failed!");
-				}
-			} else {
-				if (popout.createNewFile()) {
-					System.out.println("result file create success!");
-				} else {
-					System.out.println("result file create failed!");
-				}
-			}
-			BufferedWriter popoutput = new BufferedWriter(new FileWriter(popout));
-			popoutput.write(MaxFunction.counts+"\n");
-//			popoutput.write(CosMaxFunction.counts+"\n");
-//			popoutput.write(AckleyMaxFunction.counts+"\n");
-//			popoutput.write(QuardircMaxFunction.counts+"\n");
-//			popoutput.write(StepMaxFunction.counts+"\n");
-//			popoutput.write(RosenbrockMaxFunction.counts+"\n");
-//			popoutput.write(SchwefelMaxFunction.counts+"\n");
-//			popoutput.write(GriewankMaxFunction.counts+"\n");
-//			popoutput.write(PenalizedMaxFunction.counts+"\n");
-//			popoutput.write(Penalized2MaxFunction.counts+"\n");
-//			popoutput.write(WeiMaxFunction.counts+"\n");
-//			popoutput.write(NonMaxFunction.counts+"\n");
-			popoutput.flush();
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
+		
+		
 	}
 
 }
