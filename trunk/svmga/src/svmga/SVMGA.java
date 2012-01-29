@@ -158,25 +158,31 @@ public void setFitnessvalues(List<String> fitnessvalues) {
 			}
 		}
 		IChromosome fittest2 = fittest3;
+		if(fittest3==null){
+			fittest2 = svmin_history.get(0);
+		}
 		for(IChromosome fittest:svmin_history){
-			if(fittest3.getFitnessValueDirectly()<fittest.getFitnessValueDirectly()){
+			
+			if(fittest2.getFitnessValueDirectly()<fittest.getFitnessValueDirectly()){
 				fittest2 = fittest;
 			}
 		}
 		
 		if(fittest2!=null){
 			System.out.println("Fittest Chromosome in genotype has fitness "+ (fittest2.getFitnessValueDirectly()));
+//			System.out.println("true fitness3 "+ fitness.evaluate(fittest3));
+//			System.out.println("true fitness2 "+ fitness.evaluate(fittest2));
+			
 		}
 		
 		DecimalFormat myformat = new DecimalFormat("#0.00");
 		try {
 			output.write(fittest2.getFitnessValueDirectly() + "\t");
             output.flush();
-            output.write("\n");
 			for (int i = 0; i < chromeSize; i++) {
 				System.out.print(myformat
 						.format(fittest2.getGene(i).getAllele()) + "	");
-				output.write(myformat.format(fittest2.getGene(i).getAllele())+ "	");
+//				output.write(myformat.format(fittest2.getGene(i).getAllele())+ "	");
 			}
 //			for(int i = 0;i<=popSize-1;i++){
 //				for (int j = 0; j < chromeSize; j++) {
