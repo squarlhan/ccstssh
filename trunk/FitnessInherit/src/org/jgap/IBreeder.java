@@ -10,6 +10,7 @@
 package org.jgap;
 
 import java.io.*;
+
 import org.jgap.util.ICloneable;
 
 /**
@@ -37,5 +38,5 @@ public interface IBreeder
    * @since 3.2
    */
   Population evolve(Population a_pop, Configuration a_conf);
-  Population evolve(double lamda,Population a_pop, Configuration a_conf);
+  Population evolve(double lamda, BufferedWriter output, Population a_pop, Configuration a_conf);
 }
