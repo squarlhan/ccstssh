@@ -102,7 +102,7 @@ public class GABreeder
           IEvolutionMonitor.MONITOR_EVENT_AFTER_UPDATE_CHROMOSOMES1,
           a_conf.getGenerationNr(), new Object[]{pop});
     }
-    //°ÑÔ­À´µÄÈºÌå´æÏÂÀ´
+    //ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½Èºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     for(int i = 0;i<=pop.getChromosomes().size()-1;i++){
     	pop.getChromosome(i).setIndex(i);
     	this.last_gen.add((IChromosome) pop.getChromosome(i).clone());
@@ -307,23 +307,23 @@ public class GABreeder
 	    		fitnessInherit(lamda, chrom);
 	    	}	    	
 	    }
-	    try {
-			for (IChromosome mychrom : a_pop.getChromosomes()) {
-				IChromosome mychrom1 = (IChromosome) mychrom.clone();
-				double a1 = a_conf.getFitnessFunction().evaluate(mychrom1);
-				double a2 = mychrom.getFitnessValueDirectly();
-			    output.write(Math.abs(a1-a2) + "\t");
-		}
-		output.write("\n");
-		output.flush();
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
+//	    try {
+//			for (IChromosome mychrom : a_pop.getChromosomes()) {
+//				IChromosome mychrom1 = (IChromosome) mychrom.clone();
+//				double a1 = a_conf.getFitnessFunction().evaluate(mychrom1);
+//				double a2 = mychrom.getFitnessValueDirectly();
+//			    output.write(Math.abs(a1-a2) + "\t");
+//		}
+//		output.write("\n");
+//		output.flush();
+//	} catch (IOException e) {
+//		// TODO Auto-generated catch block
+//		e.printStackTrace();
+//	}
 //	    System.out.println(1);
 	  }
   
-  // ¼Ì³ÐÊÊÓ¦¶ÈËã·¨
+  // ï¿½Ì³ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ã·¨
   private double fitnessInherit(double lamda, IChromosome chrom){
 	  double result = 0;
 	  
@@ -355,8 +355,8 @@ public class GABreeder
 			  mc++;
 		  }
 	  }
-	  double ps = (double)pc/(double)m;//ÏàËÆ¶ÈÓë¸¸Ç×
-	  double ms = (double)mc/(double)m;//ÏàËÆ¶ÈÓëÄ¸Ç×
+	  double ps = (double)pc/(double)m;//ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½ë¸¸ï¿½ï¿½
+	  double ms = (double)mc/(double)m;//ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½
 	  double pr = pap.getR();
 	  double mr = mom.getR();
 	  double r = (Math.pow(ps*pr, 2)+Math.pow(ms*mr,2))/(ps*pr+ms*mr);
@@ -372,7 +372,7 @@ public class GABreeder
 		}
 	  return result;
   }
-  //ÊµÊý×ª³É¶þ½øÖÆ
+  //Êµï¿½ï¿½×ªï¿½É¶ï¿½ï¿½ï¿½ï¿½ï¿½
   private static List<Integer> doube2binary(double min, double max, int p, double num){
 		List<Integer> result = new ArrayList<Integer>();
 		int rank = (int) ((Math.pow(2, p)-1)*(num-min)/(max-min));
