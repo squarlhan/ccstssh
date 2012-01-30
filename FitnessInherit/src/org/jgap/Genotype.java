@@ -227,9 +227,9 @@ public class Genotype
     setPopulation(newPop);
   }
   
-  public synchronized void evolve(double  lamda) {
+  public synchronized void evolve(double  lamda, BufferedWriter output) {
 	    IBreeder breeder = getConfiguration().getBreeder();
-	    Population newPop = breeder.evolve( lamda, getPopulation(), getConfiguration());
+	    Population newPop = breeder.evolve( lamda, output, getPopulation(), getConfiguration());
 	    setPopulation(newPop);
 	  }
 

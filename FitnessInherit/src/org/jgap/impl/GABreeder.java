@@ -9,6 +9,8 @@
  */
 package org.jgap.impl;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +47,7 @@ public class GABreeder
    * @author Klaus Meffert
    * @since 3.2
    */
-  public Population evolve(double lamda, Population a_pop, Configuration a_conf) {
+  public Population evolve(double lamda, BufferedWriter output, Population a_pop, Configuration a_conf) {
     Population pop = a_pop;
 
     int originalPopSize = a_conf.getPopulationSize();
@@ -170,7 +172,7 @@ public class GABreeder
           IEvolutionMonitor.MONITOR_EVENT_BEFORE_UPDATE_CHROMOSOMES2,
           a_conf.getGenerationNr(), new Object[]{pop});
     }
-    updatePostChromosomes(lamda, pop, a_conf);
+    updatePostChromosomes(lamda, output, pop, a_conf);
     if (monitorActive) {
       // Monitor that fitness value of chromosomes is being updated.
       // -----------------------------------------------------------
@@ -299,12 +301,25 @@ public class GABreeder
     }
   }
   
-  protected void updatePostChromosomes(double lamda, Population a_pop, Configuration a_conf) {
+  protected void updatePostChromosomes(double lamda, BufferedWriter output, Population a_pop, Configuration a_conf) {
 	    for(IChromosome chrom:a_pop.getChromosomes()){
 	    	if(chrom.getFitnessValueDirectly() ==-1){
 	    		fitnessInherit(lamda, chrom);
 	    	}	    	
-	    }	    
+	    }
+	    try {
+			for (IChromosome mychrom : a_pop.getChromosomes()) {
+				IChromosome mychrom1 = (IChromosome) mychrom.clone();
+				double a1 = a_conf.getFitnessFunction().evaluate(mychrom1);
+				double a2 = mychrom.getFitnessValueDirectly();
+			    output.write(Math.abs(a1-a2) + "\t");
+		}
+		output.write("\n");
+		output.flush();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 //	    System.out.println(1);
 	  }
   
