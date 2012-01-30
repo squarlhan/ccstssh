@@ -57,7 +57,7 @@ public class SimpleExample {
 		int progress = 0;
 		int percentEvolution = numEvolutions / 10;
 		for (int i = 0; i < numEvolutions; i++) {
-			genotype.evolve(lamda);
+			genotype.evolve(lamda, output);
 			Population temppop = genotype.getPopulation();
 //				for (IChromosome mychrom : temppop.getChromosomes()) {
 //					output.write(Math.abs(fitnessfun.evaluate(mychrom)-mychrom.getFitnessValueDirectly()) + "\t");
