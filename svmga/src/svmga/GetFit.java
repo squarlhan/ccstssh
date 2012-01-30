@@ -4,6 +4,8 @@ import java.io.BufferedWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import libsvm.svm_model;
+
 import org.jgap.Configuration;
 import org.jgap.FitnessFunction;
 import org.jgap.IChromosome;
@@ -101,9 +103,11 @@ public class GetFit {
 			for(int i = obj.getSvmin_history().size()-200;i<= obj.getSvmin_history().size()-1;i++){
 				obj.getSvmin_local().add(obj.getSvmin_history().get(i));
 			}
+			svm_model model = st.getmodel(obj.getSvmin_local(), gamma, c);
 			for(int i = 41; i<=chroms.size()-1;i+=2){
 				if(!chroms.get(i).isIscenter()){
-						chroms.get(i).setFitnessValueDirectly(st.predict(st.getmodel(obj.getSvmin_local(), gamma, c), chroms.get(i)));
+//						chroms.get(i).setFitnessValueDirectly(st.predict(st.getmodel(obj.getSvmin_local(), gamma, c), chroms.get(i)));
+						chroms.get(i).setFitnessValueDirectly(st.predict(model, chroms.get(i)));
 						chroms.get(i).setIscenter(false);
 				}
 			}
