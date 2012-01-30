@@ -44,7 +44,7 @@ public class SimpleExample {
 			 for (int i = 0; i < sampleGenes.length; i++) {					    
 					sampleGenes[i] = new DoubleGene(gaConf, left, right);
 			 }
-			// æž„å»ºæŸ“è‰²ä½?Chromosome)
+			// æž„å»ºæŸ“è‰²ï¿½?Chromosome)
 			 IChromosome sampleChromosome = new Chromosome(gaConf, sampleGenes);
 			 gaConf.setSampleChromosome(sampleChromosome);
 			gaConf.setPopulationSize(popsize);
@@ -93,7 +93,7 @@ public class SimpleExample {
 		}
 //			output.write("\n");
 		long endTime = System.currentTimeMillis();
-		System.out.println("ÔËÐÐÊ±¼ä " + (endTime - startTime) + "ms");
+		System.out.println("è¿è¡Œæ—¶é—´ " + (endTime - startTime) + "ms");
 		System.out.println("sum counts:  "+ SimpleMaxFunction.counts);
 	}
 
