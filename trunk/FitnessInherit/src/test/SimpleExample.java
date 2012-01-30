@@ -94,7 +94,7 @@ public class SimpleExample {
 //			output.write("\n");
 		long endTime = System.currentTimeMillis();
 		System.out.println("运行时间 " + (endTime - startTime) + "ms");
-		System.out.println("sum counts:  "+ AckleySimpleMaxFunction.counts);
+		System.out.println("sum counts:  "+ SimpleMaxFunction.counts);
 	}
 
 	/**
@@ -119,7 +119,8 @@ public class SimpleExample {
 					new File("ga_step.txt"), new File("ga_rosen.txt"), 
 					new File("ga_sch.txt"), new File("ga_gri.txt"),
 					new File("ga_pen1.txt"), new File("ga_pen2.txt"),
-			        new File("ga_wei.txt"), new File("ga_non.txt")};
+			        new File("ga_wei.txt"), new File("ga_non.txt"),
+			        new File("counts.txt")};
 			BufferedWriter[] output = new BufferedWriter[result.length];
 			for(int i = 0; i<= result.length-1;i++){
 				if (result[i].exists()) {
@@ -140,46 +141,45 @@ public class SimpleExample {
 				output[i] = new BufferedWriter(new FileWriter(result[i]));
 			}
 			
-			for(int a=0; a<=49;a++){
-//				se.runga(120, 30, 40, -100,  100, new SimpleMaxFunction(), output[0]);
-//				se.runga(120, 30, 40, -5.12,  5.12, new CosSimpleMaxFunction(), output[1]);
-//				se.runga(120, 30, 40, -32,  32, new AckleySimpleMaxFunction(), output[2]);
-//				se.runga(120, 30, 40, -100,  100, new QuardircSimpleMaxFunction(), output[3]);
-//				se.runga(120, 30, 40, -100,  100, new StepSimpleMaxFunction(), output[4])
-//				se.runga(120, 30, 40, -30,  30, new RosenbrockSimpleMaxFunction(), output[5]);
-//				se.runga(120, 30, 40, -500,  500, new SchwefelSimpleMaxFunction(), output[6]);
-//				se.runga(120, 30, 40, -600,  600, new GriewankSimpleMaxFunction(), output[7]);
-//				se.runga(120, 30, 40, -50,  50, new PenalizedSimpleMaxFunction(), output[8]);
-//				se.runga(120, 30, 40, -50,  50, new Penalized2SimpleMaxFunction(), output[9]);
-//				se.runga(120, 30, 40, -5.12,  5.12, new WeiSimpleMaxFunction(), output[10]);
-//				se.runga(120, 30, 40, -0.5,  0.5, new NonSimpleMaxFunction(), output[11]);
+			for(int a=0; a<=0;a++){
 				
-				se.runga(0.3, 200, 30, 40, -100,  100, new SimpleMaxFunction(), output[0]);
-				se.runga(0.3, 200, 30, 40, -5.12,  5.12, new CosSimpleMaxFunction(), output[1]);
-				se.runga(0.3, 200, 30, 40, -32,  32, new AckleySimpleMaxFunction(), output[2]);
-				se.runga(0.3, 200, 30, 40, -100,  100, new QuardircSimpleMaxFunction(), output[3]);
-				se.runga(0.3, 200, 30, 40, -100,  100, new StepSimpleMaxFunction(), output[4]);
-				se.runga(0.3, 200, 30, 40, -30,  30, new RosenbrockSimpleMaxFunction(), output[5]);
-				se.runga(0.3, 200, 30, 40, -500,  500, new SchwefelSimpleMaxFunction(), output[6]);
-				se.runga(0.3, 200, 30, 40, -600,  600, new GriewankSimpleMaxFunction(), output[7]);
-				se.runga(0.3, 200, 30, 40, -50,  50, new PenalizedSimpleMaxFunction(), output[8]);
-				se.runga(0.3, 200, 30, 40, -50,  50, new Penalized2SimpleMaxFunction(), output[9]);
-				se.runga(0.3, 200, 30, 40, -5.12,  5.12, new WeiSimpleMaxFunction(), output[10]);
-				se.runga(0.3, 200, 30, 40, -0.5,  0.5, new NonSimpleMaxFunction(), output[11]);
+				se.runga(0.5000005, 200, 30, 40, -100,  100, new SimpleMaxFunction(), output[0]);
+				se.runga(0.5, 200, 30, 40, -5.12,  5.12, new CosSimpleMaxFunction(), output[1]);
+				se.runga(0.5, 200, 30, 40, -32,  32, new AckleySimpleMaxFunction(), output[2]);
+				se.runga(0.5, 200, 30, 40, -100,  100, new QuardircSimpleMaxFunction(), output[3]);
+				se.runga(0.5, 200, 30, 40, -100,  100, new StepSimpleMaxFunction(), output[4]);
+				se.runga(0.5, 200, 30, 40, -30,  30, new RosenbrockSimpleMaxFunction(), output[5]);
+				se.runga(0.5, 200, 30, 40, -500,  500, new SchwefelSimpleMaxFunction(), output[6]);
+				se.runga(0.5, 200, 30, 40, -600,  600, new GriewankSimpleMaxFunction(), output[7]);
+				se.runga(0.5, 200, 30, 40, -50,  50, new PenalizedSimpleMaxFunction(), output[8]);
+				se.runga(0.5, 200, 30, 40, -50,  50, new Penalized2SimpleMaxFunction(), output[9]);
+				se.runga(0.5, 200, 30, 40, -5.12,  5.12, new WeiSimpleMaxFunction(), output[10]);
+				se.runga(0.5, 200, 30, 40, -0.5,  0.5, new NonSimpleMaxFunction(), output[11]);
 				
-				se.runga(0.7, 200, 30, 40, -100,  100, new SimpleMaxFunction(), output[0]);
-				se.runga(0.7, 200, 30, 40, -5.12,  5.12, new CosSimpleMaxFunction(), output[1]);
-				se.runga(0.7, 200, 30, 40, -32,  32, new AckleySimpleMaxFunction(), output[2]);
-				se.runga(0.7, 200, 30, 40, -100,  100, new QuardircSimpleMaxFunction(), output[3]);
-				se.runga(0.7, 200, 30, 40, -100,  100, new StepSimpleMaxFunction(), output[4]);
-				se.runga(0.7, 200, 30, 40, -30,  30, new RosenbrockSimpleMaxFunction(), output[5]);
-				se.runga(0.7, 200, 30, 40, -500,  500, new SchwefelSimpleMaxFunction(), output[6]);
-				se.runga(0.7, 200, 30, 40, -600,  600, new GriewankSimpleMaxFunction(), output[7]);
-				se.runga(0.7, 200, 30, 40, -50,  50, new PenalizedSimpleMaxFunction(), output[8]);
-				se.runga(0.7, 200, 30, 40, -50,  50, new Penalized2SimpleMaxFunction(), output[9]);
-				se.runga(0.7, 200, 30, 40, -5.12,  5.12, new WeiSimpleMaxFunction(), output[10]);
-				se.runga(0.7, 200, 30, 40, -0.5,  0.5, new NonSimpleMaxFunction(), output[11]);
-				
+				output[12].write(SimpleMaxFunction.counts+"\t");
+        		output[12].write(CosSimpleMaxFunction.counts+"\t");
+        		output[12].write(AckleySimpleMaxFunction.counts+"\t");
+        		output[12].write(QuardircSimpleMaxFunction.counts+"\t");
+        		output[12].write(StepSimpleMaxFunction.counts+"\t");
+        		output[12].write(RosenbrockSimpleMaxFunction.counts+"\t");
+        		output[12].write(SchwefelSimpleMaxFunction.counts+"\t");
+        		output[12].write(GriewankSimpleMaxFunction.counts+"\t");
+        		output[12].write(PenalizedSimpleMaxFunction.counts+"\t");
+        		output[12].write(Penalized2SimpleMaxFunction.counts+"\t");
+        		output[12].write(WeiSimpleMaxFunction.counts+"\t");
+        		output[12].write(NonSimpleMaxFunction.counts+"\t");
+        		SimpleMaxFunction.counts = 0;
+        		CosSimpleMaxFunction.counts = 0;
+        		AckleySimpleMaxFunction.counts = 0;
+        		QuardircSimpleMaxFunction.counts = 0;
+        		StepSimpleMaxFunction.counts = 0;
+        		RosenbrockSimpleMaxFunction.counts = 0;
+        		SchwefelSimpleMaxFunction.counts = 0;
+        		GriewankSimpleMaxFunction.counts = 0;
+        		PenalizedSimpleMaxFunction.counts = 0;
+        		Penalized2SimpleMaxFunction.counts = 0;
+        		WeiSimpleMaxFunction.counts = 0;
+        		NonSimpleMaxFunction.counts = 0;
 				for(BufferedWriter op : output){
 					op.write("\n");
 					op.flush();
