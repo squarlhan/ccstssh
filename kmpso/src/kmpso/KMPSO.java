@@ -150,16 +150,17 @@ public class KMPSO {
 
 		for (int i = 0; i < numberOfIterations; i++){
 			progress++;
-			swarm.evolve(this, p_lamda, p_extra,	kmeans_max, kmeans_num, lamda);
+			swarm.evolve(this, p_lamda, p_extra,	kmeans_max, kmeans_num, lamda, output);
 		}
 			
 
 		// Print en results
 		System.out.println(swarm.toStringStats());
 		long endTime = System.currentTimeMillis();
+		System.out.println("运行次数 " + MaxFunction.counts);
 		System.out.println("运行时间 " + (endTime - startTime) + "ms");
 		try {
-			output.write(swarm.getBestFitness()+"\t");
+//			output.write(swarm.getBestFitness()+"\t");
 			output.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

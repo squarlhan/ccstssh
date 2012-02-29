@@ -69,7 +69,7 @@ public class KmpsoTest {
 			    scopes600.add(sp600);
 			}
 			try {
-				String prefix = "";
+				String prefix = "mse_";
 				List<File> results = new ArrayList();
 				
 				File result0 = new File(prefix+"km_x.txt");
@@ -122,10 +122,10 @@ public class KmpsoTest {
 	       double p_lamda = 0.8;
 		   double p_extra = 0.002;
 		   int kmeans_max = 100;
-	       int kmeans_num = 3;
+	       int kmeans_num = 4;
 		   double lamda = 0.8;
 		   KMPSO kmpso = new KMPSO();
-		   for(int i = 0; i<=19;i++){
+		   for(int i = 0; i<=0;i++){
 		   kmpso.Calculate(max_gen, numofparticals, dimention, intertia[0],velocity[0], scopes100, new MaxFunction(), p_lamda, p_extra,  kmeans_max, kmeans_num, lamda, output[0]);
 		   kmpso.Calculate(max_gen, numofparticals, dimention, intertia[1],velocity[1], scopes512, new CosMaxFunction(), p_lamda, p_extra, kmeans_max, kmeans_num, lamda, output[1]);
 		   kmpso.Calculate(max_gen, numofparticals, dimention, intertia[2],velocity[2], scopes32, new AckleyMaxFunction(), p_lamda, p_extra,  kmeans_max, kmeans_num, lamda, output[2]);

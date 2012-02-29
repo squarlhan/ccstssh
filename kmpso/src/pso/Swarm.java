@@ -2,6 +2,8 @@ package pso;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -129,7 +131,7 @@ public class Swarm {
 	}
 
 	
-	public void evaluate(KMPSO obj, double p_lamda, double p_extra,	int kmeans_max, double kmeans_num, double lamda) {
+	public void evaluate(KMPSO obj, double p_lamda, double p_extra,	int kmeans_max, double kmeans_num, double lamda, BufferedWriter output) {
 		if( particles == null ) throw new RuntimeException("No particles in this swarm! May be you need to call Swarm.init() method");
 		if( fitnessFunction == null ) throw new RuntimeException("No fitness function in this swarm! May be you need to call Swarm.setFitnessFunction() method");
 
@@ -151,7 +153,20 @@ public class Swarm {
 		Set<Integer> set = new HashSet();
 		set.addAll(results);
 		numberOfEvaliations+=set.size();
-		 clustObjectFun.calcFittnessValue(this, obj, results, dis, lamda, p_lamda, p_extra,null);
+		 clustObjectFun.calcFittnessValue(this, obj, results, dis, lamda, p_lamda, p_extra,output);
+		 
+		 try {
+				for (Particle mychrom : this.getParticles()) {
+					double a1 = this.getFitnessFunction().evaluate(mychrom);
+					double a2 = mychrom.getFitness();
+				    output.write(Math.abs(a1-a2) + "\t");
+			}
+			output.write("\n");
+			output.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		//---
 		// Evaluate each particle (and find the 'best' one)
@@ -192,11 +207,11 @@ public class Swarm {
 	 * 	- updates positions and velocities
 	 * 	- applies positions and velocities constraints 
 	 */
-	public void evolve(KMPSO obj, double p_lamda, double p_extra,	int kmeans_max, double kmeans_num, double lamda) {
+	public void evolve(KMPSO obj, double p_lamda, double p_extra,	int kmeans_max, double kmeans_num, double lamda, BufferedWriter output) {
 		// Init (if not already done)
 		if( particles == null ) init();
 
-		evaluate(obj, p_lamda, p_extra,	kmeans_max, kmeans_num, lamda); // Evaluate particles
+		evaluate(obj, p_lamda, p_extra,	kmeans_max, kmeans_num, lamda, output); // Evaluate particles
 		update(); // Update positions and velocities
 
 		variablesUpdate.update(this);
