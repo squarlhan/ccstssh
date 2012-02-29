@@ -3,6 +3,7 @@ package pso;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -142,6 +143,18 @@ public class Swarm {
 		 
 		 GetFit gf = new GetFit();
 		  gf.getfitness(this, obj, percent, gamma, c, output);
+		  try {
+				for (Particle mychrom : this.getParticles()) {
+					double a1 = this.getFitnessFunction().evaluate(mychrom);
+					double a2 = mychrom.getFitness();
+				    output.write(Math.abs(a1-a2) + "\t");
+			}
+			output.write("\n");
+			output.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		//---
 		// Evaluate each particle (and find the 'best' one)
