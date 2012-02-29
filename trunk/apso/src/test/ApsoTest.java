@@ -127,7 +127,7 @@ public class ApsoTest {
 			double ap_lamda = 0.8;
 			double lamda = 0.8;
 			APSO apso = new APSO();
-			for(int i = 0; i<=19;i++){
+			for(int i = 0; i<=0;i++){
 		   apso.Calculate(max_gen, numofparticals, dimention, intertia[0],velocity[0], scopes100, new MaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output[0]);
 		   apso.Calculate(max_gen, numofparticals, dimention, intertia[1],velocity[1], scopes512, new CosMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output[1]);
 		   apso.Calculate(max_gen, numofparticals, dimention, intertia[2],velocity[2], scopes32, new AckleyMaxFunction(), p_lamda, p_extra, ap_max, ap_lamda, lamda, output[2]);
