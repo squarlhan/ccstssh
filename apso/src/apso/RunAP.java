@@ -1,6 +1,7 @@
 package apso;
 
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -9,6 +10,7 @@ import java.util.Set;
 
 import pso.Particle;
 import pso.Swarm;
+import test.MaxParticle;
 
 import affinitymain.InteractionData;
 import affinitymain.RunAlgorithm;
@@ -53,19 +55,22 @@ public class RunAP {
 			System.err.println("Cluster Error, 0 result!");	
 		}
 		List<Double> objests = cof.calcFittnessValue(runningobj, obj,  results, dis, lamda, p_lamda, p_extra, output);
-//		try {
-//				for (IChromosome mychrom : a_pop.getChromosomes()) {
-//					IChromosome mychrom1 = (IChromosome) mychrom.clone();
-//					double a1 = fitness.evaluate(mychrom1);
-//					double a2 = mychrom.getFitnessValueDirectly();
-//				    output.write(Math.abs(a1-a2) + "\t");
-//			}
-//			output.write("\n");
-//			output.flush();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		 try {
+				for (Particle mychrom : runningobj.getParticles()) {
+					Particle mychrom1 = new MaxParticle(mychrom.getDimention());
+					for(int i = 0; i<= mychrom.getDimention()-1; i++){
+						mychrom1.getPosition()[i] = mychrom.getPosition()[i];
+					}
+					double a1 = runningobj.getFitnessFunction().evaluate(mychrom1);
+					double a2 = mychrom.getFitness();
+				    output.write(Math.abs(a1-a2) + "\t");
+			}
+			output.write("\n");
+			output.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	
   }
 

@@ -131,7 +131,7 @@ public class Swarm {
 	}
 
 	
-	public void evaluate(APSO obj, double p_lamda, double p_extra, int ap_max, double ap_lamda, double lamda) {
+	public void evaluate(APSO obj, double p_lamda, double p_extra, int ap_max, double ap_lamda, double lamda, BufferedWriter output) {
 		if( particles == null ) throw new RuntimeException("No particles in this swarm! May be you need to call Swarm.init() method");
 		if( fitnessFunction == null ) throw new RuntimeException("No fitness function in this swarm! May be you need to call Swarm.setFitnessFunction() method");
 
@@ -141,7 +141,7 @@ public class Swarm {
 			bestParticleIndex = -1;
 		}
 		RunAP rap = new RunAP();
-		rap.run(this, obj, p_lamda, p_extra, ap_max, ap_lamda, lamda, null);
+		rap.run(this, obj, p_lamda, p_extra, ap_max, ap_lamda, lamda, output);
 
 		//---
 		// Evaluate each particle (and find the 'best' one)
@@ -182,11 +182,11 @@ public class Swarm {
 	 * 	- updates positions and velocities
 	 * 	- applies positions and velocities constraints 
 	 */
-	public void evolve(APSO obj, double p_lamda, double p_extra,	int kmeans_max, double kmeans_num, double lamda) {
+	public void evolve(APSO obj, double p_lamda, double p_extra,	int kmeans_max, double kmeans_num, double lamda, BufferedWriter output) {
 		// Init (if not already done)
 		if( particles == null ) init();
 
-		evaluate(obj, p_lamda, p_extra,	kmeans_max, kmeans_num, lamda); // Evaluate particles
+		evaluate(obj, p_lamda, p_extra,	kmeans_max, kmeans_num, lamda, output); // Evaluate particles
 		update(); // Update positions and velocities
 
 		variablesUpdate.update(this);

@@ -150,7 +150,7 @@ public class APSO {
 
 		for (int i = 0; i < numberOfIterations; i++){
 			progress++;
-			swarm.evolve(this, p_lamda, p_extra, ap_max, ap_lamda, lamda);
+			swarm.evolve(this, p_lamda, p_extra, ap_max, ap_lamda, lamda, output);
 		}
 			
 
@@ -159,7 +159,7 @@ public class APSO {
 		long endTime = System.currentTimeMillis();
 		System.out.println("运行时间 " + (endTime - startTime) + "ms");
 		try {
-			output.write(swarm.getBestFitness()+"\t");
+//			output.write(swarm.getBestFitness()+"\t");
 			output.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
