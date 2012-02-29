@@ -69,21 +69,21 @@ public class SvmpsoTest {
 			    scopes600.add(sp600);
 			}
 			try {
-				String prefix = "";
+				String prefix = "mse_";
 				List<File> results = new ArrayList();
 				
-				File result0 = new File(prefix+"km_x.txt");
-				File result1 = new File(prefix+"km_cos.txt");
-				File result2 = new File(prefix+"km_ackley.txt");
-				File result3 = new File(prefix+"km_quar.txt");
-				File result4 = new File(prefix+"km_step.txt");
-				File result5 = new File(prefix+"km_rosen.txt");
-				File result6 = new File(prefix+"km_sch.txt");
-				File result7 = new File(prefix+"km_gri.txt");
-				File result8 = new File(prefix+"km_pen1.txt");
-				File result9 = new File(prefix+"km_pen2.txt");
-				File result10 = new File(prefix+"km_wei.txt");
-				File result11 = new File(prefix+"km_non.txt");
+				File result0 = new File(prefix+"svm_x.txt");
+				File result1 = new File(prefix+"svm_cos.txt");
+				File result2 = new File(prefix+"svm_ackley.txt");
+				File result3 = new File(prefix+"svm_quar.txt");
+				File result4 = new File(prefix+"svm_step.txt");
+				File result5 = new File(prefix+"svm_rosen.txt");
+				File result6 = new File(prefix+"svm_sch.txt");
+				File result7 = new File(prefix+"svm_gri.txt");
+				File result8 = new File(prefix+"svm_pen1.txt");
+				File result9 = new File(prefix+"svm_pen2.txt");
+				File result10 = new File(prefix+"svm_wei.txt");
+				File result11 = new File(prefix+"svm_non.txt");
 				results.add(result0);
 				results.add(result1);
 				results.add(result2);
@@ -125,17 +125,17 @@ public class SvmpsoTest {
 			int percent = 4;
 		   for(int i = 0; i<=0;i++){
 		   svmpso.Calculate(max_gen, numofparticals, dimention, intertia[0],velocity[0], scopes100, new MaxFunction(),gamma, c, percent, output[0]);
-//		   svmpso.Calculate(max_gen, numofparticals, dimention, intertia[1],velocity[1], scopes512, new CosMaxFunction(), gamma, c, percent, output[1]);
-//		   svmpso.Calculate(max_gen, numofparticals, dimention, intertia[2],velocity[2], scopes32, new AckleyMaxFunction(),gamma, c, percent, output[2]);
-//		   svmpso.Calculate(max_gen, numofparticals, dimention, intertia[3],velocity[3], scopes100, new QuardircMaxFunction(), gamma, c, percent, output[3]);
-//		   svmpso.Calculate(max_gen, numofparticals, dimention, intertia[4],velocity[4], scopes100, new StepMaxFunction(),gamma, c, percent, output[4]);
-//		   svmpso.Calculate(max_gen, numofparticals, dimention, intertia[5],velocity[5], scopes30, new RosenbrockMaxFunction(),gamma, c, percent, output[5]);
-//		   svmpso.Calculate(max_gen, numofparticals, dimention, intertia[6],velocity[6], scopes500, new SchwefelMaxFunction(),gamma, c, percent, output[6]);		   
-//		   svmpso.Calculate(max_gen, numofparticals, dimention, intertia[7],velocity[7], scopes600, new GriewankMaxFunction(),gamma, c, percent, output[7]);
-//		   svmpso.Calculate(max_gen, numofparticals, dimention, intertia[8],velocity[8], scopes50, new PenalizedMaxFunction(),gamma, c, percent, output[8]);	   
-//		   svmpso.Calculate(max_gen, numofparticals, dimention, intertia[9],velocity[9], scopes50, new Penalized2MaxFunction(),gamma, c, percent, output[9]);		   		   		   		   
-//		   svmpso.Calculate(max_gen, numofparticals, dimention, intertia[10],velocity[10], scopes512, new WeiMaxFunction(),gamma, c, percent, output[10]);
-//		   svmpso.Calculate(max_gen, numofparticals, dimention, intertia[11],velocity[11], scopes5, new NonMaxFunction(),gamma, c, percent, output[11]);		
+		   svmpso.Calculate(max_gen, numofparticals, dimention, intertia[1],velocity[1], scopes512, new CosMaxFunction(), gamma, c, percent, output[1]);
+		   svmpso.Calculate(max_gen, numofparticals, dimention, intertia[2],velocity[2], scopes32, new AckleyMaxFunction(),gamma, c, percent, output[2]);
+		   svmpso.Calculate(max_gen, numofparticals, dimention, intertia[3],velocity[3], scopes100, new QuardircMaxFunction(), gamma, c, percent, output[3]);
+		   svmpso.Calculate(max_gen, numofparticals, dimention, intertia[4],velocity[4], scopes100, new StepMaxFunction(),gamma, c, percent, output[4]);
+		   svmpso.Calculate(max_gen, numofparticals, dimention, intertia[5],velocity[5], scopes30, new RosenbrockMaxFunction(),gamma, c, percent, output[5]);
+		   svmpso.Calculate(max_gen, numofparticals, dimention, intertia[6],velocity[6], scopes500, new SchwefelMaxFunction(),gamma, c, percent, output[6]);		   
+		   svmpso.Calculate(max_gen, numofparticals, dimention, intertia[7],velocity[7], scopes600, new GriewankMaxFunction(),gamma, c, percent, output[7]);
+		   svmpso.Calculate(max_gen, numofparticals, dimention, intertia[8],velocity[8], scopes50, new PenalizedMaxFunction(),gamma, c, percent, output[8]);	   
+		   svmpso.Calculate(max_gen, numofparticals, dimention, intertia[9],velocity[9], scopes50, new Penalized2MaxFunction(),gamma, c, percent, output[9]);		   		   		   		   
+		   svmpso.Calculate(max_gen, numofparticals, dimention, intertia[10],velocity[10], scopes512, new WeiMaxFunction(),gamma, c, percent, output[10]);
+		   svmpso.Calculate(max_gen, numofparticals, dimention, intertia[11],velocity[11], scopes5, new NonMaxFunction(),gamma, c, percent, output[11]);		
 		   for (BufferedWriter op : output) {
 			   op.write("\n");
 			   op.flush();
