@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import test.MaxParticle;
+
 import kmpso.EucDistance;
 import kmpso.KMPSO;
 import kmpso.KMeans;
@@ -157,7 +159,11 @@ public class Swarm {
 		 
 		 try {
 				for (Particle mychrom : this.getParticles()) {
-					double a1 = this.getFitnessFunction().evaluate(mychrom);
+					Particle mychrom1 = new MaxParticle(mychrom.getDimention());
+					for(int i = 0; i<= mychrom.getDimention()-1; i++){
+						mychrom1.getPosition()[i] = mychrom.getPosition()[i];
+					}
+					double a1 = this.getFitnessFunction().evaluate(mychrom1);
 					double a2 = mychrom.getFitness();
 				    output.write(Math.abs(a1-a2) + "\t");
 			}
