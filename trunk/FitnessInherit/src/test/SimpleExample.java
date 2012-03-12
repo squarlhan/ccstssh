@@ -39,12 +39,12 @@ public class SimpleExample {
 		Genotype genotype = null;			
 		
 		try {
-			//构建基因(Gene)
-			Gene[] sampleGenes = new Gene[chromeSize];//基因长度2
+			//鏋勫缓鍩哄洜(Gene)
+			Gene[] sampleGenes = new Gene[chromeSize];//鍩哄洜闀垮害2
 			 for (int i = 0; i < sampleGenes.length; i++) {					    
 					sampleGenes[i] = new DoubleGene(gaConf, left, right);
 			 }
-			// 构建染色�?Chromosome)
+			// 鏋勫缓鏌撹壊锟�Chromosome)
 			 IChromosome sampleChromosome = new Chromosome(gaConf, sampleGenes);
 			 gaConf.setSampleChromosome(sampleChromosome);
 			gaConf.setPopulationSize(popsize);
@@ -93,7 +93,7 @@ public class SimpleExample {
 		}
 //			output.write("\n");
 		long endTime = System.currentTimeMillis();
-		System.out.println("运行时间 " + (endTime - startTime) + "ms");
+		System.out.println("杩愯鏃堕棿 " + (endTime - startTime) + "ms");
 		System.out.println("sum counts:  "+ SimpleMaxFunction.counts);
 	}
 
@@ -141,7 +141,7 @@ public class SimpleExample {
 				output[i] = new BufferedWriter(new FileWriter(result[i]));
 			}
 			
-			for(int a=0; a<=0;a++){
+			for(int a=0; a<=49;a++){
 				
 				se.runga(0.5000005, 200, 30, 40, -100,  100, new SimpleMaxFunction(), output[0]);
 				se.runga(0.5, 200, 30, 40, -5.12,  5.12, new CosSimpleMaxFunction(), output[1]);
