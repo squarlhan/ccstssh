@@ -2,6 +2,7 @@ package processor;
 
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.Map.Entry;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -12,6 +13,7 @@ import java.math.BigDecimal;
 
 import apriori.Apriori_generateFreItemSet;
 import apriori.Apriori_generateRule;
+import apriori.FormatInput;
 import apriori.Rule;
 
 public class Test {
@@ -22,7 +24,8 @@ public class Test {
 	public static void main(String[] args) throws Exception {
 		// TODO 自动生成方法存根
 		ArrayList inputDB = new ArrayList();
-		Boolean test = true;
+		long startTime = System.currentTimeMillis();
+//		Boolean test = true;
 //		if (test) {
 //			ArrayList t1 = new ArrayList();
 //			t1.add("1");
@@ -114,25 +117,25 @@ public class Test {
 
 		}
 		
-		File rere = new File("rules.txt");
-		if (rere.exists()) {
-			rere.delete();
-			if (rere.createNewFile()) {
-				System.out.println("result file create success!");
-			} else {
-				System.out.println("result file create failed!");
-			}
-		} else {
-			if (rere.createNewFile()) {
-				System.out.println("result file create success!");
-			} else {
-				System.out.println("result file create failed!");
-			}
-
-		}
+//		File rere = new File("rules.txt");
+//		if (rere.exists()) {
+//			rere.delete();
+//			if (rere.createNewFile()) {
+//				System.out.println("result file create success!");
+//			} else {
+//				System.out.println("result file create failed!");
+//			}
+//		} else {
+//			if (rere.createNewFile()) {
+//				System.out.println("result file create success!");
+//			} else {
+//				System.out.println("result file create failed!");
+//			}
+//
+//		}
 
 		BufferedWriter output = new BufferedWriter(new FileWriter(re));
-        BufferedWriter outputre = new BufferedWriter(new FileWriter(rere));
+//        BufferedWriter outputre = new BufferedWriter(new FileWriter(rere));
 		
 
 		System.out.println("您输入的数据库是 :");
@@ -140,32 +143,50 @@ public class Test {
 		for (int i = 0; i < inputDB.size(); i++) {
 			System.out.println(inputDB.get(i));
 		}
-		System.out.println("***********************");
-		System.out.println("最小支持度是：20");
-		Map a = Apriori_generateFreItemSet.generateFreItemSet(inputDB, 20);
+		
+		System.out.println("最小支持度是：21");
+		Map a = Apriori_generateFreItemSet.generateFreItemSet(inputDB, 21);
 		System.out.println("它包含的频繁模式是:");
-		System.out.println(a);
-		System.out.println(a.size());
-
-		System.out.println("最小置信度是：50%");
-		ArrayList result = Apriori_generateRule.generatreRule(a, 0.5);
-		System.out.println("规则数目：" + result.size());
-		System.out.println("规则如下：");
-		for (int i = 0; i < result.size(); i++) {
-			System.out.print("规则" + (i + 1) + ": ");
-			if (test) {
-				System.out.println(((Rule) result.get(i)).getCondition()
-								+ "=>"
-								+ ((Rule) result.get(i))
-										.getConditionAndConclution()
-								+ " 的置信度是："
-								+ (Math.round(((Rule) result.get(i))
-										.getConfidence() * 100)) + "%");
-			} else {
-				System.out.println(((Rule) result.get(i)).toString());
-			}
+		Set set =a.entrySet();      
+		Iterator it=set.iterator();       
+		while(it.hasNext()){           
+			Map.Entry<Object, Integer>  entry=(Entry<Object, Integer>) it.next();           
+			output.write(entry.getKey()+": "+entry.getValue()+"\n");                 
 		}
-		System.out.println(result.size());
+		System.out.println(a.size());
+		output.close();
+		long endTime = System.currentTimeMillis();
+		double cost =  (double)(endTime - startTime)/60000;
+		DecimalFormat myformat = new DecimalFormat("#0.00");		
+		System.out.println("运行时间 " + myformat.format(cost) + "min");
+		System.out.println("算法结束！");
+		
+//		System.out.println("***********************");
+//		System.out.println("最小支持度是：21");
+//		Map a = Apriori_generateFreItemSet.generateFreItemSet(inputDB, 21);
+//		System.out.println("它包含的频繁模式是:");
+//		System.out.println(a);
+//		System.out.println(a.size());
+//
+//		System.out.println("最小置信度是：50%");
+//		ArrayList result = Apriori_generateRule.generatreRule(a, 0.5);
+//		System.out.println("规则数目：" + result.size());
+//		System.out.println("规则如下：");
+//		for (int i = 0; i < result.size(); i++) {
+//			System.out.print("规则" + (i + 1) + ": ");
+//			if (test) {
+//				System.out.println(((Rule) result.get(i)).getCondition()
+//								+ "=>"
+//								+ ((Rule) result.get(i))
+//										.getConditionAndConclution()
+//								+ " 的置信度是："
+//								+ (Math.round(((Rule) result.get(i))
+//										.getConfidence() * 100)) + "%");
+//			} else {
+//				System.out.println(((Rule) result.get(i)).toString());
+//			}
+//		}
+//		System.out.println(result.size());
 
 	}
 
