@@ -111,7 +111,11 @@ public class Matcher {
 						List<String> item_list = new ArrayList();
 						for(String item:lines){
 							if(item!=null&&item.trim().length()>=1){
-								item_list.add(item.trim());
+								String finalitem = item.trim();
+								if(finalitem.startsWith("b")){
+									finalitem = finalitem.substring(1);
+								}								
+								item_list.add(finalitem);
 							}							
 						}
 						result.add(item_list);
@@ -169,8 +173,17 @@ public class Matcher {
 					result.add(sub);
 				}
 				sub = new ArrayList();
-				sub.add(myseq.get(i));
+				String finalitem = myseq.get(i);
+				if(finalitem.startsWith("b")){
+					finalitem = finalitem.substring(1);
+				}
+				sub.add(finalitem);
 			}else{
+				String finalitem = myseq.get(i);
+				if(finalitem.startsWith("b")){
+					finalitem = finalitem.substring(1);
+				}
+				sub.add(finalitem);
 				sub.add(myseq.get(i));
 			}
 		}
@@ -189,8 +202,10 @@ public class Matcher {
 		Matcher matcher = new Matcher();
 		List<List<String>> mypattern = matcher.getFreqItemSet("freitem.txt", 30);
 		List<String> myseq = matcher.getSeqFile("seq2549.txt");
-		for (int i = 1; i <= 8; i++) {
-//			List<List<String>> myfile = matcher.getNewFile(i+".tab");
+		String prefix = "2421/";
+//		String prefix = "2549/";
+		for (int i = 1; i <= 20; i++) {
+//			List<List<String>> myfile = matcher.getNewFile(prefix+i+".tab");
 			List<List<String>> myfile = matcher.randomsc(myseq);
 			int count = matcher.mymatcher(mypattern, myfile);
 			System.out.println("Pattern Length: " + mypattern.size()
