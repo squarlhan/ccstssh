@@ -113,7 +113,7 @@ public class Matcher {
 							if(item!=null&&item.trim().length()>=1){
 								String finalitem = item.trim();
 								if(finalitem.startsWith("b")){
-									finalitem = finalitem.substring(1);
+									finalitem = "1"+finalitem.substring(1);
 								}								
 								item_list.add(finalitem);
 							}							
@@ -175,13 +175,13 @@ public class Matcher {
 				sub = new ArrayList();
 				String finalitem = myseq.get(i);
 				if(finalitem.startsWith("b")){
-					finalitem = finalitem.substring(1);
+					finalitem = "1"+finalitem.substring(1);
 				}
 				sub.add(finalitem);
 			}else{
 				String finalitem = myseq.get(i);
 				if(finalitem.startsWith("b")){
-					finalitem = finalitem.substring(1);
+					finalitem = "1"+finalitem.substring(1);
 				}
 				sub.add(finalitem);
 				sub.add(myseq.get(i));
@@ -204,9 +204,9 @@ public class Matcher {
 		List<String> myseq = matcher.getSeqFile("seq2549.txt");
 		String prefix = "2421/";
 //		String prefix = "2549/";
-		for (int i = 1; i <= 20; i++) {
-//			List<List<String>> myfile = matcher.getNewFile(prefix+i+".tab");
-			List<List<String>> myfile = matcher.randomsc(myseq);
+		for (int i = 1; i <= 46; i++) {
+			List<List<String>> myfile = matcher.getNewFile(prefix+i+".tab");
+//			List<List<String>> myfile = matcher.randomsc(myseq);
 			int count = matcher.mymatcher(mypattern, myfile);
 			System.out.println("Pattern Length: " + mypattern.size()
 					+" File Length: " + myfile.size()
