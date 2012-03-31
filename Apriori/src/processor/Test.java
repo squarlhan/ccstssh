@@ -253,19 +253,36 @@ public class Test {
 		ArrayList inputDB = new ArrayList();
 		long startTime = System.currentTimeMillis();
 
-		List<String> seq = test.getSeqFile("seq2421.txt");
-		inputDB = test.readinfile("42.txt", seq);
+		List<String> seq = test.getSeqFile("seq2549.txt");
+		inputDB = test.readinfile("2549_46.txt", seq);
 //		List<String> seq = test.getSeqFile("seqtest.txt");
 //		inputDB = test.gettestdata(true);
 
-		
+		int[] counts = new int[31];
+		for(int i=0; i<=30;i++){
+			counts[i] = 0;
+		}
+		int min = 5;
+		int max = 5;
 		System.out.println("您输入的数据库是 :");
 		System.out.println("***********************");
 		for (int i = 0; i < inputDB.size(); i++) {
-			System.out.println(inputDB.get(i));
+			int subsize = ((ArrayList)inputDB.get(i)).size();
+			if(subsize>max)max = subsize;
+			if(subsize<min)min = subsize;
+			counts[subsize-1]++;
+//			System.out.println(inputDB.get(i));
+		}
+		 
+		System.out.println("max = "+max);
+		System.out.println("min = "+ min);
+		System.out.println("+++++++++++");
+		for(int i=0; i<=30;i++){
+			System.out.println(counts[i]);
 		}
 		
-		Map a = test.runforfreqitems(21, inputDB, seq, "freitem.txt");
+		
+		Map a = test.runforfreqitems(23, inputDB, seq, "freitem.txt");
 		
 		long endTime = System.currentTimeMillis();
 		double cost =  (double)(endTime - startTime)/60000;

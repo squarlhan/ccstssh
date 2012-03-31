@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Matcher {
 
-	public List<List<String>> getFreqItemSet(String fiaddr, int cutoff) {
+	public List<List<String>> getFreqItemSet(String fiaddr, int cutoff, int presize) {
 		List<List<String>> result = new ArrayList();
 		File file = new File(fiaddr);
 		InputStreamReader insr;
@@ -36,7 +36,10 @@ public class Matcher {
 								}
 								
 							}
-							result.add(item_list);
+							if(item_list.size()>=presize){
+								result.add(item_list);
+							}
+							
 						}
 
 					}
@@ -200,13 +203,13 @@ public class Matcher {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Matcher matcher = new Matcher();
-		List<List<String>> mypattern = matcher.getFreqItemSet("freitem.txt", 30);
+		List<List<String>> mypattern = matcher.getFreqItemSet("2549_46_freitem.txt", 35, 3);
 		List<String> myseq = matcher.getSeqFile("seq2549.txt");
-		String prefix = "2421/";
-//		String prefix = "2549/";
-		for (int i = 1; i <= 46; i++) {
-			List<List<String>> myfile = matcher.getNewFile(prefix+i+".tab");
-//			List<List<String>> myfile = matcher.randomsc(myseq);
+//		String prefix = "2421/";
+		String prefix = "2549/";
+		for (int i = 1; i <= 57; i++) {
+//			List<List<String>> myfile = matcher.getNewFile(prefix+i+".tab");
+			List<List<String>> myfile = matcher.randomsc(myseq);
 			int count = matcher.mymatcher(mypattern, myfile);
 			System.out.println("Pattern Length: " + mypattern.size()
 					+" File Length: " + myfile.size()

@@ -158,19 +158,19 @@ public class Integration{
 	public static void main(String[] args){
 		Integration inte = new Integration();
 		String prefix = "E:/supercoli/aa/";
-//		String midfix = "2549/";
-//		String aimaddr = prefix+"32.txt";
-//		List<String> addrs = new ArrayList();
-//		for(int i =1;i<=32;i++){
-//			String temp = prefix+midfix+String.valueOf(i)+".tab";
-//			addrs.add(temp);
-//		}
-//		inte.integ(addrs, aimaddr);
-		
-		prefix = "E:/supercoli/exe/rs/";
-		List<String> myseq = inte.getSeqFile("seq2421.txt");
-		for(int i=43;i<=46;i++){
-			inte.parsefile(myseq, prefix+String.valueOf(i)+".txt", prefix+String.valueOf(i)+".tab");
+		String midfix = "2549/";
+		String aimaddr = prefix+"2549_50.txt";
+		List<String> addrs = new ArrayList();
+		for(int i =1;i<=50;i++){
+			String temp = prefix+midfix+String.valueOf(i)+".tab";
+			addrs.add(temp);
 		}
+		inte.integ(addrs, aimaddr);
+		
+//		prefix = "E:/supercoli/exe1/rs/";
+//		List<String> myseq = inte.getSeqFile("seq2549.txt");
+//		for(int i=58;i<=64;i++){
+//			inte.parsefile(myseq, prefix+String.valueOf(i)+".txt", prefix+String.valueOf(i)+".tab");
+//		}
 	}
 }
