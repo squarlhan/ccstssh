@@ -203,11 +203,11 @@ public class Matcher {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Matcher matcher = new Matcher();
-		List<List<String>> mypattern = matcher.getFreqItemSet("2549_46_freitem.txt", 35, 3);
+		List<List<String>> mypattern = matcher.getFreqItemSet("2549_50_freitem.txt", 30, 3);
 		List<String> myseq = matcher.getSeqFile("seq2549.txt");
 //		String prefix = "2421/";
 		String prefix = "2549/";
-		for (int i = 1; i <= 57; i++) {
+		for (int i = 51; i <=70; i++) {
 //			List<List<String>> myfile = matcher.getNewFile(prefix+i+".tab");
 			List<List<String>> myfile = matcher.randomsc(myseq);
 			int count = matcher.mymatcher(mypattern, myfile);
