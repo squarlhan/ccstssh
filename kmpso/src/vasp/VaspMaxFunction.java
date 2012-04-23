@@ -180,9 +180,9 @@ public double runvasp(double position[]){
 		}
 		input[3] = position[3];
 		double max = 1;
-		double min = input[3] / 4;
-		if (4 * input[3] < 1)
-			max = 4 * input[3];
+		double min = input[3] / 2;
+		if (2 * input[3] < 1)
+			max = 2 * input[3];
 		input[4] = position[4];
 		input[4] = min + input[4] * (max - min);
 		double vmax = input[3];
@@ -191,9 +191,9 @@ public double runvasp(double position[]){
 			vmax = input[4];
 			vmin = input[3];
 		}
-		min = vmax / 4;
-		if (4 * vmin < 1)
-			max = 4 * vmin;
+		min = vmax / 2;
+		if (2 * vmin < 1)
+			max = 2 * vmin;
 		input[5] = position[5];
 		input[5] = min + input[5] * (max - min);
 
