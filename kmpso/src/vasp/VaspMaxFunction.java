@@ -106,10 +106,14 @@ public double evaluate(double position[]) {
 public double runvasp(double position[]){
 	  double result = 0;
 	  double[][] vecs = vector_decoder(position);
+	  if(vecs==null){
+		  System.out.println("Decoding Error!");
+		  return 0;
+	  }
 	    this.writeposcar(vecs);
 	    
 		try {
-				Process proc = Runtime.getRuntime().exec("bsub < vasp.lsf");
+				Process proc = Runtime.getRuntime().exec("vasp");
 				BufferedInputStream in = new BufferedInputStream(proc.getInputStream());
 				BufferedReader inBr = new BufferedReader(new InputStreamReader(in));
 				String lineStr;
@@ -122,16 +126,20 @@ public double runvasp(double position[]){
 					if (proc.exitValue() == 1)// p.exitValue()==0表示正常结束，1：非正常结束
 						System.err.println("命令执行失败!");
 				}
-				Process proc1 = Runtime.getRuntime().exec(" awk '/free  energy/{print $5;}' OUTCAR |tail -1");
+				Process proc1 = Runtime.getRuntime().exec(" awk '/energy  without entropy/{print $5;}' OUTCAR |tail -1");
 				BufferedInputStream in1 = new BufferedInputStream(proc1.getInputStream());
 				BufferedReader inBr1 = new BufferedReader(new InputStreamReader(in1));
-				String lineStr1;
+				String lineStr1 = "";
 				while ((lineStr1 = inBr1.readLine()) != null) {
 					// 获得命令执行后在控制台的输出信息
-					System.out.println(lineStr1);// 打印输出信息
+					System.out.println("linestr:"+lineStr1+".");// 打印输出信息
 				}
-				if(isDouble(lineStr1.trim())){
+				System.out.println("**************************");
+				System.out.println("linestr:"+lineStr1+";");
+				if(lineStr1!=null&&lineStr1.trim().length()>1&&isDouble(lineStr1.trim())){
 					result = Double.parseDouble(lineStr1.trim());
+					System.out.println("RRRRRRRRRRRRRRRRRRRRR");
+					System.out.println("energy:"+result+";");// 打印输出信息
 				}else{
 					return 0;
 				}
@@ -208,11 +216,13 @@ public double runvasp(double position[]){
 		double v = results[0][0]*results[1][1]*results[2][2];
 		double weight = Math.cbrt(vol/v);
 		for(int i = 0; i<=2;i++){
-			for(int j = 0; j<=2;j++){
+			for(int j = 0; j<=2;j++){			  
 				results[i][j] = weight*results[i][j];
+				  if(Double.isNaN(results[i][j]))return null;
 			}
 		}
 
+		
 		return results;
 	}
   /**

@@ -277,7 +277,6 @@ public class TestTest {
 		
 		long startTime = System.currentTimeMillis();
 		KMPSO kmpso = new KMPSO();
-		int m = 40;
 		int n = 6;
 		List<List<Double>> scopes = new ArrayList();
 		for(int i = 0; i<=n-1;i++ ){
@@ -314,9 +313,9 @@ public class TestTest {
 				}
 				output[i] = new BufferedWriter(new FileWriter(results.get(i)));
 			}
-			int max_gen = 200;
+			int max_gen = 10;
 			int numofparticals = 40;
-			int dimention = 30;
+			int dimention = n;
 			double[] intertia = { 0.95, 0.9, 0.95, 0.9, 0.95, 1, 0.95, 0.9,0.95, 0.95, 0.9, 0.95 };
 			double[] velocity = { 1, 1.45, 1.85, 1.2, 1.4, 1.15, 1.7, 1.3, 1.8,1.6, 1.1, 1.55 };
 			double p_lamda = 0.8;
