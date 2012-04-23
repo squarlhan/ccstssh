@@ -251,23 +251,23 @@ public double runvasp(double position[]){
 			BufferedWriter output = new BufferedWriter(new FileWriter(result));
 			System.out.println(jobname);
 			output.write(jobname+"\n");
-			double unknow = 1;
-			System.out.println(unknow);
-			output.write(unknow+"\n");
+			double unknow = 1.00000000000000;
+			System.out.println("   "+unknow);
+			output.write("   "+unknow+"\n");
 			int m = vecs.length;
 			int n = vecs[0].length;
 			for (int i = 0; i <= m - 1; i++) {
 				for (int j = 0; j <= n - 1; j++) {
-					System.out.print(vecs[i][j]);
-					output.write(String.valueOf(vecs[i][j]));
-					System.out.print("\t");
-					output.write("\t");
+					System.out.print("     "+vecs[i][j]);
+					output.write("     "+String.valueOf(vecs[i][j]));
+//					System.out.print("\t");
+//					output.write("\t");
 				}
 				System.out.print("\n");
 				output.write("\n");
 			}
-			System.out.println(nn);
-			output.write(nn+"\n");
+			System.out.println("   "+nn);
+			output.write("   "+nn+"\n");
 			System.out.println("Direct");
 			output.write("Direct"+"\n");
 			double[][] pos = new double[nn][3];
@@ -284,65 +284,43 @@ public double runvasp(double position[]){
 //				System.out.print("\n");
 //				output.write("\n");
 //			}
-			System.out.print(0.25);
-			output.write(String.valueOf(0.25));
-			System.out.print("\t");
-			output.write("\t");
-			System.out.print(0.75);
-			output.write(String.valueOf(0.75));
-			System.out.print("\t");
-			output.write("\t");
-			System.out.print(0.0);
-			output.write(String.valueOf(0.0));
-			System.out.print("\t");
-			output.write("\t");
+			
+			System.out.print("  0.2499569795550727  0.7500430204449273  0.0000000000000000");
+			output.write("  0.2499569795550727  0.7500430204449273  0.0000000000000000");
+			System.out.print("\n");
+			output.write("\n");
+			System.out.print("  0.7500430204449273  0.2499569795550727  0.0000000000000000");
+			output.write("  0.7500430204449273  0.2499569795550727  0.0000000000000000");
+			System.out.print("\n");
+			output.write("\n");
+			System.out.print("  0.2500430643679579  0.2500430643679579  0.5000000000000000");
+			output.write("  0.2500430643679579  0.2500430643679579  0.5000000000000000");
+			System.out.print("\n");
+			output.write("\n");
+			System.out.print("  0.7499569356320421  0.7499569356320421  0.5000000000000000");
+			output.write("  0.7499569356320421  0.7499569356320421  0.5000000000000000");
 			System.out.print("\n");
 			output.write("\n");
 			
-			System.out.print(0.75);
-			output.write(String.valueOf(0.75));
-			System.out.print("\t");
-			output.write("\t");
-			System.out.print(0.25);
-			output.write(String.valueOf(0.25));
-			System.out.print("\t");
-			output.write("\t");
-			System.out.print(0.0);
-			output.write(String.valueOf(0.0));
-			System.out.print("\t");
-			output.write("\t");
 			System.out.print("\n");
 			output.write("\n");
-			
-			System.out.print(0.25);
-			output.write(String.valueOf(0.25));
-			System.out.print("\t");
-			output.write("\t");
-			System.out.print(0.75);
-			output.write(String.valueOf(0.75));
-			System.out.print("\t");
-			output.write("\t");
-			System.out.print(0.5);
-			output.write(String.valueOf(0.5));
-			System.out.print("\t");
-			output.write("\t");
+			System.out.print("  0.00000000E+00  0.00000000E+00  0.00000000E+00");
+			output.write("  0.00000000E+00  0.00000000E+00  0.00000000E+00");
 			System.out.print("\n");
 			output.write("\n");
-			
-			System.out.print(0.75);
-			output.write(String.valueOf(0.75));
-			System.out.print("\t");
-			output.write("\t");
-			System.out.print(0.25);
-			output.write(String.valueOf(0.25));
-			System.out.print("\t");
-			output.write("\t");
-			System.out.print(0.5);
-			output.write(String.valueOf(0.5));
-			System.out.print("\t");
-			output.write("\t");
+			System.out.print("  0.00000000E+00  0.00000000E+00  0.00000000E+00");
+			output.write("  0.00000000E+00  0.00000000E+00  0.00000000E+00");
 			System.out.print("\n");
 			output.write("\n");
+			System.out.print("  0.00000000E+00  0.00000000E+00  0.00000000E+00");
+			output.write("  0.00000000E+00  0.00000000E+00  0.00000000E+00");
+			System.out.print("\n");
+			output.write("\n");
+			System.out.print("  0.00000000E+00  0.00000000E+00  0.00000000E+00");
+			output.write("  0.00000000E+00  0.00000000E+00  0.00000000E+00");
+			System.out.print("\n");
+			output.write("\n");
+
 			
 			output.close();
 		} catch (IOException e) {
