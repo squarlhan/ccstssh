@@ -122,7 +122,7 @@ public class KMPSO {
 	 * @param kmeans_num 聚类个数
 	 * @param lamda 适应度估计的lamda
 	 */
-	public void Calculate(int max_gen, int numofparticals, int dimention, double intertia, 
+	public double[] Calculate(int max_gen, int numofparticals, int dimention, double intertia, 
 			double velocity, 	List<List<Double>> scopes, FitnessFunction fitness, 
 			double p_lamda, double p_extra,	int kmeans_max, double kmeans_num, double lamda, BufferedWriter output){
 		
@@ -156,6 +156,7 @@ public class KMPSO {
 
 		// Print en results
 		System.out.println(swarm.toStringStats());
+		
 		long endTime = System.currentTimeMillis();
 		System.out.println("运行次数 " + MaxFunction.counts);
 		System.out.println("运行时间 " + (endTime - startTime) + "ms");
@@ -168,7 +169,7 @@ public class KMPSO {
 		}
 //		System.out.println("Fitness count: " + MaxFunction.counts);
 //		System.out.println("End: Example 1");
-	
+	    return swarm.getBestPosition();
 		
 	}
 
