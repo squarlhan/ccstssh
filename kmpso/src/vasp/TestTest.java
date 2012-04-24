@@ -1,9 +1,12 @@
 package vasp;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -132,6 +135,54 @@ public class TestTest {
 		return results;
 	}
 
+	public static void writeincar(){
+		try {
+			File result = new File("INCAR");
+			if (result.exists()) {
+				result.delete();
+
+				if (result.createNewFile()) {
+					System.out.println("result  file create success!");
+				} else {
+					System.out.println("result  file create failed!");
+				}
+			} else {
+				if (result.createNewFile()) {
+					System.out.println("result  file create success!");
+				} else {
+					System.out.println("result  file create failed!");
+				}
+
+			}
+			BufferedWriter output = new BufferedWriter(new FileWriter(result));
+			
+			
+
+			output.write("SYSTEM = Various- local optimisation"+"\n");
+			output.write("PREC = Accurate"+"\n");
+			output.write("ENCUT = 300.0"+"\n");
+			output.write("EDIFF = 1e-6"+"\n");
+			output.write("IBRION = 2"+"\n");
+			output.write("ISIF = 3"+"\n");
+			output.write("NSW = 100"+"\n");
+			output.write("ISMEAR = 1 ; SIGMA = 0.20"+"\n");
+			output.write("POTIM = 0.100"+"\n");
+			output.write("#No writing charge density and wavefunction"+"\n");
+			output.write("LCHARG = FALSE"+"\n");
+			output.write("LWAVE = FALSE"+"\n");
+			output.write("#Target Pressure"+"\n");
+			output.write("PSTRESS = 900"+"\n");
+			output.write("#Finer optimization"+"\n");
+			output.write("EDIFFG = 1e-4"+"\n");
+			output.write("EDIFFG = -0.001"+"\n");
+			
+			output.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public static void writeposcar(double[][] vecs, int nn, String jobname) {
 		try {
 			File result = new File("POSCAR");
@@ -232,6 +283,44 @@ public class TestTest {
 		}
 	}
 
+	
+	public static double runbest(double[] bestpos, double vol, int nn, String jobname){
+		double result = 0;
+		double[][] vecs = vector_decoder(bestpos, vol);
+		writeposcar(vecs, nn, jobname);
+		writeincar();
+		try {
+			Process proc = Runtime.getRuntime().exec("vasp");
+			BufferedInputStream in = new BufferedInputStream(
+					proc.getInputStream());
+			BufferedReader inBr = new BufferedReader(new InputStreamReader(in));
+			String lineStr;
+			while ((lineStr = inBr.readLine()) != null) {
+				// 获得命令执行后在控制台的输出信息
+				System.out.println(lineStr);// 打印输出信息
+			}
+			// 检查命令是否执行失败。
+			if (proc.waitFor() != 0) {
+				if (proc.exitValue() == 1)// p.exitValue()==0表示正常结束，1：非正常结束
+					System.err.println("命令执行失败!");
+			}
+			String str = "OUTCAR";
+			readoutcar rdcar = new readoutcar(str);
+			result = rdcar.GetResult();
+			System.out.println("+++++++++++++++++++++++++");
+			System.out.println("energy: " + result + " ;");// 打印输出信息urn 0;
+			inBr.close();
+			in.close();
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	/**
 	 * @param args
 	 */
@@ -242,7 +331,7 @@ public class TestTest {
 		for (int i = 0; i <= 5; i++) {
 			ins[i] = Math.random();
 		}
-		double[] r = {1.81,1.81,1.81,1.81};
+		double[] r = {1.82,1.82,1.82,1.82};
 		double[] v = new double[nn];
 		double vol = 0;
 		for(int i=0;i<=nn-1;i++){
@@ -250,8 +339,7 @@ public class TestTest {
 			vol+=v[i];
 		}
 		vol = 1.2*vol;
-//		double[][] vecs = vector_decoder(ins, vol);
-//		writeposcar(vecs,nn,"try");
+
 		
 		long startTime = System.currentTimeMillis();
 		KMPSO kmpso = new KMPSO();
@@ -272,7 +360,7 @@ public class TestTest {
 			results.add(result0);
 			
 			BufferedWriter[] output = new BufferedWriter[results.size()];
-			
+			double[][] bestposes = new double[results.size()][n];
 			for(int i = 0; i<= results.size()-1;i++){
 				if (results.get(i).exists()) {
 					results.get(i).delete();
@@ -302,25 +390,22 @@ public class TestTest {
 			int kmeans_num = 4;
 			double lamda = 0.8;
             	for(int bb=0; bb<=0;bb++){
-            		kmpso.Calculate(max_gen, numofparticals, dimention, intertia[0],velocity[0], scopes, new VaspMaxFunction(nn, vol, "AutoPOSCAR"), p_lamda, p_extra,  kmeans_max, kmeans_num, lamda, output[0]);
+            		bestposes[0] = kmpso.Calculate(max_gen, numofparticals, dimention, intertia[0],velocity[0], scopes, new VaspMaxFunction(nn, vol, "AutoPOSCAR"), p_lamda, p_extra,  kmeans_max, kmeans_num, lamda, output[0]);
             	}
             	for(BufferedWriter op : output){
     				op.write("\n");
     				op.flush();
     			}
-				lamda+=0.05;
-//			}
 			for(BufferedWriter op : output){
 				op.close();
 			}
+			runbest(bestposes[0], vol, nn, "BESTPOSCAR");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		
-		//a1.runapgaexample();
-
 		long endTime = System.currentTimeMillis();
 		System.out.println("运行时间 " + (endTime - startTime) + "ms");
 		System.out.println("符合模式：" + clustObjectFun.mycount);
