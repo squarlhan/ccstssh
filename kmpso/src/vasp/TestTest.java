@@ -20,63 +20,6 @@ import test.MaxFunction;
 
 public class TestTest {
 
-	public static double[][] vector_decoder(double position[], double vol) {
-		int csize = position.length;
-		if (csize < 6) {
-			System.err.println("wrong chromosome size input!");
-			return null;
-		}
-		double[] input = new double[6];
-		for (int i = 0; i <= 2; i++) {
-			double genevalue = position[i];
-			input[i] = (Math.PI/6) + genevalue * ((5*Math.PI/6) -(Math.PI/6));
-		}
-		input[3] = position[3];
-		double max = 1;
-		double min = input[3] / 2;
-		if (2 * input[3] < 1)
-			max = 2 * input[3];
-		input[4] = position[4];
-		input[4] = min + input[4] * (max - min);
-		double vmax = input[3];
-		double vmin = input[4];
-		if (input[4] > input[3]) {
-			vmax = input[4];
-			vmin = input[3];
-		}
-		min = vmax / 2;
-		if (2 * vmin < 1)
-			max = 2 * vmin;
-		input[5] = position[5];
-		input[5] = min + input[5] * (max - min);
-
-		double[][] results = new double[3][3];
-		results[0][0] = input[3];
-		results[0][1] = 0;
-		results[0][2] = 0;
-		results[1][0] = input[4] * Math.cos(input[0]);
-		results[1][1] = input[4] * Math.sin(input[0]);
-		results[1][2] = 0;
-		results[2][0] = input[5] * Math.cos(input[2]);
-		results[2][2] = input[5]
-				* Math.sqrt(Math.pow(Math.sin(input[1]), 2)
-						- Math.pow((Math.cos(input[2]) - Math.cos(input[0])
-								* Math.cos(input[1]))
-								/ Math.sin(input[0]), 2));
-		results[2][1] = Math.sqrt(Math.pow(input[5], 2)
-				- Math.pow(results[2][0], 2) - Math.pow(results[2][2], 2));
-		
-		double v = results[0][0]*results[1][1]*results[2][2];
-		double weight = Math.cbrt(vol/v);
-		for(int i = 0; i<=2;i++){
-			for(int j = 0; j<=2;j++){
-				results[i][j] = weight*results[i][j];
-			}
-		}
-
-		return results;
-	}
-
 	public static double[][] vector_decoder(Double[] chrom, double vol) {
 		int csize = chrom.length;
 		if (csize < 6) {
@@ -283,10 +226,21 @@ public class TestTest {
 		}
 	}
 
-	
+	 /**
+	   * double数组转成DOUBLE数组
+	   * @param ins
+	   * @return
+	   */
+	  public static Double[] doublearr2Double(double[] ins){
+			Double[] inin = new Double[ins.length];
+			for(int i = 0; i<=ins.length-1;i++){
+				inin[i] = Double.valueOf(ins[i]);
+			}
+			return inin;
+		}
 	public static double runbest(double[] bestpos, double vol, int nn, String jobname){
 		double result = 0;
-		double[][] vecs = vector_decoder(bestpos, vol);
+		double[][] vecs = vector_decoder(doublearr2Double(bestpos), vol);
 		writeposcar(vecs, nn, jobname);
 		writeincar();
 		try {
@@ -347,7 +301,7 @@ public class TestTest {
 		List<List<Double>> scopes = new ArrayList();
 		for(int i = 0; i<=n-1;i++ ){
 			List<Double> sp = new ArrayList();
-			sp.add(0.0);
+			sp.add(0.0000000001);
 			sp.add(1.0);
 			scopes.add(sp);
 		}

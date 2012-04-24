@@ -106,7 +106,7 @@ public double evaluate(double position[]) {
   @SuppressWarnings("null")
 public double runvasp(double position[]){
 	  double result = 0;
-	  double[][] vecs = vector_decoder(position);
+	  double[][] vecs = vector_decoder(doublearr2Double(position));
 	  if(vecs==null){
 		  System.out.println("Decoding Error!");
 		  return 0;
@@ -162,12 +162,24 @@ public double runvasp(double position[]){
 	    return result;
   }
   /**
+   * double数组转成DOUBLE数组
+   * @param ins
+   * @return
+   */
+  public static Double[] doublearr2Double(double[] ins){
+		Double[] inin = new Double[ins.length];
+		for(int i = 0; i<=ins.length-1;i++){
+			inin[i] = Double.valueOf(ins[i]);
+		}
+		return inin;
+	}
+  /**
    * 解析染色体成晶格的矢量坐标
    * @param chrom
    * @return
    */
-  public double[][] vector_decoder(double position[]) {
-		int csize = position.length;
+  public double[][] vector_decoder(Double[] position) {
+	  int csize = position.length;
 		if (csize < 6) {
 			System.err.println("wrong chromosome size input!");
 			return null;
@@ -177,6 +189,7 @@ public double runvasp(double position[]){
 			double genevalue = position[i];
 			input[i] = (Math.PI/6) + genevalue * ((5*Math.PI/6) -(Math.PI/6));
 		}
+//		input[0] = Math.PI/2;
 		input[3] = position[3];
 		double max = 1;
 		double min = input[3] / 2;
@@ -205,23 +218,24 @@ public double runvasp(double position[]){
 		results[1][2] = 0;
 		results[2][0] = input[5] * Math.cos(input[2]);
 		results[2][2] = input[5]
-				* Math.sqrt(Math.pow(Math.sin(input[1]), 2)
+				* Math.sqrt(Math.abs(Math.pow(Math.sin(input[1]), 2)
 						- Math.pow((Math.cos(input[2]) - Math.cos(input[0])
 								* Math.cos(input[1]))
-								/ Math.sin(input[0]), 2));
-		results[2][1] = Math.sqrt(Math.pow(input[5], 2)
-				- Math.pow(results[2][0], 2) - Math.pow(results[2][2], 2));
+								/ Math.sin(input[0]), 2)));
+		results[2][1] = Math.sqrt(Math.abs(Math.pow(input[5], 2)
+				- Math.pow(results[2][0], 2) - Math.pow(results[2][2], 2)));
 		
 		double v = results[0][0]*results[1][1]*results[2][2];
 		double weight = Math.cbrt(vol/v);
 		for(int i = 0; i<=2;i++){
 			for(int j = 0; j<=2;j++){			  
 				results[i][j] = weight*results[i][j];
-				  if(Double.isNaN(results[i][j]))return null;
+				  if(Double.isNaN(results[i][j])){
+					  return null;
+				  }
 			}
 		}
 
-		
 		return results;
 	}
   /**

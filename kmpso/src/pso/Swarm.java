@@ -163,9 +163,10 @@ public class Swarm {
 					for(int i = 0; i<= mychrom.getDimention()-1; i++){
 						mychrom1.getPosition()[i] = mychrom.getPosition()[i];
 					}
-					double a1 = this.getFitnessFunction().evaluate(mychrom1);
+//					double a1 = this.getFitnessFunction().evaluate(mychrom1);
 					double a2 = mychrom.getFitness();
-				    output.write(Math.abs(a1-a2) + "\t");
+					output.write(Math.abs(a2) + "\t");
+//				    output.write(Math.abs(a1-a2) + "\t");
 			}
 			output.write("\n");
 			output.flush();
