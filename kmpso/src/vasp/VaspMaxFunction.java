@@ -127,35 +127,30 @@ public double runvasp(double position[]){
 					if (proc.exitValue() == 1)// p.exitValue()==0表示正常结束，1：非正常结束
 						System.err.println("命令执行失败!");
 				}
-				Process proc1 = Runtime.getRuntime().exec(" awk '/free energy    TOTEN/{print $5;}' OUTCAR |tail -1");
+//				Process proc1 = Runtime.getRuntime().exec(" awk '/free energy    TOTEN/{print $5;}' OUTCAR |tail -1");
 //				BufferedInputStream in1 = new BufferedInputStream(proc1.getInputStream());
 //				BufferedReader inBr1 = new BufferedReader(new InputStreamReader(in1));
-				 InputStreamReader in1= new InputStreamReader(proc1.getInputStream());
-		         LineNumberReader inBr1 = new LineNumberReader (in1);
-				String lineStr1 = "";
-				while (inBr1.readLine() != null) {
-					// 获得命令执行后在控制台的输出信息
-					lineStr1 = inBr1.readLine();
-					System.out.println("linestr:"+lineStr1+".");// 打印输出信息
-				}
-				System.out.println("**************************");
-				System.out.println("linestr:"+lineStr1+";");
-				if(lineStr1!=null&&lineStr1.trim().length()>1&&isDouble(lineStr1.trim())){
-					result = Double.parseDouble(lineStr1.trim());
-					System.out.println("RRRRRRRRRRRRRRRRRRRRR");
-					System.out.println("energy:"+result+";");// 打印输出信息
-				}else{
-					return 0;
-				}
+//				String lineStr1 = "";
+//				while (inBr1.readLine() != null) {
+//					// 获得命令执行后在控制台的输出信息
+//					lineStr1 = inBr1.readLine();
+//					System.out.println("linestr:"+lineStr1+".");// 打印输出信息
+//				}
+				//读取结果能量
+				String str="OUTCAR";
+				 readoutcar rdcar=new readoutcar(str);
+				 result=rdcar.GetResult();
+				System.out.println("**************************");				
+				System.out.println("energy:"+result+";");// 打印输出信息urn 0;
 				// 检查命令是否执行失败。
-				if (proc1.waitFor() != 0) {
-					if (proc1.exitValue() == 1)// p.exitValue()==0表示正常结束，1：非正常结束
-						System.err.println("命令执行失败!");
-				}
+//				if (proc1.waitFor() != 0) {
+//					if (proc1.exitValue() == 1)// p.exitValue()==0表示正常结束，1：非正常结束
+//						System.err.println("命令执行失败!");
+//				}
 				inBr.close();
 				in.close();
-				inBr1.close();
-				in1.close();
+//				inBr1.close();
+//				in1.close();
 	} catch (InterruptedException e1) {
 		// TODO Auto-generated catch block
 		e1.printStackTrace();
