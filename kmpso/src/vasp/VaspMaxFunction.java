@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.LineNumberReader;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -126,12 +127,15 @@ public double runvasp(double position[]){
 					if (proc.exitValue() == 1)// p.exitValue()==0表示正常结束，1：非正常结束
 						System.err.println("命令执行失败!");
 				}
-				Process proc1 = Runtime.getRuntime().exec(" awk '/energy  without entropy/{print $5;}' OUTCAR |tail -1");
-				BufferedInputStream in1 = new BufferedInputStream(proc1.getInputStream());
-				BufferedReader inBr1 = new BufferedReader(new InputStreamReader(in1));
+				Process proc1 = Runtime.getRuntime().exec(" awk '/free energy    TOTEN/{print $5;}' OUTCAR |tail -1");
+//				BufferedInputStream in1 = new BufferedInputStream(proc1.getInputStream());
+//				BufferedReader inBr1 = new BufferedReader(new InputStreamReader(in1));
+				 InputStreamReader in1= new InputStreamReader(proc1.getInputStream());
+		         LineNumberReader inBr1 = new LineNumberReader (in1);
 				String lineStr1 = "";
-				while ((lineStr1 = inBr1.readLine()) != null) {
+				while (inBr1.readLine() != null) {
 					// 获得命令执行后在控制台的输出信息
+					lineStr1 = inBr1.readLine();
 					System.out.println("linestr:"+lineStr1+".");// 打印输出信息
 				}
 				System.out.println("**************************");
