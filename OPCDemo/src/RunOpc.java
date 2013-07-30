@@ -20,8 +20,26 @@ public class RunOpc implements Runnable{
 		private List<List<String>> bss1;
 		private List<List<String>> items;
 		private HashMap<String, Integer> hashmap;
+		private List<String> selected;
+		private NewSWTApp ns;
 
 		
+		public NewSWTApp getNs() {
+			return ns;
+		}
+
+		public void setNs(NewSWTApp ns) {
+			this.ns = ns;
+		}
+
+		public List<String> getSelected() {
+			return selected;
+		}
+
+		public void setSelected(List<String> selected) {
+			this.selected = selected;
+		}
+
 		public HashMap<String, Integer> getHashmap() {
 			return hashmap;
 		}
@@ -97,6 +115,19 @@ public class RunOpc implements Runnable{
 			items = new ArrayList();
 			hashmap = new HashMap();
 		}
+		
+		public RunOpc(String item_name, List<String> selected, String host, String opcname, NewSWTApp ns) {
+			super();
+			this.item_name = item_name;
+			this.selected = selected;
+			this.host = host;
+			this.opcname = opcname;
+			bss0 = new ArrayList();
+			bss1 = new ArrayList();
+			items = new ArrayList();
+			hashmap = new HashMap();
+			this.ns = ns;
+		}
 
 		public void GetStructure(){
 			
@@ -171,6 +202,11 @@ public class RunOpc implements Runnable{
 					if (items != null) {
 						for (int k = 0; k < items.length; k++) {
 							System.out.println(items[k]);
+							String[] iit = items[k].split("; ");
+							List<String> a = new ArrayList();
+							if((selected.size()==0)||(selected.size()>0&&selected.indexOf(iit[0].trim())>0)){
+								ns.text7.setText(ns.text7.getText()+iit[0]+":"+iit[1]+":"+iit[3]);
+							}
 							OpcDemo.count++;
 						}
 					}					
@@ -178,6 +214,7 @@ public class RunOpc implements Runnable{
 					long end = new Date().getTime();
 					OpcDemo.timec+=(end-start);
 					System.out.println(item_name+":"+OpcDemo.count+":"+OpcDemo.timec);
+					ns.text7.setText(ns.text7.getText()+item_name+":"+OpcDemo.count+":"+OpcDemo.timec);
 				} catch (UnableBrowseLeafException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
