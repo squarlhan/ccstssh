@@ -178,8 +178,19 @@ public class RunOpc implements Runnable{
 					long end = new Date().getTime();
 					OpcDemo.timec+=(end-start);
 					System.out.println(item_name+":"+OpcDemo.count+":"+OpcDemo.timec);
-				} catch (UnableBrowseLeafException | UnableIBrowseException
-						| UnableAddGroupException | UnableAddItemException | ConnectivityException e) {
+				} catch (UnableBrowseLeafException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (UnableIBrowseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (UnableAddGroupException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (UnableAddItemException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ConnectivityException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}

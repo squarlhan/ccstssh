@@ -98,8 +98,13 @@ public class OpcDemo {
 				}
 			}
 			JOpcBrowser.coUninitialize();
-		} catch (UnableBrowseBranchException | UnableIBrowseException
-				| ConnectivityException e) {
+		} catch (UnableBrowseBranchException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnableIBrowseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ConnectivityException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
