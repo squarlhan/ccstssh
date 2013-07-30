@@ -123,6 +123,11 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 				button4LData.height = 25;
 				button4.setLayoutData(button4LData);
 				button4.setText(">");
+				button4.addMouseListener(new MouseAdapter() {
+					public void mouseUp(MouseEvent evt) {
+						button4MouseUp(evt);
+					}
+				});
 			}
 			{
 				button3 = new Button(this, SWT.PUSH | SWT.CENTER);
@@ -316,6 +321,11 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 				button5LData.height = 25;
 				button5.setLayoutData(button5LData);
 				button5.setText(">>");
+				button5.addMouseListener(new MouseAdapter() {
+					public void mouseUp(MouseEvent evt) {
+						button5MouseUp(evt);
+					}
+				});
 			}
 			{
 				button6 = new Button(this, SWT.PUSH | SWT.CENTER);
@@ -326,6 +336,11 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 				button6LData.height = 25;
 				button6.setLayoutData(button6LData);
 				button6.setText("<");
+				button6.addMouseListener(new MouseAdapter() {
+					public void mouseUp(MouseEvent evt) {
+						button6MouseUp(evt);
+					}
+				});
 			}
 			{
 				button7 = new Button(this, SWT.PUSH | SWT.CENTER);
@@ -336,6 +351,11 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 				button7LData.height = 25;
 				button7.setLayoutData(button7LData);
 				button7.setText("<<");
+				button7.addMouseListener(new MouseAdapter() {
+					public void mouseUp(MouseEvent evt) {
+						button7MouseUp(evt);
+					}
+				});
 			}
 			this.layout();
 		} catch (Exception e) {
@@ -369,6 +389,7 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 	}
 	
 	private void button1MouseUp(MouseEvent evt) {
+		treeItem1.removeAll();
 		ro = new RunOpc(null, text1.getText().trim(), text2.getText().trim());
 		ro.GetStructure();
 		Object[] bss0 = ro.getBss0().toArray();
@@ -384,6 +405,35 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 		}
 		treeItem1.setExpanded(true);
 		//TODO add your code for button1.mouseUp
+	}
+	
+	private void button4MouseUp(MouseEvent evt) {
+		for(String s:list1.getSelection()){
+			if(list2.indexOf(s)<0){
+				list2.add(s);
+			}
+		}
+		//TODO add your code for button4.mouseUp
+	}
+	
+	private void button5MouseUp(MouseEvent evt) {
+		for(String s: list1.getItems()){
+			if(list2.indexOf(s)<0){
+				list2.add(s);
+			}
+			
+		}
+		//TODO add your code for button5.mouseUp
+	}
+	
+	private void button6MouseUp(MouseEvent evt) {
+		list2.remove(list2.getSelectionIndices());
+		//TODO add your code for button5.mouseUp
+	}
+	
+	private void button7MouseUp(MouseEvent evt) {
+		list2.removeAll();
+		//TODO add your code for button5.mouseUp
 	}
 
 }
