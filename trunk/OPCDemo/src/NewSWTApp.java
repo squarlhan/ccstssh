@@ -1,5 +1,6 @@
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -53,7 +54,7 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 	private Button button3;
 	private Button button2;
 	private Button button1;
-	private Text text7;
+	public Text text7;
 	private List list2;
 	private Text text6;
 	private Text text5;
@@ -66,6 +67,9 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 	private Label label3;
 	private Label label2;
 	private Text text1;
+	
+	
+	
 	private RunOpc ro ;
 
 	{
@@ -148,6 +152,11 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 				button2LData.height = 25;
 				button2.setLayoutData(button2LData);
 				button2.setText("\u5f97\u5230\u6570\u636e");
+				button2.addMouseListener(new MouseAdapter() {
+					public void mouseUp(MouseEvent evt) {
+						button1MouseUp(evt);
+					}
+				});
 			}
 			{
 				button1 = new Button(this, SWT.PUSH | SWT.CENTER);
@@ -433,6 +442,20 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 	
 	private void button7MouseUp(MouseEvent evt) {
 		list2.removeAll();
+		//TODO add your code for button5.mouseUp
+	}
+	
+	private void button2MouseUp(MouseEvent evt) {
+		text7.setText("");
+		HashMap hm = ro.getHashmap();
+		Set ks = hm.keySet();
+		ArrayList<String> ss = new ArrayList();
+		for(String s:list2.getItems()){
+			ss.add(s);
+		}
+		for(Object o:ks){
+			new Thread(new RunOpc(o.toString(),ss, ro.getHost(), ro.getOpcname(), this)).start();
+		}
 		//TODO add your code for button5.mouseUp
 	}
 
