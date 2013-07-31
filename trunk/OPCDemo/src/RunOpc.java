@@ -21,15 +21,16 @@ public class RunOpc implements Runnable{
 		private List<List<String>> items;
 		private HashMap<String, Integer> hashmap;
 		private List<String> selected;
-		private NewSWTApp ns;
+		private String out;
 
-		
-		public NewSWTApp getNs() {
-			return ns;
+
+
+		public String getOut() {
+			return out;
 		}
 
-		public void setNs(NewSWTApp ns) {
-			this.ns = ns;
+		public void setOut(String out) {
+			this.out = out;
 		}
 
 		public List<String> getSelected() {
@@ -116,7 +117,7 @@ public class RunOpc implements Runnable{
 			hashmap = new HashMap();
 		}
 		
-		public RunOpc(String item_name, List<String> selected, String host, String opcname, NewSWTApp ns) {
+		public RunOpc(String item_name, List<String> selected, String host, String opcname) {
 			super();
 			this.item_name = item_name;
 			this.selected = selected;
@@ -126,7 +127,7 @@ public class RunOpc implements Runnable{
 			bss1 = new ArrayList();
 			items = new ArrayList();
 			hashmap = new HashMap();
-			this.ns = ns;
+			this.out = "";
 		}
 
 		public void GetStructure(){
@@ -200,12 +201,12 @@ public class RunOpc implements Runnable{
 					jbrowser.connect();
 					items = jbrowser.getOpcItems(item_name, true);
 					if (items != null) {
-						for (int k = 0; k < items.length; k++) {
-							System.out.println(items[k]);
+						for (int k = 0; k < items.length; k++) {							
 							String[] iit = items[k].split("; ");
 							List<String> a = new ArrayList();
 							if((selected.size()==0)||(selected.size()>0&&selected.indexOf(iit[0].trim())>0)){
-								ns.text7.setText(ns.text7.getText()+iit[0]+":"+iit[1]+":"+iit[3]);
+								System.out.println(iit[0]+":"+iit[1]+":"+iit[3]);
+								NewSWTApp.receiveStr(iit[0]+":"+iit[1]+":"+iit[3]+"\n");
 							}
 							OpcDemo.count++;
 						}
@@ -214,7 +215,7 @@ public class RunOpc implements Runnable{
 					long end = new Date().getTime();
 					OpcDemo.timec+=(end-start);
 					System.out.println(item_name+":"+OpcDemo.count+":"+OpcDemo.timec);
-					ns.text7.setText(ns.text7.getText()+item_name+":"+OpcDemo.count+":"+OpcDemo.timec);
+					NewSWTApp.receiveStr(item_name+":"+OpcDemo.count+":"+OpcDemo.timec+"\n");
 				} catch (UnableBrowseLeafException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

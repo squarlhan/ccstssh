@@ -54,7 +54,7 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 	private Button button3;
 	private Button button2;
 	private Button button1;
-	public Text text7;
+	public static Text text7;
 	private List list2;
 	private Text text6;
 	private Text text5;
@@ -142,6 +142,11 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 				button3LData.height = 25;
 				button3.setLayoutData(button3LData);
 				button3.setText("\u4fdd\u5b58");
+				button3.addMouseListener(new MouseAdapter() {
+					public void mouseUp(MouseEvent evt) {
+						button3MouseUp(evt);
+					}
+				});
 			}
 			{
 				button2 = new Button(this, SWT.PUSH | SWT.CENTER);
@@ -154,7 +159,7 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 				button2.setText("\u5f97\u5230\u6570\u636e");
 				button2.addMouseListener(new MouseAdapter() {
 					public void mouseUp(MouseEvent evt) {
-						button1MouseUp(evt);
+						button2MouseUp(evt);
 					}
 				});
 			}
@@ -181,6 +186,7 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 				text7LData.width = 359;
 				text7LData.height = 710;
 				text7.setLayoutData(text7LData);
+				text7.setText("");
 			}
 			{
 				label2 = new Label(this, SWT.NONE);
@@ -454,9 +460,33 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 			ss.add(s);
 		}
 		for(Object o:ks){
-			new Thread(new RunOpc(o.toString(),ss, ro.getHost(), ro.getOpcname(), this)).start();
+			new Thread(new RunOpc(o.toString(),ss, ro.getHost(), ro.getOpcname())).start();
 		}
 		//TODO add your code for button5.mouseUp
+	}
+	
+	private void button3MouseUp(MouseEvent evt) {
+		text7.setText("");
+		HashMap hm = ro.getHashmap();
+		Set ks = hm.keySet();
+		ArrayList<String> ss = new ArrayList();
+		for(String s:list2.getItems()){
+			ss.add(s);
+		}
+		for(Object o:ks){
+			RunOpc r = new RunOpc(o.toString(),ss, ro.getHost(), ro.getOpcname());
+			Thread t = new Thread(r);
+			t.start();
+		}
+		//TODO add your code for button5.mouseUp
+	}
+	
+	public static void receiveStr(final String str) {
+		Display.getDefault().syncExec(new Runnable() {
+			public void run() {
+				text7.append(str);
+			}
+		});
 	}
 
 }
