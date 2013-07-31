@@ -14,6 +14,7 @@ import java.util.Set;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
@@ -419,7 +420,9 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 	*/
 	public static void main(String[] args) {
 		Display display = Display.getDefault();
-		Shell shell = new Shell(display);
+		Shell shell = new Shell(display,SWT.CLOSE | SWT.MIN);
+		shell.setText("OPCConfig");
+		shell.setImage(new Image(display, "res/1.jpg"));
 		NewSWTApp inst = new NewSWTApp(shell, SWT.NULL);
 		Point size = inst.getSize();
 		shell.setLayout(new FillLayout());
