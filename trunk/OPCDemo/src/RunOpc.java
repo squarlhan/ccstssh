@@ -204,7 +204,7 @@ public class RunOpc implements Runnable{
 						for (int k = 0; k < items.length; k++) {							
 							String[] iit = items[k].split("; ");
 							List<String> a = new ArrayList();
-							if((selected.size()==0)||(selected.size()>0&&selected.indexOf(iit[0].trim())>0)){
+							if((selected.size()==0)||(selected.size()>0&&selected.indexOf(iit[0].trim())>=0)){
 								System.out.println(iit[0]+":"+iit[1]+":"+iit[3]);
 								NewSWTApp.receiveStr(iit[0]+":"+iit[1]+":"+iit[3]+"\n");
 							}

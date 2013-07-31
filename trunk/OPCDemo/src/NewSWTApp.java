@@ -1,5 +1,11 @@
 
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -23,6 +29,7 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
@@ -71,6 +78,8 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 	
 	
 	private RunOpc ro ;
+	private Label label7;
+	private Text text8;
 
 	{
 		//Register as a resource user - SWTResourceManager will
@@ -94,9 +103,9 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 			{
 				FormData tree1LData = new FormData();
 				tree1LData.left =  new FormAttachment(0, 1000, 12);
-				tree1LData.top =  new FormAttachment(0, 1000, 240);
+				tree1LData.top =  new FormAttachment(0, 1000, 262);
 				tree1LData.width = 240;
-				tree1LData.height = 474;
+				tree1LData.height = 452;
 				tree1 = new Tree(this, SWT.NONE);
 				tree1.setLayoutData(tree1LData);
 				{
@@ -109,11 +118,16 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 						// TODO Auto-generated method stub
 						TreeItem tised = tree1.getSelection()[0];
 						TreeItem tisedp = tised.getParentItem();
-						int index = ro.getHashmap().get(tisedp.getText()+"."+tised.getText());
-						Object[] is = ro.getItems().get(index).toArray();
-						list1.removeAll();
-						for(int k=0;k<=is.length-1;k++){
-							list1.add(is[k].toString(), k);
+						if (tisedp != null&&tisedp.getText().indexOf("Root")<0) {
+							int index = ro.getHashmap().get(
+									tisedp.getText() + "." + tised.getText());
+							if(index>=0){
+								Object[] is = ro.getItems().get(index).toArray();
+								list1.removeAll();
+								for (int k = 0; k <= is.length - 1; k++) {
+									list1.add(is[k].toString(), k);
+								}
+							}
 						}
 					}
 				});
@@ -137,7 +151,7 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 				button3 = new Button(this, SWT.PUSH | SWT.CENTER);
 				FormData button3LData = new FormData();
 				button3LData.left =  new FormAttachment(0, 1000, 212);
-				button3LData.top =  new FormAttachment(0, 1000, 189);
+				button3LData.top =  new FormAttachment(0, 1000, 218);
 				button3LData.width = 57;
 				button3LData.height = 25;
 				button3.setLayoutData(button3LData);
@@ -152,7 +166,7 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 				button2 = new Button(this, SWT.PUSH | SWT.CENTER);
 				FormData button2LData = new FormData();
 				button2LData.left =  new FormAttachment(0, 1000, 111);
-				button2LData.top =  new FormAttachment(0, 1000, 189);
+				button2LData.top =  new FormAttachment(0, 1000, 218);
 				button2LData.width = 57;
 				button2LData.height = 25;
 				button2.setLayoutData(button2LData);
@@ -167,7 +181,7 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 				button1 = new Button(this, SWT.PUSH | SWT.CENTER);
 				FormData button1LData = new FormData();
 				button1LData.left =  new FormAttachment(0, 1000, 12);
-				button1LData.top =  new FormAttachment(0, 1000, 189);
+				button1LData.top =  new FormAttachment(0, 1000, 218);
 				button1LData.width = 57;
 				button1LData.height = 25;
 				button1.setLayoutData(button1LData);
@@ -251,7 +265,7 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 				label5 = new Label(this, SWT.NONE);
 				FormData label5LData = new FormData();
 				label5LData.left =  new FormAttachment(0, 1000, 34);
-				label5LData.top =  new FormAttachment(0, 1000, 129);
+				label5LData.top =  new FormAttachment(0, 1000, 155);
 				label5LData.width = 85;
 				label5LData.height = 15;
 				label5.setLayoutData(label5LData);
@@ -261,7 +275,7 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 				label6 = new Label(this, SWT.NONE);
 				FormData label6LData = new FormData();
 				label6LData.left =  new FormAttachment(0, 1000, 46);
-				label6LData.top =  new FormAttachment(0, 1000, 156);
+				label6LData.top =  new FormAttachment(0, 1000, 182);
 				label6LData.width = 73;
 				label6LData.height = 15;
 				label6.setLayoutData(label6LData);
@@ -301,7 +315,7 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 				text5 = new Text(this, SWT.NONE);
 				FormData text5LData = new FormData();
 				text5LData.left =  new FormAttachment(0, 1000, 131);
-				text5LData.top =  new FormAttachment(0, 1000, 129);
+				text5LData.top =  new FormAttachment(0, 1000, 155);
 				text5LData.width = 138;
 				text5LData.height = 15;
 				text5.setLayoutData(text5LData);
@@ -311,7 +325,7 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 				text6 = new Text(this, SWT.NONE);
 				FormData text6LData = new FormData();
 				text6LData.left =  new FormAttachment(0, 1000, 131);
-				text6LData.top =  new FormAttachment(0, 1000, 156);
+				text6LData.top =  new FormAttachment(0, 1000, 182);
 				text6LData.width = 138;
 				text6LData.height = 15;
 				text6.setLayoutData(text6LData);
@@ -372,7 +386,28 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 					}
 				});
 			}
+			{
+				text8 = new Text(this, SWT.NONE);
+				FormData text8LData = new FormData();
+				text8LData.left =  new FormAttachment(0, 1000, 131);
+				text8LData.top =  new FormAttachment(0, 1000, 128);
+				text8LData.width = 138;
+				text8LData.height = 15;
+				text8.setLayoutData(text8LData);
+				text8.setText("3306");
+			}
+			{
+				label7 = new Label(this, SWT.NONE);
+				FormData label7LData = new FormData();
+				label7LData.left =  new FormAttachment(0, 1000, 34);
+				label7LData.top =  new FormAttachment(0, 1000, 128);
+				label7LData.width = 85;
+				label7LData.height = 15;
+				label7.setLayoutData(label7LData);
+				label7.setText("\u6570\u636e\u5e93\u7aef\u53e3\u53f7\uff1a");
+			}
 			this.layout();
+			readini();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -466,18 +501,9 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 	}
 	
 	private void button3MouseUp(MouseEvent evt) {
-		text7.setText("");
-		HashMap hm = ro.getHashmap();
-		Set ks = hm.keySet();
-		ArrayList<String> ss = new ArrayList();
-		for(String s:list2.getItems()){
-			ss.add(s);
-		}
-		for(Object o:ks){
-			RunOpc r = new RunOpc(o.toString(),ss, ro.getHost(), ro.getOpcname());
-			Thread t = new Thread(r);
-			t.start();
-		}
+		button3.setEnabled(false);
+		saveini();
+		button3.setEnabled(true);
 		//TODO add your code for button5.mouseUp
 	}
 	
@@ -487,6 +513,87 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 				text7.append(str);
 			}
 		});
+	}
+	
+	private void readini() {
+		try {
+			FileReader read = new FileReader("opcConfig.ini");
+			BufferedReader br = new BufferedReader(read);
+			String row;
+			while ((row = br.readLine()) != null) {
+				if (row.trim().startsWith("host")) {
+					String[] hs = row.trim().split("=");
+					text1.setText(hs[1].trim());
+				}
+				if (row.trim().startsWith("name")) {
+					String[] ns = row.trim().split("=");
+					text2.setText(ns[1].trim());
+				}
+				if (row.trim().startsWith("dbname")) {
+					String[] ns = row.trim().split("=");
+					text4.setText(ns[1].trim());
+				}
+				if (row.trim().startsWith("dbhost")) {
+					String[] ns = row.trim().split("=");
+					text3.setText(ns[1].trim());
+				}
+				if (row.trim().startsWith("dbport")) {
+					String[] ns = row.trim().split("=");
+					text8.setText(ns[1].trim());
+				}
+				if (row.trim().startsWith("dbuser")) {
+					String[] ns = row.trim().split("=");
+					text5.setText(ns[1].trim());
+				}
+				if (row.trim().startsWith("dbpsw")) {
+					String[] ns = row.trim().split("=");
+					text6.setText(ns[1].trim());
+				}
+				if (row.trim().indexOf("=")<0) {
+					list2.add(row.trim());
+				}
+			}
+			br.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void saveini(){
+		try {
+			File file = new File("opcConfig.ini");
+			if (file.exists()) {
+				file.delete();
+				if (file.createNewFile()) {
+					System.out.println("Config file create success!");
+				} else {
+					System.out.println("Config file create failed!");
+				}
+			} else {
+				if (file.createNewFile()) {
+					System.out.println("Config file create success!");
+				} else {
+					System.out.println("Config file create failed!");
+				}
+
+			}
+
+			BufferedWriter output = new BufferedWriter(new FileWriter(file));
+			output.write("host="+text1.getText()+"\r\n");
+			output.write("name="+text2.getText()+"\r\n");
+			output.write("dbhost="+text3.getText()+"\r\n");
+			output.write("dbname="+text4.getText()+"\r\n");
+			output.write("dbuser="+text5.getText()+"\r\n");
+			output.write("dbpsw="+text6.getText()+"\r\n");
+			output.write("dbport="+text8.getText()+"\r\n");
+			for(String s : list2.getItems()){
+				output.write(s+"\r\n");
+			}
+			output.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
