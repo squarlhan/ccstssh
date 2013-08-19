@@ -115,6 +115,7 @@ public class RunOpc implements Runnable{
 			bss1 = new ArrayList();
 			items = new ArrayList();
 			hashmap = new HashMap();
+			selected = new ArrayList();
 		}
 		
 		public RunOpc(String item_name, List<String> selected, String host, String opcname) {
@@ -214,8 +215,8 @@ public class RunOpc implements Runnable{
 					JOpcBrowser.coUninitialize();
 					long end = new Date().getTime();
 					OpcDemo.timec+=(end-start);
-					System.out.println(item_name+":"+OpcDemo.count+":"+OpcDemo.timec);
-					NewSWTApp.receiveStr(item_name+":"+OpcDemo.count+":"+OpcDemo.timec+"\n");
+//					System.out.println(item_name+":"+OpcDemo.count+":"+OpcDemo.timec);
+//					NewSWTApp.receiveStr(item_name+":"+OpcDemo.count+":"+OpcDemo.timec+"\n");
 				} catch (UnableBrowseLeafException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
