@@ -79,6 +79,8 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 	
 	
 	private RunOpc ro ;
+	private Label label8;
+	private Text text9;
 	private Label label7;
 	private Text text8;
 
@@ -104,9 +106,9 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 			{
 				FormData tree1LData = new FormData();
 				tree1LData.left =  new FormAttachment(0, 1000, 12);
-				tree1LData.top =  new FormAttachment(0, 1000, 262);
+				tree1LData.top =  new FormAttachment(0, 1000, 280);
 				tree1LData.width = 240;
-				tree1LData.height = 452;
+				tree1LData.height = 434;
 				tree1 = new Tree(this, SWT.NONE);
 				tree1.setLayoutData(tree1LData);
 				{
@@ -152,7 +154,7 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 				button3 = new Button(this, SWT.PUSH | SWT.CENTER);
 				FormData button3LData = new FormData();
 				button3LData.left =  new FormAttachment(0, 1000, 212);
-				button3LData.top =  new FormAttachment(0, 1000, 218);
+				button3LData.top =  new FormAttachment(0, 1000, 241);
 				button3LData.width = 57;
 				button3LData.height = 25;
 				button3.setLayoutData(button3LData);
@@ -167,7 +169,7 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 				button2 = new Button(this, SWT.PUSH | SWT.CENTER);
 				FormData button2LData = new FormData();
 				button2LData.left =  new FormAttachment(0, 1000, 111);
-				button2LData.top =  new FormAttachment(0, 1000, 218);
+				button2LData.top =  new FormAttachment(0, 1000, 241);
 				button2LData.width = 57;
 				button2LData.height = 25;
 				button2.setLayoutData(button2LData);
@@ -182,7 +184,7 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 				button1 = new Button(this, SWT.PUSH | SWT.CENTER);
 				FormData button1LData = new FormData();
 				button1LData.left =  new FormAttachment(0, 1000, 12);
-				button1LData.top =  new FormAttachment(0, 1000, 218);
+				button1LData.top =  new FormAttachment(0, 1000, 241);
 				button1LData.width = 57;
 				button1LData.height = 25;
 				button1.setLayoutData(button1LData);
@@ -407,6 +409,26 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 				label7.setLayoutData(label7LData);
 				label7.setText("\u6570\u636e\u5e93\u7aef\u53e3\u53f7\uff1a");
 			}
+			{
+				text9 = new Text(this, SWT.NONE);
+				text9.setText("300");
+				FormData text9LData = new FormData();
+				text9LData.left =  new FormAttachment(0, 1000, 131);
+				text9LData.top =  new FormAttachment(0, 1000, 209);
+				text9LData.width = 138;
+				text9LData.height = 15;
+				text9.setLayoutData(text9LData);
+			}
+			{
+				label8 = new Label(this, SWT.NONE);
+				FormData label8LData = new FormData();
+				label8LData.left =  new FormAttachment(0, 1000, 10);
+				label8LData.top =  new FormAttachment(0, 1000, 209);
+				label8LData.width = 107;
+				label8LData.height = 15;
+				label8.setLayoutData(label8LData);
+				label8.setText("\u91c7\u6837\u65f6\u95f4\u5dee\uff08\u79d2\uff09\uff1a");
+			}
 			this.layout();
 			readini();
 		} catch (Exception e) {
@@ -552,6 +574,10 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 					String[] ns = row.trim().split("=");
 					text6.setText(ns[1].trim());
 				}
+				if (row.trim().startsWith("timespan")) {
+					String[] ns = row.trim().split("=");
+					text9.setText(ns[1].trim());
+				}
 				if (row.trim().indexOf("=")<0) {
 					list2.add(row.trim());
 				}
@@ -590,6 +616,7 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 			output.write("dbuser="+text5.getText()+"\r\n");
 			output.write("dbpsw="+text6.getText()+"\r\n");
 			output.write("dbport="+text8.getText()+"\r\n");
+			output.write("timespan="+text9.getText()+"\r\n");
 			for(String s : list2.getItems()){
 				output.write(s+"\r\n");
 			}
