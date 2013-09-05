@@ -105,7 +105,7 @@ public class RunOpc2 implements Runnable {
 					// System.out.println(items[k]);
 					OpcDemo.count++;
 					String[] rows = items[k].split(";");
-					if (rows.length == 4 && (!rows[3].trim().startsWith("bad"))) {
+					if (rows.length == 4) {
 						String name = rows[0].trim();
 						String item = rows[2].trim();
 						String r3 = rows[3].trim();
@@ -114,6 +114,8 @@ public class RunOpc2 implements Runnable {
 							value = 1;
 						} else if (r3.equalsIgnoreCase("true")) {
 							value = 0;
+						} else if (r3.startsWith("bad")) {
+							value = -9999;
 						} else {
 							value = Double.parseDouble(r3);
 						}
