@@ -2,9 +2,11 @@ package cn.edu.jlu.ccst.opc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,10 +22,8 @@ public class RunOpc2 implements Runnable {
 	private String item_name;
 	private String host;
 	private String opcname;
-	private Statement statement;
+	private Connection conn;
 	private List<String> selected;
-	
-	
 
 	public List<String> getSelected() {
 		return selected;
@@ -57,12 +57,13 @@ public class RunOpc2 implements Runnable {
 		this.item_name = item_name;
 	}
 
-	public Statement getStatement() {
-		return statement;
+
+	public Connection getConn() {
+		return conn;
 	}
 
-	public void setStatement(Statement statement) {
-		this.statement = statement;
+	public void setCoon(Connection conn) {
+		this.conn = conn;
 	}
 
 	public RunOpc2(String item_name) {
@@ -78,12 +79,12 @@ public class RunOpc2 implements Runnable {
 	}
 
 	public RunOpc2(String item_name, String host, String opcname,
-			List<String> selected, Statement statement) {
+			List<String> selected, Connection conn) {
 		super();
 		this.item_name = item_name;
 		this.host = host;
 		this.opcname = opcname;
-		this.statement = statement;
+		this.conn = conn;
 		this.selected = selected;
 	}
 
@@ -106,41 +107,66 @@ public class RunOpc2 implements Runnable {
 					OpcDemo.count++;
 					String[] rows = items[k].split(";");
 					if (rows.length == 4) {
-						String name = rows[0].trim();
-						String item = rows[2].trim();
-						String r3 = rows[3].trim();
-						double value;
-						if (r3.equalsIgnoreCase("false")) {
-							value = 1;
-						} else if (r3.equalsIgnoreCase("true")) {
-							value = 0;
-						} else if (r3.startsWith("bad")) {
-							value = -9999;
-						} else {
-							value = Double.parseDouble(r3);
+						String id = rows[0].trim();
+						String sqls = "select name from init_predict where id = '"
+								+ id + "'";
+						Statement statement = conn.createStatement();
+						ResultSet rs = statement.executeQuery(sqls);
+						List<String> nilist = new ArrayList();
+						if(!rs.wasNull()){
+						while (rs.next()){
+							nilist.add(rs.getString("name").trim());
 						}
-						if ((selected.size() == 0)
-								|| (selected.size() > 0 && selected
-										.indexOf(name.trim()) >= 0)) {
-							String sqld = "insert into motodcsdata(equipment, item, value) values('"
-									+ name + "','" + item + "'," + value + ")";
-							SimpleDateFormat formatter = new SimpleDateFormat(
-									"yyyy-MM-dd HH:mm:ss");
-							String mytime = formatter.format(new Date());
-							String sqlh = "insert into motodcshistory(equipment, item, seqno,value) values('"
-									+ name
-									+ "','"
-									+ item
-									+ "','"
-									+ mytime
-									+ "'," + value + ")";
-							statement.execute(sqld);
-							statement.execute(sqlh);
-							// statement.close();
-							// conn.close();
 						}
+						if(nilist.size()>0){							
+							String ni = nilist.get(0).replace('.', ',');
+							if (ni != null && ni.length() >= 1&&ni.indexOf(",")>0) {
+								String[] niarray = ni.split(",");
+								if (niarray.length == 2) {
+									String name = niarray[0].trim();
+									String item = niarray[1].trim();
+									String r3 = rows[3].trim();
+									double value;
+									if (r3.equalsIgnoreCase("false")) {
+										value = 1;
+									} else if (r3.equalsIgnoreCase("true")) {
+										value = 0;
+									} else if (r3.startsWith("bad")) {
+										value = -9999;
+									} else {
+										value = Double.parseDouble(r3);
+									}
+									if ((selected.size() == 0)
+											|| (selected.size() > 0 && selected
+													.indexOf(name.trim()) >= 0)) {
+										String sqld = "insert into motodcsdata(equipment, item, value) values('"
+												+ name
+												+ "','"
+												+ item
+												+ "',"
+												+ value + ")";
+										SimpleDateFormat formatter = new SimpleDateFormat(
+												"yyyy-MM-dd HH:mm:ss");
+										String mytime = formatter
+												.format(new Date());
+										String sqlh = "insert into motodcshistory(equipment, item, seqno,value) values('"
+												+ name
+												+ "','"
+												+ item
+												+ "','"
+												+ mytime + "'," + value + ")";
+										statement.execute(sqld);
+										statement.execute(sqlh);
+										// statement.close();
+										// conn.close();
+									}
+								}
+							}
+						}
+//						rs.close();
 					}
 				}
+
 			}
 			JOpcBrowser.coUninitialize();
 			long end = new Date().getTime();
