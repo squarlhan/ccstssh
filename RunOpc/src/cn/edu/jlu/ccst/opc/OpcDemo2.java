@@ -235,7 +235,7 @@ public class OpcDemo2 {
 		od.fillitemlist();
 		for (String name : od.getItem_names()) {			
 			new Thread(new RunOpc2(name, od.getHost(), od.getOpcname(),
-					od.getSelected(), od.getStatement())).start();
+					od.getSelected(), od.getConn())).start();
 		}
 		long end = new Date().getTime();
 		od.timec = (end - start);
