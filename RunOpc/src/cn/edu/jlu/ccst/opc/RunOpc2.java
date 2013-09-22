@@ -108,23 +108,25 @@ public class RunOpc2 implements Runnable {
 					String[] rows = items[k].split(";");
 					if (rows.length == 4) {
 						String id = rows[0].trim();
-						String sqls = "select name from init_predict where id = '"
-								+ id + "'";
+//						String sqls = "select name from init_predict where id = '"
+//								+ id + "'";
 						Statement statement = conn.createStatement();
-						ResultSet rs = statement.executeQuery(sqls);
-						List<String> nilist = new ArrayList();
-						if(!rs.wasNull()){
-						while (rs.next()){
-							nilist.add(rs.getString("name").trim());
-						}
-						}
-						if(nilist.size()>0){							
-							String ni = nilist.get(0).replace('.', ',');
-							if (ni != null && ni.length() >= 1&&ni.indexOf(",")>0) {
-								String[] niarray = ni.split(",");
-								if (niarray.length == 2) {
-									String name = niarray[0].trim();
-									String item = niarray[1].trim();
+//						ResultSet rs = statement.executeQuery(sqls);
+//						List<String> nilist = new ArrayList();
+//						if(!rs.wasNull()){
+//						while (rs.next()){
+//							nilist.add(rs.getString("name").trim());
+//						}
+//						}
+//						if(nilist.size()>0){							
+//							String ni = nilist.get(0).replace('.', ',');
+//							if (ni != null && ni.length() >= 1&&ni.indexOf(",")>0) {
+//								String[] niarray = ni.split(",");
+//								if (niarray.length == 2) {
+//									String name = niarray[0].trim();
+//									String item = niarray[1].trim();
+						String name = id;
+						String item = id;
 									String r3 = rows[3].trim();
 									double value;
 									if (r3.equalsIgnoreCase("false")) {
@@ -160,9 +162,9 @@ public class RunOpc2 implements Runnable {
 										// statement.close();
 										// conn.close();
 									}
-								}
-							}
-						}
+//								}
+//							}
+//						}
 //						rs.close();
 					}
 				}
