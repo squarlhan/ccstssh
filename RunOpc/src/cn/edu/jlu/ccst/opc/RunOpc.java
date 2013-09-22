@@ -2,10 +2,13 @@ package cn.edu.jlu.ccst.opc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javafish.clients.opc.browser.JOpcBrowser;
 import javafish.clients.opc.exception.ConnectivityException;
@@ -19,11 +22,16 @@ public class RunOpc implements Runnable {
 	private String item_name;
 	private String host;
 	private String opcname;
-	private String dbhost;
-	private String dbport;
-	private String dbname;
-	private String dbuser;
-	private String dbpsw;
+	private Connection conn;
+	private List<String> selected;
+
+	public List<String> getSelected() {
+		return selected;
+	}
+
+	public void setSelected(List<String> selected) {
+		this.selected = selected;
+	}
 
 	public String getHost() {
 		return host;
@@ -48,45 +56,14 @@ public class RunOpc implements Runnable {
 	public void setItem_name(String item_name) {
 		this.item_name = item_name;
 	}
-	
-	public String getDbhost() {
-		return dbhost;
+
+
+	public Connection getConn() {
+		return conn;
 	}
 
-	public void setDbhost(String dbhost) {
-		this.dbhost = dbhost;
-	}
-
-	public String getDbport() {
-		return dbport;
-	}
-
-	public void setDbport(String dbport) {
-		this.dbport = dbport;
-	}
-
-	public String getDbname() {
-		return dbname;
-	}
-
-	public void setDbname(String dbname) {
-		this.dbname = dbname;
-	}
-
-	public String getDbuser() {
-		return dbuser;
-	}
-
-	public void setDbuser(String dbuser) {
-		this.dbuser = dbuser;
-	}
-
-	public String getDbpsw() {
-		return dbpsw;
-	}
-
-	public void setDbpsw(String dbpsw) {
-		this.dbpsw = dbpsw;
+	public void setCoon(Connection conn) {
+		this.conn = conn;
 	}
 
 	public RunOpc(String item_name) {
@@ -100,20 +77,15 @@ public class RunOpc implements Runnable {
 		this.host = host;
 		this.opcname = opcname;
 	}
-	
-	
 
-	public RunOpc(String item_name, String host, String opcname, String dbhost,
-			String dbport, String dbname, String dbuser, String dbpsw) {
+	public RunOpc(String item_name, String host, String opcname,
+			List<String> selected, Connection conn) {
 		super();
 		this.item_name = item_name;
 		this.host = host;
 		this.opcname = opcname;
-		this.dbhost = dbhost;
-		this.dbport = dbport;
-		this.dbname = dbname;
-		this.dbuser = dbuser;
-		this.dbpsw = dbpsw;
+		this.conn = conn;
+		this.selected = selected;
 	}
 
 	@Override
@@ -128,49 +100,73 @@ public class RunOpc implements Runnable {
 					"JOPCBrowser1");
 			jbrowser.connect();
 			items = jbrowser.getOpcItems(item_name, true);
-			
-			String driver = "com.mysql.jdbc.Driver";
-			String url = "jdbc:mysql://"+dbhost+":"+dbport+"/"+dbname;
-			Class.forName(driver);
-			Connection conn = DriverManager.getConnection(url, dbuser, dbpsw);
-			Statement statement = conn.createStatement();
-			
+
 			if (items != null) {
 				for (int k = 0; k < items.length; k++) {
-					System.out.println(items[k]);
+					// System.out.println(items[k]);
 					OpcDemo.count++;
 					String[] rows = items[k].split(";");
-					if (rows.length == 4 && (!rows[3].trim().startsWith("bad"))) {
-						String name = rows[0].trim();
-						String item = rows[2].trim();
-						String r3 = rows[3].trim();
-						double value;
-						if (r3.equalsIgnoreCase("false")) {
-							value = 1;
-						} else if (r3.equalsIgnoreCase("true")) {
-							value = 0;
-						} else {
-							value = Double.parseDouble(r3);
+					if (rows.length == 4) {
+						String id = rows[0].trim();
+						String sqls = "select name from init_predict where id = '"
+								+ id + "'";
+						Statement statement = conn.createStatement();
+						ResultSet rs = statement.executeQuery(sqls);
+						List<String> nilist = new ArrayList();
+						if(!rs.wasNull()){
+						while (rs.next()){
+							nilist.add(rs.getString("name").trim());
 						}
-						String sqld = "insert into motodcsdata(equipment, item, value) values('"
-								+ name + "','" + item + "'," + value + ")";
-						SimpleDateFormat formatter = new SimpleDateFormat(
-								"yyyy-MM-dd HH:mm:ss");
-						String mytime = formatter.format(new Date());
-						String sqlh = "insert into motodcshistory(equipment, item, seqno,value) values('"
-								+ name
-								+ "','"
-								+ item
-								+ "','"
-								+ mytime
-								+ "',"
-								+ value + ")";
-						statement.execute(sqld);
-						statement.execute(sqlh);
-//						statement.close();
-//						conn.close();
+						}
+						if(nilist.size()>0){							
+							String ni = nilist.get(0).replace('.', ',');
+							if (ni != null && ni.length() >= 1&&ni.indexOf(",")>0) {
+								String[] niarray = ni.split(",");
+								if (niarray.length == 2) {
+									String name = niarray[0].trim();
+									String item = niarray[1].trim();
+									String r3 = rows[3].trim();
+									double value;
+									if (r3.equalsIgnoreCase("false")) {
+										value = 1;
+									} else if (r3.equalsIgnoreCase("true")) {
+										value = 0;
+									} else if (r3.startsWith("bad")) {
+										value = -9999;
+									} else {
+										value = Double.parseDouble(r3);
+									}
+									if ((selected.size() == 0)
+											|| (selected.size() > 0 && selected
+													.indexOf(name.trim()) >= 0)) {
+										String sqld = "insert into motodcsdata(equipment, item, value) values('"
+												+ name
+												+ "','"
+												+ item
+												+ "',"
+												+ value + ")";
+										SimpleDateFormat formatter = new SimpleDateFormat(
+												"yyyy-MM-dd HH:mm:ss");
+										String mytime = formatter
+												.format(new Date());
+										String sqlh = "insert into motodcshistory(equipment, item, seqno,value) values('"
+												+ name
+												+ "','"
+												+ item
+												+ "','"
+												+ mytime + "'," + value + ")";
+										statement.execute(sqld);
+										statement.execute(sqlh);
+										// statement.close();
+										// conn.close();
+									}
+								}
+							}
+						}
+//						rs.close();
 					}
 				}
+
 			}
 			JOpcBrowser.coUninitialize();
 			long end = new Date().getTime();
@@ -190,9 +186,6 @@ public class RunOpc implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnableAddItemException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
