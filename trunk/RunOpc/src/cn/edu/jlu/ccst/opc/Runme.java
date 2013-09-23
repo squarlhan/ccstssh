@@ -56,7 +56,8 @@ public class Runme implements WrapperListener{
         	public void run() {
         		try {
         			System.out.println("********");
-					Runtime.getRuntime().exec("java -jar opcread.jar");
+//					Runtime.getRuntime().exec("java -jar opcread.jar");
+					Runtime.getRuntime().exec("save.bat");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
